@@ -476,23 +476,6 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
 
     return (
         <div className="flex h-full min-h-0 flex-col gap-3" data-testid="dress-suite-workspace" data-tool-id={toolId}>
-            {/* 原站顶部：商品套图模块导航 + 本地驱动状态 */}
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-[11px]">
-                <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="text-muted-foreground">商品套图</span>
-                    <span className="font-medium text-foreground">服装套图</span>
-                    <span className="text-muted-foreground">爆款图复刻</span>
-                    <span className="rounded-[3px] bg-primary px-1 text-[10px] leading-4 text-primary-foreground">NEW</span>
-                    <span className="text-muted-foreground">套图换色</span>
-                    <span className="text-muted-foreground">批量翻译</span>
-                    <span className="text-muted-foreground">高清放大</span>
-                    <span className="text-muted-foreground">批量抠图</span>
-                    <span className="text-muted-foreground">智能扩图</span>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                    <span>ljq_driver: 已连接</span>
-                </div>
-            </div>
             <ToolWorkspaceColumns
                 config={(
                     <div className="flex h-full min-h-0 flex-1 flex-col">

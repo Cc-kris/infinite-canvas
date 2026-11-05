@@ -13,7 +13,6 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  * 真实边界：不伪造生成成功；提交失败展示 adapter 真实错误；缺图/缺提示词/缺模型时按钮禁用并给出原因。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -174,49 +173,6 @@ const SOURCE_CONSTRAINTS = {
 };
 
 import type { ComponentProps } from "react";
-
-/**
- * 「AI 视频」系列切换条（内容区内，原站同类工具横向入口）。
- * 只做同系列跳转，不参与侧栏 / 导航结构；当前工具高亮。
- */
-const AI_VIDEO_FAMILY: ReadonlyArray<{ label: string; route: string }> = [
-    { label: "图转视频", route: "/tools/ai-video/image-to-video" },
-    { label: "带货口播", route: "/tools/ai-video/sale-video" },
-    { label: "视频复刻", route: "/tools/ai-video/video-replication" },
-    { label: "视频编辑", route: "/tools/ai-video/ai-video-editing" },
-    { label: "视频翻译", route: "/tools/ai-video/video-translation" },
-    { label: "视频剪辑", route: "/tools/ai-video/video-concat" },
-];
-
-export function AiVideoFamilyNav({ active, showDriver = true, showBatchBadge = true }: { active: string; showDriver?: boolean; showBatchBadge?: boolean }) {
-    return (
-        <nav className="flex flex-wrap items-center gap-1" data-testid="ai-video-family-nav" aria-label="AI 视频系列">
-            {AI_VIDEO_FAMILY.map((item) => (
-                <Link
-                    key={item.route}
-                    to={item.route}
-                    className={cn(
-                        "rounded-md border px-2 py-[3px] text-[11px] leading-4 transition-colors",
-                        item.label === active
-                            ? "border-primary bg-primary/10 text-foreground"
-                            : "border-border text-muted-foreground hover:text-foreground",
-                    )}
-                >
-                    {item.label}
-                </Link>
-            ))}
-            {showBatchBadge ? (
-                <span className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-[3px] text-[11px] leading-4 text-muted-foreground">
-                    <span>批量生成</span>
-                    <span className="rounded bg-primary/15 px-1 text-[10px] font-medium leading-4 text-primary">NEW</span>
-                </span>
-            ) : null}
-            <span className="ml-auto inline-flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
-                {showDriver ? <span data-testid="ai-video-driver-status">ljq_driver: 已连接</span> : null}
-            </span>
-        </nav>
-    );
-}
 
 /**
  * 优秀案例数据（复用上游 /image/make-case/list?type=89 真实抓取产物；见 features/tools/video-replication-cases-data.ts）。

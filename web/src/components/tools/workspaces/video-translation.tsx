@@ -19,7 +19,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
-import { Link } from "react-router-dom";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolCases, type ToolCase } from "../tool-cases";
@@ -149,43 +148,6 @@ function ratioOptionText(t: Translate, option: { value: string; label: string })
 
 function outputCountText(t: Translate, count: number) {
     return t("videoTranslation.workspace.outputCountOption", { count });
-}
-
-/**
- * 「AI 视频」系列切换条（原站同类工具横向入口；本页内联渲染，走 i18n，
- * 不复用 video.tsx 里中文写死的共享 AiVideoFamilyNav——它会让 EN 态残留中文）。
- */
-const AI_VIDEO_FAMILY_ROUTES: ReadonlyArray<{ labelKey: string; route: string }> = [
-    { labelKey: "familyImageToVideo", route: "/tools/ai-video/image-to-video" },
-    { labelKey: "familySaleVideo", route: "/tools/ai-video/sale-video" },
-    { labelKey: "familyVideoReplication", route: "/tools/ai-video/video-replication" },
-    { labelKey: "familyVideoEditing", route: "/tools/ai-video/ai-video-editing" },
-    { labelKey: "familyVideoTranslation", route: "/tools/ai-video/video-translation" },
-    { labelKey: "familyVideoConcat", route: "/tools/ai-video/video-concat" },
-];
-
-function VideoTranslationFamilyNav({ active, t }: { active: string; t: Translate }) {
-    return (
-        <nav className="flex flex-wrap items-center gap-1" data-testid="ai-video-family-nav" aria-label={t("videoTranslation.workspace.familyNavLabel")}>
-            {AI_VIDEO_FAMILY_ROUTES.map((item) => {
-                const label = t(`videoTranslation.workspace.${item.labelKey}`);
-                return (
-                    <Link
-                        key={item.route}
-                        to={item.route}
-                        className={cn(
-                            "rounded-md border px-2 py-[3px] text-[11px] leading-4 transition-colors",
-                            label === active
-                                ? "border-primary bg-primary/10 text-foreground"
-                                : "border-border text-muted-foreground hover:text-foreground",
-                        )}
-                    >
-                        {label}
-                    </Link>
-                );
-            })}
-        </nav>
-    );
 }
 
 export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspaceProps = {}) {
@@ -538,7 +500,6 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 config={
                 <div className="flex h-[calc(100vh-160px)] min-h-0 min-w-0 flex-col gap-2" data-testid="video-translation-config">
                 <div data-testid="vt-config-scroll" className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
-    <VideoTranslationFamilyNav active={t("videoTranslation.workspace.familyVideoTranslation")} t={t} />
 
                     {/* 常驻诚实提示：不可折叠、不可关闭（r27 报告 §6.1） */}
                     <VideoTranslationHonestyNotice copy={honest} />

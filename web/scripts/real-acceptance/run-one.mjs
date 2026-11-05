@@ -15,6 +15,10 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { BASE_URL, EVIDENCE_ROOT, launchBrowser, prepareContext, sleep } from "./lib.mjs";
+import { applyProviderConfig } from "./provider.mjs";
+
+/** IC_REAL_PROVIDER=1：从 keychain 注入真实图像渠道（只回报长度，不打印密钥）。 */
+const REAL_PROVIDER = process.env.IC_REAL_PROVIDER === "1";
 
 const FIXTURES = path.resolve("scripts/real-acceptance/fixtures");
 
@@ -82,6 +86,7 @@ const RECIPES = {
     },
     HAND_REPAIR: {
         route: "/tools/smart-edit/hand-repair",
+        resultSelector: "[data-testid=hand-repair-results] img",
         fixture: "hand-product.jpg",
         run: async (page) => {
             await upload(page, '[data-testid=tool-asset-file-input]', "hand-product.jpg");
@@ -97,12 +102,12 @@ const RECIPES = {
         route: "/tools/smart-edit/change-color",
         fixture: "apparel-print.jpg",
         run: async (page) => {
-            await upload(page, '[data-testid=change-color-workspace] input[type=file]', "apparel-print.jpg");
+            await upload(page, '[data-testid=change-color-source] input[type=file]', "apparel-print.jpg");
             await sleep(2500);
             await page.fill("[data-testid=change-color-hex]", "#2E6BE6");
             await page.locator("[data-testid=change-color-hex]").blur();
             await sleep(600);
-            await page.click('[data-testid=change-color-generate]');
+            await page.click('[data-testid=change-color-submit]');
         },
     },
     PRINTING_REPAIR: {
@@ -187,14 +192,23 @@ async function snapshot(page) {
 }
 
 /** 结果图：提交后出现的、尺寸够大的第一张非源图图片。 */
-async function grabResult(page, before) {
-    const cand = await page.evaluate((beforeSrc) => {
+async function grabResult(page, before, resultSelector) {
+    const cand = await page.evaluate(({ beforeSrc, resultSelector }) => {
         const vis = (el) => {
             const r = el.getBoundingClientRect();
             return r.width > 120 && r.height > 120;
         };
         const bigEnough = (el) => (el.naturalWidth || 0) > 200;
         const srcOf = (el) => el.currentSrc || el.src || "";
+        // 配方指定了结果容器：只认这里（工作台自绘结果网格，不走共享 ToolResult）
+        if (resultSelector) {
+            const own = [...document.querySelectorAll(resultSelector)].filter((el) => srcOf(el));
+            return own.length ? srcOf(own[own.length - 1]) : "";
+        }
+
+        // 第零优先：共享结果组件 ToolResult 的结果图（对比滑块、源图条带都不在这里）。
+        const shared = [...document.querySelectorAll("[data-testid=tool-result-image]")].filter((el) => srcOf(el));
+        if (shared.length) return srcOf(shared[shared.length - 1]);
 
         // 第一优先：结果区容器里的图（各工作台用 `<tool>-result(s)` 命名）。
         // 只看这里能避免把「上传后的源图预览」当成生成结果（假阳性）。
@@ -214,7 +228,7 @@ async function grabResult(page, before) {
             .filter((el) => !beforeSrc.some((s) => s && s.slice(0, 60) === srcOf(el).slice(0, 60)));
         const last = imgs[imgs.length - 1];
         return last ? srcOf(last) : "";
-    }, before);
+    }, { beforeSrc: before, resultSelector });
     return cand;
 }
 
@@ -255,6 +269,7 @@ async function runTool(toolId) {
     const record = { toolId, route: recipe.route, fixture: recipe.fixture, startedAt: new Date().toISOString() };
 
     try {
+        if (REAL_PROVIDER) record.provider = await applyProviderConfig(page);
         await page.goto(`${BASE_URL}${recipe.route}`, { waitUntil: "domcontentloaded" });
         await page.waitForSelector("[data-testid=tool-workspace]", { timeout: 25000 });
         await sleep(1200);
@@ -275,12 +290,13 @@ async function runTool(toolId) {
         let lastSnap = null;
         while (Date.now() < deadline) {
             await sleep(5000);
-            resultSrc = await grabResult(page, before.images.map((i) => i.src));
+            resultSrc = await grabResult(page, before.images.map((i) => i.src), recipe.resultSelector);
             lastSnap = await snapshot(page);
             const err = lastSnap.issues.find((i) => /error|失败|错误/.test(i));
             const pending = lastSnap.submitButtons.some((b) => /submit|generate/.test(b.id) && b.disabled);
-            if (resultSrc) break;
-            if (err && !pending) break;
+            // 提交中时结果区里可能只有源图预览，必须等按钮退出 pending 再判定
+            if (pending) continue;
+            if (resultSrc || err) break;
         }
 
         record.finishedAt = new Date().toISOString();
@@ -302,6 +318,15 @@ async function runTool(toolId) {
             }
         }
         record.ok = Boolean(resultSrc) && record.resultSaved === true && !record.bogusSourceEcho;
+        // 结果动作：真实点击「下载」，校验下载字节与源图不同
+        const dl = page.locator("[data-testid=tool-result-download-0]").first();
+        if (record.ok && (await dl.count())) {
+            const [download] = await Promise.all([page.waitForEvent("download", { timeout: 20000 }), dl.click()]);
+            const file = path.join(dir, `download-${download.suggestedFilename()}`);
+            await download.saveAs(file);
+            const sha = await fileSha256(file);
+            record.download = { file: path.basename(file), bytes: (await fs.stat(file)).size, sha256: sha.slice(0, 16), differsFromSource: sha !== fixtureSha };
+        }
         await page.screenshot({ path: path.join(dir, "ui.png") });
     } catch (error) {
         record.error = String(error && error.message ? error.message : error);
@@ -311,7 +336,7 @@ async function runTool(toolId) {
         await fs.writeFile(path.join(dir, "run.json"), JSON.stringify(record, null, 2));
         await browser.close();
     }
-    console.log(JSON.stringify({ toolId, ok: record.ok, error: record.error || null, resultSaved: record.resultSaved || false, network: (record.network || []).length, issues: (record.after && record.after.issues) || [] }));
+    console.log(JSON.stringify({ toolId, ok: record.ok, error: record.error || null, resultSaved: record.resultSaved || false, download: record.download || null, network: (record.network || []).length, issues: (record.after && record.after.issues) || [] }));
     return record.ok;
 }
 

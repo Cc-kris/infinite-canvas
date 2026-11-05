@@ -133,7 +133,6 @@ import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
-import { ImageFamilyNav } from "./color";
 
 export type RepairWorkspaceProps = { className?: string; toolId?: string };
 

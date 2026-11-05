@@ -690,6 +690,12 @@
     box-shadow: none;
 }
 
+/* 原站工作区/结果区底色 #edeff5（8px 圆角），白色卡片浮在其上；配置列保持白底。 */
+.tool-linkfox-surface [data-testid="tool-main-column"] {
+    background-color: #edeff5;
+    border-radius: 8px;
+}
+
 /* 原站没有内容区横向族导航；族导航已迁到左侧 rail。旧 workspace 里的 inline 版本仅保留 DOM 作为回滚点，不参与显示。 */
 .tool-linkfox-surface [data-orig-rail="inline"] {
     display: none !important;

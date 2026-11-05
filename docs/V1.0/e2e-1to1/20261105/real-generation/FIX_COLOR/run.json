@@ -1,0 +1,96 @@
+{
+  "toolId": "FIX_COLOR",
+  "route": "/tools/smart-edit/fix-color",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T08:54:45.360Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "fix-color-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "finishedAt": "2026-11-05T08:55:15.876Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "edit8-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      },
+      {
+        "id": "fix-color-submit",
+        "text": "立即生成",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAALwCAIAAA",
+        "w": 1024,
+        "h": 752
+      },
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAALwCAIAAA",
+        "w": 1024,
+        "h": 752
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4e863983-5fad-49a0-a8e5-fd2b06dd8",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/1e10de5c-0d69-4597-8c22-01d6958e5",
+        "w": 1024,
+        "h": 752
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n限免\n免责声明\n已涂抹 1.5% 区域 · 覆盖率 1%\n生成结果\n历史记录\n预计产出 1 张校正结果图\n查看本次输入快照\n推拉对比\n并排\n只看结果\n参数已改动，下面这张图来自旧版本，请重新提交。\n色差修复结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\nStep 1：上传待修复图\n拖拽 或 点击上传 需要修复的图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\nproduct-watch.jpg · 1024×744\n更换\nStep 2：上传颜色矫正参考图\n拖拽 或 点击上传 颜色参考\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nStep 4：进行AI修复\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您进行色差矫正。\n立即生成\n1 张\n历史任务\n1 条\n2026-11-05 16:54\n已完成\n参考图 1 是待校正的商品图，参考图 2 中白色区域是需要校正的色彩区域。把参考图 2 白色区域内偏向 #B79…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 20289,
+      "at": "2026-11-05T08:55:14.638Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "e83eee0eeecdfd3d",
+  "ok": true,
+  "download": {
+    "file": "download-fix-color-result-1.png",
+    "bytes": 884053,
+    "sha256": "e83eee0eeecdfd3d",
+    "differsFromSource": true
+  }
+}

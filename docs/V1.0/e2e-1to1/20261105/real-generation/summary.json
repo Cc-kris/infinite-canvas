@@ -1,0 +1,10 @@
+{
+  "IMAGE_CROP": false,
+  "PRODUCT_REFINE": true,
+  "FIX_COLOR": true,
+  "AREA_REPAIR": true,
+  "REMOVE_PEN": true,
+  "HAND_REPAIR": false,
+  "CHANGE_COLOR": false,
+  "PRINTING_REPAIR": true
+}

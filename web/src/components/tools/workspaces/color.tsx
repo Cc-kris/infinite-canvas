@@ -412,47 +412,6 @@ function CompareSlider({ before, after }: { before: string; after: string }) {
  * 工作区
  * ------------------------------------------------------------------ */
 
-/** 智能修图家族导航：原站左栏工具树（图片编辑 / 局部重绘 / … / 下架）+ 算力 + 驱动状态。 */
-const IMAGE_FAMILY_NAV = [
-    "图片编辑",
-    "局部重绘",
-    "局部消除",
-    "一键换色",
-    "图片裁剪",
-    "质量提升",
-    "商品精修",
-    "图像修复",
-    "色差修复",
-    "印花修复",
-    "抠图工具",
-    "精细抠图",
-    "批量抠图",
-    "企业功能",
-    "即将下架",
-    "手部修复",
-    "下架",
-];
-
-export function ImageFamilyNav({ active }: { active: string }) {
-    return (
-        <nav className="flex flex-wrap items-center gap-1" aria-label="智能修图系列" data-testid="image-family-nav">
-            {IMAGE_FAMILY_NAV.map((label) => (
-                <span
-                    key={label}
-                    className={cn(
-                        "rounded-md border px-1.5 py-[2px] text-[11px] leading-4",
-                        label === active
-                            ? "border-primary bg-primary/10 text-foreground"
-                            : "border-border text-muted-foreground",
-                    )}
-                >
-                    {label}
-                </span>
-            ))}
-        </nav>
-    );
-}
-
 export function ChangeColorWorkspace({ className }: { className?: string }) {
     const toolId = TOOL_ID;
     const hydrate = useToolDraftStore((state) => state.hydrate);
@@ -780,10 +739,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 }
             >
                 <div data-testid="change-color-config-grid">
-                    <div className="px-[12px]">
-                        <ImageFamilyNav active="一键换色" />
-                    </div>
-                    <div className="columns-2 gap-x-[8px] px-[12px] [&>*]:mb-[6px] [&>*]:break-inside-avoid">
+                    <div className="flex flex-col gap-[6px] px-[12px]">
                 <ConfigSection title="收藏色卡" open={openSections.swatches} onToggle={() => toggleSection("swatches")} testId="change-color-swatches">
                     <div className="flex flex-wrap items-center gap-[6px]">
                         {values.swatches.map((hex) => (

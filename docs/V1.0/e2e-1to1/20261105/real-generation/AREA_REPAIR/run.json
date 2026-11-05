@@ -1,0 +1,94 @@
+{
+  "toolId": "AREA_REPAIR",
+  "route": "/tools/smart-edit/area-repair",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T08:55:17.517Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "area-repair-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "finishedAt": "2026-11-05T08:56:27.951Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "area-repair-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "edit8-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "area-repair-notice=完成：2 张结果已返回"
+    ],
+    "images": [
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/1ff39282-3773-4c0d-92fb-a0e091122",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/507d51ce-e67e-4bfb-a3a1-63dd6c8f8",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n画笔\n大小：\n像素\n15\n35\n60\n100\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n已涂抹 20.9% 区域\n重绘描述*\n25 / 600\n生成张数\n1\n2\n3\n4\n完成：2 张结果已返回\n已完成\n结果已返回\n25s\n本次输入快照\n源图：product-watch.jpg · 1024×744\n笔画 3 笔 · 自动扩边\n张数 2 · 快照 iqagq5\n将生成 2 张\n立即生成\n生成结果\n历史记录\n#1 · succeeded\n存库\n发画布\n下载\n#2 · succeeded\n存库\n发画布\n下载\n历史任务\n2 条\n2026-11-05 16:56\n已完成\n局部重绘：把表盘上的细小划痕抹掉，保留金属拉丝质感与原有反光 参考图 1 是原图；参考图 2 是蒙版（白色 = …\nccai-accept::gpt-image-2 · image · 1 个结果\n2026-11-05 16:55\n已完成\n局部重绘：把表盘上的细小划痕抹掉，保留金属拉丝质感与原有反光 参考图 1 是原图；参考图 2 是蒙版（白色 = …\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 35722,
+      "at": "2026-11-05T08:56:01.999Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 25781,
+      "at": "2026-11-05T08:56:27.832Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "02ebd664b1957087",
+  "ok": true
+}

@@ -1621,9 +1621,151 @@ export function SdsDesignWorkspace() {
         <div className="flex flex-col gap-[10px]" data-tool-workspace="sds-design" data-variant="sds-1to1">
             <OrigRail items={PRODUCT_DESIGN_RAIL} active="素材贴合" driver testId="sds-family-rail" label="素材和灵感" className="order-first w-full" />
             <ToolWorkspaceColumns
-                configSide="left"
+                configSide="right"
                 className="min-h-0 flex-1 overflow-y-auto"
                 config={
+                <section
+                    aria-label="生成结果"
+                    className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted"
+                >
+                <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-card px-[12px]">
+                    <div className="flex items-center gap-[14px]">
+                        {([
+                            ["result", "生成结果"],
+                            ["cases", "优秀案例"],
+                        ] as const).map(([key, label]) => (
+                            <button
+                                key={key}
+                                type="button"
+                                aria-pressed={resultTab === key}
+                                onClick={() => setResultTab(key)}
+                                className={cn(
+                                    "flex h-[41px] items-center px-0 text-[14px] leading-[22px]",
+                                    resultTab === key ? "text-primary" : "text-muted-foreground",
+                                )}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    <button
+                        type="button"
+                        aria-pressed={resultTab === "history"}
+                        data-testid="sds-history-entry"
+                        onClick={() => {
+                            setResultTab("history");
+                            setHistoryPanelOpen(true);
+                        }}
+                        className={cn(
+                            "flex h-[41px] items-center text-[14px] leading-[22px]",
+                            resultTab === "history" ? "text-primary" : "text-muted-foreground",
+                        )}
+                    >
+                        历史记录
+                    </button>
+                </div>
+
+                <div className="flex min-h-[320px] flex-1 flex-col px-[16px]">
+                    {resultTab === "cases" ? (
+                        <div className="p-4" data-testid="sds-cases">
+                            {casesHint ? (
+                                <p className="mb-3 rounded-[8px] border border-[#FFE0B2] bg-[#FFF8E1] px-2 py-1.5 text-[12px] text-[#8A6D3B]">
+                                    {casesHint}
+                                </p>
+                            ) : null}
+                            <ToolCases cases={SDS_DESIGN_CASES} applyingId={applyingCaseId} onApply={applyCase} />
+                        </div>
+                    ) : resultTab === "history" ? (
+                        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+                            <p className="text-[14px] text-muted-foreground">暂无历史记录</p>
+                            <p className="text-[13px] text-muted-foreground">每次生成会自动存档，可在这里回看~</p>
+                        </div>
+                    ) : (
+                        <div className="flex flex-1 flex-col gap-3">
+                            {result.slots.length === 0 && !task ? (
+                                <div className="flex flex-1 flex-col items-center gap-[22px] pt-[96px] text-center">
+                                    <p className="text-[14px] text-[rgba(0,0,0,0.45)]">暂无生成结果图</p>
+                                    <p className="text-[14px] text-muted-foreground">快在左侧操作素材贴合吧~</p>
+                                </div>
+                            ) : (
+                                <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
+                                    {result.slots.map((slot) => (
+                                        <li key={slot.assetId} className="flex items-center gap-2 text-[13px]">
+                                            <span
+                                                className={cn(
+                                                    "flex h-5 w-5 items-center justify-center rounded-full border",
+                                                    slot.item
+                                                        ? "border-emerald-500 text-emerald-600"
+                                                        : missing.includes(slot.index)
+                                                          ? "border-amber-500 text-amber-600"
+                                                          : "border-border text-muted-foreground",
+                                                )}
+                                            >
+                                                {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                                            </span>
+                                            <span className="min-w-0 flex-1 truncate text-[rgba(0,0,0,0.85)]">
+                                                {slot.index + 1}. {slot.name}
+                                            </span>
+                                            <span className="text-[12px] text-muted-foreground">
+                                                {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {stageHasContent ? (
+                                <>
+                                    {result.stale ? (
+                                        <p className="rounded-[8px] border border-amber-300 bg-amber-50 px-2 py-1.5 text-[12px] text-amber-700">
+                                            结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
+                                        </p>
+                                    ) : null}
+                                    {/* page-spec 24 §4：查看本次输入快照（提交时锁定的配置）。 */}
+                                    {snapshot ? (
+                                        <details className="rounded-[8px] border border-border bg-card px-2 py-1.5">
+                                            <summary className="cursor-pointer text-[12px] text-muted-foreground">查看本次输入快照</summary>
+                                            <pre className="mt-1 max-h-40 overflow-auto whitespace-pre-wrap text-[11px] leading-4 text-foreground">
+                                                {sdsSnapshotSummary(snapshot)}
+                                            </pre>
+                                        </details>
+                                    ) : null}
+                                    {resultNotice ? (
+                                        <p className="rounded-[8px] border border-border bg-card px-2 py-1.5 text-[12px] text-muted-foreground">
+                                            {resultNotice}
+                                        </p>
+                                    ) : null}
+                                    {sdsRepairIndexes(result).length ? (
+                                        <button
+                                            type="button"
+                                            disabled={running}
+                                            onClick={() => void handleRepair()}
+                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-primary px-3 text-[13px] text-primary disabled:opacity-50"
+                                        >
+                                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                                            只补生成缺失的 {sdsRepairIndexes(result).length} 张
+                                        </button>
+                                    ) : null}
+
+                                    {blocked && issues[0] ? <p className="text-[12px] text-amber-600">{issues[0].message}</p> : null}
+                                    {errorText ? <p className="text-[12px] text-red-500">{errorText}</p> : null}
+                                    {notice ? <p className="text-[12px] text-muted-foreground">{notice}</p> : null}
+                                    {!modelReady ? <p className="text-[12px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
+                                </>
+                            ) : null}
+
+                            {task ? (
+                                <div className="min-h-0 flex-1">
+                                    <ToolResult task={task ?? null} toolId={toolId} title="素材贴合结果" onRetry={handleRetry} />
+                                </div>
+                            ) : null}
+                        </div>
+                    )}
+                </div>
+            </section>
+                }
+            >
+                {/* 左：画布舞台 + 参数面板（原站同处灰底工作区），结果面板在右侧 300px 列 */}
                     <section
                         aria-label="素材贴合"
                         className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-border bg-muted p-[10px] lg:flex-row"
@@ -1798,148 +1940,6 @@ export function SdsDesignWorkspace() {
                             </div>
                         </div>
                     ) : null}
-                </div>
-            </section>
-                }
-            >
-                {/* 右：生成结果面板 */}
-                <section
-                    aria-label="生成结果"
-                    className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted"
-                >
-                <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-card px-[12px]">
-                    <div className="flex items-center gap-[14px]">
-                        {([
-                            ["result", "生成结果"],
-                            ["cases", "优秀案例"],
-                        ] as const).map(([key, label]) => (
-                            <button
-                                key={key}
-                                type="button"
-                                aria-pressed={resultTab === key}
-                                onClick={() => setResultTab(key)}
-                                className={cn(
-                                    "flex h-[41px] items-center px-0 text-[14px] leading-[22px]",
-                                    resultTab === key ? "text-primary" : "text-muted-foreground",
-                                )}
-                            >
-                                {label}
-                            </button>
-                        ))}
-                    </div>
-                    <button
-                        type="button"
-                        aria-pressed={resultTab === "history"}
-                        data-testid="sds-history-entry"
-                        onClick={() => {
-                            setResultTab("history");
-                            setHistoryPanelOpen(true);
-                        }}
-                        className={cn(
-                            "flex h-[41px] items-center text-[14px] leading-[22px]",
-                            resultTab === "history" ? "text-primary" : "text-muted-foreground",
-                        )}
-                    >
-                        历史记录
-                    </button>
-                </div>
-
-                <div className="flex min-h-[320px] flex-1 flex-col px-[16px]">
-                    {resultTab === "cases" ? (
-                        <div className="p-4" data-testid="sds-cases">
-                            {casesHint ? (
-                                <p className="mb-3 rounded-[8px] border border-[#FFE0B2] bg-[#FFF8E1] px-2 py-1.5 text-[12px] text-[#8A6D3B]">
-                                    {casesHint}
-                                </p>
-                            ) : null}
-                            <ToolCases cases={SDS_DESIGN_CASES} applyingId={applyingCaseId} onApply={applyCase} />
-                        </div>
-                    ) : resultTab === "history" ? (
-                        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
-                            <p className="text-[14px] text-muted-foreground">暂无历史记录</p>
-                            <p className="text-[13px] text-muted-foreground">每次生成会自动存档，可在这里回看~</p>
-                        </div>
-                    ) : (
-                        <div className="flex flex-1 flex-col gap-3">
-                            {result.slots.length === 0 && !task ? (
-                                <div className="flex flex-1 flex-col items-center gap-[22px] pt-[96px] text-center">
-                                    <p className="text-[14px] text-[rgba(0,0,0,0.45)]">暂无生成结果图</p>
-                                    <p className="text-[14px] text-muted-foreground">快在左侧操作素材贴合吧~</p>
-                                </div>
-                            ) : (
-                                <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
-                                    {result.slots.map((slot) => (
-                                        <li key={slot.assetId} className="flex items-center gap-2 text-[13px]">
-                                            <span
-                                                className={cn(
-                                                    "flex h-5 w-5 items-center justify-center rounded-full border",
-                                                    slot.item
-                                                        ? "border-emerald-500 text-emerald-600"
-                                                        : missing.includes(slot.index)
-                                                          ? "border-amber-500 text-amber-600"
-                                                          : "border-border text-muted-foreground",
-                                                )}
-                                            >
-                                                {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
-                                            </span>
-                                            <span className="min-w-0 flex-1 truncate text-[rgba(0,0,0,0.85)]">
-                                                {slot.index + 1}. {slot.name}
-                                            </span>
-                                            <span className="text-[12px] text-muted-foreground">
-                                                {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-
-                            {stageHasContent ? (
-                                <>
-                                    {result.stale ? (
-                                        <p className="rounded-[8px] border border-amber-300 bg-amber-50 px-2 py-1.5 text-[12px] text-amber-700">
-                                            结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
-                                        </p>
-                                    ) : null}
-                                    {/* page-spec 24 §4：查看本次输入快照（提交时锁定的配置）。 */}
-                                    {snapshot ? (
-                                        <details className="rounded-[8px] border border-border bg-card px-2 py-1.5">
-                                            <summary className="cursor-pointer text-[12px] text-muted-foreground">查看本次输入快照</summary>
-                                            <pre className="mt-1 max-h-40 overflow-auto whitespace-pre-wrap text-[11px] leading-4 text-foreground">
-                                                {sdsSnapshotSummary(snapshot)}
-                                            </pre>
-                                        </details>
-                                    ) : null}
-                                    {resultNotice ? (
-                                        <p className="rounded-[8px] border border-border bg-card px-2 py-1.5 text-[12px] text-muted-foreground">
-                                            {resultNotice}
-                                        </p>
-                                    ) : null}
-                                    {sdsRepairIndexes(result).length ? (
-                                        <button
-                                            type="button"
-                                            disabled={running}
-                                            onClick={() => void handleRepair()}
-                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-primary px-3 text-[13px] text-primary disabled:opacity-50"
-                                        >
-                                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                                            只补生成缺失的 {sdsRepairIndexes(result).length} 张
-                                        </button>
-                                    ) : null}
-
-                                    {blocked && issues[0] ? <p className="text-[12px] text-amber-600">{issues[0].message}</p> : null}
-                                    {errorText ? <p className="text-[12px] text-red-500">{errorText}</p> : null}
-                                    {notice ? <p className="text-[12px] text-muted-foreground">{notice}</p> : null}
-                                    {!modelReady ? <p className="text-[12px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
-                                </>
-                            ) : null}
-
-                            {task ? (
-                                <div className="min-h-0 flex-1">
-                                    <ToolResult task={task ?? null} toolId={toolId} title="素材贴合结果" onRetry={handleRetry} />
-                                </div>
-                            ) : null}
-                        </div>
-                    )}
                 </div>
             </section>
             </ToolWorkspaceColumns>

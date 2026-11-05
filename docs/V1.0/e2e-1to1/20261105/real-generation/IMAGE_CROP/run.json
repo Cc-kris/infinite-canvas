@@ -1,0 +1,27 @@
+{
+  "toolId": "IMAGE_CROP",
+  "route": "/tools/smart-edit/image-crop",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T08:53:31.732Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3000/__cases/product-scene/1740339005955035"
+    ],
+    "issues": []
+  },
+  "submitBefore": null,
+  "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=crop-submit]')\u001b[22m\n",
+  "ok": false
+}

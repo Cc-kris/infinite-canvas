@@ -1,0 +1,312 @@
+[
+  {
+    "id": "PRODUCT_IMAGE_SUITE",
+    "label": "商品套图",
+    "original": "https://www.linkfox.com/draw/product-image-suite",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+    "originalUrl": "https://www.linkfox.com/draw/product-image-suite",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n\n多视角白底商品&实拍图 \n\n从本地上传\n从作品库选择\n从商品库选择\n\n最多上传16张图，10M以内，384*384~4096*4096，最大宽高比5\n\n或试试这些\n\n商品类目\n\n请选择商品类目\n\n商品信息 \n\nAI分析\n向导\n0 / 2500\n\n品牌与合规（可选）\n\n智能品牌基因\n智能主色、智能字体风格 · 根据商品智能设定\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\nLF智能模型 G-2.5 Sunburst\n2K · 中品质 · 50点/张\n生成内容\n可同时选择\n主副图\n卖点图 4张\nA+图\n高级A+（1464×600） 4张\n\nA+图4张 * 每张50点 + 主副图4张 * 每张50点 = 400点\n\n开始生成\n(400算力)\n生成结果\n优秀案例\n历史记录\n\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n最多上传16张图，10M以内，384*384~4096*4096，最大宽高比5\n商品类目\n请选择商品类目\n商品信息\nAI分析\n向导\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n未启用\n智能合规检查\n未选择词库\nLF智能模型 G-2.5 Sunburst\n2K · 中品质\n\n生成内容\n可同时选择\n\nA+图\n高级A+（1464×600） 4张\n主副图\n卖点图 4张\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n\nA+图4张 + 主副图4张 = 共 8 张\n\n开始生成\n生成结果\n优秀案例\n历史记录 ↗\n\n生成结果\n\n一键做同款\n\n请先上传商品图（jpg / png / webp，10M 以内）。\n\n还没有生成结果：上传商品图并配置 A+ 图 / 主副图后，点「开始生成」。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "DRESS_WEAR_SET",
+    "label": "服装套图",
+    "original": "https://www.linkfox.com/draw/clothing-image-suite",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set",
+    "originalUrl": "https://www.linkfox.com/draw/clothing-image-suite",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n\n多角度服装图&搭配图 \n\n从本地上传\n从作品库选择\n从商品库选择\n\n最多上传16张图，10M以内，384*384~4096*4096\n\n或试试这些\n\n商品类目\n\n请选择商品类目\n\n商品信息 \n\nAI分析\n向导\n0 / 2500\n\n品牌与合规（可选）\n\n智能品牌基因\n智能主色、智能字体风格 · 根据商品智能设定\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\nLF智能模型 G-2.5 Sunburst\n2K · 中品质 · 50点/张\n生成内容\n可同时选择\n主副图\n卖点图 4张 · 种草图 4张\nA+图\n高级A+（1464×600） 4张\n\n主副图8张 * 每张50点 + A+图4张 * 每张50点 = 600点\n\n开始生成\n(600算力)\n生成结果\n优秀案例\n历史记录\n\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n1\n2\n3\n第一步：上传服装配饰及细节图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\nljq_driver: 已连接\n多角度服装图&搭配图\n\n最多上传5张图，10M以内，384*384~4096*4096\n\n1\n2\n3\n第一步：上传服装配饰及细节图\n我是高手，不再提醒\n\n上传服装图\n\n从本地上传\n从作品库选择\n从商品库选择\n优秀案例\n\n或试试这些\n\n一键做同款\n一键做同款\n一键做同款\n一键做同款\n商品信息\n向导\nAI分析\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能识别\n自定义品牌\n商品类目\n请选择商品类目\n亚马逊\n独立站\nTikTok Shop\nShopee\n销售地区\n请选择销售地区\n美国\n英国\n德国\n日本\n语言\n请选择语言\n英语\n德语\n日语\n中文\n\n智能主色、智能字体风格：智能识别模式下自动从主图取色并匹配字体风格。\n\n智能合规检查\n未选择敏感词库 · 未选择替换词库\n模型选择\nLF智能模型 G-2.5 Sunburst\nLF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\nLF智能模型 G-2\nLF全能模型 Pro\nLF全能模型 Lite\nSeedream 5.0 Pro\nWan 2.7\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\n生成类型（多选）\n\n主副图设置\n\n模特图\n4\n-\n种草图\n4\n-\n卖点图\n4\n-\n尺码图\n4\n-\n白底图\n4\n-\n\n选择排版\n\n每种排版生成一张\n无文字模式\n\n💡 未选择排版时，将根据官方排版随机生成。\n\n生成类型（单选）\n\nA+图设置\n\n高级A+\n4\n-\n手机A+\n4\n-\n普通A+\n4\n-\n自定比例\n4\n-\n主副图8张 + A+图0张 = 共8张\n开始生成\n\n至少上传 1 张服装/配饰/细节图后才能生成\n\n智能品牌基因需要先选择平台 / 销售地区 / 语言\n\n生成结果\n\n按场景分组；组内可单张下载，失败组可单独重试。\n\n还没有结果。上传服装图并选择场景后点击「开始生成」。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "CHANGE_COLOR_V2",
+    "label": "套图换色",
+    "original": "https://www.linkfox.com/draw/change-color-v2",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+    "originalUrl": "https://www.linkfox.com/draw/change-color-v2",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n上传图片\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n\n上传多张图片，开始批量套图换色\n颜色选择\n商品图提色\n历史使用颜色\n拖拽 或 点击批量上传 商品参考图\n整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内\n本次换色方案 · 0 张参考图\n换色部位\n0 / 50\n常用\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n模型设置\n\n模型品质\n\n低品质\n中品质\n高品质\n开始生成\n(50算力)\n生成结果\n优秀案例\n历史记录\n\n上传整套商品图，批量生成多色变体结果\n\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3\n4\n5\n6\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n上传图片\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n上传多张图片，开始批量套图换色\n颜色选择\n商品图提色\n历史使用颜色\n\n拖拽 或 点击批量上传 商品参考图\n\n整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内\n\n本次换色方案 · 0 张参考图\n\n还没有换色方案：从商品图提色、选历史色或上传参考图。\n换色部位\n0 / 50\n常用\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n模型设置\n\n模型品质\n\n低品质\n中品质\n高品质\n\n请先上传整套商品图（至少 1 张）\n\n开始生成\n生成结果\n优秀案例\n历史记录\n第一步：上传 1 张需要换色的商品图片\n上传整套商品图，批量生成多色变体结果\n\n上传商品图\n\n从本地上传\n从作品库选择\n从商品库选择\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3\n4\n5\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "IMAGE_TRANSLATION",
+    "label": "批量翻译",
+    "original": "https://www.linkfox.com/draw/image-translation",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/image-translation",
+    "originalUrl": "https://www.linkfox.com/draw/image-translation",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n\n20M以内，384*384 ~ 4096*4096\n\n上传多张图片，开始批量翻译\n💡当前仅支持单张图内500字以下的内容翻译\n\n原文语言\n\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n\n目标语言（可多选，已选 1 个语言）\n\n欧美\n\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n\n亚洲\n\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n\n南亚\n\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n\n中东\n\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n\n非洲\n\n斯瓦希里语\n开始翻译\n(20算力)\n生成结果\n历史记录\n\n快速翻译成多语言，快速上架\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/image-translation",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n批量翻译\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096\n上传多张图片，开始批量翻译\n\n💡当前仅支持单张图内500字以下的内容翻译\n\n原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n目标语言（可多选，已选 1 个语言）\n欧美\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n开始翻译\n生成结果\n历史记录\n\n快速翻译成多语言，快速上架\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "SCALE_UP",
+    "label": "高清放大",
+    "original": "https://www.linkfox.com/draw/quality-increase",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+    "originalUrl": "https://www.linkfox.com/draw/quality-increase",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n面部美化：\n重新上传\n立即生成\n(20算力)\n下载图片\n历史记录\n原图\n高清放大后\n图片高清放大\n放大清晰不失真，细节更丰富\n从本地上传\n从作品库选择\n批量高清放大\n\n拖拽图片到此处\n\n支持jpg、jpeg、png、webp格式，\n\n最大尺寸: 4096*4096\n\n原图\n\n暂无结果图\n\n请在左侧上传图片后，进行图片高清放大操作\n\n高清放大图\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n面部美化：\n重新上传\n立即生成\n下载图片\n历史记录\n原图\n原图 待上传原图\n图片高清放大\n放大清晰不失真，细节更丰富\n拖拽图片到此处\n从本地上传\n从作品库选择\n从商品库选择\n支持jpg、jpeg、png、webp格式，最大尺寸: 4096*4096\n请先上传原图。\n高清放大图\n输出尺寸：待上传原图\n高清放大图\n\n暂无结果图\n\n请在左侧上传图片后，进行图片高清放大操作\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AI_OUTPAINTING",
+    "label": "智能扩图",
+    "original": "https://www.linkfox.com/draw/ai-outpainting",
+    "local": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+    "originalUrl": "https://www.linkfox.com/draw/ai-outpainting",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n\n智能扩图\n\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n从本地上传\n从作品库选择\n默认尺寸\n生成：\n4张\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作智能扩图吧~\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n智能扩图\n\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n\n从本地上传\n从作品库选择\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作智能扩图吧~\n\n默认尺寸\n生成：\n4张\n立即生成\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AREA_REPAIR",
+    "label": "局部重绘",
+    "original": "https://www.linkfox.com/draw/area-repair",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+    "originalUrl": "https://www.linkfox.com/draw/area-repair",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n\n 画笔\n\n大小：\n像素\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n局部重绘\n\n上传图片，涂抹需要改变的区域并输入想要改变的内容，\n即可重新对该区域进行绘制\n\n从本地上传\n从作品库选择\n从商品库选择\n\n重绘描述*\n\n0 / 600\n\n生成张数\n\n1\n2\n3\n4\n立即生成\n(20算力)\n生成结果\n历史记录\n\n暂无生成结果图\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n画笔\n大小：\n像素\n15\n35\n60\n100\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n重绘描述*\n20 / 600\n生成张数\n1\n2\n3\n4\n请先在图片上涂抹需要重绘的区域\n\n将生成 2 张\n\n立即生成\n生成结果\n历史记录\n\n暂无生成结果图\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "REMOVE_PEN",
+    "label": "局部消除",
+    "original": "https://www.linkfox.com/draw/remove-pen",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/remove-pen",
+    "originalUrl": "https://www.linkfox.com/draw/remove-pen",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n\n 画笔\n\n大小：\n像素\n重置\n撤销\n重做\n重新上传\n开始消除\n限免\n下载图片\n高清放大\n商品图\n手部修复\n历史记录\n局部消除\n上传需要消除的图片，使用画笔涂抹即可实现一键消除\n从本地上传\n从作品库选择\n从商品库选择\n\n或试试这些\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/remove-pen",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n画笔\n大小：\n像素\n15\n35\n60\n100\n重置\n撤销\n重做\n重新上传\n开始消除\n下载图片\n高清放大\n商品图\n手部修复\n历史记录\n\n暂无消除结果图：涂抹要消除的区域后点「开始消除」。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "CHANGE_COLOR",
+    "label": "一键换色",
+    "original": "https://www.linkfox.com/draw/change-color",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+    "originalUrl": "https://www.linkfox.com/draw/change-color",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n\n一键快速上色\n\n立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！\n从本地上传\n从作品库选择\n从商品库选择\n批量一键换色\n收藏色卡\n选择颜色\n拖拽 或 点击上传 颜色参考图\n10M以内,jpg/jpeg/png/webp\n\n去除杂色\n\n开启\n关闭\n重置\n细调颜色效果\n\n色调\n\n饱和度\n\n亮度\n\n对比度\n\n重置\n光影优化 \n \n边缘优化 \n颜色边缘修复\n开启\n关闭\n色彩平衡\n曲线\n立即生成\n(10算力)\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作物品换色吧~\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n收藏色卡\n选择颜色\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n去除杂色\n开启\n关闭\n关闭：保留原色噪点\n重置\n细调颜色效果\n色调\n饱和度\n亮度\n对比度\n默认（无微调）\n重置\n光影优化\n光影优化\n边缘优化\n颜色边缘修复\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 开\n重置\n边缘优化\n曲线\n线性\n柔光\nS 曲线\n强对比\n色彩平衡\n色彩平衡\n立即生成\n请先上传需要换色的图片。\n请选择颜色或上传颜色参考图提色。\n一键快速上色\n\n立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！\n\n从本地上传\n从作品库选择\n从商品库选择\n批量一键换色\n\n10M以内,jpg/jpeg/png/webp\n\n生成结果\n优秀案例\n历史记录\n\n支持上传颜色参考图，生成效果色差更小\n\n知道了\n生成结果\n\n暂无生成结果图\n\n快在左侧操作物品换色吧~\n\n本次提交\n查看参数\n\n上传图片后可查看\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "IMAGE_CROP",
+    "label": "图片裁剪",
+    "original": "https://www.linkfox.com/draw/image-crop",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/image-crop",
+    "originalUrl": "https://www.linkfox.com/draw/image-crop",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n重置\n撤销\n重做\n重新上传\n下载图片\n限免\n真人换模特2.0\n历史记录\n图片裁剪\n上传图片，裁剪图片为任何尺寸/比例\n从本地上传\n从作品库选择\n从商品库选择\n\n或 拖拽/粘贴 图片到此处（免费限单张，付费解锁 100 张批量上传）\n\n支持jpg、jpeg、png、webp，10M以内，384*384 ~ 4096*4096\n\n尺寸调整\n比例调整\n自由裁剪\n亚马逊\n1600 × 1600\n沃尔玛\n2000 × 2000\nEtsy\n2000 × 2000\n美客多\n1200 × 1200\neBay\n1600 × 1600\nTemu\n1200 × 1200\nShopify 方形\n2048 × 2048\nShopify 横板\n2000 × 1800\nShopify 竖版\n1600 × 2000\nSHEIN\n1340 × 1785\n速卖通\n1200 × 1200\nShopee\n1080 × 1080\nLazada\n1080 × 1080\nTiktok Shop\n1024 × 1024\n抖音小店\n1024 × 1024\n淘宝/天猫\n1024 × 1024\n京东\n1024 × 1024\nWayfair\n2000 × 2000\nCdiscount\n2000 × 2000\nJumia\n1024 × 1024\nRakuten\n1024 × 1024\nWish\n1024 × 1024\n目标尺寸\n宽\n高\n保存自定义尺寸\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/image-crop",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n重置\n撤销\n重做\n重新上传\n下载图片\n限免\n真人换模特2.0\n历史记录\n图片裁剪\n\n上传图片，裁剪图片为任意尺寸/比例\n\n从本地上传\n从作品库选择\n从商品库选择\n\n或 拖拽/粘贴 图片到此处（免费限单张，付费解锁 100 张批量上传）\n\n支持jpg、jpeg、png、webp，10M以内，384*384 ~ 4096*4096\n\n尺寸调整\n比例调整\n\n平台预设\n\n自由裁剪\n亚马逊\n1600 × 1600\n沃尔玛\n2000 × 2000\nEtsy\n2000 × 2000\n美客多\n1200 × 1200\neBay\n1600 × 1600\nTemu\n1200 × 1200\nShopify 方形\n2048 × 2048\nShopify 横板\n2000 × 1800\nShopify 竖版\n1600 × 2000\nSHEIN\n1340 × 1785\n速卖通\n1200 × 1200\nShopee\n1080 × 1080\nLazada\n1080 × 1080\nTiktok Shop\n1024 × 1024\n抖音小店\n1024 × 1024\n淘宝/天猫\n1024 × 1024\n京东\n1024 × 1024\nWayfair\n2000 × 2000\nCdiscount\n2000 × 2000\nJumia\n1024 × 1024\nRakuten\n1024 × 1024\nWish\n1024 × 1024\n目标尺寸\n1024×1024\n宽\n高\n保存自定义尺寸\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "PRODUCT_REFINE",
+    "label": "商品精修",
+    "original": "https://www.linkfox.com/draw/product-refine",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/product-refine",
+    "originalUrl": "https://www.linkfox.com/draw/product-refine",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n精修前\n精修后\n1\n2\n3\n4\n\n商品精修\n\n一键提升商品质感\n改善商品的轮廓，光泽、材质与颜色等\n\n\n上传图片\n从作品库选择\n\n精修模式\n\n整图精修\n去背景精修\n\n上传待精修的商品图\n\n拖拽 或 点击上传 需要修复的图\n\n20M以内，jpg/jpeg/png/webp\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n开始精修\n限免\n生成结果\n历史记录\n\n暂无生成结果图\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/product-refine",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n精修前\n精修后\n1\n2\n3\n4\n商品精修\n一键提升商品质感，改善商品的轮廓、光泽、材质与颜色等\n上传图片\n从作品库选择\n从商品库选择\n20M以内，jpg/jpeg/png/webp\n一键提升商品质感\n改善商品的轮廓，光泽、材质与颜色等\n上传图片\n从作品库选择\n拖拽 或 点击上传 需要修复的图\n20M以内，jpg/jpeg/png/webp\n\n预计输出尺寸：待上传原图待上传原图\n\n精修模式\n整图精修\n去背景精修\n\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n\n请先上传待精修的商品图。\n开始精修\n\n预计产出 1 张主结果\n\n请先上传待精修的商品图。\n开始精修\n精修前\n精修后\n1\n2\n3\n4\n生成结果\n历史记录\n生成结果\n\n暂无生成结果图\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "FIX_COLOR",
+    "label": "色差修复",
+    "original": "https://www.linkfox.com/draw/color-diff-repair",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/fix-color",
+    "originalUrl": "https://www.linkfox.com/draw/color-diff-repair",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n\n色差修复\n\n上传偏色服装图片\nAI将以服装原图为依据修复偏色\n\nStep 1：上传待修复图\n\n拖拽 或 点击上传 需要修复的图\n\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，jpg/jpeg/png/webp\n\nStep 2：上传颜色矫正参考图\n\n拖拽 或 点击上传 颜色参考\n\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，jpg/jpeg/png/webp\n\nStep 3：进行AI修复\n\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您进行色差矫正。\n\n立即生成\n限免\n生成结果\n历史记录\n\n暂无生成结果图\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/fix-color",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n限免\n免责声明\n色差修复\n\n上传偏色服装图片\n\nAI将以服装原图为依据修复偏色\n\n尚未涂抹 · 覆盖率 0%\n\n生成结果\n历史记录\n\n预计产出 1 张校正结果图\n\n色差修复结果\n\n暂无生成结果图\n\n上传偏色图并涂抹区域后，点立即生成。\n\nStep 1：上传待修复图\n拖拽 或 点击上传 需要修复的图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nStep 2：上传颜色矫正参考图\n拖拽 或 点击上传 颜色参考\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nStep 4：进行AI修复\n\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您进行色差矫正。\n\n立即生成\n1 张\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "PRINTING_REPAIR",
+    "label": "印花修复",
+    "original": "https://www.linkfox.com/draw/printing-repair",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/printing-repair",
+    "originalUrl": "https://www.linkfox.com/draw/printing-repair",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？\n\n印花修复\n\n上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复\nStep 1：消除错误印花 \n\n拖拽 或 点击上传 需要修复的图\n\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，jpg/jpeg/png/webp\n\nStep 2：导入正确印花\n\n拖拽 或 点击上传 印花参考\n\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，jpg/jpeg/png/webp\n\nStep 3：调整印花位置\n在左侧画布中调整印花位置，调整完成点击【开始生成】，即可完成修复\n立即生成\n限免\n生成结果\n历史记录\n\n暂无生成结果图\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/printing-repair",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n印花修复\n\n💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？\n\nStep 1：消除错误印花\n\n上传印花有误的商品图，作为修复底图\n\n拖拽 或 点击上传 需要修复的图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nStep 2：导入正确印花\n拖拽 或 点击上传 印花参考\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，jpg/jpeg/png/webp\nStep 3：调整印花位置\n\n在左侧画布中调整印花位置，调整完成点击【开始生成】，即可完成修复\n\n先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。\n\n请先上传印花有误的图片（Step 1）\n请先上传正确的印花参考（Step 2）\n印花分割图尚未生成，请重新上传印花参考\n立即生成\n\n限免\n\n生成结果\n历史记录\n暂无生成结果图\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "HAND_REPAIR",
+    "label": "手部修复",
+    "original": "https://www.linkfox.com/draw/hand-repair",
+    "local": "http://127.0.0.1:3000/tools/smart-edit/hand-repair",
+    "originalUrl": "https://www.linkfox.com/draw/hand-repair",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n\n 画笔\n\n大小：\n像素\n重置\n撤销\n重做\n\n手部修复\n\n上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原\n上传图片\n从作品库选择\n\n性别与年龄\n\n成年男性\n成年女性\n男孩\n女孩\n\n生成张数\n\n1\n2\n3\n4\n立即生成\n限免\n生成结果\n历史记录\n\n暂无生成结果图\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/smart-edit/hand-repair",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n手部修复\n立即生成\n限免\n\n请先上传图片，再立即生成\n\n画笔\n大小：\n35\n像素\n重置\n撤销\n重做\n尚未涂抹\n手部修复\n\n上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原\n\n上传图片\n从本地上传\n从作品库选择\n上传图片\n上传图片\n从作品库选择\n从作品库选择\n\n性别与年龄\n\n成年男性\n成年女性\n男孩\n女孩\n\n生成张数\n\n1\n2\n3\n4\n\n预计输出 1 张（每张都是独立真实请求）\n\n生成结果\n历史记录\n暂无生成结果图\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "NEW_REPLACE_BG_V2",
+    "label": "商品图",
+    "original": "https://www.linkfox.com/draw/product-home",
+    "local": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+    "originalUrl": "https://www.linkfox.com/draw/product-home",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传商品图\n\n或拖拽/粘贴图片到此处\n\n或试试这些\n\n场景参考图\n排序：\n智能推荐\n按收藏时间\n按素材热度\n日用百货\n家居家装\n服饰箱包\n美妆个护\n家用电器\n玩具类目\n儿童 & 母婴\n3C数码\n办公用品\n运动户外\n工艺/艺术品\n宠物用品\n食品饮料\n医药保健/护理\n汽车用品\n其他\n\n更多 \n\n桌面-保温杯\n\n厨房-搅拌器\n\n客厅-毯子\n\n厨房-电子秤\n\n厨房-电子秤\n\n草地-篮子\n\n餐桌-杯子\n\n餐桌-水壶\n\n客厅-书柜\n\n餐桌-茶具\n\n书架-储物箱\n\n餐桌-篮子\n\n餐桌-保温箱\n\n桌面-蜡烛\n\n节日装饰-蜡烛\n\n厨房-电子秤\n\n厨房-水果篮\n\n厨房-刀具\n\n餐桌-蜡烛\n\n厨房-厨房岛\n\n客厅-收纳篮\n\n客厅-毛毯\n\n礼品展示-圣诞装饰\n\n展台-海绵\n\n餐桌-茶具\n\n餐桌-茶壶\n\n窗边-陶瓷壶\n\n窗边-首饰架\n\n厨房-置物架\n\n厨房-餐车\n\n厨房-厨房岛\n\n节日场景-万圣节装饰\n\n节日装饰-鬼魂装饰\n\n节日场景-蜡烛\n\n洗衣房-洗衣篮\n\n洗衣房-洗衣篮\n\n节日场景-万圣节装饰\n\n客厅-垃圾桶\n\n客厅-垃圾桶\n\n节日场景-圣诞气球\n\n桌面-充电器\n\n厨房-垃圾桶\n\n纯色背景-支架\n\n客厅-充电器\n\n客厅-收纳筐\n\n书房-储物篮\n\n桌面-托盘\n\n厨房-厨房用具\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n抠图确认\n提交前必须确认\n画主体蒙版\n已是透明底 PNG\n上传主体蒙版（白=主体）\n请先在商品图上涂出主体，生成蒙版后再确认抠图。\n确认抠图\n场景\n在右侧场景参考图里选模板\n推荐场景\n自定义背景\n\n已选：影棚白底 · 干净纯白，适合主图\n\n融合强度\n偏强（更融入场景）\n70%\n输出规格\n比例 / 数量\n1:1\n4:5\n3:4\n16:9\n9:16\n1 张\n2 张\n4 张\n1024×1024\n· 请先上传商品图。\n· 请先在商品图上涂出主体，生成蒙版后再确认抠图。\n立即生成\n\n模型：GPT Image 2\n\n上传商品图\njpg / png / webp · 20M 以内 · 必填\n或拖拽/粘贴图片到此处\n上传商品图\n场景参考图\n8 / 8\n全部\n日用百货\n家居家装\n服饰箱包\n美妆个护\n家用电器\n玩具类目\n儿童 & 母婴\n3C数码\n办公用品\n运动户外\n工艺/艺术品\n宠物用品\n食品饮料\n医药保健/护理\n汽车用品\n其他\n影棚白底\n干净纯白，适合主图\n已选\n大理石台面\n香化 / 饰品常用\n原木桌面\n家居 / 食品\n户外草地\n户外 / 运动\n家居客厅\n大件商品\n浴室台面\n个护 / 洗护\n纯色渐变\n电商海报\n节日氛围\n礼赠场景\n\n原站 40+ 场景参考图（实拍缩略图）尚未接入；这里只列出真实可用、且会写进提示词的 8 个模板。\n\n结果\n待生成\n商品图结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n画布微调 / 图层 / 提交参数（高级）\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "REPLACE_GOODS",
+    "label": "商品替换",
+    "original": "https://www.linkfox.com/draw/product-replacement",
+    "local": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+    "originalUrl": "https://www.linkfox.com/draw/product-replacement",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n💡 温馨提示：支持上传多张商品图进行批量替换\n\n商品替换\n\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n生成尺寸: 1024x1024\n\n参考图场景变化程度：\n\n不变\n高\n生成：\n4张\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧合成您的第一张商品图吧~\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n\n💡 温馨提示：支持上传多张商品图进行批量替换\n\n商品 1\n参考图\n替换商品图\n\n商品替换\n\n上传参考图，一键替换商品，快来替换您的商品吧~\n\n上传参考图\n生成尺寸: 1024x1024\n参考图场景变化程度：\n不变\n高\n生成：\n1张\n2张\n4张\n立即生成\n抠图引擎\n本地轮廓抠图\n上游智能抠图\n去噪强度\n30\n定位模式\n透视（T）\n扭曲（N）\n蒙版\n定位\n补锁\n擦除\n60px\n清空蒙版\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧合成您的第一张商品图吧~\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "PRODUCT_SCENE",
+    "label": "场景裂变",
+    "original": "https://www.linkfox.com/draw/product-scene",
+    "local": "http://127.0.0.1:3000/tools/product-design/product-scene",
+    "originalUrl": "https://www.linkfox.com/draw/product-scene?type=2",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传参考图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n\n上传多图，体验新功能商品套图\n\n背景相似度：\n\n💡已选择智能模式，将根据模型自动生成场景\n\n场景描述（可选）\n💡场景描述怎么写？\n0 / 100\n生图模型\n\n写实\n\n简约\n\n智能\n\n设置生成尺寸\n\n默认尺寸\n自定义\n\n选择生成张数\n\n1\n2\n3\n4\n立即生成\n(20算力)\n生成结果\n优秀案例\n历史记录\n\n上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n1\n2\n第一步：选择示例图或上传商品图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/product-scene",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n上传参考图\n\n第一步：选择示例图或上传商品图\n\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n上传多图，体验新功能商品套图\n背景相似度：\n场景描述（可选）\n0 / 100\n\n💡场景描述怎么写？\n\n生图模型\n写实\n简约\n智能\n\n设置生成尺寸\n默认尺寸\n自定义\n选择生成张数\n1\n2\n3\n4\n立即生成\n\n我是高手，不再提醒\n\n将生成 1 张 1024×1024（1:1）场景变体 · 1 张 · GPT Image 2\n\n生成结果\n优秀案例\n历史记录\n一键做同款\n\n上传商品场景参考图\n\n3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "HANDHELD_GOODS",
+    "label": "手持商品",
+    "original": "https://www.linkfox.com/draw/handheld-goods",
+    "local": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+    "originalUrl": "https://www.linkfox.com/draw/handheld-goods",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n图片规则\n上传商品图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096\n\n或试试这些\n\n选择手持姿势\n\n手持的部位与姿势参考\n\n选择生成张数\n\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n历史记录\n\n快速生成手持商品图，快速上架\n\n上传手持物品\n选择参考图\n生成结果\n一键做同款\n第一步：选择示例图或上传手持商品图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n\n手持商品\n\n快速生成手持商品图，快速上架\n\n图片规则\n选择参考图\n\n上传商品图\n\n第一步：选择示例图或上传手持商品图\n\n从本地上传\n从作品库选择\n10M以内，384*384 ~ 4096*4096\n选择手持姿势\n手持的部位与姿势参考\n左手\n右手\n双手\n\n或试试这些\n\n我是高手，不再提醒\n\n场景类型\n\n纯色棚拍\n桌面场景\n户外自然光\n\n检测类型\n\n手部接触与商品一致性\n仅商品完整性\n\n选择生成张数\n\n1\n2\n3\n4\n\n预计输出 1 张；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。\n\n· 请先上传手持商品图\n立即生成\n生成结果\n历史记录\n\n暂无生成结果图\n\n快在左侧上传商品图并选择手持姿势吧~\n\n一键做同款\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AI_DRESSING_V2",
+    "label": "AI穿衣",
+    "original": "https://www.linkfox.com/draw/ai-dressing",
+    "local": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+    "originalUrl": "https://www.linkfox.com/draw/ai-dressing",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n 免责声明\n上下装衣服\n连体衣服\n图片规则\n拖拽/粘贴 或 上传上装正面图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096\n\n拖拽/粘贴 或 上传下装正面图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096\n\n或试试这些\n上传多件衣服，开始批量穿衣\n\n选择穿衣模特\n\n穿衣的部位与模特参考\n\n选择生成张数\n\n1\n2\n3\n4\n立即生成\n(30算力)\n生成结果\n优秀案例\n历史记录\n\n无需约模特，上传服装正面图，一键生成衣服上身效果~\n\n上传平铺服装图\n选择参考图\n生成结果\n一键做同款\n上传平铺服装图\n选择参考图\n生成结果\n一键做同款\n上传平铺服装图\n选择参考图\n生成结果\n一键做同款\n上传平铺服装图\n选择参考图\n生成结果\n一键做同款\n上传平铺服装图\n选择参考图\n生成结果\n一键做同款\n1\n2\n第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\nAI 穿衣\n上下装衣服\n连体衣服\n图片规则\n\n上传多件衣服，开始批量穿衣\n\n拖拽/粘贴 或 上传上装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n\nprobe-600b.png\n\n9.3 KB · 600×600 · image/png\n\n移除\n涂抹需贴合的部位，或点「整件」\n\n上装还没标记穿衣区域：请涂抹服装部位，或点「整件」\n\n拖拽/粘贴 或 上传下装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n\nprobe-600b.png\n\n9.3 KB · 600×600 · image/png\n\n移除\n涂抹需贴合的部位，或点「整件」\n\n下装还没标记穿衣区域：请涂抹服装部位，或点「整件」\n\n或试试这些\n\n选择穿衣模特\n穿衣的部位与模特参考\n\n选择生成张数\n\n1\n2\n3\n4\n高级参数\n立即生成\n\n上装还没标记穿衣区域：请涂抹服装部位，或点「整件」\n\n生成结果\n优秀案例\n历史记录\n\n无需约模特，上传服装正面图，一键生成衣服上身效果~\n\n一键做同款\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AI_POSTURE",
+    "label": "姿势裂变",
+    "original": "https://www.linkfox.com/draw/ai-posture",
+    "local": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+    "originalUrl": "https://www.linkfox.com/draw/ai-posture",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n 免责声明\n图片规则\n拖拽/粘贴 或 上传模特姿势图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096\n\n或试试这些\n上传多张图片，开始批量姿势裂变\n姿势库\n\n自定义\n\n选择姿势（可选）\n\n生成图片的模特姿势\n\n选择生成张数\n\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n历史记录\n\n📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！\n\n上传模特图\n选择参考图\n生成结果\n一键做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n姿势裂变\n模特姿势图\n图片规则\n拖拽/粘贴 或 上传模特姿势图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n\n图片标签（可增删，≤12）\n\n点选姿势会自动带出建议标签。\n添加\n或试试这些\n完整上身图\n全身模特图\n上传多张图片，开始批量姿势裂变\n\n批量入口暂未开放：本页当前只支持上传 1 张模特图，按钮保持禁用。\n\n选择姿势（可选）\n生成图片的模特姿势（不选则自动裂变）\n选择生成张数\n1\n2\n3\n4\n裂变计划\n补充描述（可选）光线 / 场景 / 气质\n本次输入快照\n立即生成\n\n1 张 · 1 个姿势请求\n\n请先上传模特姿势图（拖拽/粘贴或从本地选择）\n生成结果\n历史记录\n\n📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！\n\n上传模特图 → 选择参考图 → 生成结果\n\n一键做同款\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AI_WEARABLE",
+    "label": "AI穿戴",
+    "original": "https://www.linkfox.com/draw/ai-wearable",
+    "local": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+    "originalUrl": "https://www.linkfox.com/draw/ai-wearable",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n 免责声明\n\n上传穿戴商品\n\n💡 以模特穿戴效果图作为商品图，会为AI提供更好的作图参考\n\n图片规则\n上传商品图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096\n\n或试试这些\n\n选择商品品类\n\n选择商品品类\n\n穿戴的商品品类\n\n选择穿戴模特\n\n选择穿戴模特\n\n穿戴的部位与模特参考\n\n选择生成张数\n\n1\n2\n3\n4\n\nTips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！\n\n立即生成\n(30算力)\n生成结果\n优秀案例\n历史记录\n\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图\n\n上传穿戴物品\n选择参考图\n生成结果\n一键做同款\n第一步：选择示例图或上传模特穿戴商品图片\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n上传穿戴商品\n图片规则\n\n💡 以模特穿戴效果图作为商品图，会为AI提供更好的作图参考\n\n第一步：选择示例图或上传模特穿戴商品图片\n我是高手，不再提醒\n上传商品图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n\nlinkfox-case-1955579942177386496-product.webp\n\n27 KB · 512×682 · image/webp\n\n移除\n\nlinkfox-case-1955579942177386496-model.webp\n\n17 KB · 512×684 · image/webp\n\n移除\n\n或试试这些\n\n穿戴区域微调（商品蒙版）\n选择商品品类\n选择商品品类\n穿戴的商品品类\n耳环\n选择穿戴模特\n选择穿戴模特\n穿戴的部位与模特参考\nlinkfox-case-1955579942177386496-model.webp\n穿戴区域微调（模特蒙版）\n选择生成张数\n1\n2\n3\n4\n\nTips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！\n\n立即生成 (1张)\n生成结果\n优秀案例\n历史记录\n\n本次 1 张 · 已返回 0 张\n\n上传穿戴物品\n→\n选择参考图\n→\n生成结果\n\n快在左侧上传商品图并选择穿戴区域吧~\n\n一键做同款\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "SDS_DESIGN",
+    "label": "素材贴合",
+    "original": "https://www.linkfox.com/draw/sds-design",
+    "local": "http://127.0.0.1:3000/tools/product-design/sds-design",
+    "originalUrl": "https://www.linkfox.com/draw/sds-design",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n 免责声明\n素材贴合\n上传精美素材，一键贴合到商品预览效果，极大提高测款效率\n上传素材\n产品\n选择产品进行素材贴合\n选择颜色\n素材操作\n立即生成\n(20算力)\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作素材贴合吧~\n\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/sds-design",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n免责声明\n\n上传素材后在这里预览贴合效果\n\n素材贴合\n\n上传精美素材，一键贴合到商品预览效果，极大提高测款效率\n\n上传素材\n产品\n选择产品进行素材贴合\n\n选择颜色\n\n素材操作\n\n立即生成\n\n预计输出 1 张（与素材一一对应）\n\n素材名\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作素材贴合吧~\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "PRINT_EXTRACT",
+    "label": "印花提取",
+    "original": "https://www.linkfox.com/draw/print-extract",
+    "local": "http://127.0.0.1:3000/tools/product-design/print-extract",
+    "originalUrl": "https://www.linkfox.com/draw/print-extract",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n 免责声明\n上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n生成透明图 \n开启\n关闭\n立即生成\n(10算力)\n生成结果\n历史记录\n\n印花提取\n\n快速提取商品中的印花图案\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/print-extract",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n免责声明\n印花提取\n撤销\n重做\n\n上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n生成透明图\n开启\n关闭\n立即生成\n生成结果\n历史记录\n提取结果\n\n印花提取\n\n快速提取商品中的印花图案\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "IMAGE_TEXT_EDIT",
+    "label": "图片文字编辑",
+    "original": "https://www.linkfox.com/designer?type=78",
+    "local": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+    "originalUrl": "https://www.linkfox.com/designer?type=78",
+    "originalText": "返回\n商品图设计\n保存中...\n下载图片\n用\n用户6991\n个人账号\n文字\n素材\n背景\n模板\n标注\n图层\n添加文字\nAI生成文案\n默认字体样式\n标题\n副标题\n正文\n推荐字体风格\n68%\n画布\n画布尺寸\n默认尺寸\n1024 x 1024\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n图片文字编辑\n\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n\n撤销\n重做\n图片文字画布\n上传源图\n新增文字框\n上传 JPG / PNG / WebP 源图后开始框选文字\n\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。\n\n图片文字结果\n尚未提交\n\n尚无结果：上传图片、框选文字框并填写文字后点击“生成图片文字”。\n\n图片文字结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n属性编辑\n\n在画布或列表里选中一个文字框后编辑属性。\n\n文本框列表\n0/30\n\n还没有文字框。\n\n导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n\n导出的是新结果文件；原图保持不动，可随时改框重出。\n\n请先上传要编辑文字的图片。\n生成图片文字\n\n预计输出 1 张结果（单次固定，不可改数量）。\n\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "NEW_DESIGNER",
+    "label": "商品图设计器",
+    "original": "https://www.linkfox.com/draw/designer-home",
+    "local": "http://127.0.0.1:3000/tools/product-design/new-designer",
+    "originalUrl": "https://www.linkfox.com/draw/designer-home",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n创建设计\n我的设计\n我的模板\n团队空间\n 免责声明\n上传商品图\n\n或拖拽图片到此处\n\n或试试这些\n\n模板推荐\n\n类型：\n全部\n适合品类：\n全部\n版式：\n全部\n\n已选中 0 个\n\n全 选\n删除已选项\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/product-design/new-designer",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n\n免责声明\n\n商品图设计器\n商品图 · 1200×1200\n设计器宿主\n新建设计\n预览\n关闭\n完成回传\n\n已恢复草稿：2026-11-05T08:08:41.197Z（0 个图层）\n\n素材与图层\n0 层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版\n画布为空：上传商品图或添加文字图层开始设计\n\n方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮\n\n在左侧添加图层、在画布上编辑，然后点“导出设计稿”。\n草稿已保存\n产物 1 张 · 1200×1200 PNG\n导出设计稿\n属性\n\n未选中图层：在左侧列表或画布上点选。\n\n画布背景\n#ffffff · 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。\n画布为空：至少保留一个图层再完成。\n\n工具 NEW_DESIGNER · 草稿键 tool-draft:v1:NEW_DESIGNER\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "IMAGE_TO_VIDEO",
+    "label": "图转视频",
+    "original": "https://www.linkfox.com/draw/video",
+    "local": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+    "originalUrl": "https://www.linkfox.com/draw/video",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n普通模式\n高级模式\n参考素材\n首尾帧\n商品链接\n分析\n或 手动上传参考素材\n图片规则\n上传参考素材\n\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n作品选择\n商品库选择\n商品信息（选填）\nAI 分析\n0 / 1600\n视频描述 *（必填项）\n怎么写描述？\n商品展示模板\n提示词优化\n0 / 4000\n视频模型\nMiniMax H3\n适合批量测款与日常上新\n视频分辨率\n768P\n1080P\n生成设置\n视频时长\n拖动选择时长\n10秒\n5\n10\n15\n视频比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n销售国家/地区\n US(美国)\n目标语言\n英语\n立即生成\n60 算力\n季度特惠\n生成结果\n优秀案例\n历史记录\n\n动态展示商品，点击率大大提升\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频剪辑\n批量生成\nNEW\nljq_driver: 已连接\n1. 素材\n2. 配置\n3. 结果\n预计产出 1 个视频 · 5s · 自适应 · 768P · 产品展示\n参考素材\n首尾帧\n商品链接\n\n最多 9 张参考图，可本地上传或从作品/商品库选择\n\n图片规则\n本地上传\n从作品库选择\n从商品库选择\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n商品信息（选填）\n0 / 1600\n分析\n视频类型 *（必填项）\n怎么写描述？\n视频模板\n自定义描述\n?\n普通\n高级\n产品展示\nUGC种草\n痛点解决\n家居场景\n视频模板\n0 / 4000\n提示词优化（开启后随任务提交优化标志，由模型按能力执行）\n\n当前模板：产品展示·环绕卖点\n\n视频模型\n跟随默认模型（default::grok-imagine-video）\ngrok-imagine-video\ndefault::grok-imagine-video\nMiniMax H3\n适合批量测款与日常上新\n视频分辨率\n768P\n1080P\n生成设置\n视频时长\n5秒\n\n拖动选择时长\n\n预计产出 1 个视频 · 5s · 自适应 · 768P · 产品展示；来源模式「参考素材」\n\n5\n10\n15\n视频比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n销售国家/地区\nUS(美国)\nUK(英国)\nDE(德国)\nFR(法国)\nJP(日本)\nBR(巴西)\nMX(墨西哥)\n目标语言\n英语\n德语\n法语\n日语\n葡萄牙语\n西班牙语\n立即生成\n• 参考素材模式至少需要 1 张图\n• 模板描述为空，生成时会使用模板骨架文本\n结果\n\n动态展示商品，点击率大大提升\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "SALE_VIDEO",
+    "label": "带货口播",
+    "original": "https://www.linkfox.com/draw/sale-video",
+    "local": "http://127.0.0.1:3000/tools/ai-video/sale-video",
+    "originalUrl": "https://www.linkfox.com/draw/sale-video",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n商品链接\n分析\n或 手动上传参考图\n图片规则\n上传商品图片\n\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n作品选择\n商品库选择\n提示词描述\n US（美国）\n英语\nUGC种草\nAI帮写\n0 / 4000\n视频模型\nSeedance 2.0 fast\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n生成设置\n视频时长\n拖动选择时长\n15秒\n5\n10\n15\n视频比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n立即生成\n645 算力\n季度特惠\n生成结果\n优秀案例\n历史记录\n\n上传商品图，自动分析商品信息并输出提示词，一键生成带货视频\n\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n生成结果\n一键做同款\n1\n2\n3\n4\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组\n「商品链接」解析上线！\n\n粘贴亚马逊或 TikTok Shop 商品链接，点「分析」自动获取商品图，不用再一张张保存上传。\n\n我知道了",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/sale-video",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\n分析\n\n或 手动上传参考图\n\n商品多图\n图片规则\n多视角白底商品&实拍图\n\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n从作品库选择\n从商品库选择\n提示词描述\nUS（美国）\nUS（美国）\nGB（英国）\nDE（德国）\nFR（法国）\nES（西班牙）\nIT（意大利）\nBR（巴西）\nMX（墨西哥）\nJP（日本）\nKR（韩国）\nNL（荷兰）\nPL（波兰）\nTR（土耳其）\nSA（沙特阿拉伯）\nAE（阿联酋）\nTH（泰国）\nVN（越南）\nID（印尼）\nMY（马来西亚）\nIN（印度）\nCN（中国大陆）\n英语\n英语（English）\n英语 · 英国（English UK）\n德语（Deutsch）\n法语（Français）\n西班牙语（Español）\n意大利语（Italiano）\n葡萄牙语（Português）\n日语（日本語）\n韩语（한국어）\n荷兰语（Nederlands）\n波兰语（Polski）\n土耳其语（Türkçe）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n马来语（Bahasa Melayu）\n印地语（हिन्दी）\n中文（简体）\nAI帮写\nUGC种草\n0 / 4000\n视频模型\nSeedance 2.0 fast\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n生成设置\n专业模式\n视频时长\n拖动选择时长\n15秒\n5\n10\n15\n\n视频比例\n\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n立即生成\n1 条 · 15 秒 · 720P\n\n请上传至少 1 张商品图\n\n生成结果\n历史记录\n带货口播视频\n\n上传商品图，自动分析商品信息并输出提示词\n\n填好口播提示词后点「立即生成」，带货口播视频会显示在这里\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "VIDEO_REPLICATION",
+    "label": "视频复刻",
+    "original": "https://www.linkfox.com/draw/video-replication",
+    "local": "http://127.0.0.1:3000/tools/ai-video/video-replication",
+    "originalUrl": "https://www.linkfox.com/draw/video-replication",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\nTikTok 视频链接\n解析\n或 手动上传参考视频\n\n上传参考视频\n\n本地上传\n作品选择\n\n支持MP4/MOV格式，100M以内\n上传后可截取5-30s参考片段\n\n上传商品与参考图\n图片规则\n上传商品与参考图\n\n支持上传6张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n作品选择\n商品库选择\nAI脚本分析\n（选填）\n默认自动分析\n视频模型\nSeedance 2.0 fast\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n生成设置\n视频时长\n拖动选择时长\nAuto（15秒）\nAuto\n5\n10\n15\n视频比例\n9:16\n16:9\n1:1\n3:4\n4:3\n21:9\n销售国家/地区\n US(美国)\n目标语言\n英语\n立即生成\n645 算力\n季度特惠\n生成结果\n优秀案例\n历史记录\n\n上传商品图，自动分析商品信息并输出提示词，一键生成带货视频\n\n参考视频\n生成结果\n一键做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组\n「批量生成」功能重磅上线！\n批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！\n立即体验",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/video-replication",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\nTikTok 视频链接\n解析\n\n本地未接入 TikTok 链接解析（禁用）；可手动上传参考视频，或直接粘贴公网视频直链\n\n上传参考视频\n本地上传\n作品选择\n\n支持MP4/MOV格式，100M以内\n\n上传后可截取5-30s参考片段\n\n关闭\n上传商品与参考图\n图片规则\n本地上传\n作品选择\n商品库选择\nAI脚本分析 （选填）\n默认自动分析\n本地模板生成脚本\n0/4000\n\n本地未接入视频脚本分析模型；「本地模板生成脚本」按当前国家/语言/时长拼草稿，写完请自行校对。\n\n视频模型\nSeedance 2.0 fast\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n生成设置\n\n视频时长 · 拖动选择时长\n\nAuto（15秒）\n\nAuto\n5\n10\n15\n\n视频比例\n\n9:16\n16:9\n1:1\n3:4\n4:3\n21:9\n销售国家/地区\nUS(美国)\n\n目标语言\n\n英语\n立即生成\n9:16 · 720P · 约 5 秒 · 英语 · US(美国)\n请先上传参考视频（MP4/MOV，100MB 以内）。\n请上传至少 1 张商品参考图。\n请填写口播脚本（或用 AI 脚本分析生成后校对）。\n生成结果\n优秀案例\n历史记录\n参考视频 尚未选择\n一键做同款\n还没有提交过任务。\n复刻结果\n\n上传参考视频与商品图，复刻同款带货视频\n\n填好脚本与参数后点「立即生成」，结果会显示在这里\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "AI_VIDEO_EDITING",
+    "label": "视频编辑",
+    "original": "https://www.linkfox.com/draw/ai-video-edit",
+    "local": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing",
+    "originalUrl": "https://www.linkfox.com/draw/ai-video-edit",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n原视频\n\n上传需要编辑的视频\n\n本地上传\n作品选择\n\n支持MP4/MOV格式，100M以内，时长不低于4秒\n超长视频可截取30秒以内片段\n\n参考图（选填）\n图片规则\n参考图（选填）\n\n支持上传30张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n作品选择\n商品库选择\n编辑需求描述\n提示词优化\n0 / 2500\n视频模型\nSeedance 2.5\n商品人物精准编辑\n立即生成\n1190 算力\n生成结果\n优秀案例\n历史记录\n\n上传原视频与参考图，输入编辑需求，AI 智能编辑视频\n\n原视频\n编辑结果\n一键做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\n原视频\n\n上传需要编辑的视频\n\n本地上传\n从作品库选择\n从商品库选择\n\n支持MP4/MOV格式，100M以内，时长不低于4秒\n\n超长视频可截取30秒以内片段\n\n片段截取\n待上传源视频\n参考图（选填）\n图片规则\n\n支持上传30张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n本地上传\n从作品库选择\n从商品库选择\n编辑需求描述\n提示词优化\n\n0 / 2500\n\n视频模型\nSeedance 2.5\n商品人物精准编辑\ngrok-imagine-video（默认渠道）\n\n视频类型\n\n商品人物精准编辑：锁定商品/人物身份，只改动作、场景与风格\n\n立即生成\n1 条 · 待上传源视频\n\n本地网关对本工具要求至少 1 张参考图（原站标注选填，当前链路必须 1 张以上）\n\n先上传需要编辑的视频（MP4/MOV，100M 内，≥4 秒）\n填写编辑需求描述\n生成结果\n历史记录\n一键做同款\n编辑结果\n\n上传原视频与参考图，输入编辑需求，AI 智能编辑视频\n\n填好编辑需求后点「立即生成」，前后对比结果会显示在这里\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "VIDEO_TRANSLATION",
+    "label": "视频翻译",
+    "original": "https://www.linkfox.com/draw/video-translation",
+    "local": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+    "originalUrl": "https://www.linkfox.com/draw/video-translation",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n\n智能识别源语言，驱动口型与目标语言精准匹配。\n\n原视频\n\n上传需要翻译的视频\n\n本地上传\n作品选择\n\n支持 MP4、MOV 格式，100MB 以内\n建议上传画面清晰、音频完整的视频（2-30 秒）\n\n模式选择\n高级模式\n需要翻译的语言\n英语\n口型同步默认开启\n立即生成\n生成结果\n优秀案例\n历史记录\n\n上传视频并翻译为目标语言，可同步修改口型\n\n上传原始视频\n翻译结果\n一键做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\n视频翻译\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频剪辑\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n\n支持 MP4、MOV 格式，100MB 以内\n\n上传需要翻译的视频\n\n上传原视频\n\n本地上传\n从作品库选择\n从商品库选择\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n请先上传需要翻译的原视频\n模式选择\n高级模式\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n需要翻译的语言\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n英语\n\n源语言只写进提示词，不会被上游真实识别。\n\n口型同步默认开启\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。\n\n模式与输出\n输出数量\n1 条\n2 条\n3 条\n4 条\n\n当前渠道一次只返回 1 条结果。\n\n输出画幅\n跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕\n\n本次提交画幅：16:9 横版（1280x720）\n\n读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准\n\n视频模型\ngrok-imagine-video（默认渠道）\n立即生成\n\n请上传需要处理的原视频，再提交生成\n\n生成结果\n优秀案例\n历史记录\n上传视频并翻译为目标语言，可同步修改口型\n翻译结果\n未验证翻译 · 请人工确认语言与字幕\n\n上传原始视频\n\n上传后在这里预览原视频\n\n重生成结果\n\n提交后在这里查看重生成的视频；语言与字幕需人工确认。\nAI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n一键做同款\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  {
+    "id": "VIDEO_CONCAT",
+    "label": "视频拼接",
+    "original": "https://www.linkfox.com/draw/video-edit",
+    "local": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+    "originalUrl": "https://www.linkfox.com/draw/video-edit",
+    "originalText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n350\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n商品视频\n带货视频\n批量生成\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n生成结果\n开始创作\n选择要编辑的视频\n点击开始创作，立即开始剪辑视频\n开始创作\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+    "localUrl": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+    "localText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n\n免责声明\n\n选择视频素材\n\n支持选择 2~10 个视频素材，一键拼接成品视频。\n\n选择视频素材\n从作品库选择\n从商品库选择\n\n还没有片段：至少上传 2 段视频才能拼接。\n\n视频封面\n\n封面必填：上传一张图，或用播放器定位画面后抓帧。\n\n从当前帧抓取\n上传封面图\n视频比例\n16:9\n9:16\n1:1\n4:3\n输出时长\n自动\n5秒\n10秒\n15秒\n\n自动 = 片段有效时长之和 0s\n\n通道 openai · 多段视频 已验证发送\n\nOpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。\n\n开始拼接\n\n至少需要 2 段视频，当前还没有片段\n\n还没有片段：至少需要 2 段视频，当前还没有片段\n缺少封面：还没有封面：请上传封面图或从片段抓取一帧\n生成结果\n历史记录\n拼接结果\n\n还没有拼接结果\n\n在左栏选好素材与封面后点「开始拼接」，成品视频会显示在这里\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+]

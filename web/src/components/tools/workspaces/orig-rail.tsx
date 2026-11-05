@@ -243,7 +243,7 @@ export interface OrigRailProps {
  * 同类工具条：算力徽标 + 族标题 + 工具入口 + 状态标签，右端挂驱动连接态。
  * 只做导航/展示，不发起任何请求。
  */
-export function OrigRail({ items, active, driver = false, testId = "orig-rail", label = "同类工具", className, variant = "inline" }: OrigRailProps) {
+export function OrigRail({ items, active, testId = "orig-rail", label = "同类工具", className, variant = "inline" }: OrigRailProps) {
     const sidebar = variant === "sidebar";
     return (
         <nav
@@ -314,9 +314,8 @@ export function OrigRail({ items, active, driver = false, testId = "orig-rail", 
                       </Link>
                 );
             })}
-            {driver ? <span className={cn("text-[11px] leading-4 text-muted-foreground", sidebar ? "px-2 pb-1 pt-3" : "ml-auto")}>ljq_driver: 已连接</span> : null}
             {sidebar ? (
-                <span data-testid="rail-disclaimer" className={cn("px-2 pb-2 text-[11px] leading-4 text-muted-foreground", driver ? "mt-1" : "mt-auto")}>
+                <span data-testid="rail-disclaimer" className="mt-auto px-2 pb-2 text-[11px] leading-4 text-muted-foreground">
                     免责声明
                 </span>
             ) : null}

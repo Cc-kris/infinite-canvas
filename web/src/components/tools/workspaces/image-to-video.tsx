@@ -17,7 +17,6 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
-import { AiVideoFamilyNav } from "./video";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
@@ -439,7 +438,6 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
 
     return (
         <div data-testid="image-to-video-workspace" data-make-type={IMAGE_TO_VIDEO_MAKE_TYPE} className={cn("flex h-full min-h-0 flex-col gap-4", className)}>
-        <AiVideoFamilyNav active="图转视频" />
         <div className="flex flex-wrap items-center justify-between gap-2">
             <StepBar step={step} />
             <span className="text-[11px] text-muted-foreground">

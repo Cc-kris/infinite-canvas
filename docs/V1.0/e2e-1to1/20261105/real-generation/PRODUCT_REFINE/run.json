@@ -1,0 +1,134 @@
+{
+  "toolId": "PRODUCT_REFINE",
+  "route": "/tools/smart-edit/product-refine",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T08:54:10.071Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": [
+      "refine-issues=请先上传待精修的商品图。",
+      "refine-issues=请先上传待精修的商品图。"
+    ]
+  },
+  "submitBefore": {
+    "id": "refine-generate",
+    "text": "开始精修",
+    "disabled": true
+  },
+  "finishedAt": "2026-11-05T08:54:43.752Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "refine-generate",
+        "text": "开始精修",
+        "disabled": false
+      },
+      {
+        "id": "refine-generate",
+        "text": "开始精修",
+        "disabled": false
+      },
+      {
+        "id": "refine-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACAAAAAXQCAIAAA",
+        "w": 2048,
+        "h": 1488
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACAAAAAXQCAIAAA",
+        "w": 2048,
+        "h": 1488
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/4255e277-cba1-4546-b74e-656b0147d",
+        "w": 1024,
+        "h": 744
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n图片编辑\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n即将下架\n手部修复\n下架\n免责声明\n精修前\n精修后\n1\n2\n3\n4\n商品精修\n一键提升商品质感，改善商品的轮廓、光泽、材质与颜色等\n上传图片\n从作品库选择\n从商品库选择\n20M以内，jpg/jpeg/png/webp\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n一键提升商品质感\n改善商品的轮廓，光泽、材质与颜色等\n上传图片\n从作品库选择\n拖拽 或 点击上传 需要修复的图\n20M以内，jpg/jpeg/png/webp\n原图 1024×744\n预计输出尺寸：2048×1488513~1024px → 放大 2 倍 · 比例 128:93\n精修模式\n整图精修\n去背景精修\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n开始精修\n预计产出 1 张主结果\n开始精修\n精修前\n精修后\n1\n2\n3\n4\n生成结果\n历史记录\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n前后对比\n拖动滑块查看细节\n左为精修前 50% · 右为精修后\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 21794,
+      "at": "2026-11-05T08:54:39.047Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "d8ea94e07603094e",
+  "ok": true,
+  "download": {
+    "file": "download-product-refine-result-1.png",
+    "bytes": 2245921,
+    "sha256": "d8ea94e07603094e",
+    "differsFromSource": true
+  }
+}
