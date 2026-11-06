@@ -28,13 +28,13 @@ const toolId = LISTING_FISSION_TOOL_ID;
 
 /** 原站 It：1～10 步进器。 */
 function Stepper({ value, onChange, disabled, testId }: { value: number; onChange: (value: number) => void; disabled?: boolean; testId: string }) {
-    const button = "flex size-7 items-center justify-center rounded-[6px] text-black/60 hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30";
+    const button = "flex size-7 items-center justify-center rounded-[6px] text-foreground/70 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-30";
     return (
-        <div data-testid={testId} className="inline-flex items-center gap-1 rounded-[8px] border border-[#e8e8e8] bg-white p-0.5">
+        <div data-testid={testId} className="inline-flex items-center gap-1 rounded-[8px] border border-border bg-background p-0.5">
             <button type="button" aria-label="减少" className={button} disabled={disabled || value <= LISTING_FISSION_STEPPER.min} onClick={() => onChange(value - 1)}>
                 <Minus className="size-3.5" />
             </button>
-            <span className="w-6 text-center text-[14px] text-black/85">{value}</span>
+            <span className="w-6 text-center text-[14px] text-foreground">{value}</span>
             <button type="button" aria-label="增加" className={button} disabled={disabled || value >= LISTING_FISSION_STEPPER.max} onClick={() => onChange(value + 1)}>
                 <Plus className="size-3.5" />
             </button>
@@ -46,8 +46,8 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
     return (
         <section className="mt-5">
             <div className="mb-3 flex items-center gap-2">
-                <span className="h-3.5 w-1 rounded-full bg-[#723cf9]" />
-                <span className="text-[15px] font-medium text-black/85">{title}</span>
+                <span className="h-3.5 w-1 rounded-full bg-primary" />
+                <span className="text-[15px] font-medium text-foreground">{title}</span>
             </div>
             {children}
         </section>
@@ -58,10 +58,10 @@ function Thumbs({ records, selected, onToggle, testId }: { records: ToolAssetRec
     return (
         <div data-testid={testId} className="flex flex-wrap gap-2">
             {records.map((record) => (
-                <button key={record.id} type="button" aria-pressed={selected.has(record.id)} onClick={() => onToggle(record.id)} className={cn("relative size-16 overflow-hidden rounded-[6px] border-2 bg-white", selected.has(record.id) ? "border-[#723cf9]" : "border-transparent hover:border-[#723cf9]/50")}>
+                <button key={record.id} type="button" aria-pressed={selected.has(record.id)} onClick={() => onToggle(record.id)} className={cn("relative size-16 overflow-hidden rounded-[6px] border-2 bg-background", selected.has(record.id) ? "border-selected" : "border-transparent hover:border-selected")}>
                     <img src={record.url} alt="" className="h-full w-full object-cover" />
                     {selected.has(record.id) ? (
-                        <span className="absolute right-0 top-0 flex size-4 items-center justify-center rounded-bl-[6px] bg-[#723cf9] text-white">
+                        <span className="absolute right-0 top-0 flex size-4 items-center justify-center rounded-bl-[6px] bg-selected text-white">
                             <Check className="size-3" />
                         </span>
                     ) : null}
@@ -164,18 +164,18 @@ export function ListingFissionWorkspace() {
     }, [aplusRecords.length, blocked, draftRevision, model, runTool, selectedAplus, selectedMain, values]);
 
     const links = [...new Set(results.map((item) => item.link))];
-    const label = "text-[12px] leading-[22px] text-black/30";
-    const sub = "text-[12px] text-black/45";
+    const label = "text-[12px] leading-[22px] text-muted-foreground";
+    const sub = "text-[12px] text-muted-foreground";
 
     return (
         <div data-testid="listing-fission-workspace" className="flex h-full min-h-0 flex-col">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-hidden rounded-[8px] border border-black/[0.08] bg-white"
+                configClassName="overflow-hidden rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={
                     <div className="h-full overflow-y-auto px-4 py-[10px]" data-testid="listing-fission-source">
-                        <p className="text-[12px] text-[#723cf9]">裂变来源 · 自有 Listing</p>
+                        <p className="text-[12px] text-foreground">裂变来源 · 自有 Listing</p>
                         <input
                             aria-label="Listing 标题"
                             data-testid="listing-fission-title"
@@ -183,9 +183,9 @@ export function ListingFissionWorkspace() {
                             maxLength={200}
                             onChange={(event) => update({ title: event.target.value })}
                             placeholder="未命名 Listing"
-                            className="mt-1 h-8 w-full rounded-[6px] border border-[#d9d9d9] px-[11px] text-[14px] outline-none focus:border-[#723cf9]"
+                            className="mt-1 h-8 w-full rounded-[6px] border border-border px-[11px] text-[14px] outline-none focus:border-selected"
                         />
-                        <p className="mt-1 text-[12px] text-black/30">
+                        <p className="mt-1 text-[12px] text-muted-foreground">
                             {[mainRecords.length ? `主副图 ${mainRecords.length} 张` : "", aplusRecords.length ? `A+ ${aplusRecords.length} 张` : ""].filter(Boolean).join(" · ") || "源 Listing 不会被修改"}
                         </p>
                         <p className={cn(label, "mt-3")}>主副图</p>
@@ -195,26 +195,26 @@ export function ListingFissionWorkspace() {
                     </div>
                 }
             >
-                <div className="flex h-[42px] shrink-0 items-center border-b border-black/[0.08] bg-white px-4">
-                    <span className="border-b-2 border-[#723cf9] py-[9px] text-[14px] text-[#723cf9]">链接裂变</span>
+                <div className="flex h-[42px] shrink-0 items-center border-b border-border bg-background px-4">
+                    <span className="border-b-2 border-foreground py-[9px] text-[14px] text-foreground">链接裂变</span>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto p-4">
-                    <div className="mx-auto max-w-[760px] rounded-[12px] bg-white px-6 pb-5 pt-1">
+                    <div className="mx-auto max-w-[760px] rounded-[12px] bg-background px-6 pb-5 pt-1">
                         <Section title="设置裂变目标">
-                            <div className="flex items-center justify-between rounded-[8px] bg-[#f7f7f9] px-4 py-3">
+                            <div className="flex items-center justify-between rounded-[8px] bg-muted px-4 py-3">
                                 <div className="flex flex-col">
-                                    <span className="text-[14px] text-black/85">新 Listing 数量</span>
+                                    <span className="text-[14px] text-foreground">新 Listing 数量</span>
                                     <span className={sub}>每条将作为独立的自有 Listing 分开展示</span>
                                 </div>
                                 <Stepper testId="listing-fission-link-count" value={values.linkCount} disabled={running} onChange={(linkCount) => update({ linkCount })} />
                             </div>
-                            <p className="mb-2 mt-4 text-[13px] text-black/60">每条 Listing 的内容</p>
+                            <p className="mb-2 mt-4 text-[13px] text-foreground/70">每条 Listing 的内容</p>
                             <div className="grid grid-cols-3 gap-3" data-testid="listing-fission-delivery">
                                 {LISTING_FISSION_DELIVERIES.map((item) => (
-                                    <button key={item.value} type="button" aria-pressed={values.delivery === item.value} disabled={running} onClick={() => chooseDelivery(item.value)} className={cn("rounded-[8px] border p-3 text-left", values.delivery === item.value ? "border-[#723cf9] bg-[#723cf9]/5" : "border-[#e8e8e8] hover:border-[#723cf9]/50")}>
+                                    <button key={item.value} type="button" aria-pressed={values.delivery === item.value} disabled={running} onClick={() => chooseDelivery(item.value)} className={cn("rounded-[8px] border p-3 text-left", values.delivery === item.value ? "border-selected bg-selected-soft" : "border-border hover:border-selected")}>
                                         <span className="flex items-center gap-2">
-                                            <strong className="text-[14px] font-medium text-black/85">{item.title}</strong>
-                                            {"badge" in item ? <span className="rounded-[4px] bg-[#723cf9]/10 px-1.5 text-[11px] text-[#723cf9]">{item.badge}</span> : null}
+                                            <strong className="text-[14px] font-medium text-foreground">{item.title}</strong>
+                                            {"badge" in item ? <span className="rounded-[4px] bg-selected-soft px-1.5 text-[11px] text-foreground">{item.badge}</span> : null}
                                         </span>
                                         <span className={cn(sub, "mt-1 block")}>{item.description}</span>
                                     </button>
@@ -224,20 +224,20 @@ export function ListingFissionWorkspace() {
 
                         <Section title="图片生成设置">
                             <div className="flex items-center justify-between text-[14px]">
-                                <span className="text-black/60">模型选择</span>
-                                <span className="text-black/85">{model || "未配置"}</span>
+                                <span className="text-foreground/70">模型选择</span>
+                                <span className="text-foreground">{model || "未配置"}</span>
                             </div>
                         </Section>
 
                         <Section title="选择参考图片">
-                            <p className="mb-2 text-[13px] text-black/60">
+                            <p className="mb-2 text-[13px] text-foreground/70">
                                 主副图 <span className={sub}>选择图片作为 AI 参考</span>
                             </p>
                             {mainRecords.length ? <Thumbs testId="listing-fission-main" records={mainRecords} selected={mainSelected} onToggle={(id) => setMainSelected((s) => toggleIn(s, id))} /> : <p className={sub}>当前 Listing 暂无可用主副图，无法发起裂变</p>}
                             {values.delivery === "custom" ? (
-                                <div className="mt-3 flex items-center justify-between rounded-[8px] bg-[#f7f7f9] px-4 py-3">
+                                <div className="mt-3 flex items-center justify-between rounded-[8px] bg-muted px-4 py-3">
                                     <div className="flex flex-col">
-                                        <strong className="text-[14px] font-medium text-black/85">每张主副图参考图的生成数量</strong>
+                                        <strong className="text-[14px] font-medium text-foreground">每张主副图参考图的生成数量</strong>
                                         <span className={sub}>
                                             已选 {selectedMain.length} 张参考图，每条 Listing 将生成 {summary.mainSubPerLink} 张主副图
                                         </span>
@@ -247,9 +247,9 @@ export function ListingFissionWorkspace() {
                             ) : null}
                             {values.delivery === "custom" ? (
                                 <label className="mt-3 flex cursor-pointer items-start gap-2">
-                                    <input type="checkbox" data-testid="listing-fission-custom-aplus" className="mt-1 accent-[#723cf9]" checked={values.customAplus} disabled={running} onChange={(event) => update({ customAplus: event.target.checked })} />
+                                    <input type="checkbox" data-testid="listing-fission-custom-aplus" className="mt-1 accent-[var(--selected)]" checked={values.customAplus} disabled={running} onChange={(event) => update({ customAplus: event.target.checked })} />
                                     <span className="flex flex-col">
-                                        <strong className="text-[14px] font-medium text-black/85">同时生成 A+</strong>
+                                        <strong className="text-[14px] font-medium text-foreground">同时生成 A+</strong>
                                         <span className={sub}>{aplusRecords.length ? "勾选后可选择参考 A+ 素材" : "勾选后选择要生成的 A+ 类型"}</span>
                                     </span>
                                 </label>
@@ -258,7 +258,7 @@ export function ListingFissionWorkspace() {
                                 <div className="mt-3" data-testid="listing-fission-aplus">
                                     {aplusRecords.length ? (
                                         <>
-                                            <p className="mb-2 text-[13px] text-black/60">A+ 图</p>
+                                            <p className="mb-2 text-[13px] text-foreground/70">A+ 图</p>
                                             <Thumbs testId="listing-fission-aplus-thumbs" records={aplusRecords} selected={aplusSelected} onToggle={(id) => setAplusSelected((s) => toggleIn(s, id))} />
                                         </>
                                     ) : (
@@ -266,25 +266,25 @@ export function ListingFissionWorkspace() {
                                             <p className={sub}>源 Listing 暂无 A+，无法复用源 A+；可使用已选主副图生成新的 A+。</p>
                                             <div className="mt-2 grid grid-cols-4 gap-2">
                                                 {LISTING_FISSION_APLUS_TYPES.map((item) => (
-                                                    <button key={item.value} type="button" aria-pressed={values.aplusType === item.value} disabled={running} onClick={() => update({ aplusType: item.value })} className={cn("rounded-[8px] border p-2 text-left", values.aplusType === item.value ? "border-[#723cf9] bg-[#723cf9]/5" : "border-[#e8e8e8] hover:border-[#723cf9]/50")}>
-                                                        <strong className="block text-[13px] font-medium text-black/85">{item.label}</strong>
+                                                    <button key={item.value} type="button" aria-pressed={values.aplusType === item.value} disabled={running} onClick={() => update({ aplusType: item.value })} className={cn("rounded-[8px] border p-2 text-left", values.aplusType === item.value ? "border-selected bg-selected-soft" : "border-border hover:border-selected")}>
+                                                        <strong className="block text-[13px] font-medium text-foreground">{item.label}</strong>
                                                         <span className={sub}>{item.description}</span>
                                                     </button>
                                                 ))}
                                             </div>
                                             {values.aplusType === "custom" ? (
-                                                <div className="mt-2 flex items-center gap-2 text-[13px] text-black/60">
+                                                <div className="mt-2 flex items-center gap-2 text-[13px] text-foreground/70">
                                                     比例
-                                                    <input aria-label="A+ 宽" type="number" min={1} max={100} value={values.aplusWidth} onChange={(event) => update({ aplusWidth: Math.min(100, Math.max(1, Math.round(Number(event.target.value) || 1))) })} className="h-7 w-14 rounded-[6px] border border-[#d9d9d9] text-center outline-none focus:border-[#723cf9]" />
+                                                    <input aria-label="A+ 宽" type="number" min={1} max={100} value={values.aplusWidth} onChange={(event) => update({ aplusWidth: Math.min(100, Math.max(1, Math.round(Number(event.target.value) || 1))) })} className="h-7 w-14 rounded-[6px] border border-border text-center outline-none focus:border-selected" />
                                                     :
-                                                    <input aria-label="A+ 高" type="number" min={1} max={100} value={values.aplusHeight} onChange={(event) => update({ aplusHeight: Math.min(100, Math.max(1, Math.round(Number(event.target.value) || 1))) })} className="h-7 w-14 rounded-[6px] border border-[#d9d9d9] text-center outline-none focus:border-[#723cf9]" />
+                                                    <input aria-label="A+ 高" type="number" min={1} max={100} value={values.aplusHeight} onChange={(event) => update({ aplusHeight: Math.min(100, Math.max(1, Math.round(Number(event.target.value) || 1))) })} className="h-7 w-14 rounded-[6px] border border-border text-center outline-none focus:border-selected" />
                                                 </div>
                                             ) : null}
                                         </>
                                     )}
-                                    <div className="mt-3 flex items-center justify-between rounded-[8px] bg-[#f7f7f9] px-4 py-3">
+                                    <div className="mt-3 flex items-center justify-between rounded-[8px] bg-muted px-4 py-3">
                                         <div className="flex flex-col">
-                                            <strong className="text-[14px] font-medium text-black/85">{aplusRecords.length ? "每张 A+ 参考图的生成数量" : values.aplusType === "advancedPhone" ? "每种尺寸生成数量" : "生成 A+ 数量"}</strong>
+                                            <strong className="text-[14px] font-medium text-foreground">{aplusRecords.length ? "每张 A+ 参考图的生成数量" : values.aplusType === "advancedPhone" ? "每种尺寸生成数量" : "生成 A+ 数量"}</strong>
                                             <span className={sub}>{values.aplusType === "advancedPhone" && !aplusRecords.length ? `桌面和手机各生成 ${values.aplusCount} 张，每条 Listing 共 ${summary.aplusPerLink} 张 A+` : `每条 Listing 将生成 ${summary.aplusPerLink} 张 A+`}</span>
                                         </div>
                                         <Stepper testId="listing-fission-aplus-count" value={values.aplusCount} disabled={running} onChange={(aplusCount) => update({ aplusCount })} />
@@ -293,33 +293,33 @@ export function ListingFissionWorkspace() {
                             ) : null}
                         </Section>
 
-                        <div className="mt-5 flex items-center justify-between gap-4 border-t border-[#f0f0f0] pt-4">
+                        <div className="mt-5 flex items-center justify-between gap-4 border-t border-border pt-4">
                             <div className="flex flex-col" data-testid="listing-fission-summary">
                                 {selectedMain.length ? (
                                     <>
-                                        <strong className="text-[14px] font-medium text-black/85">本次将生成 {values.linkCount} 条新 Listing</strong>
+                                        <strong className="text-[14px] font-medium text-foreground">本次将生成 {values.linkCount} 条新 Listing</strong>
                                         <span className={sub}>
                                             每条包含：主副图 {summary.mainSubPerLink} 张{withAplus ? `、A+ ${summary.aplusPerLink} 张` : "，不含 A+"}；共 {summary.totalImages} 张图片（本地只生成图片，不生成新文案）
                                         </span>
                                     </>
                                 ) : (
                                     <>
-                                        <strong className="text-[14px] font-medium text-black/85">请先选择主副图</strong>
+                                        <strong className="text-[14px] font-medium text-foreground">请先选择主副图</strong>
                                         <span className={sub}>至少选择 1 张参考图后，才能创建新的裂变 Listing。</span>
                                     </>
                                 )}
                             </div>
-                            <button type="button" data-testid="listing-fission-submit" disabled={Boolean(blocked) || running} title={blocked} onClick={() => void submit()} className="inline-flex h-9 shrink-0 items-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-5 text-[13px] text-white disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" data-testid="listing-fission-submit" disabled={Boolean(blocked) || running} title={blocked} onClick={() => void submit()} className="inline-flex h-9 shrink-0 items-center gap-1 rounded-[6px] bg-primary px-5 text-[13px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50">
                                 {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                                 {selectedMain.length ? `开始生成 ${values.linkCount} 条 Listing` : "请先选择主副图"}
                             </button>
                         </div>
-                        {errorText ? <p data-testid="listing-fission-error" className="mt-2 text-[12px] text-[#ff4d4f]">{errorText}</p> : null}
+                        {errorText ? <p data-testid="listing-fission-error" className="mt-2 text-[12px] text-destructive">{errorText}</p> : null}
                     </div>
 
                     {links.map((link) => (
                         <div key={link} className="mx-auto mt-4 max-w-[760px]" data-testid="listing-fission-result">
-                            <p className="mb-2 text-[14px] font-medium text-black/85">新 Listing {link}</p>
+                            <p className="mb-2 text-[14px] font-medium text-foreground">新 Listing {link}</p>
                             <div className="grid grid-cols-2 gap-3">
                                 {results
                                     .filter((item) => item.link === link && tasks[item.id])

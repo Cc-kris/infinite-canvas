@@ -695,7 +695,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     style={{ fontSize: 12, fontWeight: 600 }}
                                     className={cn(
                                         "h-full flex-1 rounded-lg leading-none transition",
-                                        colorMode === "extract" ? "bg-card text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                                        colorMode === "extract" ? "bg-card text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                                     )}
                                 >
                                     商品图提色
@@ -709,7 +709,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     onClick={() => setColorMode("history")}
                                     className={cn(
                                         "h-full flex-1 rounded-lg leading-none transition",
-                                        colorMode === "history" ? "bg-card text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                                        colorMode === "history" ? "bg-card text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                                     )}
                                 >
                                     历史使用颜色
@@ -807,7 +807,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                             title={`${record.name}${active ? " · 已作为方案" : " · 点击作为参考方案"}`}
                                                             className={cn(
                                                                 "size-9 overflow-hidden rounded-md border transition",
-                                                                active ? "border-primary ring-1 ring-primary/40" : "border-border hover:border-primary/50",
+                                                                active ? "border-selected ring-1 ring-selected/40" : "border-border hover:border-selected",
                                                             )}
                                                         >
                                                             {record.url ? <img src={record.url} alt={record.name} className="h-full w-full object-cover" /> : null}
@@ -853,7 +853,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                     title={planLabel(plan)}
                                                     className={cn(
                                                         "flex min-w-0 flex-1 items-center gap-2 rounded-md border px-2 py-1 text-left text-[11px] leading-4 transition",
-                                                        active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-card text-muted-foreground hover:border-primary/50",
+                                                        active ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-muted-foreground hover:border-selected",
                                                     )}
                                                 >
                                                     <Swatch plan={plan} />
@@ -919,10 +919,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 const merged = base ? `${base}、${preset.label}` : preset.label;
                                                 commit({ ...valuesRef.current, region: sanityRegion(merged) });
                                             }}
-                                            style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px", color: active ? "var(--primary)" : "var(--muted-foreground)" }}
+                                            style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px", color: active ? "var(--selected)" : "var(--muted-foreground)" }}
                                             className={cn(
                                                 "h-[22px] rounded-md transition",
-                                                active ? "bg-primary/10" : "bg-transparent hover:bg-border",
+                                                active ? "bg-selected-soft" : "bg-transparent hover:bg-border",
                                             )}
                                         >
                                             {preset.label}
@@ -947,10 +947,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             disabled={busy}
                                             onClick={() => commit({ ...valuesRef.current, quality: level.key as ColorQualityKey })}
                                             title={`调用上游 ${level.providerQuality} 品质`}
-                                            style={{ fontSize: 14, fontWeight: 400, color: active ? "var(--primary)" : "var(--muted-foreground)" }}
+                                            style={{ fontSize: 14, fontWeight: 400, color: active ? "var(--selected)" : "var(--muted-foreground)" }}
                                             className={cn(
                                                 "h-8 w-[75px] rounded-lg leading-none transition",
-                                                active ? "bg-primary/10 font-medium" : "bg-card hover:text-primary",
+                                                active ? "bg-selected-soft font-medium" : "bg-card hover:text-foreground",
                                             )}
                                         >
                                             {level.label}
@@ -1034,7 +1034,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             onClick={() => setRightTab(item.key)}
                             className={cn(
                                 "h-[42px] text-[14px] font-normal leading-none transition",
-                                rightTab === item.key ? "text-primary" : "text-foreground hover:text-primary",
+                                rightTab === item.key ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             {item.label}
@@ -1047,7 +1047,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         style={{ fontSize: 14, fontWeight: rightTab === "history" ? 500 : 400, marginLeft: "auto" }}
                         className={cn(
                             "text-[14px] leading-none transition",
-                            rightTab === "history" ? "text-primary" : "text-foreground hover:text-primary",
+                            rightTab === "history" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                         )}
                     >
                         历史记录

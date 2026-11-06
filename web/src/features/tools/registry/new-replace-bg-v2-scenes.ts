@@ -123,3 +123,61 @@ export function productBgScenePrompt(title: string, mode: ProductBgMode): string
 export function productBgModeOf(customPrompt: string): ProductBgMode {
     return customPrompt.includes("以商品替换参考图中的商品") ? "replace" : "compose";
 }
+
+/** 原站「商品替换 → 高级自定义 → 保留遮挡物」说明。adapter 没有独立字段，开启时写进 customPrompt。 */
+export const PRODUCT_BG_OCCLUSION_HINT = "提取商品主体前的遮挡物置于画面最顶层，保留原图的遮挡关系。";
+const OCCLUSION_PROMPT = "；保留遮挡物：提取参考图中商品主体前的遮挡物置于画面最顶层，保留原图的遮挡关系";
+
+export function productBgOcclusionOf(customPrompt: string): boolean {
+    return customPrompt.includes(OCCLUSION_PROMPT);
+}
+
+/** 参考图标题 + 合成方式 + 保留遮挡物（只在商品替换下生效）→ customPrompt。 */
+export function productBgPrompt(title: string, mode: ProductBgMode, occlusion: boolean): string {
+    return productBgScenePrompt(title, mode) + (mode === "replace" && occlusion ? OCCLUSION_PROMPT : "");
+}
+
+export function productBgTitleOf(customPrompt: string): string {
+    return /「(.+?)」/.exec(customPrompt)?.[1] ?? "";
+}
+
+/** 原站编辑器参考图抽屉页签，顺序与文案逐字来自原站。 */
+export const PRODUCT_BG_DRAWER_TABS = ["智能推荐", "预设", "我的", "收藏", "历史", "采集"] as const;
+export type ProductBgDrawerTab = (typeof PRODUCT_BG_DRAWER_TABS)[number];
+
+/** 智能推荐「场景：」筛选项（原站文案）；本地场景图没有室内/室外等属性标注，只能「全部」。 */
+export const PRODUCT_BG_SCENE_FILTERS = ["全部", "室内", "室外", "节日活动", "简单背景", "工作场所", "休闲场所", "运动场所", "自然环境"] as const;
+
+/** 预设页签的三个下拉（原站文案）；本地只标注了品类，场景 / 视角保持「全部」。 */
+export const PRODUCT_BG_PRESET_CATEGORIES = ["全部", "3C数码", "日用百货", "美妆个护", "服饰箱包", "家居家装", "家用电器", "钟表首饰", "食品饮料", "母婴产品"] as const;
+export const PRODUCT_BG_PRESET_SCENES = ["全部", "纯色", "展台", "简约", "礼物", "自然", "户外", "运动", "鲜花", "节日"] as const;
+export const PRODUCT_BG_PRESET_VIEWS = ["全部", "水平拍摄", "倾斜30°拍摄", "倾斜45°拍摄", "垂直俯拍"] as const;
+export const DEFAULT_PRODUCT_BG_PRESET_CATEGORY = "美妆个护";
+
+/**
+ * 预设背景图：原站编辑器「预设」页签每个品类的前 12 张（不足 12 张取全部），去重后 43 张，
+ * 512 宽 webp 落在 `presets/preset-<nn>.webp`。下面是每个品类在原站列表里的顺序。
+ */
+const PRESET_ROWS: Record<string, number[]> = {
+    "3C数码": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    日用百货: [1, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+    美妆个护: [1, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 28],
+    服饰箱包: [1, 13, 14, 15, 16, 17, 18, 19, 29, 30, 31, 32],
+    家居家装: [24, 33, 34],
+    家用电器: [17, 28, 33, 35, 36],
+    钟表首饰: [17, 18, 19, 25, 28, 29, 30, 31, 32, 37, 38, 39],
+    食品饮料: [17, 18, 19, 20, 21, 22, 23, 33, 40, 41, 42, 43],
+    母婴产品: [1],
+};
+
+export type ProductBgPreset = { id: string; image: string };
+
+const presetOf = (index: number): ProductBgPreset => {
+    const id = `preset-${String(index).padStart(2, "0")}`;
+    return { id, image: `${BASE}/presets/${id}.webp` };
+};
+
+export function filterProductBgPresets(category: string): ProductBgPreset[] {
+    const ids = category === "全部" ? [...new Set(Object.values(PRESET_ROWS).flat())] : (PRESET_ROWS[category] ?? []);
+    return ids.map(presetOf);
+}

@@ -91,7 +91,7 @@ export function HistoryRecordPanel({ open, toolId, toolLabel = "素材贴合", o
                                     onClick={() => setGroup(item)}
                                     className={cn(
                                         "flex h-[32px] items-center rounded-md px-2 text-left text-[13px] leading-[20px] transition-colors",
-                                        active ? "bg-primary/10 font-medium text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                                        active ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground",
                                     )}
                                 >
                                     {item}

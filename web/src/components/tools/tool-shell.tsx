@@ -56,7 +56,7 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
 
     return (
         <NestedToolShellContext.Provider value={true}>
-            <div data-tool-skin="linkfox" className={cn("tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foreground", className)}>
+            <div data-tool-skin="linkfox" className={cn("tool-linkfox-surface flex h-full min-h-0 flex-col bg-background text-foreground", className)}>
                 <div className="flex h-14 shrink-0 items-center gap-2 px-3 lg:hidden">
                     <button
                         type="button"
@@ -77,11 +77,11 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                 <div className="flex min-h-0 flex-1 gap-0">
                     <aside data-testid="tool-sidebar" aria-label={t("toolChrome.shellSidebar", {
                         label: sidebarLabel === "工具" ? t("toolChrome.shellLabelFallback") : sidebarLabel,
-                    })} className="hidden w-[180px] shrink-0 overflow-y-auto border-r border-[#ececec] bg-white lg:block">
+                    })} className="hidden w-[180px] shrink-0 overflow-y-auto border-r border-border bg-background lg:block">
                         {sidebar}
                     </aside>
 
-                    <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-white">
+                    <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
                         {immersive ? null : (
                             <header className="flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-4 py-3 sm:px-5">
                                 <div className="min-w-0 flex-1">
@@ -98,7 +98,7 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
 
                         {immersive ? null : notices}
 
-                        <main className={cn("min-h-0 flex-1", immersive ? "overflow-y-auto overflow-x-hidden bg-white p-0" : "overflow-y-auto bg-white px-4 py-4 sm:px-5")}>{children}</main>
+                        <main className={cn("min-h-0 flex-1", immersive ? "overflow-y-auto overflow-x-hidden bg-background p-0" : "overflow-y-auto bg-background px-4 py-4 sm:px-5")}>{children}</main>
                     </div>
                 </div>
 

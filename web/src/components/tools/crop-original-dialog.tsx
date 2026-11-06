@@ -156,7 +156,7 @@ export function CropOriginalDialog({ open, src, onClose, onCropped }: CropOrigin
                                     className={cn(
                                         "inline-flex h-[26px] min-w-[44px] items-center justify-center rounded-md border px-2 text-[12px] leading-[16px] transition-colors",
                                         ratioId === item.id
-                                            ? "border-primary/40 bg-primary/10 text-foreground"
+                                            ? "border-selected bg-selected-soft text-foreground"
                                             : "border-border bg-card text-muted-foreground hover:text-foreground",
                                     )}
                                 >
@@ -166,7 +166,7 @@ export function CropOriginalDialog({ open, src, onClose, onCropped }: CropOrigin
                         </div>
                     </div>
 
-                    {error ? <p className="text-[12px] leading-[18px] text-red-500">{error}</p> : null}
+                    {error ? <p className="text-[12px] leading-[18px] text-destructive">{error}</p> : null}
                 </div>
 
                 <footer className="flex shrink-0 items-center justify-end gap-2 border-t border-border px-[14px] py-[10px]">

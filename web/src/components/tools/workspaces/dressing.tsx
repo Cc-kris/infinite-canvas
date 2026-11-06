@@ -578,7 +578,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             className={cn(
                                                 "relative h-[22px] text-[12px] leading-[22px] transition-colors",
                                                 values.activeTab === tab.id
-                                                    ? "font-medium text-primary after:absolute after:inset-x-0 after:-bottom-[9px] after:h-[2px] after:rounded-full after:bg-primary"
+                                                    ? "font-medium text-foreground after:absolute after:inset-x-0 after:-bottom-[9px] after:h-[2px] after:rounded-full after:bg-foreground"
                                                     : "text-muted-foreground hover:text-foreground",
                                             )}
                                         >
@@ -768,7 +768,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                                         onClick={() => setValues((prev) => ({ ...prev, activePoseId: item.id }))}
                                                         className={cn(
                                                             "overflow-hidden rounded-[6px] border-2",
-                                                            values.activePoseId === item.id ? "border-primary" : "border-transparent",
+                                                            values.activePoseId === item.id ? "border-selected" : "border-transparent",
                                                         )}
                                                     >
                                                         <img src={item.imageUrl} alt={item.name || "模特参考"} className="h-12 w-full object-cover" />
@@ -794,7 +794,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             className={cn(
                                                 "h-[26px] w-10 rounded-[4px] border text-[12px] leading-none transition",
                                                 values.outputNum === num
-                                                    ? "border-primary bg-primary/10 text-primary"
+                                                    ? "border-selected bg-selected-soft text-selected"
                                                     : "border-border text-muted-foreground hover:border-foreground/30",
                                             )}
                                         >
@@ -982,7 +982,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                                 <div key={outcome.unitId} className="space-y-1 rounded-[6px] border border-border/70 p-2">
                                                     <p className="text-[11px] leading-4 text-muted-foreground">{view.caption}</p>
                                                     <p className="text-[12px] leading-5">{describeDressingOutcome(outcome)}</p>
-                                                    {view.stale ? <p className="text-[11px] leading-4 text-amber-600">表单已改动，这批结果对应旧快照。</p> : null}
+                                                    {view.stale ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">表单已改动，这批结果对应旧快照。</p> : null}
                                                     {view.images.length > 0 ? (
                                                         <div className="grid grid-cols-4 gap-2">
                                                             {view.images.map((image, index) => {

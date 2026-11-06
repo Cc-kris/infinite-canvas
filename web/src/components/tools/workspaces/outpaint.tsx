@@ -128,7 +128,7 @@ function Chip({ active, onClick, title, children }: { active?: boolean; onClick:
             aria-pressed={active}
             className={cn(
                 "rounded-full border px-2.5 py-1 text-xs transition",
-                active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground",
+                active ? "border-selected bg-selected-soft text-foreground" : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground",
             )}
         >
             {children}
@@ -273,7 +273,7 @@ function OutpaintCanvas({
                     style={{ aspectRatio: `${values.width} / ${values.height}` }}
                     className={cn(
                         "relative mx-auto w-full max-w-full select-none overflow-hidden rounded border border-dashed border-border bg-[repeating-conic-gradient(#0000000d_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]",
-                        dragging && "ring-2 ring-primary/40",
+                        dragging && "ring-2 ring-selected",
                     )}
                     onPointerMove={move}
                     onPointerUp={end}
@@ -663,11 +663,11 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         <div
             data-tool={AI_OUTPAINTING_TOOL_ID}
             data-layout="outpaint"
-            className={cn("flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-[#f4f6f8] p-[10px] text-foreground", className)}
+            className={cn("flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-canvas p-[10px] text-foreground", className)}
         >
-            {/* 原站智能扩图（1600×1000）：左画布卡（#edeff5 画布 + 48px 白色参数条）| 右结果卡，宽度约 884:502，间距 10。 */}
+            {/* 原站智能扩图（1600×1000）：左画布卡（画布 + 48px 参数条）| 右结果卡，宽度约 884:502，间距 10。 */}
             <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-[minmax(0,884fr)_minmax(0,502fr)] gap-[10px]">
-            <section data-region="canvas" className="flex min-h-[420px] min-w-0 flex-col overflow-hidden rounded-[8px] border border-black/[0.08] bg-card">
+            <section data-region="canvas" className="flex min-h-[420px] min-w-0 flex-col overflow-hidden rounded-[8px] border border-border bg-card">
                 {values.sourceAssetId ? (
                     <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border px-3 py-1.5 text-[11px]">
                         <span className="font-mono text-foreground">
@@ -677,7 +677,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             原图 {values.sourceWidth}×{values.sourceHeight}
                         </span>
                         {expansion.left + expansion.top + expansion.right + expansion.bottom > 0 ? (
-                            <span className="text-[#d97706]">新增 {expansionSummary(values)}</span>
+                            <span className="text-amber-700 dark:text-amber-300">新增 {expansionSummary(values)}</span>
                         ) : (
                             <span className="text-muted-foreground">未扩展</span>
                         )}
@@ -691,7 +691,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                 onClick={() => commit(applyRatio(valuesRef.current, option.key as OutpaintRatioKey))}
                                 className={cn(
                                     "h-6 rounded-md border px-2 leading-none transition",
-                                    values.ratio === option.key ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
+                                    values.ratio === option.key ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-selected",
                                 )}
                             >
                                 {option.label}
@@ -706,7 +706,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                 onClick={() => commit(applySizePreset(valuesRef.current, preset.id))}
                                 className={cn(
                                     "h-6 rounded-md border px-2 leading-none transition",
-                                    values.sizePreset === preset.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
+                                    values.sizePreset === preset.id ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-selected",
                                 )}
                             >
                                 {preset.label}
@@ -715,7 +715,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         <button
                             type="button"
                             onClick={() => commit(toggleLock(valuesRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:border-primary/50"
+                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:bg-accent"
                         >
                             {values.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
                             {values.locked ? "解锁原图" : "锁定原图"}
@@ -724,7 +724,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             type="button"
                             title="撤销（⌘/Ctrl+Z）"
                             onClick={undo}
-                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:border-primary/50"
+                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:bg-accent"
                         >
                             <Undo2 className="size-3" />
                         </button>
@@ -732,14 +732,14 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             type="button"
                             title="重做（⇧⌘/Ctrl+Z）"
                             onClick={redo}
-                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:border-primary/50"
+                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:bg-accent"
                         >
                             <Redo2 className="size-3" />
                         </button>
                         <button
                             type="button"
                             onClick={() => commit(resetOutpaintTransform(valuesRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:border-primary/50"
+                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:bg-accent"
                         >
                             <RotateCcw className="size-3" />
                             恢复默认尺寸
@@ -749,7 +749,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             data-testid="outpaint-reupload"
                             disabled={busy}
                             onClick={() => void onSourceChange([], [])}
-                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:border-primary/50 disabled:opacity-50"
+                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:bg-accent disabled:opacity-50"
                         >
                             重新上传
                         </button>
@@ -791,9 +791,9 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         />
                     )}
                 </div>
-                <div data-testid="outpaint-param-bar" className="flex min-h-12 shrink-0 flex-wrap items-center gap-[10px] border-t-[3px] border-[#f5f7fa] bg-card px-4 py-[7px]">
-                <div className="flex h-7 shrink-0 items-center gap-[10px] rounded-[6px] bg-[#f7f7f7] px-[10px]">
-                <span className="shrink-0 text-[12px] leading-none text-[#9e9e9e]">默认尺寸</span>
+                <div data-testid="outpaint-param-bar" className="flex min-h-12 shrink-0 flex-wrap items-center gap-[10px] border-t-[3px] border-border bg-card px-4 py-[7px]">
+                <div className="flex h-7 shrink-0 items-center gap-[10px] rounded-[6px] bg-muted px-[10px]">
+                <span className="shrink-0 text-[12px] leading-none text-muted-foreground">默认尺寸</span>
                 <div className="flex shrink-0 items-center gap-[10px]">
                     <input
                         aria-label="画布宽度"
@@ -801,7 +801,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         value={values.width}
                         disabled={busy}
                         onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                        className="h-6 w-12 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] tabular-nums leading-none text-foreground outline-none focus:border-primary"
+                        className="h-6 w-12 rounded-[4px] border border-border bg-card px-[7px] text-[12px] tabular-nums leading-none text-foreground outline-none focus:border-primary"
                     />
                     <span aria-hidden className="text-[12px] text-foreground">×</span>
                     <input
@@ -810,7 +810,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         value={values.height}
                         disabled={busy}
                         onChange={(event) => commit(applyHeight(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                        className="h-6 w-12 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] tabular-nums leading-none text-foreground outline-none focus:border-primary"
+                        className="h-6 w-12 rounded-[4px] border border-border bg-card px-[7px] text-[12px] tabular-nums leading-none text-foreground outline-none focus:border-primary"
                     />
                 </div>
                 </div>
@@ -823,9 +823,9 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
                     onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
                     placeholder="描述想要扩图的内容，不填将基于原图生成"
-                    className="h-7 min-w-[160px] flex-1 rounded-[6px] bg-[#f7f7f7] px-[21px] text-[14px] leading-none text-foreground outline-none transition placeholder:text-black/25 focus:ring-1 focus:ring-primary"
+                    className="h-7 min-w-[160px] flex-1 rounded-[6px] bg-muted px-[21px] text-[14px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:ring-1 focus:ring-primary"
                 />
-                <div className="relative flex h-7 shrink-0 items-center gap-0 rounded-[6px] bg-[#f7f7f7] px-[10px] text-[12px] leading-none text-foreground/60">
+                <div className="relative flex h-7 shrink-0 items-center gap-0 rounded-[6px] bg-muted px-[10px] text-[12px] leading-none text-foreground/60">
                     <span>生成：</span>
                     <button
                         type="button"
@@ -835,13 +835,13 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         data-testid="outpaint-output-num"
                         disabled={busy}
                         onClick={() => setCountOpen((open) => !open)}
-                        className="flex h-7 items-center gap-0.5 text-[14px] leading-none text-[#9e9e9e]! outline-none disabled:opacity-50"
+                        className="flex h-7 items-center gap-0.5 text-[14px] leading-none text-muted-foreground! outline-none disabled:opacity-50"
                     >
                         <span>{values.outputNum}张</span>
                         <ChevronDown className="size-3 opacity-80" aria-hidden />
                     </button>
                     {countOpen ? (
-                        <div role="listbox" aria-label="生成张数" className="absolute bottom-full left-0 z-30 mb-1 w-[76px] overflow-hidden rounded-lg border border-border bg-white py-1 shadow-lg">
+                        <div role="listbox" aria-label="生成张数" className="absolute bottom-full left-0 z-30 mb-1 w-[76px] overflow-hidden rounded-lg border border-border bg-background py-1 shadow-lg">
                             {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
                                 <button
                                     key={count}
@@ -852,7 +852,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                         commit({ ...valuesRef.current, outputNum: count });
                                         setCountOpen(false);
                                     }}
-                                    className={cn("block w-full px-2 py-1 text-left text-[13px] leading-5", values.outputNum === count ? "bg-primary/10 text-foreground" : "text-foreground hover:bg-accent")}
+                                    className={cn("block w-full px-2 py-1 text-left text-[13px] leading-5", values.outputNum === count ? "bg-selected-soft text-foreground" : "text-foreground hover:bg-accent")}
                                 >
                                     {count}张
                                 </button>
@@ -883,7 +883,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                 ) : null}
                 </div>
             </section>
-            <section data-region="results" className="flex min-h-[320px] min-w-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5] shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
+            <section data-region="results" className="flex min-h-[320px] min-w-0 flex-col overflow-hidden rounded-[8px] bg-canvas shadow-sm">
                 <Edit8ResultTabs
                     tabs={[
                         { id: "result", label: "生成结果", testId: "outpaint-tab-result" },
@@ -910,7 +910,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                     retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
                                 />
                                 {stale ? (
-                                    <p data-testid="outpaint-stale" className="rounded-lg bg-card px-2 py-1.5 text-[11px] leading-4 text-[#d97706]">
+                                    <p data-testid="outpaint-stale" className="rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
                                         画布/提示词已改动，上面是上一次的结果，请重新「立即生成」。
                                     </p>
                                 ) : null}

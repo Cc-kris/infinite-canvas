@@ -327,8 +327,8 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
         <section className={cn("space-y-3", className)} aria-busy={items.some((item) => item.status === "uploading")} data-tool-asset-input={toolId} data-variant={variant}>
             {linkfox ? null : (
             <div className="flex items-baseline justify-between gap-3">
-                <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
-                <span className="text-xs text-stone-500">
+                <h3 className="text-sm font-medium text-foreground">{title}</h3>
+                <span className="text-xs text-muted-foreground">
                     {readyCount}
                     {t("toolChrome.quotaLine", {
                         ready: readyCount,
@@ -340,15 +340,15 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
             </div>
             )}
 
-            {quarantined ? <p className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">检测到旧版本草稿，已隔离保存，未载入当前表单。</p> : null}
+            {quarantined ? <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">检测到旧版本草稿，已隔离保存，未载入当前表单。</p> : null}
             {conflict ? (
-                <div className="space-y-2 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900" role="alert">
+                <div className="space-y-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300" role="alert">
                     <p>另一个标签页更新了「{toolId}」的草稿（版本 {conflict.remote.revision}，本页 {conflict.local.revision}）。</p>
                     <div className="flex gap-2">
-                        <button type="button" className="rounded-md border border-amber-400 px-2 py-1" onClick={() => void resolveConflict(toolId, "local")}>
+                        <button type="button" className="rounded-md border border-amber-500/40 px-2 py-1" onClick={() => void resolveConflict(toolId, "local")}>
                             使用本页版本
                         </button>
-                        <button type="button" className="rounded-md border border-amber-400 px-2 py-1" onClick={() => void useOtherTabDraft()}>
+                        <button type="button" className="rounded-md border border-amber-500/40 px-2 py-1" onClick={() => void useOtherTabDraft()}>
                             使用其他标签页版本
                         </button>
                     </div>
@@ -364,12 +364,12 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     linkfox
                         ? wide
                             ? cn(
-                                  "flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/40 p-3 text-xs transition hover:border-foreground/25",
+                                  "flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/40 p-3 text-xs transition hover:border-selected",
                                   compact ? "min-h-[152px]" : "min-h-[249px]",
                               )
-                            : "flex cursor-pointer flex-col items-start gap-2 rounded-xl border border-border bg-card p-3 text-xs transition hover:border-foreground/25"
+                            : "flex cursor-pointer flex-col items-start gap-2 rounded-xl border border-border bg-card p-3 text-xs transition hover:border-selected"
                         : "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-6 text-center text-xs transition",
-                    dragging ? "border-primary/40 bg-muted" : linkfox ? "" : "border-stone-300 dark:border-stone-700",
+                    dragging ? "border-selected bg-muted" : linkfox ? "" : "border-border",
                     (disabled || atLimit) && "cursor-not-allowed opacity-60",
                 )}
                 onClick={() => !disabled && !atLimit && inputRef.current?.click()}
@@ -453,10 +453,10 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     </>
                 ) : (
                     <>
-                        <span className="text-stone-700 dark:text-stone-200">
+                        <span className="text-foreground/70">
                             {atLimit ? t("toolChrome.dropAtLimit") : t("toolChrome.dropIdle")}
                         </span>
-                        <span className="text-stone-500">{t("toolChrome.dropMeta")}</span>
+                        <span className="text-muted-foreground">{t("toolChrome.dropMeta")}</span>
                     </>
                 )}
             </div>
@@ -475,27 +475,27 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 }}
             />
 
-            {notice ? <p className="text-xs text-stone-500">{notice}</p> : null}
+            {notice ? <p className="text-xs text-muted-foreground">{notice}</p> : null}
 
             {items.length ? (
                 <ul className="space-y-2" data-testid="tool-asset-list">
                     {items.map((item) => (
-                        <li key={item.key} className="flex items-center gap-3 rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800" data-status={item.status}>
+                        <li key={item.key} className="flex items-center gap-3 rounded-lg border border-border px-3 py-2" data-status={item.status}>
                             {item.record?.mimeType.startsWith("image/") ? (
                                 <img src={item.record.url} alt={item.name} className="size-12 shrink-0 rounded-md object-cover" />
                             ) : item.record?.mimeType.startsWith("video/") ? (
                                 <video src={item.record.url} className="size-12 shrink-0 rounded-md object-cover" muted />
                             ) : (
                                 <span
-                                    className="flex size-12 shrink-0 items-center justify-center rounded-md border border-dashed border-stone-300 text-[10px] text-stone-400 dark:border-stone-700 dark:text-stone-500"
+                                    className="flex size-12 shrink-0 items-center justify-center rounded-md border border-dashed border-border text-[10px] text-muted-foreground"
                                     aria-hidden="true"
                                 >
                                     {item.status === "error" ? "!" : "…"}
                                 </span>
                             )}
                             <div className="min-w-0 flex-1">
-                                <p className="truncate text-xs text-stone-800 dark:text-stone-100">{item.name || "未命名文件"}</p>
-                                <p className="truncate text-[11px] text-stone-500">
+                                <p className="truncate text-xs text-foreground">{item.name || "未命名文件"}</p>
+                                <p className="truncate text-[11px] text-muted-foreground">
                                     {formatBytesLabel(item.bytes)}
                                     {item.record?.width && item.record?.height ? ` · ${item.record.width}×${item.record.height}` : ""}
                                     {item.record?.mimeType ? ` · ${item.record.mimeType}` : ""}
@@ -503,14 +503,14 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 {item.status === "uploading" ? (
                                     <div className="mt-1 space-y-1">
                                         <progress className="h-1 w-full" value={Math.round(item.progress.ratio * 100)} max={100} data-testid="tool-asset-progress" />
-                                        <p className="text-[11px] text-stone-500">{phaseLabel(item.progress)}</p>
+                                        <p className="text-[11px] text-muted-foreground">{phaseLabel(item.progress)}</p>
                                     </div>
                                 ) : null}
-                                {item.status === "error" ? <p className="mt-1 text-[11px] text-red-600 dark:text-red-400" role="alert">{item.issue?.message}</p> : null}
+                                {item.status === "error" ? <p className="mt-1 text-[11px] text-destructive" role="alert">{item.issue?.message}</p> : null}
                             </div>
                             <button
                                 type="button"
-                                className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-[11px] text-stone-600 dark:border-stone-700 dark:text-stone-300"
+                                className="shrink-0 rounded-md border border-border px-2 py-1 text-[11px] text-foreground/70 hover:bg-accent"
                                 onClick={() => (item.status === "uploading" ? cancelItem(item.key) : void removeItem(item))}
                             >
                                 {item.status === "uploading" ? t("toolChrome.itemCancel") : t("toolChrome.itemRemove")}
@@ -519,22 +519,22 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     ))}
                 </ul>
             ) : linkfox && hydratedDraft ? null : (
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-muted-foreground">
                     {hydratedDraft ? t("toolChrome.assetsEmpty") : t("toolChrome.assetsRestoring")}
                 </p>
             )}
 
             {library?.length ? (
-                <details ref={libraryRef} className="rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
-                    <summary className="cursor-pointer text-xs text-stone-600 dark:text-stone-300">
+                <details ref={libraryRef} className="rounded-lg border border-border px-3 py-2">
+                    <summary className="cursor-pointer text-xs text-foreground/70">
                         {t("toolChrome.librarySummary", { count: library.length })}
                     </summary>
                     <ul className="mt-2 grid grid-cols-2 gap-2">
                         {library.map((libraryItem) => (
-                            <li key={libraryItem.id} className="flex items-center gap-2 rounded-md border border-stone-200 p-1 dark:border-stone-800">
+                            <li key={libraryItem.id} className="flex items-center gap-2 rounded-md border border-border p-1">
                                 <img src={libraryItem.url} alt={libraryItem.name} className="size-8 rounded object-cover" />
                                 <span className="min-w-0 flex-1 truncate text-[11px]">{libraryItem.name}</span>
-                                <button type="button" className="rounded border border-stone-300 px-1.5 py-0.5 text-[11px]" disabled={disabled || libraryItem.kind !== effectiveConstraints.kind} onClick={() => void addFromLibrary(libraryItem)}>
+                                <button type="button" className="rounded border border-border px-1.5 py-0.5 text-[11px] hover:bg-accent" disabled={disabled || libraryItem.kind !== effectiveConstraints.kind} onClick={() => void addFromLibrary(libraryItem)}>
                                     {t("toolChrome.libraryUse")}
                                 </button>
                             </li>

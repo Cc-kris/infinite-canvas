@@ -101,12 +101,12 @@ export function MaterialPreviewWorkspace() {
         <div data-testid="material-preview-workspace" className="flex h-full min-h-0 flex-col">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-hidden rounded-[8px] border border-black/[0.08] bg-white"
+                configClassName="overflow-hidden rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={
                     <div className="flex h-full min-h-0 flex-col">
                         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-[10px]" data-testid="material-preview-source">
-                            <p className="mb-1 text-[12px] leading-[22px] text-black/30">素材图</p>
+                            <p className="mb-1 text-[12px] leading-[22px] text-muted-foreground">素材图</p>
                             <ToolAssetInput
                                 toolId={toolId}
                                 title=""
@@ -118,28 +118,28 @@ export function MaterialPreviewWorkspace() {
                                 onChange={(_ids, records) => setSource(records[0] ?? null)}
                             />
                         </div>
-                        <div className="shrink-0 border-t-[3px] border-[#f5f7fa] px-4 py-2">
+                        <div className="shrink-0 border-t-[3px] border-border px-4 py-2">
                             <button
                                 type="button"
                                 data-testid="material-preview-submit"
                                 disabled={Boolean(blocked) || running}
                                 title={blocked}
                                 onClick={() => void submit()}
-                                className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[12px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-primary text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                                 立即生成
                             </button>
-                            {errorText ? <p data-testid="material-preview-error" className="mt-1 text-[12px] text-[#ff4d4f]">{errorText}</p> : null}
+                            {errorText ? <p data-testid="material-preview-error" className="mt-1 text-[12px] text-destructive">{errorText}</p> : null}
                         </div>
                     </div>
                 }
             >
-                <div className="flex h-[42px] shrink-0 items-center justify-between border-b border-black/[0.08] bg-white px-4">
-                    <p className="text-[14px] text-black/85">素材贴合到商品的效果预览</p>
+                <div className="flex h-[42px] shrink-0 items-center justify-between border-b border-border bg-background px-4">
+                    <p className="text-[14px] text-foreground">素材贴合到商品的效果预览</p>
                     <div className="flex items-center gap-4 text-[14px]">
-                        <label className="inline-flex cursor-pointer items-center gap-2 text-black/85">
-                            <input type="checkbox" data-testid="material-preview-origin" className="accent-[#723cf9]" checked={!values.isMatting} disabled={running} onChange={(event) => update({ isMatting: !event.target.checked })} />
+                        <label className="inline-flex cursor-pointer items-center gap-2 text-foreground">
+                            <input type="checkbox" data-testid="material-preview-origin" className="accent-[var(--selected)]" checked={!values.isMatting} disabled={running} onChange={(event) => update({ isMatting: !event.target.checked })} />
                             使用原图预览
                         </label>
                         <span className="inline-flex items-center gap-1">
@@ -152,14 +152,14 @@ export function MaterialPreviewWorkspace() {
                                     if (leaf) update({ categoryId: leaf.id, categoryName: leaf.name });
                                 }}
                             >
-                                <a data-testid="material-preview-category" className="inline-flex cursor-pointer items-center gap-1 text-[#723cf9]">
-                                    <span className="text-black/85">品类：</span>
+                                <a data-testid="material-preview-category" className="inline-flex cursor-pointer items-center gap-1 text-foreground">
+                                    <span className="text-foreground">品类：</span>
                                     {values.categoryName || "推荐"}
                                     <ChevronDown className="size-3.5" />
                                 </a>
                             </Cascader>
                             {recommended ? null : (
-                                <button type="button" aria-label="恢复推荐品类" disabled={running} onClick={() => update({ categoryId: undefined, categoryName: "" })} className="text-black/35 hover:text-black/60">
+                                <button type="button" aria-label="恢复推荐品类" disabled={running} onClick={() => update({ categoryId: undefined, categoryName: "" })} className="text-muted-foreground hover:text-foreground">
                                     <X className="size-3.5" />
                                 </button>
                             )}
@@ -180,7 +180,7 @@ export function MaterialPreviewWorkspace() {
                             ))}
                         </div>
                     ) : (
-                        <div data-testid="material-preview-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-black/45">
+                        <div data-testid="material-preview-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-muted-foreground">
                             <p>暂无预览效果</p>
                             <p className="mt-1 text-[12px]">上传素材图，{recommended ? `预览贴合到 ${MATERIAL_PREVIEW_RECOMMENDED.name} 的效果` : `预览贴合到「${values.categoryName}」的效果`}</p>
                         </div>

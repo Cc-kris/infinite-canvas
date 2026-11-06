@@ -140,7 +140,7 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                     <p
                                         className={cn(
                                             "mt-1 text-[11px]",
-                                            task.status === "unknown" ? "text-amber-600" : "text-red-600",
+                                            task.status === "unknown" ? "text-amber-600 dark:text-amber-400" : "text-destructive",
                                         )}
                                         data-testid="tool-task-history-error"
                                     >
@@ -160,7 +160,7 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                     </div>
                                 ) : null}
                                 {dropped && thumbs.length === 0 ? (
-                                    <p className="mt-1 text-[11px] text-amber-600" data-testid="tool-task-history-payload-dropped">
+                                    <p className="mt-1 text-[11px] text-amber-600 dark:text-amber-400" data-testid="tool-task-history-payload-dropped">
                                         {t("toolChrome.historyDropped")}
                                     </p>
                                 ) : null}

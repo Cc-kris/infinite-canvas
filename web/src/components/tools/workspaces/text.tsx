@@ -28,7 +28,7 @@ import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
 const toolId = ORNAMENT_TEXT_TOOL_ID;
-const labelClass = "mb-1 text-[12px] leading-[22px] text-black/30";
+const labelClass = "mb-1 text-[12px] leading-[22px] text-muted-foreground";
 
 /** 原站「字体 / 挂环位置」选择卡：80px 高灰底行卡，点击向右弹出 116×116 网格。 */
 function PickerCard({ testId, image, title, value, children }: { testId: string; image: string; title: string; value: string; children: (close: () => void) => ReactNode }) {
@@ -56,20 +56,20 @@ function PickerCard({ testId, image, title, value, children }: { testId: string;
                 }}
                 className={cn(
                     "flex h-20 w-full items-center rounded-[6px] border p-[10px] text-left transition-colors",
-                    open ? "border-[#723cf9] bg-[#723cf9]/5" : "border-[#e8e8e8] bg-[#f7f7f7] hover:border-[#723cf9] hover:bg-[#723cf9]/5",
+                    open ? "border-selected bg-selected-soft" : "border-border bg-muted hover:border-selected hover:bg-selected-soft",
                 )}
             >
                 <span className="flex size-[60px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-white">
                     <img src={image} alt="" className="max-h-[52px] max-w-[52px] object-contain" />
                 </span>
                 <span className="ml-[10px] min-w-0 flex-1">
-                    <span className="block text-[14px] leading-[22px] text-black/60">{title}</span>
-                    <span className="block truncate text-[12px] leading-[22px] text-[#9e9e9e]">{value}</span>
+                    <span className="block text-[14px] leading-[22px] text-foreground/70">{title}</span>
+                    <span className="block truncate text-[12px] leading-[22px] text-muted-foreground">{value}</span>
                 </span>
-                <ChevronRight className="size-4 text-black/40" aria-hidden="true" />
+                <ChevronRight className="size-4 text-muted-foreground" aria-hidden="true" />
             </button>
             {open ? (
-                <div style={anchor} className="fixed z-50 max-h-[520px] w-max overflow-y-auto rounded-[12px] bg-[#f5f5f5] p-4 shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
+                <div style={anchor} className="fixed z-50 max-h-[520px] w-max overflow-y-auto rounded-[12px] bg-muted p-4 shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
                     {children(() => setOpen(false))}
                 </div>
             ) : null}
@@ -85,16 +85,16 @@ function PickerItem({ active, label, image, onClick, contain }: { active: boolea
                 aria-pressed={active}
                 aria-label={label}
                 onClick={onClick}
-                className={cn("relative block size-[116px] overflow-hidden rounded-[6px] border-[3px] bg-white", active ? "border-[#723cf9]" : "border-transparent hover:border-[#723cf9]")}
+                className={cn("relative block size-[116px] overflow-hidden rounded-[6px] border-[3px] bg-white", active ? "border-selected" : "border-transparent hover:border-selected")}
             >
                 <img src={image} alt="" className={cn("h-full w-full", contain ? "object-contain p-2" : "object-cover")} />
                 {active ? (
-                    <span className="absolute right-0 top-0 flex size-5 items-center justify-center rounded-bl-[6px] bg-[#723cf9] text-white">
+                    <span className="absolute right-0 top-0 flex size-5 items-center justify-center rounded-bl-[6px] bg-selected text-white">
                         <Check className="size-3" />
                     </span>
                 ) : null}
             </button>
-            <p className="mt-[10px] w-full truncate text-center text-[14px] text-black/60">{label}</p>
+            <p className="mt-[10px] w-full truncate text-center text-[14px] text-foreground/70">{label}</p>
         </div>
     );
 }
@@ -203,13 +203,13 @@ export function OrnamentTextWorkspace() {
         <div data-testid="ornament-text-workspace" className="flex h-full min-h-0 flex-col">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-visible rounded-[8px] border border-black/[0.08] bg-white"
+                configClassName="overflow-visible rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={
                     <div className="flex h-full min-h-0 flex-col">
                         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-[10px]">
                             <p className={labelClass}>文字内容</p>
-                            <div className="relative rounded-[6px] border border-black/[0.16] pb-6">
+                            <div className="relative rounded-[6px] border border-border pb-6">
                                 <textarea
                                     aria-label="文字内容"
                                     data-testid="ornament-text-input"
@@ -218,9 +218,9 @@ export function OrnamentTextWorkspace() {
                                     maxLength={ORNAMENT_TEXT_TEXT_LIMIT}
                                     onChange={(event) => update({ text: sanitizeOrnamentText(event.target.value) })}
                                     placeholder="输入想要生成的文字内容，仅支持输入英文、不要包含空格，例如：jewelry"
-                                    className="block w-full resize-none rounded-[6px] bg-transparent px-[11px] py-1 text-[14px] leading-[22px] outline-none placeholder:text-black/25"
+                                    className="block w-full resize-none rounded-[6px] bg-transparent px-[11px] py-1 text-[14px] leading-[22px] outline-none placeholder:text-muted-foreground/70"
                                 />
-                                <span className="absolute bottom-1 right-[10px] text-[12px] text-black/25">
+                                <span className="absolute bottom-1 right-[10px] text-[12px] text-muted-foreground">
                                     {values.text.length} / {ORNAMENT_TEXT_TEXT_LIMIT}
                                 </span>
                             </div>
@@ -260,39 +260,39 @@ export function OrnamentTextWorkspace() {
                                         onBlur={(event) => {
                                             if (!event.target.value) update({ fontSize: ORNAMENT_TEXT_FONT_SIZE.default });
                                         }}
-                                        className="h-8 w-[60px] rounded-[6px] border border-[#d9d9d9] text-center text-[14px] outline-none focus:border-[#723cf9] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="h-8 w-[60px] rounded-[6px] border border-border text-center text-[14px] outline-none focus:border-selected [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="ml-[10px] text-[14px] text-black/60">pt</span>
+                                    <span className="ml-[10px] text-[14px] text-foreground/70">pt</span>
                                 </div>
                             </div>
                         </div>
-                        <div className="shrink-0 border-t-[3px] border-[#f5f7fa] px-4 py-2">
+                        <div className="shrink-0 border-t-[3px] border-border px-4 py-2">
                             <button
                                 type="button"
                                 data-testid="ornament-submit"
                                 disabled={!values.text || running}
                                 onClick={() => void run()}
-                                className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[12px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-primary text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                                 立即生成
                             </button>
-                            {errorText ? <p data-testid="ornament-error" className="mt-1 text-[12px] text-[#ff4d4f]">{errorText}</p> : null}
+                            {errorText ? <p data-testid="ornament-error" className="mt-1 text-[12px] text-destructive">{errorText}</p> : null}
                         </div>
                     </div>
                 }
             >
-                <div className="flex h-[42px] shrink-0 items-center border-b border-black/[0.08] bg-white px-4">
-                    <span className="border-b-2 border-[#723cf9] py-[9px] text-[14px] text-[#723cf9]">生成结果</span>
+                <div className="flex h-[42px] shrink-0 items-center border-b border-border bg-background px-4">
+                    <span className="border-b-2 border-foreground py-[9px] text-[14px] text-foreground">生成结果</span>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto p-4">
                     {activeTask ? (
                         <>
-                            {result?.stale ? <p className="mb-2 text-[12px] text-black/45">当前参数已变化（{result.drift}），下方结果来自上一次提交。</p> : null}
+                            {result?.stale ? <p className="mb-2 text-[12px] text-muted-foreground">当前参数已变化（{result.drift}），下方结果来自上一次提交。</p> : null}
                             <ToolResult task={activeTask} toolId={toolId} title="生成结果" onRetry={() => void run(activeTask.id)} />
                         </>
                     ) : (
-                        <div data-testid="ornament-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-black/45">
+                        <div data-testid="ornament-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-muted-foreground">
                             <p>暂无生成结果图</p>
                             <p className="mt-1 text-[12px]">快在左侧输入文字生成饰品吧~</p>
                         </div>

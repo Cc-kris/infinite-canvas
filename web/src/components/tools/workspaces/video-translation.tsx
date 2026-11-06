@@ -496,7 +496,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
             sidebar={null}
             badges={
                 <span
-                    className="rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-[11px] text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+                    className="rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[11px] text-amber-700 dark:text-amber-300"
                     data-testid="video-translation-capability-badge"
                 >
                     {t("videoTranslation.workspace.capabilityBadge")}
@@ -520,14 +520,14 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
 
                     {/* 原站配置列顶部示意插画卡（280×174、圆角 10）+ 一行说明；说明改成本地真实能力，不照抄原站「智能识别源语言」。 */}
                     <figure className="m-0 space-y-[7px] px-[9px]">
-                        <img src={VIDEO_TRANSLATION_PROMO_IMAGE} alt="" className="h-[174px] w-full rounded-[10px] bg-[#5f3aae] object-cover" draggable={false} />
-                        <figcaption className="text-center text-[12px] font-medium leading-[18px] text-[#6b6478]" data-testid="video-translation-promo">
+                        <img src={VIDEO_TRANSLATION_PROMO_IMAGE} alt="" className="h-[174px] w-full rounded-[10px] bg-muted object-cover" draggable={false} />
+                        <figcaption className="text-center text-[12px] font-medium leading-[18px] text-muted-foreground" data-testid="video-translation-promo">
                             {t("videoTranslation.workspace.promoCopy")}
                         </figcaption>
                     </figure>
 
                     {/* 诚实能力声明（r27 报告 §6.1）：常驻、不可关闭；收成一行，点开看完整说明，正文始终在 DOM 里。 */}
-                    <details className="group rounded-[8px] border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" data-testid="video-translation-honesty-toggle">
+                    <details className="group rounded-[8px] border border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300" data-testid="video-translation-honesty-toggle">
                         <summary className="flex cursor-pointer list-none items-center gap-1.5 px-2.5 py-1.5 text-[11px] leading-4 [&::-webkit-details-marker]:hidden">
                             <AlertTriangle aria-hidden="true" className="size-3.5 shrink-0" />
                             <span className="min-w-0 flex-1 truncate">{t("videoTranslation.workspace.honestyToggle")}</span>
@@ -574,7 +574,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             </ul>
                         ) : null}
                         {sourceNotices.length > 0 ? (
-                            <ul className="space-y-1 text-[11px] text-amber-600" data-testid="video-translation-source-notice">
+                            <ul className="space-y-1 text-[11px] text-amber-600 dark:text-amber-400" data-testid="video-translation-source-notice">
                                 {sourceNotices.map((issue) => (
                                     <li key={issue.code}>{sourceIssueText(t, issue.code) || issue.message}</li>
                                 ))}
@@ -652,7 +652,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                         data-lipsync-supported="false"
                     >
                         <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-[11px] font-normal text-[#938d99]">{t("videoTranslation.workspace.lipSyncDefaultOn")}</h2>
+                            <h2 className="text-[11px] font-normal text-muted-foreground">{t("videoTranslation.workspace.lipSyncDefaultOn")}</h2>
                             {/* 上游无 lipSync 参数 → 恒为关闭且置灰，不提供假开关（r27 §6.3） */}
                             <button
                                 type="button"
@@ -673,7 +673,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                     </section>
 
                     <details className="group space-y-2" data-testid="video-translation-more">
-                    <summary className="flex cursor-pointer list-none items-center justify-between text-[12px] font-[650] text-[#25212d] [&::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-center justify-between text-[12px] font-[650] text-foreground [&::-webkit-details-marker]:hidden">
                         {t("videoTranslation.workspace.moreSettings")}
                         <ChevronDown aria-hidden="true" className="size-3.5 transition-transform group-open:rotate-180" />
                     </summary>
@@ -703,7 +703,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                         </p>
                         {capability.blockers.length > 0 ? (
                             <p
-                                className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+                                className="rounded border border-amber-500/30 bg-amber-500/10 p-2 text-[11px] leading-4 text-amber-700 dark:text-amber-300"
                                 role="alert"
                                 data-testid="video-translation-capability-blocker"
                             >
@@ -745,7 +745,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                         </p>
                         {outputPlan.notice ? (
                             <p
-                                className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800"
+                                className="rounded border border-amber-500/30 bg-amber-500/10 p-2 text-[11px] leading-4 text-amber-700 dark:text-amber-300"
                                 role="alert"
                                 data-testid="video-translation-aspect-notice"
                             >
@@ -761,7 +761,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                     </details>
 
                     </div>
-                    <div data-testid="vt-submit-bar" className="shrink-0 space-y-1 bg-white pb-1 pt-2">
+                    <div data-testid="vt-submit-bar" className="shrink-0 space-y-1 bg-background pb-1 pt-2">
                     <button
                         type="button"
                         data-testid="video-translation-submit"
@@ -797,7 +797,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                                 className={cn(
                                     "-mb-px h-11 pb-0.5 text-sm transition-colors",
                                     rightTab === id
-                                        ? "border-b-2 border-primary font-medium text-foreground"
+                                        ? "border-b-2 border-foreground font-medium text-foreground"
                                         : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
                                 )}
                             >
@@ -833,11 +833,11 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                     <div role="tabpanel" hidden={rightTab !== "result"} data-testid="video-translation-panel-result" className="flex min-h-full flex-col gap-3">
                         {/* 结果区标题行：未验证徽标常驻 + 旧配置提示（结果只能当未验证草稿看） */}
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                            <h2 className="text-[12px] text-black/45">{honest.resultTitle}</h2>
+                            <h2 className="text-[12px] text-muted-foreground">{honest.resultTitle}</h2>
                             <div className="flex items-center gap-2">
                                 <VideoTranslationDraftBadge copy={honest} />
                                 {stale ? (
-                                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-translation-stale">
+                                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600 dark:text-amber-400" data-testid="video-translation-stale">
                                         {t("videoTranslation.workspace.staleBadge")}
                                     </span>
                                 ) : null}
@@ -894,7 +894,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             className="min-h-[280px]"
                         />
                         {!view.outputMatched ? (
-                            <p className="text-[11px] leading-4 text-amber-600" data-testid="video-translation-output-mismatch">
+                            <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400" data-testid="video-translation-output-mismatch">
                                 {resultMessage}
                             </p>
                         ) : null}

@@ -130,11 +130,11 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
     ];
 
     return (
-        <div className="flex h-full min-h-0 bg-[#f5f7fa]" data-testid="designer-home">
-            <nav aria-label="设计入口" className="flex w-[180px] shrink-0 flex-col bg-white pt-0" data-testid="designer-home-tabs">
+        <div className="flex h-full min-h-0 bg-canvas" data-testid="designer-home">
+            <nav aria-label="设计入口" className="flex w-[180px] shrink-0 flex-col bg-background pt-0" data-testid="designer-home-tabs">
                 {NAV.map(({ label, icon: Icon }, index) => (
                     <div key={label}>
-                        {index === 3 ? <div className="my-2 h-px bg-black/[0.06]" /> : null}
+                        {index === 3 ? <div className="my-2 h-px bg-border" /> : null}
                         <button
                             type="button"
                             role="tab"
@@ -142,7 +142,7 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                             onClick={() => setTab(label)}
                             className={cn(
                                 "flex h-10 w-full items-center gap-[10px] pl-[18px] pr-3 text-left text-[16px]",
-                                tab === label ? "bg-[rgba(141,52,249,0.05)] text-[#723cf9]! shadow-[inset_3px_0_0_#723cf9]" : "text-black/60! hover:bg-black/[0.03]",
+                                tab === label ? "bg-accent font-medium text-foreground!" : "text-foreground/70! hover:bg-accent/60",
                             )}
                         >
                             <Icon className="size-4" strokeWidth={1.6} />
@@ -155,7 +155,7 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
             <div className="min-h-0 min-w-0 flex-1 overflow-y-auto p-[10px]">
                 {tab === "创建设计" ? (
                     <>
-                        <section className="flex h-[240px] gap-10 rounded-[8px] bg-white px-5 py-4">
+                        <section className="flex h-[240px] gap-10 rounded-[8px] bg-background px-5 py-4">
                             <label
                                 data-testid="designer-home-upload"
                                 onDragOver={(event) => {
@@ -164,9 +164,9 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                                 }}
                                 onDragLeave={() => setDragging(false)}
                                 onDrop={onDrop}
-                                className={cn("flex min-w-0 flex-1 cursor-pointer flex-col items-center rounded-[8px] border border-dashed px-4 pt-[20px]", dragging ? "border-[#723cf9] bg-[#723cf9]/[0.03]" : "border-[#d9d9d9] hover:border-[#723cf9]")}
+                                className={cn("flex min-w-0 flex-1 cursor-pointer flex-col items-center rounded-[8px] border border-dashed px-4 pt-[20px]", dragging ? "border-selected bg-selected-soft" : "border-border hover:border-selected")}
                             >
-                                <span className="inline-flex h-8 items-center gap-2 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-[15px] text-[14px] text-white">
+                                <span className="inline-flex h-8 items-center gap-2 rounded-[6px] bg-primary px-[15px] text-[14px] text-primary-foreground">
                                     {busy ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
                                     上传商品图
                                 </span>
@@ -175,12 +175,12 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                                     event.target.value = "";
                                     if (file) onUpload(file);
                                 }} />
-                                <div className="mt-[10px] text-[12px] leading-[19px] text-black/60">或拖拽图片到此处</div>
-                                {note ? <div className="text-[12px] text-[#ff4d4f]">{note}</div> : null}
-                                <div className="mt-[10px] flex items-center gap-2 text-[12px] leading-[19px] text-black/30">
-                                    <span className="h-px w-10 bg-black/10" />
+                                <div className="mt-[10px] text-[12px] leading-[19px] text-foreground/70">或拖拽图片到此处</div>
+                                {note ? <div className="text-[12px] text-destructive">{note}</div> : null}
+                                <div className="mt-[10px] flex items-center gap-2 text-[12px] leading-[19px] text-muted-foreground">
+                                    <span className="h-px w-10 bg-border" />
                                     或试试这些
-                                    <span className="h-px w-10 bg-black/10" />
+                                    <span className="h-px w-10 bg-border" />
                                 </div>
                                 <span className="mt-[10px] flex gap-[10px]">
                                     {EXAMPLES.map((src, index) => (
@@ -193,7 +193,7 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                                                 event.preventDefault();
                                                 void pickExample(src, index);
                                             }}
-                                            className="size-[60px] overflow-hidden rounded-[4px] border border-black/[0.06] bg-white hover:border-[#723cf9]"
+                                            className="size-[60px] overflow-hidden rounded-[4px] border border-border bg-background hover:border-selected"
                                         >
                                             <img src={src} alt={`示例商品 ${index + 1}`} className="size-full object-cover" />
                                         </button>
@@ -203,16 +203,16 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                             <video src={`${CASE_DIR}/guide-ai-designer.mp4`} className="h-[208px] w-[370px] shrink-0 object-contain" autoPlay muted loop playsInline aria-label="商品图设计器演示：场景图、功能对比图" />
                         </section>
 
-                        <section className="mt-[10px] rounded-[8px] bg-white">
-                            <header className="flex h-14 items-center gap-6 border-b border-black/[0.08] px-4">
-                                <h3 className="mr-auto text-[14px] font-semibold text-[#202020]">模板推荐</h3>
+                        <section className="mt-[10px] rounded-[8px] bg-background">
+                            <header className="flex h-14 items-center gap-6 border-b border-border px-4">
+                                <h3 className="mr-auto text-[14px] font-semibold text-foreground">模板推荐</h3>
                                 {filters.map((filter) => (
-                                    <label key={filter.label} className="flex items-center gap-1 text-[14px] text-black/60">
+                                    <label key={filter.label} className="flex items-center gap-1 text-[14px] text-foreground/70">
                                         {filter.label}：
                                         <select
                                             value={filter.value}
                                             onChange={(event) => filter.set(event.target.value)}
-                                            className="h-[30px] cursor-pointer rounded-[4px] bg-transparent pr-1 text-[14px] text-black/[0.88] outline-none hover:bg-black/[0.04]"
+                                            className="h-[30px] cursor-pointer rounded-[4px] bg-transparent pr-1 text-[14px] text-foreground outline-none hover:bg-foreground/[0.04]"
                                         >
                                             {["全部", ...filter.options].map((option) => (
                                                 <option key={option} value={option}>
@@ -222,9 +222,9 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                                         </select>
                                     </label>
                                 ))}
-                                <span className="flex h-[27px] w-[202px] items-center gap-1.5 rounded-[4px] bg-black/[0.04] px-[7px]">
-                                    <Search className="size-3.5 text-black/60" />
-                                    <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜索关键词" title="按类型 / 品类 / 版式标签搜索" className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-black/30" />
+                                <span className="flex h-[27px] w-[202px] items-center gap-1.5 rounded-[4px] bg-foreground/[0.04] px-[7px]">
+                                    <Search className="size-3.5 text-foreground/70" />
+                                    <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜索关键词" title="按类型 / 品类 / 版式标签搜索" className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-muted-foreground" />
                                 </span>
                             </header>
                             <div className="flex gap-[10px] p-4" data-testid="designer-home-templates">
@@ -247,17 +247,17 @@ export function DesignerHome({ busy, note, draft, onUpload, onTemplate, onResume
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="w-full py-16 text-center text-[14px] text-black/45">暂无符合条件的模板</div>
+                                    <div className="w-full py-16 text-center text-[14px] text-muted-foreground">暂无符合条件的模板</div>
                                 )}
                             </div>
                         </section>
                     </>
                 ) : (
-                    <section className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[8px] bg-white text-[14px] text-black/45" data-testid="designer-home-empty">
+                    <section className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 rounded-[8px] bg-background text-[14px] text-muted-foreground" data-testid="designer-home-empty">
                         {tab === "我的设计" && draft ? (
                             <>
                                 <div>本地草稿：{draft.layers} 个图层 · {draft.width}×{draft.height}（只保存在当前浏览器）</div>
-                                <button type="button" onClick={onResume} className="h-8 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-4 text-white!">
+                                <button type="button" onClick={onResume} className="h-8 rounded-[6px] bg-primary px-4 text-primary-foreground!">
                                     继续编辑
                                 </button>
                             </>

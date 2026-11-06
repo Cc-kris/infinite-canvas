@@ -174,7 +174,7 @@ function SegmentedButton({
             onClick={onClick}
             className={cn(
                 "inline-flex h-[26px] min-w-10 items-center justify-center rounded-[4px] border px-2 text-[12px] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                active ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-foreground/30",
+                active ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-foreground/30",
             )}
         >
             {children}
@@ -583,7 +583,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                             type="button"
                                             data-testid="ai-posture-image-rules"
                                             onClick={() => setRulesOpen(true)}
-                                            className="absolute right-[18px] top-[14px] z-30 inline-flex items-center text-[12px] leading-6 text-primary hover:opacity-80"
+                                            className="absolute right-[18px] top-[14px] z-30 inline-flex items-center text-[12px] leading-6 text-muted-foreground hover:text-foreground"
                                         >
                                             图片规则
                                             <ChevronRight aria-hidden="true" className="size-3" />
@@ -632,7 +632,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                             onClick={() => setWorkspace((current) => setAiPostureMode(current, mode))}
                                             className={cn(
                                                 "relative h-full text-[14px] leading-[22px] transition-colors",
-                                                workspace.mode === mode ? "text-primary after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-primary" : "text-muted-foreground hover:text-foreground",
+                                                workspace.mode === mode ? "text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-foreground" : "text-muted-foreground hover:text-foreground",
                                             )}
                                         >
                                             {label}
@@ -700,12 +700,12 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                                                 onClick={() => selectPose(pose.id)}
                                                                 className={cn(
                                                                     "rounded-[6px] border px-2 py-1.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                                                    selected ? "border-primary bg-accent" : "border-border bg-background hover:bg-accent",
+                                                                    selected ? "border-selected bg-selected-soft" : "border-border bg-background hover:bg-accent",
                                                                 )}
                                                             >
                                                                 <span className="flex items-center justify-between gap-1">
                                                                     <span className="text-[11px] font-medium leading-4">{pose.label}</span>
-                                                                    {selected ? <Check aria-hidden="true" className="size-3 text-primary" /> : null}
+                                                                    {selected ? <Check aria-hidden="true" className="size-3 text-selected" /> : null}
                                                                 </span>
                                                                 <span title={pose.instruction} className="mt-0.5 block truncate text-[10px] leading-4 text-muted-foreground">
                                                                     {pose.instruction}
@@ -851,7 +851,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                     <summary className="flex cursor-pointer list-none items-center gap-1.5">
                                         <span className="text-[12px] leading-5">补充描述（可选）</span>
                                         <span className="truncate text-[11px] leading-4 text-muted-foreground">光线 / 场景 / 气质</span>
-                                        {workspace.prompt.trim() ? <span className="ml-auto shrink-0 text-[11px] leading-4 text-primary">已填写</span> : null}
+                                        {workspace.prompt.trim() ? <span className="ml-auto shrink-0 text-[11px] leading-4 text-selected">已填写</span> : null}
                                     </summary>
                                     <textarea
                                         data-testid="ai-posture-prompt"
@@ -1374,7 +1374,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                             onClick={() => setPoseMode("library")}
                             className={cn(
                                 "h-full flex-1 rounded-[7px] text-[12px] leading-none transition",
-                                poseMode === "library" ? "bg-card font-medium text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                                poseMode === "library" ? "bg-card font-medium text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                             )}
                         >
                             姿势库
@@ -1387,7 +1387,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                             onClick={() => setPoseMode("custom")}
                             className={cn(
                                 "h-full flex-1 rounded-[7px] text-[12px] leading-none transition",
-                                poseMode === "custom" ? "bg-card font-medium text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                                poseMode === "custom" ? "bg-card font-medium text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                             )}
                         >
                             自定义
@@ -1413,7 +1413,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                         onClick={() => setCategoryId(category.id)}
                                         className={cn(
                                             "flex h-5 w-8 items-center justify-center rounded-md border transition",
-                                            categoryId === category.id ? "border-primary bg-primary/10" : "border-border hover:bg-accent",
+                                            categoryId === category.id ? "border-selected bg-selected-soft" : "border-border hover:bg-accent",
                                         )}
                                     >
                                         <span aria-hidden="true" className={cn("rounded-sm bg-foreground/40", index % 2 === 0 ? "h-2.5 w-1.5" : "h-1.5 w-2.5")} />
@@ -1434,11 +1434,11 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                             onClick={() => setWorkspace((current) => toggleAiPosePreset(current, preset.id))}
                                             className={cn(
                                                 "relative flex aspect-[3/4] items-end justify-center overflow-hidden rounded-md border transition",
-                                                active ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-border bg-muted/40 hover:bg-accent",
+                                                active ? "border-selected bg-selected-soft ring-1 ring-selected" : "border-border bg-muted/40 hover:bg-accent",
                                             )}
                                         >
                                             <span aria-hidden="true" className="mb-1 h-5 w-3 rounded-sm bg-foreground/20" />
-                                            {active ? <Check aria-hidden="true" className="absolute right-0.5 top-0.5 size-3 text-primary" /> : null}
+                                            {active ? <Check aria-hidden="true" className="absolute right-0.5 top-0.5 size-3 text-selected" /> : null}
                                         </button>
                                     );
                                 })}
@@ -1543,7 +1543,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                             data-testid={`ai-pose-saved-apply-${preset.id}`}
                                             onClick={() => setWorkspace((current) => applyAiPosePreset(current, preset.id))}
                                             aria-label={`应用预设 ${preset.label}`}
-                                            className="shrink-0 rounded px-1 text-[11px] leading-4 text-primary hover:underline"
+                                            className="shrink-0 rounded px-1 text-[11px] leading-4 text-muted-foreground hover:text-foreground hover:underline"
                                         >
                                             应用
                                         </button>
@@ -1576,7 +1576,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                     onClick={() => setWorkspace((current) => setAiPoseOutputNum(current, value))}
                                     className={cn(
                                         "h-6 w-7 rounded-md border text-[12px] leading-none transition",
-                                        workspace.outputNum === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:text-foreground",
+                                        workspace.outputNum === value ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:text-foreground",
                                     )}
                                 >
                                     {value}
@@ -1693,7 +1693,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                             onClick={() => setPreviewSceneId(scene.id)}
                                             className={cn(
                                                 "h-5 rounded border px-1.5 text-[11px] leading-none",
-                                                previewScene.id === scene.id ? "border-primary text-primary" : "border-border text-muted-foreground hover:bg-accent",
+                                                previewScene.id === scene.id ? "border-selected text-selected" : "border-border text-muted-foreground hover:bg-accent",
                                             )}
                                         >
                                             {index + 1}

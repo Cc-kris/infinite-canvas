@@ -16,9 +16,9 @@ import { z } from "zod";
 
 export const DRESS_WEAR_SET_TOOL_ID = "DRESS_WEAR_SET";
 
-/** 上传限制：页面实测文案「最多上传5张图，10M以内，384*384~4096*4096」。 */
+/** 上传限制：原站「最多上传16张图，10M以内，384*384~4096*4096」。 */
 export const DRESS_UPLOAD_LIMITS = {
-    maxFiles: 5,
+    maxFiles: 16,
     maxBytes: 10 * 1024 * 1024,
     minSide: 384,
     maxSide: 4096,

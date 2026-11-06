@@ -308,7 +308,7 @@ function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pend
 
     return (
         <li data-testid={`tool-result-item-${index}`} data-kind={item.kind} data-dropped={dropped} className="overflow-hidden rounded-xl border border-border bg-background">
-            <div className="flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900">
+            <div className="flex aspect-video items-center justify-center bg-muted">
                 {dropped ? (
                     <span className="flex flex-col items-center gap-1 px-3 text-center text-[11px] text-muted-foreground">
                         <ImageOff aria-hidden="true" className="size-5" />

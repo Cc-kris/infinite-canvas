@@ -1,0 +1,51 @@
+{
+  "toolId": "NEW_REPLACE_BG_V2",
+  "route": "/tools/product-design/new-replace-bg-v2",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-06T03:58:42.822Z",
+  "before": {
+    "images": [
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/examples/pro",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily",
+      "http://127.0.0.1:3000/__cases/new-replace-bg-v2/scenes/daily"
+    ],
+    "issues": []
+  },
+  "submitBefore": null,
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": "1"
+  },
+  "dry": true,
+  "ok": true,
+  "issuesAtGate": []
+}

@@ -224,11 +224,11 @@ export function MaterialSourcePanel({
                                 onClick={() => setTab(item.id)}
                                 className={cn(
                                     "relative flex h-[40px] items-center text-[14px] leading-[22px] transition-colors",
-                                    active ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground",
+                                    active ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
                                 )}
                             >
                                 {item.label}
-                                {active ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-primary" /> : null}
+                                {active ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
                             </button>
                         );
                     })}
@@ -263,7 +263,7 @@ export function MaterialSourcePanel({
                                 }}
                                 className={cn(
                                     "flex h-[186px] cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] border border-dashed transition-colors",
-                                    dragging ? "border-primary bg-primary/5" : "border-border bg-muted/40 hover:border-primary/50",
+                                    dragging ? "border-selected bg-selected-soft" : "border-border bg-muted/40 hover:border-selected",
                                     (busy || disabled) && "cursor-not-allowed opacity-60",
                                 )}
                             >
@@ -302,7 +302,7 @@ export function MaterialSourcePanel({
                                             disabled={busy || disabled}
                                             data-testid="material-passed-item"
                                             onClick={() => pickRecord(record)}
-                                            className="flex w-full flex-col gap-1 overflow-hidden rounded-md border border-border bg-background p-1 text-left transition hover:border-primary/60 disabled:opacity-50"
+                                            className="flex w-full flex-col gap-1 overflow-hidden rounded-md border border-border bg-background p-1 text-left transition hover:border-selected disabled:opacity-50"
                                         >
                                             <span className="flex aspect-square w-full items-center justify-center overflow-hidden rounded bg-muted">
                                                 {record.url ? (
@@ -340,7 +340,7 @@ export function MaterialSourcePanel({
                                             disabled={busy || disabled}
                                             data-testid="material-library-item"
                                             onClick={() => void pickLibrary(asset.id)}
-                                            className="flex w-full flex-col gap-1 overflow-hidden rounded-md border border-border bg-background p-1 text-left transition hover:border-primary/60 disabled:opacity-50"
+                                            className="flex w-full flex-col gap-1 overflow-hidden rounded-md border border-border bg-background p-1 text-left transition hover:border-selected disabled:opacity-50"
                                         >
                                             <span className="flex aspect-square w-full items-center justify-center overflow-hidden rounded bg-muted">
                                                 {assetCoverUrl(asset) ? (
@@ -362,7 +362,7 @@ export function MaterialSourcePanel({
                         )
                     ) : null}
 
-                    {error ? <p className="mt-2 text-[12px] leading-[18px] text-red-500">{error}</p> : null}
+                    {error ? <p className="mt-2 text-[12px] leading-[18px] text-destructive">{error}</p> : null}
                 </div>
             </div>
         </div>

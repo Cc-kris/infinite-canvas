@@ -267,7 +267,7 @@ function PerspectiveWarpCanvas({
         return (
             <div ref={frameRef} className="flex h-full w-full items-center justify-center p-[25px]" data-testid="replace-goods-canvas">
                 <div
-                    className="flex h-full w-full flex-col items-center rounded-xl border border-black/15 text-center"
+                    className="flex h-full w-full flex-col items-center rounded-xl border border-border text-center"
                     data-testid="replace-goods-canvas-empty"
                     onDragOver={(event) => event.preventDefault()}
                     onDrop={(event) => {
@@ -833,7 +833,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                 configSide="right"
                 className="min-h-0 flex-1 gap-[10px] overflow-hidden"
                 config={
-                    <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-lg bg-[#edeff5]" aria-label="生成结果与案例">
+                    <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-lg bg-canvas" aria-label="生成结果与案例">
                         <div role="tablist" aria-label="结果区页签" className="flex h-[42px] shrink-0 items-center gap-3.5 bg-card px-3">
                             {REPLACE_TABS.map((item) => (
                                 <button
@@ -845,11 +845,11 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     onClick={() => setTab(item.id)}
                                     className={cn(
                                         "relative flex h-[42px] items-center text-sm leading-[22px] transition-colors",
-                                        tab === item.id ? "text-primary" : "text-foreground hover:text-primary",
+                                        tab === item.id ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                                     )}
                                 >
                                     {item.label}
-                                    {tab === item.id ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-primary" /> : null}
+                                    {tab === item.id ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
                                 </button>
                             ))}
                             <button
@@ -859,7 +859,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 onClick={() => setTab("history")}
                                 className={cn(
                                     "ml-auto flex items-center gap-1 text-[13px] leading-5 transition-colors",
-                                    tab === "history" ? "text-primary" : "text-primary/80 hover:text-primary",
+                                    tab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
                                 )}
                             >
                                 <History className="size-3.5" aria-hidden />
@@ -938,10 +938,10 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                     </aside>
                 }
             >
-                {/* 原站 1600×1000：左卡 886 宽白底；内容区 #edeff5（顶部温馨提示胶囊 + 居中 700×700 白色画布卡）；底部 48 高单行参数条。 */}
+                {/* 原站 1600×1000：左卡 886 宽面板底；内容区 bg-canvas（顶部温馨提示胶囊 + 居中 700×700 画布卡）；底部 48 高单行参数条。 */}
                 <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card">
-                    <div className="relative flex min-h-0 flex-1 flex-col items-center gap-2.5 bg-[#edeff5] p-4">
-                        <p className="shrink-0 rounded-md bg-primary/15 px-2.5 py-[3px] text-sm leading-[22px] text-foreground">
+                    <div className="relative flex min-h-0 flex-1 flex-col items-center gap-2.5 bg-canvas p-4">
+                        <p className="shrink-0 rounded-md bg-foreground/[0.06] px-2.5 py-[3px] text-sm leading-[22px] text-foreground">
                             💡 温馨提示：支持上传多张商品图进行批量替换
                         </p>
                         {/* 多商品（每个 SKU 一份替换商品图）+ 定位/蒙版控件：原站上传参考图前不显示 */}
@@ -958,7 +958,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                             className={cn(
                                                 "h-7 shrink-0 rounded-[6px] border px-2 text-[12px] transition",
                                                 item.id === workspace.activeSkuId
-                                                    ? "border-primary text-primary"
+                                                    ? "border-border bg-accent font-medium text-foreground"
                                                     : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                                             )}
                                         >
@@ -973,7 +973,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     title="新增商品"
                                     onClick={() => setWorkspace((current) => addSku(current))}
                                     disabled={workspace.skus.length >= REPLACE_GOODS_MAX_SKUS}
-                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-accent disabled:opacity-40 dark:hover:bg-white/10"
                                 >
                                     <Plus className="size-3.5" />
                                 </button>
@@ -992,7 +992,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                         setWorkspace((current) => removeSku(current, removed));
                                     }}
                                     disabled={workspace.skus.length <= 1}
-                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-accent disabled:opacity-40 dark:hover:bg-white/10"
                                 >
                                     <Trash2 className="size-3.5" />
                                 </button>
@@ -1049,7 +1049,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                             className={cn(
                                                 "h-6 rounded-[4px] border px-1.5 text-[11px] transition",
                                                 workspace.mode === mode.id
-                                                    ? "border-primary text-primary"
+                                                    ? "border-selected bg-selected-soft text-foreground"
                                                     : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                                             )}
                                         >
@@ -1070,7 +1070,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                             className={cn(
                                                 "h-6 rounded-[4px] border px-1.5 text-[11px] transition disabled:opacity-40",
                                                 canvasTool === item.id
-                                                    ? "border-primary text-primary"
+                                                    ? "border-border bg-accent font-medium text-foreground"
                                                     : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                                             )}
                                         >
@@ -1137,7 +1137,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                     </div>
 
                     {/* 底部单行参数条：生成尺寸 / 参考图场景变化程度（不变—高）/ 生成张数 / 立即生成（原站 48 高） */}
-                    <div className="flex h-12 shrink-0 items-center gap-4 border-t-[3px] border-[#f5f7fa] px-4" data-testid="replace-goods-param-bar">
+                    <div className="flex h-12 shrink-0 items-center gap-4 border-t-[3px] border-border px-4" data-testid="replace-goods-param-bar">
                         <span className="shrink-0 text-[12px] leading-5 text-muted-foreground">
                             生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}
                         </span>
@@ -1156,7 +1156,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                                 return active ? updateSku(current, active.id, { sceneChange: option.id as ReplaceGoodsSceneChange }) : current;
                                             })
                                         }
-                                        className={cn("shrink-0 transition", sku?.sceneChange === option.id ? "text-primary" : "text-foreground hover:text-primary")}
+                                        className={cn("shrink-0 transition", sku?.sceneChange === option.id ? "font-medium text-selected" : "text-foreground hover:text-selected")}
                                     >
                                         {option.label}
                                     </button>
@@ -1192,7 +1192,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     onClick={() => setWorkspace((current) => ({ ...current, outputNum: value }))}
                                     className={cn(
                                         "h-6 rounded-[4px] px-1.5 transition",
-                                        workspace.outputNum === value ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
+                                        workspace.outputNum === value ? "bg-selected-soft text-foreground" : "text-muted-foreground hover:text-foreground",
                                     )}
                                 >
                                     {value}张

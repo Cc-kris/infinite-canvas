@@ -35,7 +35,7 @@ export const TASK_STATUS_META: Record<ToolTaskStatus, TaskStatusMeta> = {
 };
 
 const TONE_CLASS: Record<TaskStatusTone, string> = {
-    neutral: "border-stone-300 bg-stone-100 text-stone-700 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200",
+    neutral: "border-border bg-muted text-foreground/70",
     progress: "border-sky-300 bg-sky-50 text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-200",
     success: "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
     danger: "border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-200",

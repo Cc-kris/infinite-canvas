@@ -102,8 +102,8 @@ describe("validateDressWearSet", () => {
         expect(issues.some((issue) => issue.level === "error" && issue.field === "images")).toBe(true);
     });
 
-    test("超过 5 张 → 阻断", () => {
-        const issues = validateDressWearSet(createDressWearSetValues(), { referenceCount: 6 });
+    test("超过 16 张 → 阻断", () => {
+        const issues = validateDressWearSet(createDressWearSetValues(), { referenceCount: 17 });
         expect(issues.some((issue) => issue.field === "images" && issue.level === "error")).toBe(true);
     });
 
@@ -249,10 +249,10 @@ describe("buildDressWearSetInput", () => {
 });
 
 describe("toDressReferences", () => {
-    test("保留 storageKey 与 url，最多 5 张", () => {
-        const many = Array.from({ length: 7 }, (_, index) => ({ ...reference, id: `a${index}` }));
+    test("保留 storageKey 与 url，最多 16 张", () => {
+        const many = Array.from({ length: 18 }, (_, index) => ({ ...reference, id: `a${index}` }));
         const references = toDressReferences(many);
-        expect(references).toHaveLength(5);
+        expect(references).toHaveLength(16);
         expect(references[0]).toMatchObject({ id: "a0", dataUrl: "blob:front", storageKey: "tool-asset:v1:asset-1" });
     });
 });

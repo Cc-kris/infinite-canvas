@@ -559,11 +559,11 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
 
     const busyBlocked = busy || !image;
 
-    // 原站 1600×1000：画布 825 | 配置 255（白卡 820 + 10 间距 + 32 高「立即生成」）| 结果 300 灰底。
+    // 原站 1600×1000：画布 825 | 配置 255（面板卡 820 + 10 间距 + 32 高「立即生成」）| 结果 300 灰底。
     const configColumn = (
         <div data-testid="tool-config-column" data-region="config" className="flex min-h-0 min-w-0 flex-col gap-[10px]">
             <Edit8Config className="min-h-0 w-full flex-1 border-0">
-                <Edit8Section title={<span className="text-primary">Step 1：上传待修复图</span>} className="border-b-0">
+                <Edit8Section title={<span className="text-foreground">Step 1：上传待修复图</span>} className="border-b-0">
                     <ToolAssetInput
                         toolId={TOOL_ID}
                         maxCount={1}
@@ -585,7 +585,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             <button
                                 type="button"
                                 data-testid="fix-color-reset-image"
-                                className="shrink-0 text-[11px] leading-4 text-primary hover:underline"
+                                className="shrink-0 text-[11px] leading-4 text-muted-foreground hover:text-foreground hover:underline"
                                 onClick={() => {
                                     imageRef.current = null;
                                     setImage(null);
@@ -666,7 +666,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             onClick={() => setToolMode("brush")}
                             className={cn(
                                 "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
-                                state.tool === "brush" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
+                                state.tool === "brush" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             <Paintbrush className="size-3.5" aria-hidden />
@@ -680,7 +680,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             onClick={() => setToolMode("eraser")}
                             className={cn(
                                 "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
-                                state.tool === "eraser" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
+                                state.tool === "eraser" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             <Eraser className="size-3.5" aria-hidden />
@@ -776,7 +776,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                 ) : null}
             </section>
             {configColumn}
-            <section data-region="results" data-testid="fix-color-results-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+            <section data-region="results" data-testid="fix-color-results-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-canvas">
                 <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
                     <button
                         type="button"
@@ -784,7 +784,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         aria-selected={resultTab === "result"}
                         data-testid="edit8-tab-result"
                         onClick={() => setResultTab("result")}
-                        className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                        className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}
                     >
                         生成结果
                     </button>
@@ -792,7 +792,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         type="button"
                         data-testid="edit8-tab-history"
                         onClick={() => setResultTab("history")}
-                        className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                        className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
                     >
                         <History className="size-3.5" aria-hidden />
                         历史记录
@@ -840,7 +840,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                             className={cn(
                                                 "h-6 rounded-md px-2 text-[11px] leading-none transition",
                                                 compareMode === mode.id
-                                                    ? "bg-primary text-primary-foreground"
+                                                    ? "bg-accent font-medium text-foreground"
                                                     : "text-muted-foreground hover:text-foreground",
                                             )}
                                         >
@@ -849,7 +849,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     ))}
                                 </div>
                                 {stale ? (
-                                    <p className="mt-1 text-[11px] leading-4 text-[#d97706]">参数已改动，下面这张图来自旧版本，请重新提交。</p>
+                                    <p className="mt-1 text-[11px] leading-4 text-amber-700 dark:text-amber-300">参数已改动，下面这张图来自旧版本，请重新提交。</p>
                                 ) : null}
                                 <div className="relative mt-2 overflow-hidden rounded-lg border border-border">
                                     {compareMode === "side" ? null : <img src={view.imageUrl} alt="校正结果" className="block w-full" />}
@@ -962,7 +962,7 @@ function ColorField({
                 />
             </div>
             {normalizeColorHex(draft) ? null : (
-                <span className="text-[11px] text-red-600 dark:text-red-400">需要 #RRGGBB 或 #RRGGBBAA</span>
+                <span className="text-[11px] text-destructive">需要 #RRGGBB 或 #RRGGBBAA</span>
             )}
         </label>
     );
@@ -1386,7 +1386,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         disabled={busy || !library.length}
                                         title={library.length ? "从作品库（本地资产库）选择" : "作品库暂时没有可用的图片"}
                                         onClick={() => setLibraryOpen((open) => !open)}
-                                        className="inline-flex h-8 items-center rounded-md border border-primary px-[15px] text-sm text-primary transition hover:bg-primary/5 disabled:opacity-50"
+                                        className="inline-flex h-8 items-center rounded-md border border-border bg-background px-[15px] text-sm text-foreground transition hover:bg-accent disabled:opacity-50"
                                     >
                                         从作品库选择
                                     </button>
@@ -1430,7 +1430,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         onClick={() => commitState({ ...stateRef.current, personType: option.value }, imageRef.current)}
                                         className={cn(
                                             "h-[26px] rounded-md border px-[15px] text-xs leading-none transition disabled:opacity-40",
-                                            state.personType === option.value ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground hover:border-primary/60",
+                                            state.personType === option.value ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-selected",
                                         )}
                                     >
                                         {option.label}
@@ -1453,7 +1453,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         onClick={() => commitState({ ...stateRef.current, outputNum: count }, imageRef.current)}
                                         className={cn(
                                             "h-[26px] w-[41px] rounded-md border text-xs leading-none transition",
-                                            state.outputNum === count ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground hover:border-primary/60",
+                                            state.outputNum === count ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-selected",
                                         )}
                                     >
                                         {count}
@@ -1476,7 +1476,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                         {busy ? (progress ? `生成中 ${progress.done}/${progress.total}` : "生成中…") : "立即生成"}
                     </button>
                 </div>
-                    <section data-testid="hand-repair-results-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+                    <section data-testid="hand-repair-results-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-canvas">
                         <div role="tablist" aria-label="结果页签" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
                             <button
                                 type="button"
@@ -1484,7 +1484,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 aria-selected={resultTab === "result"}
                                 data-testid="hand-repair-tab-result"
                                 onClick={() => setResultTab("result")}
-                                className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                                className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}
                             >
                                 生成结果
                             </button>
@@ -1494,7 +1494,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 aria-selected={resultTab === "history"}
                                 data-testid="hand-repair-tab-history"
                                 onClick={() => setResultTab("history")}
-                                className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                                className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
                             >
                                 <History className="size-3.5" aria-hidden />
                                 历史记录
@@ -1611,7 +1611,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 </p>
                             ) : null}
                             {view.errors.length > 0 ? (
-                                <ul data-testid="hand-repair-errors" className="mt-2 space-y-1 text-[11px] text-red-700 dark:text-red-300">
+                                <ul data-testid="hand-repair-errors" className="mt-2 space-y-1 text-[11px] text-destructive">
                                     {view.errors.map((error) => (
                                         <li key={error}>{error}</li>
                                     ))}

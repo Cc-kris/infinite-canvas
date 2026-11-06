@@ -183,7 +183,7 @@ export const edit8PrimaryButtonClass =
 export const edit8InputClass =
     "w-full rounded-lg border border-border bg-card px-[11px] py-1 text-[13px] leading-5 text-foreground outline-none transition focus:border-foreground/40 disabled:opacity-60";
 
-/** 分段选择：1/2/3/4 张数按钮，rounded-md，选中 bg-primary/10 + border-primary/40。 */
+/** 分段选择：1/2/3/4 张数按钮，rounded-md，选中 border-selected + bg-selected-soft。 */
 export function Edit8Chip({ selected, onClick, disabled, children }: { selected: boolean; onClick: () => void; disabled?: boolean; children: ReactNode }) {
     return (
         <button
@@ -193,7 +193,7 @@ export function Edit8Chip({ selected, onClick, disabled, children }: { selected:
             onClick={onClick}
             className={cn(
                 "inline-flex h-6 min-w-6 items-center justify-center rounded-md border px-2 text-[11px] leading-none transition disabled:opacity-50",
-                selected ? "border-primary/40 bg-primary/10 text-foreground" : "border-border bg-card text-foreground hover:border-foreground/30 hover:bg-muted",
+                selected ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-foreground/30 hover:bg-muted",
             )}
         >
             {children}
@@ -203,17 +203,17 @@ export function Edit8Chip({ selected, onClick, disabled, children }: { selected:
 
 /* ------------------------------------------------------------------ *
  * 以下为 2026-11-05 画布类工具空态 1:1 收口追加（向后兼容，不改上面已有组件）。
- * 原站实测（1600×1000）：主按钮渐变 #3a7df9→#723cf9、圆角 6、32 高；次按钮白底 1px 紫边；
- * 结果列页签 14px、选中紫字 + 2px 紫色下划线，右侧 12px 紫色「历史记录」；空态 antd Empty（simple）。
+ * 原站实测（1600×1000）：主按钮圆角 6、32 高；次按钮 1px 描边；配色按无限画布 token（深石色主按钮）。
+ * 结果列页签 14px、选中前景色 + 2px 下划线，右侧 12px「历史记录」；空态 antd Empty（simple）。
  * ------------------------------------------------------------------ */
 
-/** 原站画布内主按钮（从本地上传 / 上传图片 / 开始精修）：渐变紫、圆角 6。 */
+/** 原站画布内主按钮（从本地上传 / 上传图片 / 开始精修）：bg-primary、圆角 6。 */
 export const edit8GradientButtonClass =
-    "inline-flex h-8 shrink-0 items-center justify-center gap-2 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-[15px] text-[14px] leading-none text-white shadow-[0_2px_0_rgba(122,5,255,0.06)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50";
+    "inline-flex h-8 shrink-0 items-center justify-center gap-2 rounded-[6px] bg-primary px-[15px] text-[14px] leading-none text-primary-foreground shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50";
 
-/** 原站次按钮（从作品库选择 / 批量高清放大）：白底、1px 紫边、紫字。 */
+/** 原站次按钮（从作品库选择 / 批量高清放大）：面板底、1px 描边、前景字。 */
 export const edit8OutlineButtonClass =
-    "inline-flex h-8 shrink-0 items-center justify-center gap-2 rounded-[6px] border border-primary bg-card px-[15px] text-[14px] leading-none text-primary transition hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50";
+    "inline-flex h-8 shrink-0 items-center justify-center gap-2 rounded-[6px] border border-border bg-card px-[15px] text-[14px] leading-none text-foreground transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50";
 
 /** 上传入库：真实 `uploadToolAsset` / `adoptLibraryAsset`，失败原因原样返回给界面。 */
 export function useEdit8Upload(constraints: Partial<ToolAssetConstraints> | undefined, onPick: (record: ToolAssetRecord) => void) {
@@ -342,7 +342,7 @@ export function Edit8UploadCard({
                 setDragging(false);
                 if (!locked) void upload.pickFile(event.dataTransfer?.files?.[0]);
             }}
-            className={cn("flex max-w-full flex-col items-center overflow-hidden rounded-[12px] bg-card text-center", dragging && "ring-2 ring-primary/40", className)}
+            className={cn("flex max-w-full flex-col items-center overflow-hidden rounded-[12px] bg-card text-center", dragging && "ring-2 ring-selected", className)}
         >
             {media}
             {heading}
@@ -400,7 +400,7 @@ export function Edit8UploadCard({
     );
 }
 
-/** 原站配置列 antd Dragger：虚线框 + 紫色上传图标 +「拖拽 或 点击上传 …」+ 限制提示。 */
+/** 原站配置列 antd Dragger：虚线框 + 上传图标 +「拖拽 或 点击上传 …」+ 限制提示。 */
 export function Edit8Dropzone({
     target,
     hint,
@@ -447,16 +447,16 @@ export function Edit8Dropzone({
                     if (!locked) void upload.pickFile(event.dataTransfer?.files?.[0]);
                 }}
                 className={cn(
-                    "flex w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] border border-dashed border-[#d9d9d9] bg-black/[0.02] px-2 py-4 text-center transition hover:border-primary",
-                    dragging && "border-primary",
+                    "flex w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] border border-dashed border-border bg-foreground/[0.02] px-2 py-4 text-center transition hover:border-selected",
+                    dragging && "border-selected",
                     locked && "cursor-not-allowed opacity-60",
                 )}
             >
-                <Upload className="size-[18px] text-primary" aria-hidden />
+                <Upload className="size-[18px] text-foreground/70" aria-hidden />
                 <p className="m-0! text-[14px] leading-5 text-foreground">
-                    拖拽 或 <span className="text-primary">点击上传</span> {target}
+                    拖拽 或 <span className="font-medium text-foreground">点击上传</span> {target}
                 </p>
-                <div className="text-[12px] leading-4 text-[#999]">{hint}</div>
+                <div className="text-[12px] leading-4 text-muted-foreground">{hint}</div>
             </div>
             {upload.error ? (
                 <p role="alert" className="m-0! mt-1! text-[11px] text-destructive">
@@ -509,11 +509,11 @@ export function Edit8Switch({
                 onChange={(event) => onChange(event.target.checked)}
                 className="peer absolute inset-0 z-10 m-0 cursor-pointer appearance-none opacity-0 disabled:cursor-not-allowed"
             />
-            <span aria-hidden className="absolute inset-0 rounded-full bg-black/25 transition peer-checked:bg-primary" />
+            <span aria-hidden className="absolute inset-0 rounded-full bg-foreground/25 transition peer-checked:bg-primary" />
             <span
                 aria-hidden
                 className={cn(
-                    "absolute rounded-full bg-white shadow-[0_2px_4px_rgba(0,35,11,0.2)] transition-all",
+                    "absolute rounded-full bg-background shadow-[0_2px_4px_rgba(0,35,11,0.2)] transition-all",
                     small ? "left-[2px] top-[2px] size-3 peer-checked:left-[14px]" : "left-[2px] top-[2px] size-[18px] peer-checked:left-6",
                 )}
             />
@@ -521,7 +521,7 @@ export function Edit8Switch({
     );
 }
 
-/** 原站结果列页签头：42 高、14px，选中紫字 + 2px 紫色下划线；右侧 12px 紫色「历史记录」。 */
+/** 原站结果列页签头：42 高、14px，选中前景色 + 2px 下划线；右侧 12px「历史记录」。 */
 export function Edit8ResultTabs({
     tabs,
     active,
@@ -551,7 +551,7 @@ export function Edit8ResultTabs({
                     onClick={() => onTabChange(tab.id)}
                     className={cn(
                         "relative h-[42px] text-[14px] leading-[22px] transition",
-                        active === tab.id ? "text-primary! after:absolute after:inset-x-0 after:bottom-[1px] after:h-[2px] after:bg-primary" : "text-foreground! hover:text-primary!",
+                        active === tab.id ? "text-foreground! after:absolute after:inset-x-0 after:bottom-[1px] after:h-[2px] after:bg-foreground" : "text-muted-foreground! hover:text-foreground!",
                     )}
                 >
                     {tab.label}
@@ -563,7 +563,7 @@ export function Edit8ResultTabs({
                     data-testid={historyTestId}
                     aria-pressed={historyActive}
                     onClick={onHistory}
-                    className={cn("ml-auto! inline-flex items-center gap-1 self-start pt-[8px] text-[12px] leading-[19px] text-primary! hover:opacity-80", historyActive && "font-medium")}
+                    className={cn("ml-auto! inline-flex items-center gap-1 self-start pt-[8px] text-[12px] leading-[19px] text-muted-foreground! hover:text-foreground!", historyActive && "font-medium text-foreground!")}
                 >
                     <History className="size-3" aria-hidden />
                     历史记录

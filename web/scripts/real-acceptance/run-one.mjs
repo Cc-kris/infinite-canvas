@@ -214,14 +214,14 @@ const RECIPES = {
             if (await page.locator("[data-testid=scene-back]").count()) await page.click("[data-testid=scene-back]");
             await upload(page, "[data-testid=scene-goods] input[type=file]", "product-watch.jpg");
             await sleep(2500);
-            // 蒙版模式：上传与商品图同尺寸的主体蒙版（白=主体），再确认抠图
-            await page.click("[data-testid=scene-cutout-mode-mask]");
-            await sleep(800);
+            // 上传后自动弹抠图编辑弹窗：上传与商品图同尺寸的主体蒙版（白=主体），再确认使用
+            await page.waitForSelector("[data-testid=scene-cutout]", { timeout: 20000 });
             await upload(page, "[data-testid=scene-cutout] input[type=file]", "mask-watch.png");
-            await sleep(2500);
+            await sleep(1500);
             await page.click("[data-testid=scene-cutout-confirm]");
-            await sleep(800);
-            // 必须选一张场景参考图
+            await page.waitForSelector("[data-testid=scene-cutout]", { state: "detached", timeout: 20000 });
+            // 必须选一张场景参考图（没有参考图时抽屉自动打开，否则先点「参考图」）
+            if (!(await page.locator("[data-testid=scene-drawer]").count())) await page.click("[data-testid=scene-drawer-toggle]");
             await page.click("[data-testid=scene-drawer-outdoor-02]");
             await page.waitForSelector("[data-testid=scene-reference-image]", { timeout: 20000 });
             await page.click("[data-testid=scene-count-1]");

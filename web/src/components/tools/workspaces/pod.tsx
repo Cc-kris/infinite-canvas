@@ -128,7 +128,7 @@ function TilingGlyph({ columns, rows, stagger, active }: { columns: number; rows
                 return (
                     <span
                         key={index}
-                        className={cn("rounded-[1px]", active ? "bg-[var(--primary)]" : "bg-current opacity-60")}
+                        className={cn("rounded-[1px]", active ? "bg-selected" : "bg-current opacity-60")}
                         style={shifted ? { transform: "translateX(50%)" } : undefined}
                     />
                 );
@@ -160,8 +160,8 @@ export function TilingPresetSelect({
                         className={cn(
                             "flex min-h-[40px] items-center gap-2 rounded-lg border px-3 text-xs transition",
                             active
-                                ? "border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--foreground)]"
-                                : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--primary)]/60",
+                                ? "border-selected bg-selected-soft text-selected"
+                                : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-selected",
                             disabled && "cursor-not-allowed opacity-50",
                         )}
                     >
@@ -246,7 +246,7 @@ export function PodMaterialForm({
                                     <div
                                         className={cn(
                                             "flex items-center gap-2 rounded-lg border p-2",
-                                            active ? "border-[var(--primary)] bg-[var(--primary)]/5" : "border-[var(--border)]",
+                                            active ? "border-selected bg-selected-soft" : "border-[var(--border)]",
                                         )}
                                     >
                                         <button
@@ -277,7 +277,7 @@ export function PodMaterialForm({
                                             aria-label={`移除素材 ${material.name}`}
                                             disabled={disabled}
                                             onClick={() => onRemove(material.assetId)}
-                                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:border-red-400 hover:text-red-500 disabled:opacity-50"
+                                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:border-destructive hover:text-destructive disabled:opacity-50"
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </button>
@@ -480,7 +480,7 @@ export function ProductPlacementCanvas({
                 {product?.url ? (
                     <div
                         aria-hidden="true"
-                        className="pointer-events-none absolute rounded border border-dashed border-[var(--primary)]/70"
+                        className="pointer-events-none absolute rounded border border-dashed border-selected/70"
                         style={{
                             left: `${area.x * 100}%`,
                             top: `${area.y * 100}%`,
@@ -515,7 +515,7 @@ export function ProductPlacementCanvas({
                                     src={material.url}
                                     alt={material.name}
                                     draggable={false}
-                                    className={cn("w-full rounded-sm", active ? "ring-2 ring-[var(--primary)]" : "opacity-95")}
+                                    className={cn("w-full rounded-sm", active ? "ring-2 ring-selected" : "opacity-95")}
                                 />
                             ) : (
                                 <div className="w-full rounded-sm bg-[var(--muted)] py-4 text-center text-[11px] text-[var(--muted-foreground)]">
@@ -543,7 +543,7 @@ export function ProductPlacementCanvas({
                             onClick={() => onSelectColor(option.id === DEFAULT_SDS_COLOR_ID ? DEFAULT_SDS_COLOR_ID : option.id)}
                             className={cn(
                                 "flex min-h-[36px] items-center gap-1 rounded-full border px-3 text-xs",
-                                active ? "border-[var(--primary)] text-[var(--foreground)]" : "border-[var(--border)] text-[var(--muted-foreground)]",
+                                active ? "border-selected text-foreground" : "border-[var(--border)] text-[var(--muted-foreground)]",
                                 disabled && "opacity-50",
                             )}
                         >
@@ -966,7 +966,7 @@ export function SdsDesignWorkspace() {
                                 onClick={() => setResultTab(key)}
                                 className={cn(
                                     "flex h-[41px] items-center px-0 text-[14px] leading-[22px]",
-                                    resultTab === key ? "text-primary" : "text-muted-foreground",
+                                    resultTab === key ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                                 )}
                             >
                                 {label}
@@ -983,7 +983,7 @@ export function SdsDesignWorkspace() {
                         }}
                         className={cn(
                             "flex h-[41px] items-center text-[14px] leading-[22px]",
-                            resultTab === "history" ? "text-primary" : "text-muted-foreground",
+                            resultTab === "history" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                         )}
                     >
                         历史记录
@@ -994,7 +994,7 @@ export function SdsDesignWorkspace() {
                     {resultTab === "cases" ? (
                         <div className="p-4" data-testid="sds-cases">
                             {casesHint ? (
-                                <p className="mb-3 rounded-[8px] border border-[#FFE0B2] bg-[#FFF8E1] px-2 py-1.5 text-[12px] text-[#8A6D3B]">
+                                <p className="mb-3 rounded-[8px] border border-amber-500/30 bg-amber-500/10 px-2 py-1.5 text-[12px] text-amber-700 dark:text-amber-300">
                                     {casesHint}
                                 </p>
                             ) : null}
@@ -1021,15 +1021,15 @@ export function SdsDesignWorkspace() {
                                                 className={cn(
                                                     "flex h-5 w-5 items-center justify-center rounded-full border",
                                                     slot.item
-                                                        ? "border-emerald-500 text-emerald-600"
+                                                        ? "border-emerald-500 text-emerald-600 dark:text-emerald-400"
                                                         : missing.includes(slot.index)
-                                                          ? "border-amber-500 text-amber-600"
+                                                          ? "border-amber-500 text-amber-600 dark:text-amber-400"
                                                           : "border-border text-muted-foreground",
                                                 )}
                                             >
                                                 {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
                                             </span>
-                                            <span className="min-w-0 flex-1 truncate text-[rgba(0,0,0,0.85)]">
+                                            <span className="min-w-0 flex-1 truncate text-foreground">
                                                 {slot.index + 1}. {slot.name}
                                             </span>
                                             <span className="text-[12px] text-muted-foreground">
@@ -1043,7 +1043,7 @@ export function SdsDesignWorkspace() {
                             {stageHasContent ? (
                                 <>
                                     {result.stale ? (
-                                        <p className="rounded-[8px] border border-amber-300 bg-amber-50 px-2 py-1.5 text-[12px] text-amber-700">
+                                        <p className="rounded-[8px] border border-amber-500/30 bg-amber-500/10 px-2 py-1.5 text-[12px] text-amber-700 dark:text-amber-300">
                                             结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
                                         </p>
                                     ) : null}
@@ -1066,17 +1066,17 @@ export function SdsDesignWorkspace() {
                                             type="button"
                                             disabled={running}
                                             onClick={() => void handleRepair()}
-                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-primary px-3 text-[13px] text-primary disabled:opacity-50"
+                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-border bg-background px-3 text-[13px] text-foreground hover:bg-accent disabled:opacity-50"
                                         >
                                             {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
                                             只补生成缺失的 {sdsRepairIndexes(result).length} 张
                                         </button>
                                     ) : null}
 
-                                    {blocked && issues[0] ? <p className="text-[12px] text-amber-600">{issues[0].message}</p> : null}
-                                    {errorText ? <p className="text-[12px] text-red-500">{errorText}</p> : null}
+                                    {blocked && issues[0] ? <p className="text-[12px] text-amber-600 dark:text-amber-400">{issues[0].message}</p> : null}
+                                    {errorText ? <p className="text-[12px] text-destructive">{errorText}</p> : null}
                                     {notice ? <p className="text-[12px] text-muted-foreground">{notice}</p> : null}
-                                    {!modelReady ? <p className="text-[12px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
+                                    {!modelReady ? <p className="text-[12px] text-amber-600 dark:text-amber-400">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
                                 </>
                             ) : null}
 
@@ -1125,13 +1125,13 @@ export function SdsDesignWorkspace() {
                                 disabled={running || stageBusy}
                                 onClick={() => setMaterialPanelOpen(true)}
                                 data-testid="sds-upload-material"
-                                className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-60"
+                                className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] bg-primary px-[15px] text-[14px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-60"
                                 style={{ marginTop: 12 }}
                             >
                                 {stageBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                                 上传素材
                             </button>
-                            {stageError ? <p className="text-[12px] text-red-500">{stageError}</p> : null}
+                            {stageError ? <p className="text-[12px] text-destructive">{stageError}</p> : null}
                         </div>
                     )}
                 </div>
@@ -1179,13 +1179,13 @@ export function SdsDesignWorkspace() {
                                         onClick={() => update((previous) => ({ ...previous, colorId: option.id }))}
                                         className={cn(
                                             "flex h-[26px] w-[26px] items-center justify-center rounded-full border transition",
-                                            active ? "border-primary" : "border-transparent",
+                                            active ? "border-selected" : "border-transparent",
                                             running && "opacity-50",
                                         )}
                                     >
                                         <span
                                             aria-hidden="true"
-                                            className="block h-[20px] w-[20px] rounded-full border border-black/10"
+                                            className="block h-[20px] w-[20px] rounded-full border border-border"
                                             style={{ backgroundColor: option.hex || "transparent" }}
                                         />
                                     </button>
@@ -1203,7 +1203,7 @@ export function SdsDesignWorkspace() {
                                 aria-label="撤销"
                                 disabled={running || !canUndoSdsPlacement(history)}
                                 onClick={handleUndo}
-                                className="flex size-6 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-white/10"
+                                className="flex size-6 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Undo2 className="h-4 w-4" />
                             </button>
@@ -1212,7 +1212,7 @@ export function SdsDesignWorkspace() {
                                 aria-label="重做"
                                 disabled={running || !canRedoSdsPlacement(history)}
                                 onClick={handleRedo}
-                                className="flex size-6 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-white/10"
+                                className="flex size-6 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Redo2 className="h-4 w-4" />
                             </button>
@@ -1224,7 +1224,7 @@ export function SdsDesignWorkspace() {
                         disabled={running || blocked}
                         onClick={() => void handleSubmit()}
                         title={blocked ? (issues[0]?.message ?? "配置不完整") : ""}
-                        className="flex h-8 w-[277px] max-w-full items-center justify-center gap-1.5 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-8 w-[277px] max-w-full items-center justify-center gap-1.5 rounded-[6px] bg-primary px-[15px] text-[14px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                         {submitLabel}

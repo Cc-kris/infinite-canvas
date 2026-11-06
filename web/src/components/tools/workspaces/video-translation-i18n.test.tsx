@@ -144,8 +144,8 @@ describe("video-translation i18n", () => {
     test("诚实提示条字号为 12px（text-xs）", async () => {
         await i18nModule.default.changeLanguage("en-US");
         const enHtml = await renderWorkspace();
-        expect(enHtml).toContain("text-xs leading-5 text-amber-800");
-        expect(enHtml).not.toContain("text-[11px] leading-5 text-amber-800");
+        expect(enHtml).toContain("text-xs leading-5 text-amber-700");
+        expect(enHtml).not.toContain("text-[11px] leading-5 text-amber-700");
     });
 
     test("EN 态提交按钮、源视频栏与历史区文案已英化", async () => {

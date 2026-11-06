@@ -15,6 +15,9 @@
     --color-brand: var(--brand);
     --color-brand-soft: var(--brand-soft);
     --color-surface: var(--surface);
+    /* 选中态强调色：与生图/视频工作台的 SELECTED_ACCENT 同一套橙色 */
+    --color-selected: var(--selected);
+    --color-selected-soft: var(--selected-soft);
     --color-ring: var(--ring);
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -56,15 +59,18 @@
 
 :root {
     --radius: 0.625rem;
-    /* 内容画布 / 分隔线 / 卡片与画布页面一致的关键色（顶栏、工具壳共用） */
-    --canvas: #f4f6f8;
-    --hairline: #e7e7e7;
-    --shell-body: #f5f7fa;
-    --brand: #723cf9;
-    --brand-soft: #f2edff;
-    /* 工具侧栏行文字色：浅色沿用正文 60% 灰，暗色为白 62%，故下沉为变量 */
-    --tool-row: rgba(0, 0, 0, 0.6);
-    --surface: #ffffff;
+    /* 内容画布 / 分隔线 / 卡片：沿用无限画布 canvasThemes 的暖灰石色（浅色） */
+    --canvas: #f4f2ed;
+    --hairline: #e7e5df;
+    --shell-body: #f4f2ed;
+    /* 品牌色 = 画布的深石色主操作，不再用原站紫 */
+    --brand: #1c1917;
+    --brand-soft: #e7e5df;
+    --selected: #f97316;
+    --selected-soft: rgba(249, 115, 22, 0.12);
+    /* 工具侧栏行文字色：浅色 #57534e（canvasThemes.node.label），暗色 #d6d3d1 */
+    --tool-row: #57534e;
+    --surface: #fbfaf7;
     --border: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
     --background: oklch(1 0 0);
@@ -100,13 +106,15 @@
 
 .dark {
     --background: oklch(0.145 0 0);
-    --canvas: oklch(0.163 0 0);
-    --hairline: oklch(1 0 0 / 12%);
-    --shell-body: oklch(0.145 0 0);
-    --brand: #8b5cff;
-    --brand-soft: oklch(0.28 0.07 300);
-    --tool-row: rgba(255, 255, 255, 0.62);
-    --surface: oklch(0.205 0 0);
+    --canvas: #181715;
+    --hairline: #44403c;
+    --shell-body: #181715;
+    --brand: #fafaf9;
+    --brand-soft: #3a3631;
+    --selected: #fb923c;
+    --selected-soft: rgba(251, 146, 60, 0.16);
+    --tool-row: #d6d3d1;
+    --surface: #1f1d1a;
     --foreground: oklch(0.985 0 0);
     --border: oklch(1 0 0 / 10%);
     --ring: oklch(0.556 0 0);
@@ -162,6 +170,8 @@
 [data-testid="tool-sidebar"] button,
 [data-testid="tool-config-column"] button,
 [data-testid="tool-main-column"] button,
+[data-testid="scene-workspace"] button,
+.tool-linkfox-surface button:not([class*="ant-"]),
 [data-testid="tool-history-dock"] button,
 [data-testid="agent-panel"] button {
     color: revert-layer;
@@ -658,31 +668,50 @@
     font-size: 0.75rem;
 }
 
-/* LinkFox 工具工作区：原站为浅色、4px 圆角、紫色主操作。作用域只限工具页，站点全局壳不受影响。 */
+/* 工具工作区：布局沿用原站结构，配色遵循无限画布（canvasThemes 暖灰石色、深石色主操作、橙色选中态），随浅色/深色主题切换。 */
 .tool-linkfox-surface {
-    --background: #ffffff;
-    --foreground: #1f2329;
-    --card: #ffffff;
-    --card-foreground: #1f2329;
-    --popover: #ffffff;
-    --popover-foreground: #1f2329;
-    --primary: #723cf9;
-    --primary-foreground: #ffffff;
-    --secondary: #f5f6f8;
-    --secondary-foreground: #1f2329;
-    --muted: #f5f6f8;
-    --muted-foreground: #6b7280;
-    --accent: #f3edff;
-    --accent-foreground: #723cf9;
-    --border: #e5e7eb;
-    --input: #e5e7eb;
-    --ring: #723cf9;
+    --background: #fbfaf7;
+    --foreground: #292524;
+    --card: #fbfaf7;
+    --card-foreground: #292524;
+    --popover: #fbfaf7;
+    --popover-foreground: #292524;
+    --primary: #1c1917;
+    --primary-foreground: #fafaf9;
+    --secondary: #efede7;
+    --secondary-foreground: #292524;
+    --muted: #efede7;
+    --muted-foreground: #78716c;
+    --accent: #e7e5df;
+    --accent-foreground: #292524;
+    --border: #d6d3ca;
+    --input: #d6d3ca;
+    --ring: #a8a29e;
     --radius: 0.25rem;
-    color-scheme: light;
+}
+
+.dark .tool-linkfox-surface {
+    --background: #1f1d1a;
+    --foreground: #f5f5f4;
+    --card: #1f1d1a;
+    --card-foreground: #f5f5f4;
+    --popover: #1f1d1a;
+    --popover-foreground: #f5f5f4;
+    --primary: #fafaf9;
+    --primary-foreground: #1c1917;
+    --secondary: #292524;
+    --secondary-foreground: #f5f5f4;
+    --muted: #292524;
+    --muted-foreground: #a8a29e;
+    --accent: #3a3631;
+    --accent-foreground: #f5f5f4;
+    --border: #44403c;
+    --input: #44403c;
+    --ring: #78716c;
 }
 
 .tool-linkfox-surface .bg-canvas {
-    background-color: #ffffff;
+    background-color: var(--background);
 }
 
 .tool-linkfox-surface [data-testid="tool-config-section"] {
@@ -690,10 +719,15 @@
     box-shadow: none;
 }
 
-/* 原站工作区/结果区底色 #edeff5（8px 圆角），白色卡片浮在其上；配置列保持白底。 */
+/* 工作区/结果区：画布底色（canvasThemes.canvas.background），面板色卡片浮在其上；配置列保持面板色。 */
 .tool-linkfox-surface [data-testid="tool-main-column"] {
-    background-color: #edeff5;
+    background-color: var(--canvas);
     border-radius: 8px;
+}
+
+/* 商品图第二步是原站的全屏编辑器：编辑器在场时隐藏工具页左侧族导航。 */
+.tool-linkfox-surface:has([data-testid="scene-workspace"][data-step="editor"]) [data-testid="tool-sidebar"] {
+    display: none;
 }
 
 /* 原站没有内容区横向族导航；族导航已迁到左侧 rail。旧 workspace 里的 inline 版本仅保留 DOM 作为回滚点，不参与显示。 */

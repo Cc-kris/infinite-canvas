@@ -86,8 +86,8 @@ export function VideoTranslationHonestyNotice({ className, copy }: { className?:
             role="note"
             aria-live="polite"
             className={cn(
-                "rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-5 text-amber-800",
-                "dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200",
+                "rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2.5 text-xs leading-5 text-amber-700",
+                "dark:text-amber-300",
                 className,
             )}
         >
@@ -113,8 +113,8 @@ export function VideoTranslationDraftBadge({ className, copy }: { className?: st
             data-testid="video-translation-draft-badge"
             data-capability="unverified-translation"
             className={cn(
-                "inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-[11px] text-amber-700",
-                "dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200",
+                "inline-flex items-center gap-1 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[11px] text-amber-700",
+                "dark:text-amber-300",
                 className,
             )}
         >

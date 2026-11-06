@@ -42,10 +42,15 @@ import {
 import {
     PRODUCT_BG_CATEGORIES,
     PRODUCT_BG_EXAMPLES,
+    PRODUCT_BG_DRAWER_TABS,
     PRODUCT_BG_SCENES,
+    filterProductBgPresets,
     filterProductBgScenes,
     productBgModeOf,
+    productBgOcclusionOf,
+    productBgPrompt,
     productBgScenePrompt,
+    productBgTitleOf,
 } from "../registry/new-replace-bg-v2-scenes";
 
 const values = (patch: Partial<NewReplaceBgValues> = {}): NewReplaceBgValues => ({
@@ -452,6 +457,30 @@ describe("商品图 · 场景数据与请求映射", () => {
         expect(input.prompt).toContain("参考图 2 是目标背景图");
         expect(input.prompt).toContain("湖边-香水");
         expect(input.count).toBe(3);
+    });
+
+    test("保留遮挡物只在商品替换下写进 customPrompt，并随请求进提示词", () => {
+        const on = productBgPrompt("湖边-香水", "replace", true);
+        expect(productBgOcclusionOf(on)).toBe(true);
+        expect(productBgModeOf(on)).toBe("replace");
+        expect(productBgTitleOf(on)).toBe("湖边-香水");
+        expect(productBgOcclusionOf(productBgPrompt("湖边-香水", "compose", true))).toBe(false);
+        expect(productBgOcclusionOf(productBgPrompt("湖边-香水", "replace", false))).toBe(false);
+        expect(on.length).toBeLessThanOrEqual(200);
+        const v = values({ sceneType: "custom", templateId: "", customPrompt: on, bgAssetId: "asset-bg" });
+        const output = computeSceneOutput("1:1", 1);
+        const input = buildNewReplaceBgInput({ values: v, output, goods: goods(), mask, bg: { ...bg, name: "linkfox-reference-background" }, model: "img-model" });
+        expect(() => assertNewReplaceBgInput(input, v, output)).not.toThrow();
+        expect(input.prompt).toContain("保留遮挡物");
+    });
+
+    test("编辑器参考图抽屉页签与预设背景：原站 6 个页签；预设按品类取原站落盘图", () => {
+        expect([...PRODUCT_BG_DRAWER_TABS]).toEqual(["智能推荐", "预设", "我的", "收藏", "历史", "采集"]);
+        expect(filterProductBgPresets("美妆个护")).toHaveLength(12);
+        expect(filterProductBgPresets("母婴产品")).toHaveLength(1);
+        expect(filterProductBgPresets("全部")).toHaveLength(43);
+        expect(filterProductBgPresets("不存在")).toEqual([]);
+        expect(filterProductBgPresets("美妆个护")[0].image).toBe("/__cases/new-replace-bg-v2/presets/preset-01.webp");
     });
 });
 

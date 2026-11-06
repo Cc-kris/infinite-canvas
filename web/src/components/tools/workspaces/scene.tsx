@@ -342,20 +342,20 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
         <div className={cn("flex h-full min-h-0 flex-col overflow-hidden", className)} data-testid="scene-transfer-workspace">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-hidden rounded-[8px] border border-black/[0.08] bg-white"
+                configClassName="overflow-hidden rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={(
             <section data-testid="scene-transfer-config" className="flex h-full min-h-0 min-w-0 flex-col">
                 <div data-testid="scene-transfer-config-scroll" className="min-h-0 flex-1 overflow-y-auto py-[10px] pl-4 pr-3 [scrollbar-gutter:stable]">
                     {lostAssets.length ? (
-                        <p className="mb-[10px] rounded border border-border bg-accent px-3 py-2 text-[11px] text-foreground" data-testid="scene-transfer-lost-assets">
+                        <p className="mb-[10px] rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scene-transfer-lost-assets">
                             草稿里的这些图在本地已找不到，请重新选择：{lostAssets.join("、")}
                         </p>
                     ) : null}
                     {uploadCard("scene-transfer-product", "商品图", "product")}
                     {uploadCard("scene-transfer-style", "风格图", "style")}
                     <div data-testid="scene-transfer-similarity">
-                        <p className="text-[14px] leading-[22px] text-[#999]">风格相似度：</p>
+                        <p className="text-[14px] leading-[22px] text-muted-foreground">风格相似度：</p>
                         <input
                             type="range"
                             min={SCENE_TRANSFER_SIMILARITY.min}
@@ -365,10 +365,10 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             disabled={running}
                             aria-label="风格相似度"
                             data-testid="scene-transfer-similarity-slider"
-                            className="w-full accent-[#723cf9]"
+                            className="w-full accent-[var(--selected)]"
                             onChange={(event) => update({ similarity: clampSimilarity(event.target.value) })}
                         />
-                        <p className="text-right text-[12px] text-black/45" data-testid="scene-transfer-similarity-value">{(clampSimilarity(values.similarity) / 100).toFixed(2)}</p>
+                        <p className="text-right text-[12px] text-muted-foreground" data-testid="scene-transfer-similarity-value">{(clampSimilarity(values.similarity) / 100).toFixed(2)}</p>
                     </div>
                     {issues.length || error ? (
                         <div className="mt-2 space-y-1">
@@ -383,12 +383,12 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                         </div>
                     ) : null}
                 </div>
-                <div className="flex shrink-0 items-center gap-2 border-t-[3px] border-[#f5f7fa] px-4 py-2">
+                <div className="flex shrink-0 items-center gap-2 border-t-[3px] border-border px-4 py-2">
                     <button
                         type="button"
                         disabled={blocked}
                         data-testid="scene-transfer-submit"
-                        className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[12px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[6px] bg-primary text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                         onClick={() => void submit()}
                     >
                         {running ? "生成中…" : "立即生成"}
@@ -402,11 +402,11 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
             </section>
                 )}
             >
-                <div className="flex h-[42px] shrink-0 items-center justify-between border-b border-black/[0.08] bg-white px-3">
-                    <button type="button" onClick={() => setResultTab("result")} className={cn("h-[42px] border-b-2 text-[14px]", resultTab === "result" ? "border-[#723cf9] text-[#723cf9]" : "border-transparent text-black/60")}>
+                <div className="flex h-[42px] shrink-0 items-center justify-between border-b border-border bg-background px-3">
+                    <button type="button" onClick={() => setResultTab("result")} className={cn("h-[42px] border-b-2 text-[14px]", resultTab === "result" ? "border-foreground text-foreground" : "border-transparent text-foreground/70 hover:text-foreground")}>
                         生成结果
                     </button>
-                    <button type="button" onClick={() => setResultTab("history")} className={cn("text-[12px]", resultTab === "history" ? "text-[#723cf9]" : "text-black/60 hover:text-[#723cf9]")}>
+                    <button type="button" onClick={() => setResultTab("history")} className={cn("text-[12px]", resultTab === "history" ? "text-foreground" : "text-foreground/70 hover:text-foreground")}>
                         历史记录
                     </button>
                 </div>
@@ -417,13 +417,13 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                                 <>
                                     <ToolResult task={activeTask} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={!running && task ? () => void retry() : undefined} />
                                     {view.stale ? (
-                                        <p className="rounded border border-border bg-accent px-3 py-2 text-[11px] text-foreground" data-testid="scene-transfer-stale">
+                                        <p className="rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scene-transfer-stale">
                                             {view.stale}
                                         </p>
                                     ) : null}
                                 </>
                             ) : (
-                                <div className="flex min-h-[420px] flex-col items-center justify-center text-[14px] text-black/45" data-testid="scene-transfer-snapshot-empty">
+                                <div className="flex min-h-[420px] flex-col items-center justify-center text-[14px] text-muted-foreground" data-testid="scene-transfer-snapshot-empty">
                                     <p>暂无生成结果图</p>
                                     <p className="mt-1 text-[12px]">快在左侧上传商品图和风格图生成吧~</p>
                                 </div>

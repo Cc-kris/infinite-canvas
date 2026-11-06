@@ -690,11 +690,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
             data-layout="linkfox-edit8"
             data-testid="area-repair-workspace"
             data-workspace-columns="area-repair"
-            className={cn("flex h-full min-h-0 flex-col gap-[10px] bg-[#f4f6f8] p-2.5 text-foreground", className)}
+            className={cn("flex h-full min-h-0 flex-col gap-[10px] bg-canvas p-2.5 text-foreground", className)}
         >
-            {/* 原站（1600×1000 实测）：画布 #edeff5（40px 白色工具条）| 配置 240（白卡 + 卡外「立即生成」）| 结果 300，间距 10。 */}
+            {/* 原站（1600×1000 实测）：画布（40px 工具条）| 配置 240（面板卡 + 卡外「立即生成」）| 结果 300，间距 10。 */}
             <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden border border-black/[0.08]">
+                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden border border-border">
                     <div className="flex h-10 shrink-0 flex-wrap items-center gap-[10px] bg-card px-5 text-xs text-foreground" data-testid="mask-toolbar">
                         <span className="inline-flex h-6 items-center gap-1 text-[14px] leading-[22px] text-foreground/85" data-testid="mask-tool-label">
                             <Paintbrush className="size-3.5" aria-hidden />
@@ -704,7 +704,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         {/* 原站「大小：InputNumber + 下拉预设 + 像素」：不铺长滑杆，只保留 number 输入与预设下拉。 */}
                         <label className="flex items-center gap-1 text-[12px] text-foreground/60">
                             <span>大小：</span>
-                            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card pl-[7px] pr-1">
+                            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-border bg-card pl-[7px] pr-1">
                             <input
                                 type="number"
                                 data-testid="mask-brush-size"
@@ -715,9 +715,9 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 className="h-[22px] w-[22px] appearance-none bg-transparent px-0 text-[12px] tabular-nums text-foreground outline-none [&::-webkit-inner-spin-button]:appearance-none"
                                 aria-label="画笔大小像素"
                             />
-                            <span className="text-black/30">像素</span>
+                            <span className="text-muted-foreground">像素</span>
                             <span className="relative inline-flex size-3 items-center justify-center" data-testid="mask-brush-presets">
-                                <ChevronDown className="pointer-events-none size-3 text-black/25" aria-hidden />
+                                <ChevronDown className="pointer-events-none size-3 text-muted-foreground" aria-hidden />
                                 <select
                                     value={state.brushSize}
                                     disabled={busy}
@@ -746,7 +746,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             aria-pressed={state.inverted}
                             disabled={historyLabel.strokeCount === 0}
                             onClick={() => commit({ inverted: !state.inverted })}
-                            className={cn("h-7 rounded-[4px] px-[7px] text-[12px] leading-none disabled:text-black/25!", state.inverted ? "bg-primary text-primary-foreground!" : "text-foreground hover:bg-black/5")}
+                            className={cn("h-7 rounded-[4px] px-[7px] text-[12px] leading-none disabled:text-foreground/30!", state.inverted ? "bg-accent font-medium text-foreground!" : "text-foreground hover:bg-accent")}
                         >
                             反选
                         </button>
@@ -755,7 +755,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-undo"
                             disabled={!historyLabel.canUndo}
                             onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
-                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-accent disabled:text-foreground/30!"
                         >
                             <Undo2 className="size-3.5" aria-hidden />
                             <span>撤销</span>
@@ -765,7 +765,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-redo"
                             disabled={!historyLabel.canRedo}
                             onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
-                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-accent disabled:text-foreground/30!"
                         >
                             <Redo2 className="size-3.5" aria-hidden />
                             <span>重做</span>
@@ -775,7 +775,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-reset"
                             disabled={historyLabel.strokeCount === 0}
                             onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
-                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-accent disabled:text-foreground/30!"
                         >
                             <RotateCcw className="size-3.5" aria-hidden />
                             <span>重置</span>
@@ -792,7 +792,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     setRunSnapshot(null);
                                     applyHistory(createMaskHistory());
                                 }}
-                                className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
+                                className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-accent disabled:text-foreground/30!"
                             >
                                 <Upload className="size-3.5" aria-hidden />
                                 <span>重新上传</span>
@@ -827,11 +827,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             </div>
                         ) : (
                             <div className="flex h-full min-h-[500px] items-center justify-center">
-                                <div data-testid="area-repair-empty" className="w-[542px] max-w-full rounded-[8px] bg-[#f7f7f7] p-[10px]">
+                                <div data-testid="area-repair-empty" className="w-[542px] max-w-full rounded-[8px] bg-muted p-[10px]">
                                     <Edit8UploadCard
                                         layout="stacked"
                                         products
-                                        className="gap-[10px] bg-[#fafafa] p-4"
+                                        className="gap-[10px] bg-muted p-4"
                                         library={library}
                                         disabled={busy}
                                         onPick={(record) => void adoptImage(record)}
@@ -839,7 +839,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                         heading={
                                             <>
                                                 <h2 className="m-0! text-[22px] font-normal leading-[30px] text-foreground/85">局部重绘</h2>
-                                                <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-[#939599]">
+                                                <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-muted-foreground">
                                                     上传图片，涂抹需要改变的区域并输入想要改变的内容，
                                                     <br />
                                                     即可重新对该区域进行绘制
@@ -856,7 +856,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 <div data-testid="tool-config-column" className="flex min-h-0 min-w-0 flex-col">
                 <div data-testid="area-repair-config" className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto rounded-[8px] bg-card">
                     <div className="px-4 py-[10px]">
-                        <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-black/30">
+                        <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-muted-foreground">
                             重绘描述<span className="text-destructive">*</span>
                         </p>
                         <textarea
@@ -872,15 +872,15 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 persist(stateRef.current);
                             }}
                             placeholder="请补充重绘画面中想要出现的内容，支持中英文，例如：加一个包，卷发，微笑，眼睛睁大等。"
-                            className="h-[120px] w-full resize-y rounded-[6px] border border-[#d9d9d9] bg-card px-[11px] py-1 text-[14px] leading-[22px] text-foreground outline-none transition placeholder:text-black/25 hover:border-primary focus:border-primary"
+                            className="h-[120px] w-full resize-y rounded-[6px] border border-border bg-card px-[11px] py-1 text-[14px] leading-[22px] text-foreground outline-none transition placeholder:text-muted-foreground/70 hover:border-primary focus:border-primary"
                         />
-                        <p className="m-0! text-right text-[14px] leading-[22px] tabular-nums text-black/45">
+                        <p className="m-0! text-right text-[14px] leading-[22px] tabular-nums text-muted-foreground">
                             {prompt.length} / {AREA_REPAIR_PROMPT_MAX}
                         </p>
                     </div>
 
                     <div className="px-4 py-[10px]">
-                        <p className="m-0! mb-[6px]! text-[12px] leading-[22px] text-black/30">生成张数</p>
+                        <p className="m-0! mb-[6px]! text-[12px] leading-[22px] text-muted-foreground">生成张数</p>
                         <div className="flex items-center gap-[10px]" data-testid="area-repair-output-num">
                             {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
                                 <button
@@ -894,7 +894,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                         setOutputNum(next);
                                         persist(stateRef.current);
                                     }}
-                                    className={cn("h-[26px] rounded-[6px] border px-4 text-[12px] leading-none transition disabled:opacity-50", outputNum === option ? "border-primary bg-[#f9f0ff] text-primary!" : "border-[#ccc] bg-card text-black/80! hover:border-primary")}
+                                    className={cn("h-[26px] rounded-[6px] border px-4 text-[12px] leading-none transition disabled:opacity-50", outputNum === option ? "border-selected bg-selected-soft text-foreground!" : "border-border bg-card text-foreground/70! hover:border-selected")}
                                 >
                                     {option}
                                 </button>
@@ -904,7 +904,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
                     {image && issues.length > 0 ? (
                         <div className="px-[16px] py-2">
-                            <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-[#d46b08]">
+                            <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
                                 {issues.map((issue) => (
                                     <li key={issue.field}>{issue.message}</li>
                                 ))}
@@ -913,15 +913,15 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     ) : null}
 
                     {conflict ? (
-                        <p className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
+                        <p className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
                     ) : null}
                     {stale ? (
-                        <p data-testid="area-repair-stale" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                        <p data-testid="area-repair-stale" className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
                             图片或涂抹已变更：下面是上一次提交的结果，不代表当前配置。
                         </p>
                     ) : null}
                     {notice ? (
-                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
                             {notice}
                         </p>
                     ) : null}
@@ -934,7 +934,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
                     {runSnapshot ? (
                         <div className="px-4 py-[10px]">
-                            <p className="m-0! mb-1! text-[12px] leading-[22px] text-black/30">本次输入快照</p>
+                            <p className="m-0! mb-1! text-[12px] leading-[22px] text-muted-foreground">本次输入快照</p>
                             <ul data-testid="area-repair-snapshot" className="space-y-0.5 text-[11px] leading-4 tabular-nums text-muted-foreground">
                                 <li>源图：{runSnapshot.imageName || "（未命名）"}{runSnapshot.imageWidth ? ` · ${runSnapshot.imageWidth}×${runSnapshot.imageHeight}` : ""}</li>
                                 <li>笔画 {runSnapshot.strokeCount} 笔{runSnapshot.inverted ? " · 已反选" : ""}{runSnapshot.autoExpand ? " · 自动扩边" : ""}</li>
@@ -956,7 +956,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 </button>
                 </div>
 
-                <section data-testid="area-repair-result-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+                <section data-testid="area-repair-result-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-canvas">
                     {/* 原站「历史记录」是右上外链（/draw/history?type=32），不是第二个 Tab。 */}
                     <Edit8ResultTabs
                         tabs={[{ id: "result", label: "生成结果" }]}
@@ -1541,12 +1541,12 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     }, [busy]);
 
     const uploadCard = (
-        <div className="rounded-[8px] bg-[#f7f7f7] p-[10px]">
+        <div className="rounded-[8px] bg-muted p-[10px]">
             <Edit8UploadCard
                 testId="remove-pen-upload-card"
                 layout="stacked"
                 products
-                className="gap-[10px] bg-[#fafafa]"
+                className="gap-[10px] bg-muted"
                 library={library}
                 disabled={busy}
                 onPick={(record) => void adoptImage(record)}
@@ -1554,16 +1554,16 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                 heading={
                     <>
                         <h2 className="m-0! text-[22px] font-normal leading-[30px] text-foreground/85">局部消除</h2>
-                        <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-[#939599]">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
+                        <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-muted-foreground">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
                     </>
                 }
                 footer={
                     <>
                         {/* 原站「或试试这些」= 分隔线 + 4 张 40×40 示例缩略图（原站同源），点击即真实载入。 */}
                         <div className="flex w-[364px] max-w-full items-center gap-4 pt-[10px]" data-testid="remove-pen-try-these">
-                            <span className="h-px flex-1 bg-black/[0.06]" />
-                            <span className="text-[12px] font-medium leading-[15px] text-black/30">或试试这些</span>
-                            <span className="h-px flex-1 bg-black/[0.06]" />
+                            <span className="h-px flex-1 bg-border" />
+                            <span className="text-[12px] font-medium leading-[15px] text-muted-foreground">或试试这些</span>
+                            <span className="h-px flex-1 bg-border" />
                         </div>
                         <div className="flex items-center justify-center gap-5 pb-[15px] pt-[10px]">
                             {REMOVE_PEN_SAMPLES.map((sample) => (
@@ -1574,7 +1574,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     disabled={busy || sampleLoading !== null}
                                     title={`试用${sample.name}`}
                                     onClick={() => void applySample(sample)}
-                                    className="size-10 overflow-hidden rounded-[4px] transition hover:ring-2 hover:ring-primary disabled:opacity-50"
+                                    className="size-10 overflow-hidden rounded-[4px] transition hover:ring-2 hover:ring-selected disabled:opacity-50"
                                 >
                                     <img src={sample.src} alt={sample.name} className="size-full object-cover" draggable={false} />
                                 </button>
@@ -1595,11 +1595,11 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
             data-workspace-columns="remove-pen"
             data-canvas="true"
             data-config-side="none"
-            className={cn("flex h-full min-h-0 flex-col bg-[#f4f6f8] p-[10px] text-foreground", className)}
+            className={cn("flex h-full min-h-0 flex-col bg-canvas p-[10px] text-foreground", className)}
         >
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[8px]">
-            {/* 原站（1600×1000）：48px 白色工具条（1px #d8d8d8 边、圆角 8 8 0 0）左右各半 + #edeff5 画布；空态卡 520 宽居中；结果动作常驻工具条。 */}
-            <div className="flex h-12 shrink-0 items-center rounded-t-[8px] border border-[#d8d8d8] bg-card px-3 text-xs text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.1)]" data-testid="remove-pen-toolbar">
+            {/* 原站（1600×1000）：48px 工具条（1px 边、圆角 8 8 0 0）左右各半 + 画布；空态卡 520 宽居中；结果动作常驻工具条。 */}
+            <div className="flex h-12 shrink-0 items-center rounded-t-[8px] border border-border bg-card px-3 text-xs text-foreground shadow-sm" data-testid="remove-pen-toolbar">
                 <div className="flex min-w-0 flex-1 items-center gap-[10px] pr-[10px]">
                 <span className="inline-flex h-6 items-center gap-1 text-[14px] leading-[22px] text-foreground/85">
                     <Paintbrush className="size-3.5" aria-hidden />
@@ -1608,7 +1608,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
 
                 <label className="flex items-center gap-1 text-[12px] text-foreground/60">
                     <span>大小：</span>
-                    <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card pl-[7px] pr-1">
+                    <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-border bg-card pl-[7px] pr-1">
                     <input
                         type="number"
                         data-testid="remove-pen-brush-size"
@@ -1619,9 +1619,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         className="h-[22px] w-[22px] bg-transparent px-0 text-[12px] tabular-nums text-foreground outline-none [&::-webkit-inner-spin-button]:appearance-none"
                         aria-label="画笔大小像素"
                     />
-                    <span className="text-black/30">像素</span>
+                    <span className="text-muted-foreground">像素</span>
                     <span className="relative inline-flex size-3 items-center justify-center" data-testid="remove-pen-brush-presets">
-                        <ChevronDown className="pointer-events-none size-3 text-black/25" aria-hidden />
+                        <ChevronDown className="pointer-events-none size-3 text-muted-foreground" aria-hidden />
                         <select
                             value={state.brushSize}
                             disabled={busy}
@@ -1644,7 +1644,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-reset-mask"
                     disabled={historyLabel.strokeCount === 0 || busy}
                     onClick={reset}
-                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-accent disabled:text-foreground/30!"
                 >
                     <RotateCcw className="size-3" aria-hidden /> <span>重置</span>
                 </button>
@@ -1653,7 +1653,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-undo"
                     disabled={!historyLabel.canUndo || busy}
                     onClick={undo}
-                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-accent disabled:text-foreground/30!"
                 >
                     <Undo2 className="size-3" aria-hidden /> <span>撤销</span>
                 </button>
@@ -1662,7 +1662,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-redo"
                     disabled={!historyLabel.canRedo || busy}
                     onClick={redo}
-                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-accent disabled:text-foreground/30!"
                 >
                     <Redo2 className="size-3" aria-hidden /> <span>重做</span>
                 </button>
@@ -1683,7 +1683,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         setRunSnapshot(null);
                         patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
                     }}
-                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-accent disabled:text-foreground/30!"
                 >
                     <Upload className="size-3" aria-hidden /> <span>重新上传</span>
                 </button>
@@ -1708,7 +1708,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         data-testid="remove-pen-download"
                         href={resultUrl}
                         download={removePenDownloadName(image?.name ?? "remove-pen")}
-                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary!"
+                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-border bg-card px-[7px] text-[12px] text-foreground! hover:bg-accent"
                     >
                         <Download className="size-3" aria-hidden /> 下载图片
                     </a>
@@ -1717,7 +1717,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         type="button"
                         data-testid="remove-pen-download"
                         disabled
-                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!"
+                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-border bg-card px-[7px] text-[12px] text-foreground! hover:bg-accent disabled:bg-foreground/[0.04] disabled:text-foreground/30!"
                     >
                         <Download className="size-3" aria-hidden /> 下载图片
                     </button>
@@ -1729,7 +1729,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             data-testid={`remove-pen-handoff-${handoff.id}`}
                             to={buildRemovePenHandoff(handoff.id, resultUrl).route}
                             state={{ handoff: { from: REMOVE_PEN_ID, field: handoff.field, value: resultUrl } }}
-                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary!"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-border bg-card px-[7px] text-[12px] text-foreground! hover:bg-accent"
                         >
                             <HandoffIcon id={handoff.id} />
                             {handoff.label}
@@ -1740,7 +1740,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             type="button"
                             data-testid={`remove-pen-handoff-${handoff.id}`}
                             disabled
-                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-border bg-card px-[7px] text-[12px] text-foreground! hover:bg-accent disabled:bg-foreground/[0.04] disabled:text-foreground/30!"
                         >
                             <HandoffIcon id={handoff.id} />
                             {handoff.label}
@@ -1754,8 +1754,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     aria-pressed={historyOpen}
                     onClick={() => setHistoryOpen((value) => !value)}
                     className={cn(
-                        "ml-auto! inline-flex h-7 shrink-0 items-center gap-1 text-[12px] text-primary! hover:opacity-80",
-                        historyOpen && "font-medium",
+                        "ml-auto! inline-flex h-7 shrink-0 items-center gap-1 text-[12px] text-muted-foreground! hover:text-foreground!",
+                        historyOpen && "font-medium text-foreground!",
                     )}
                 >
                     <History className="size-3" aria-hidden />
@@ -1781,13 +1781,13 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                 ) : null}
                 {!historyOpen && (conflict || notice || stale) ? (
                     <div className="flex flex-col gap-1 px-4 pt-2 text-[11px]">
-                        {conflict ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
+                        {conflict ? <p className="rounded-md bg-amber-500/10 px-2 py-1 text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
                         {notice ? (
                             <p data-testid="remove-pen-notice" className="rounded-md bg-card px-2 py-1 text-muted-foreground">
                                 {notice}
                             </p>
                         ) : null}
-                        {stale ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
+                        {stale ? <p className="rounded-md bg-amber-500/10 px-2 py-1 text-amber-700 dark:text-amber-300">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
                     </div>
                 ) : null}
 
@@ -1818,7 +1818,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         <div data-testid="remove-pen-result" className="mx-auto flex w-fit max-w-full flex-col gap-2 rounded-lg border border-border bg-card p-3">
                             {view.status === "running" ? <p className="text-[11px] text-muted-foreground">正在等待真实结果…</p> : null}
                             {view.error && view.status !== "running" ? (
-                                <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-destructive">
+                                <p data-testid="remove-pen-error" className="rounded-md bg-destructive/10 px-2 py-1.5 text-[11px] text-destructive">
                                     {view.error.message}（诊断码：{view.error.code}）
                                 </p>
                             ) : null}
@@ -1842,7 +1842,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                                     onClick={() => commitCompare(mode.id)}
                                                     className={cn(
                                                         "h-[24px] rounded-md border px-2 text-[11px] leading-none transition",
-                                                        compareMode === mode.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
+                                                        compareMode === mode.id ? "border-border bg-accent font-medium text-foreground" : "border-border bg-card text-foreground hover:bg-accent",
                                                     )}
                                                 >
                                                     {mode.label}

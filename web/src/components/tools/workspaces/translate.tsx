@@ -86,11 +86,11 @@ const STATUS_LABEL: Record<TranslationUnitStatus, string> = {
     cancelled: "已取消",
 };
 
-/** 原站语言 chip：26px 高、6px 圆角、浅灰底；选中为品牌紫底白字。 */
+/** 原站语言 chip：26px 高、6px 圆角、浅灰底；选中为橙色浅底。 */
 const CHIP_CLASS = (active: boolean) =>
     cn(
         "h-[20px] rounded-[5px] px-1.5 text-[11px] leading-none transition disabled:cursor-not-allowed disabled:opacity-50",
-        active ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/80",
+        active ? "bg-selected-soft text-selected" : "bg-muted text-foreground hover:bg-muted/80",
     );
 
 function Section({
@@ -604,7 +604,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                 aria-pressed={active}
                                                 className={cn(
                                                     "min-w-0 flex-1 truncate rounded border px-2 py-1 text-left text-xs transition",
-                                                    active ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                                    active ? "border-selected bg-selected-soft text-foreground" : "border-border text-muted-foreground hover:bg-accent",
                                                 )}
                                                 title={record?.name ?? assetId}
                                             >
@@ -634,7 +634,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                         const zone = document.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]');
                                         zone?.click();
                                     }}
-                                    className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md border border-primary text-[13px] text-primary transition hover:bg-primary/5"
+                                    className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md border border-border bg-background text-[13px] text-foreground transition hover:bg-accent"
                                 >
                                     上传多张图片，开始批量翻译
                                     <ArrowRight className="size-3.5" aria-hidden />
@@ -684,7 +684,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         id="targets"
                         title="目标语言"
                         titleExtra={
-                            <span className="ml-1 text-sm font-normal text-muted-foreground dark:text-white/60">
+                            <span className="ml-1 text-sm font-normal text-muted-foreground">
                                 （可多选，已选 {values.targetLanguages.length} 个语言）
                             </span>
                         }
@@ -757,7 +757,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             onClick={() => setResultTab("result")}
                             className={cn(
                                 "-mb-px flex h-full items-center border-b-2 font-medium transition",
-                                resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground",
+                                resultTab === "result" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground",
                             )}
                         >
                             生成结果
@@ -767,7 +767,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             data-testid="translate-history-link"
                             onClick={() => setResultTab("history")}
                             style={{ marginLeft: "auto" }}
-                            className={cn("inline-flex items-center gap-1 text-[12px] leading-none transition", resultTab === "history" ? "text-primary" : "text-foreground/50 hover:text-primary")}
+                            className={cn("inline-flex items-center gap-1 text-[12px] leading-none transition", resultTab === "history" ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
                         >
                             <History className="size-3" aria-hidden />
                             历史记录
@@ -845,7 +845,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                     className={cn(
                                                         "rounded-full border px-2 py-0.5 text-[11px] transition",
                                                         values.activeLanguage === code
-                                                            ? "border-primary bg-primary text-primary-foreground"
+                                                            ? "border-border bg-accent text-foreground"
                                                             : "border-border text-muted-foreground hover:bg-accent",
                                                     )}
                                                 >

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  *  - 右栏 `_rightWrapper`：flex-1；顶部 42px 页签栏（bg-card + 下边框），内容区无圆角
  *  - 页签：高 41，padding 10px 0，text-sm；激活 text-foreground + 底部 2px 圆角墨条（bg-foreground）；
  *    历史记录固定右对齐、text-xs
- *  - 张数/类型 chip：40x26，rounded-md，border-border；选中 bg-primary/10 + border-primary/40
+ *  - 张数/类型 chip：40x26，rounded-md，border-border；选中 bg-selected-soft + border-selected
  *  - 字段小标题：text-xs，text-muted-foreground，margin-bottom 6
  *  - 主按钮：268x32，rounded-lg，bg-primary + shadow-sm（原站渐变已弃用）
  */
@@ -95,7 +95,7 @@ export function Design19Chip({
             className={cn(
                 "inline-flex h-[26px] min-w-[40px] items-center justify-center rounded-md border px-[16px] text-xs! leading-[16px]! transition-colors",
                 selected
-                    ? "border-primary/40 bg-primary/10 text-foreground!"
+                    ? "border-selected bg-selected-soft text-selected!"
                     : "border-border bg-card text-foreground/80! hover:border-foreground/30 hover:bg-muted hover:text-foreground",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,

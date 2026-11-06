@@ -237,7 +237,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, hideWhenEmpty =
                                 ) : null}
 
                                 {dropped && thumbs.length === 0 ? (
-                                    <p className="mt-1 text-[11px] text-amber-600" data-testid="tool-history-dock-payload-dropped">
+                                    <p className="mt-1 text-[11px] text-amber-600 dark:text-amber-400" data-testid="tool-history-dock-payload-dropped">
                                         原始文件未保留（历史快照只存元数据），如需文件请重新生成。
                                     </p>
                                 ) : null}
@@ -388,7 +388,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, hideWhenEmpty =
                                         </div>
 
                                         {task.error ? (
-                                            <p className="inline-flex items-start gap-1 text-[11px] text-red-600" data-testid="tool-history-dock-error">
+                                            <p className="inline-flex items-start gap-1 text-[11px] text-destructive" data-testid="tool-history-dock-error">
                                                 <TriangleAlert aria-hidden="true" className="mt-0.5 size-3 shrink-0" />
                                                 {task.error.message}
                                             </p>
@@ -410,7 +410,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, hideWhenEmpty =
 
             {feedback ? (
                 <p
-                    className={cn("mt-2 text-[11px]", feedback.tone === "error" ? "text-red-600" : "text-emerald-600")}
+                    className={cn("mt-2 text-[11px]", feedback.tone === "error" ? "text-destructive" : "text-emerald-600 dark:text-emerald-400")}
                     data-testid="tool-history-dock-feedback"
                     data-tone={feedback.tone}
                 >

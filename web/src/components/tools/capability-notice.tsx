@@ -180,7 +180,7 @@ export function CapabilityNotice({ requirements, evidence, title = "能力校验
                                     disabled={isAccepted || !onAcceptDegradation}
                                     onClick={() => onAcceptDegradation?.(issue.key)}
                                     data-testid={`capability-accept-${issue.key}`}
-                                    className="mt-2 rounded-lg border border-current/30 px-2.5 py-1 font-medium transition hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    className="mt-2 rounded-lg border border-current/30 px-2.5 py-1 font-medium transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
                                     {isAccepted ? "已接受降级" : "接受降级并继续"}
                                 </button>

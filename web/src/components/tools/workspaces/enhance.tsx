@@ -94,10 +94,10 @@ const ASSET_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 
 /** 原站高清放大顶部工具条按钮（antd small default 28 高、圆角 4、12px）。 */
 const toolbarButton =
-    "inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-[4px] border px-[7px] text-[12px] leading-none transition disabled:cursor-not-allowed disabled:border-[#d9d9d9] disabled:bg-black/[0.04] disabled:text-black/25";
+    "inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-[4px] border px-[7px] text-[12px] leading-none transition disabled:cursor-not-allowed disabled:border-border disabled:bg-foreground/[0.04] disabled:text-muted-foreground";
 
 /** 原站浮在两栏顶端的灰色标签（↙ 原图 / 高清放大图 ↘）。 */
-const halfTag = "absolute top-[7px] z-10 inline-flex h-[23px] items-center gap-1 rounded-[12px] bg-black/30 px-[10px] text-[12px] leading-none text-white";
+const halfTag = "absolute top-[7px] z-10 inline-flex h-[23px] items-center gap-1 rounded-[12px] bg-foreground/10 px-[10px] text-[12px] leading-none text-foreground/70";
 
 /** 商品精修空态示例：原站 slick 轮播「精修前 | 精修后」各 271×300，图片为原站同源文件。 */
 const REFINE_EXAMPLES = [1, 2, 3, 4].map((index) => ({
@@ -112,7 +112,7 @@ function RefineExampleCarousel() {
         <div data-testid="refine-example" className="relative grid h-[300px] w-full shrink-0 grid-cols-2">
             {[
                 { src: item.before, label: "精修前", tag: "bg-[rgba(45,45,51,0.5)]" },
-                { src: item.after, label: "精修后", tag: "bg-primary" },
+                { src: item.after, label: "精修后", tag: "bg-black/60" },
             ].map((side) => (
                 <figure key={side.label} className="relative m-0 h-full overflow-hidden">
                     <img src={side.src} alt={side.label} className="size-full object-cover" draggable={false} />
@@ -128,7 +128,7 @@ function RefineExampleCarousel() {
                         aria-selected={i === index}
                         aria-label={`示例 ${i + 1}`}
                         onClick={() => setIndex(i)}
-                        className={cn("h-[6px] rounded-full transition-all", i === index ? "w-[22px] bg-primary" : "w-[6px] bg-[#d1d1ff]")}
+                        className={cn("h-[6px] rounded-full transition-all", i === index ? "w-[22px] bg-white" : "w-[6px] bg-white/50")}
                     />
                 ))}
             </div>
@@ -137,7 +137,7 @@ function RefineExampleCarousel() {
 }
 
 const inputClass =
-    "rounded-md border border-stone-200 bg-card px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
+    "rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none focus:border-foreground/40";
 
 function sourceFromRecord(record: ToolAssetRecord): ScaleUpSourceAsset {
     return {
@@ -159,7 +159,7 @@ function CompareSlider({ before, after, testIdPrefix = "scale-up", labels }: { b
     const beforeLabel = labels?.before ?? "原图";
     return (
         <div className="flex flex-col gap-2" data-testid={`${testIdPrefix}-compare`}>
-            <div className="relative overflow-hidden rounded-lg border border-stone-200 dark:border-stone-700">
+            <div className="relative overflow-hidden rounded-lg border border-border">
                 <img src={after} alt={afterLabel} className="block w-full" data-testid={`${testIdPrefix}-compare-after`} />
                 <img
                     src={before}
@@ -180,7 +180,7 @@ function CompareSlider({ before, after, testIdPrefix = "scale-up", labels }: { b
                 className="w-full"
                 data-testid={`${testIdPrefix}-compare-range`}
             />
-            <p className="text-[11px] text-stone-500">
+            <p className="text-[11px] text-muted-foreground">
                 左为{beforeLabel} {position}% · 右为{afterLabel}
             </p>
         </div>
@@ -385,9 +385,9 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={cn("relative flex h-full min-h-0 min-w-0 flex-col bg-[#f4f6f8] p-[10px]", className)} data-tool="scale-up" data-layout="scale-up-toolbar">
-            {/* 原站高清放大（1600×1000）：#edeff5 圆角 8 主区 = 40px 白色工具条 + 左原图 / 右高清放大图两栏等宽。 */}
-            <div data-testid="tool-main-column" className="flex min-h-0 flex-1 flex-col overflow-hidden shadow-[0_0_4px_#ccc]">
+        <div className={cn("relative flex h-full min-h-0 min-w-0 flex-col bg-canvas p-[10px]", className)} data-tool="scale-up" data-layout="scale-up-toolbar">
+            {/* 原站高清放大（1600×1000）：圆角 8 主区 = 40px 工具条 + 左原图 / 右高清放大图两栏等宽。 */}
+            <div data-testid="tool-main-column" className="flex min-h-0 flex-1 flex-col overflow-hidden ring-1 ring-border">
             <div data-testid="scale-up-toolbar" className="flex h-10 shrink-0 items-center gap-[10px] bg-card pl-[10px] pr-5">
                 <div className="flex min-w-0 flex-1 items-center gap-[10px]" data-testid="scale-up-modes">
                     {SCALE_UP_MODES.map((mode) => {
@@ -400,13 +400,13 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                 aria-pressed={active}
                                 disabled={running || !source}
                                 onClick={() => onModeChange(mode.id)}
-                                className={cn(toolbarButton, mode.id === "custom" && "w-[112px]", active ? "border-primary text-primary" : "border-[#d9d9d9] bg-card text-foreground hover:border-primary hover:text-primary")}
+                                className={cn(toolbarButton, mode.id === "custom" && "w-[112px]", active ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground hover:border-selected")}
                             >
                                 {mode.label}
                             </button>
                         );
                     })}
-                    <label className={cn("flex items-center gap-0 text-[12px] leading-[19px] text-foreground/60", (!source || running) && "text-black/25")}>
+                    <label className={cn("flex items-center gap-0 text-[12px] leading-[19px] text-foreground/60", (!source || running) && "text-muted-foreground")}>
                         面部美化：
                         <Edit8Switch
                             checked={values.enhanceFace}
@@ -416,13 +416,13 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                             testId="scale-up-enhance-face"
                         />
                     </label>
-                    <span className="h-4 w-px bg-[#ececec]" aria-hidden />
+                    <span className="h-4 w-px bg-border" aria-hidden />
                     <button
                         type="button"
                         disabled={running || !source}
                         onClick={() => onSourceChange([], [])}
                         data-testid="scale-up-reupload"
-                        className={cn(toolbarButton, "border-transparent text-foreground hover:bg-black/5 disabled:border-transparent disabled:bg-transparent")}
+                        className={cn(toolbarButton, "border-transparent text-foreground hover:bg-accent disabled:border-transparent disabled:bg-transparent")}
                     >
                         <Upload className="size-3" aria-hidden />
                         重新上传
@@ -445,7 +445,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         disabled={!resultImage || running}
                         onClick={() => void onDownloadImage()}
                         data-testid="scale-up-download-image"
-                        className={cn(toolbarButton, "min-w-0 flex-[241] border-[#d9d9d9] bg-card text-foreground hover:border-primary hover:text-primary")}
+                        className={cn(toolbarButton, "min-w-0 flex-[241] border-border bg-card text-foreground hover:bg-accent")}
                     >
                         <Download className="size-3" aria-hidden />
                         下载图片
@@ -454,7 +454,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         type="button"
                         data-testid="scale-up-history"
                         onClick={() => setHistoryOpen((open) => !open)}
-                        className="inline-flex shrink-0 items-center gap-1 text-[12px] leading-[19px] text-primary hover:opacity-80"
+                        className="inline-flex shrink-0 items-center gap-1 text-[12px] leading-[19px] text-muted-foreground hover:text-foreground"
                     >
                         <History className="size-3" aria-hidden /> 历史记录
                     </button>
@@ -463,7 +463,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
             {runError ? <p className="shrink-0 bg-card px-[10px] pb-1 text-[12px] text-destructive" data-testid="scale-up-run-error">{runError}</p> : null}
 
             <div data-testid="tool-workspace-columns" data-canvas="true" className="flex min-h-0 flex-1">
-                <section data-region="before" className="relative flex min-h-0 min-w-0 flex-1 flex-col border-r border-[#e1e1e8]">
+                <section data-region="before" className="relative flex min-h-0 min-w-0 flex-1 flex-col border-r border-border">
                     <span className={cn(halfTag, "right-3")}>
                         <MoveDownLeft className="size-3" aria-hidden /> 原图
                     </span>
@@ -476,7 +476,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         ) : (
                             <Edit8UploadCard
                                 testId="scale-up-upload-card"
-                                className="w-[420px] pb-5 shadow-[0_4px_4px_rgba(0,0,0,0.063)]"
+                                className="w-[420px] pb-5 shadow-sm"
                                 constraints={ASSET_CONSTRAINTS}
                                 library={library}
                                 disabled={running || restoringSource}
@@ -494,7 +494,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                 heading={
                                     <>
                                         <h2 className="m-0! pt-5 text-[26px] font-semibold leading-[41px] text-foreground">图片高清放大</h2>
-                                        <p className="m-0! mb-3! text-[20px] leading-[31px] text-[#939599]">放大清晰不失真，细节更丰富</p>
+                                        <p className="m-0! mb-3! text-[20px] leading-[31px] text-muted-foreground">放大清晰不失真，细节更丰富</p>
                                     </>
                                 }
                                 extraActions={
@@ -503,7 +503,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                     </button>
                                 }
                                 hint={
-                                    <div className="mt-3 text-[14px] leading-[22px] text-black/45 [&>p]:m-0!">
+                                    <div className="mt-3 text-[14px] leading-[22px] text-muted-foreground [&>p]:m-0!">
                                         <p>拖拽图片到此处</p>
                                         <p>支持jpg、jpeg、png、webp格式，</p>
                                         <p>最大尺寸: {SCALE_UP_SOURCE_LIMITS.maxSide}*{SCALE_UP_SOURCE_LIMITS.maxSide}</p>
@@ -520,7 +520,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                             </div>
                         ) : null}
                         {source && blocking.length > 0 ? (
-                            <ul className="mt-3 list-disc pl-4 text-[12px] text-[#d46b08]" data-testid="scale-up-issues">
+                            <ul className="mt-3 list-disc pl-4 text-[12px] text-amber-700 dark:text-amber-300" data-testid="scale-up-issues">
                                 {blocking.map((issue) => (
                                     <li key={`${issue.code}-${issue.field}`}>{issue.message}</li>
                                 ))}
@@ -540,7 +540,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                     输出尺寸：<span className="text-foreground" data-testid="scale-up-output-size">{outputSizeLabel(output)}</span>
                                 </p>
                                 <ToolResult task={activeTask} toolId={toolId} title="高清放大图" onCancel={onCancel} onRetry={onRetry} />
-                                {result.stale ? <p className="mt-2 text-[11px] text-[#d46b08]" data-testid="scale-up-stale">原图或参数已变更，下面的结果来自上一版配置，请重新生成。</p> : null}
+                                {result.stale ? <p className="mt-2 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scale-up-stale">原图或参数已变更，下面的结果来自上一版配置，请重新生成。</p> : null}
                             </>
                         ) : (
                             <Edit8Empty large lines={source ? [`输出尺寸：${outputSizeLabel(output)}`, "点击「立即生成」进行图片高清放大"] : ["暂无结果图", "请在左侧上传图片后，进行图片高清放大操作"]} />
@@ -551,7 +551,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
             </div>
 
             {historyOpen ? (
-                <div data-testid="scale-up-history-panel" className="absolute inset-y-0 right-0 z-20 flex w-[360px] flex-col border-l border-border bg-white p-3 shadow-xl">
+                <div data-testid="scale-up-history-panel" className="absolute inset-y-0 right-0 z-20 flex w-[360px] flex-col border-l border-border bg-background p-3 shadow-xl">
                     <div className="mb-2 flex items-center justify-between">
                         <span className="text-sm font-medium">历史记录</span>
                         <button type="button" onClick={() => setHistoryOpen(false)} className="text-xs text-muted-foreground">关闭</button>
@@ -783,10 +783,10 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-[#f4f6f8] p-[10px]", className)} data-tool="product-refine" data-layout="refine-three-column">
-            {/* 原站商品精修（1600×1000）：画布 #edeff5 | 配置 240（白卡 + 卡外「开始精修」）| 结果 300，列间距 10。 */}
+        <div className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-canvas p-[10px]", className)} data-tool="product-refine" data-layout="refine-three-column">
+            {/* 原站商品精修（1600×1000）：画布 | 配置 240（面板卡 + 卡外「开始精修」）| 结果 300，列间距 10。 */}
             <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col items-center justify-center overflow-y-auto border border-black/[0.08] p-5">
+                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col items-center justify-center overflow-y-auto border border-border p-5">
                     {source ? (
                         <div className="flex max-h-full flex-col items-center gap-3">
                             <img src={source.dataUrl ?? source.url} alt="待精修商品图" className="max-h-[640px] w-auto max-w-full rounded-[8px] object-contain" />
@@ -807,7 +807,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                             heading={
                                 <>
                                     <h2 className="m-0! mt-[10px]! text-[20px] font-normal leading-[31px] text-foreground">商品精修</h2>
-                                    <p className="m-0! mb-5! mt-[10px]! px-10 text-[16px] leading-[19px] text-[#939599]">
+                                    <p className="m-0! mb-5! mt-[10px]! px-10 text-[16px] leading-[19px] text-muted-foreground">
                                         一键提升商品质感
                                         <br />
                                         改善商品的轮廓，光泽、材质与颜色等
@@ -821,7 +821,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-[8px] bg-card">
                         <div className="flex flex-1 flex-col">
                 <div className="px-3 py-[10px]">
-                    <p className="m-0! text-[12px] leading-[22px] text-black/30">精修模式</p>
+                    <p className="m-0! text-[12px] leading-[22px] text-muted-foreground">精修模式</p>
                     <div className="mt-[10px] flex" data-testid="refine-modes" role="radiogroup" aria-label="精修模式">
                         {PRODUCT_REFINE_MODES.map((item, index) => {
                             const active = values.mode === item.id;
@@ -837,7 +837,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                                     className={cn(
                                         "relative h-8 flex-1 border bg-card px-[15px] text-[14px] leading-[30px] transition disabled:opacity-50",
                                         index === 0 ? "rounded-l-[6px]" : "-ml-px rounded-r-[6px]",
-                                        active ? "z-10 border-primary text-primary" : "border-[#d9d9d9] text-foreground hover:text-primary",
+                                        active ? "z-10 border-selected bg-selected-soft text-foreground" : "border-border text-foreground hover:bg-accent",
                                     )}
                                 >
                                     {item.label}
@@ -847,10 +847,10 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
                 <div className="px-3 py-[10px]">
-                    <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-black/30">上传待精修的商品图</p>
+                    <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-muted-foreground">上传待精修的商品图</p>
                     <Edit8Dropzone target="需要修复的图" hint="20M以内，jpg/jpeg/png/webp" constraints={REFINE_ASSET_CONSTRAINTS} disabled={running} onPick={(record) => onSourceChange([record.id], [record])} testId="refine-dropzone" />
                     {restoringSource ? <p className="mt-2 text-[11px] text-foreground/60">正在恢复上次的商品图…</p> : null}
-                    {!source && values.sourceAssetId && !restoringSource ? <p className="mt-2 text-[11px] text-[#d46b08]">上次的商品图已失效，请重新选择。</p> : null}
+                    {!source && values.sourceAssetId && !restoringSource ? <p className="mt-2 text-[11px] text-amber-700 dark:text-amber-300">上次的商品图已失效，请重新选择。</p> : null}
                     {sourceIssue && !sourceIssue.ok ? <p className="mt-2 text-[11px] text-destructive">{sourceIssue.message}</p> : null}
                     {source?.width && source?.height ? (
                         <p className="m-0! mt-2! text-[11px] leading-4 text-foreground/60" data-testid="refine-output-size">
@@ -858,12 +858,12 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         </p>
                     ) : null}
                 </div>
-                <p className="m-0! mt-auto! px-2 pb-[10px] text-center text-[12px] leading-[19px] text-[#939599]">💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸</p>
+                <p className="m-0! mt-auto! px-2 pb-[10px] text-center text-[12px] leading-[19px] text-muted-foreground">💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸</p>
                         </div>
                     </div>
                     <div className="mt-2 shrink-0">
                         {source && blocking.length > 0 ? (
-                            <ul className="mb-2 list-disc pl-4 text-[11px] text-[#d46b08]" data-testid="refine-issues">
+                            <ul className="mb-2 list-disc pl-4 text-[11px] text-amber-700 dark:text-amber-300" data-testid="refine-issues">
                                 {blocking.map((issue) => (<li key={`${issue.code}-${issue.field}`}>{issue.message}</li>))}
                             </ul>
                         ) : null}
@@ -874,7 +874,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         {runError ? <p className="mt-2 text-[11px] text-destructive" data-testid="refine-run-error">{runError}</p> : null}
                     </div>
                 </aside>
-                <section data-testid="change-color-results" data-region="results" className="flex min-h-0 w-[300px] min-w-0 shrink-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+                <section data-testid="change-color-results" data-region="results" className="flex min-h-0 w-[300px] min-w-0 shrink-0 flex-col overflow-hidden rounded-[8px] bg-canvas">
                     <Edit8ResultTabs
                         tabs={[{ id: "result", label: "生成结果", testId: "refine-tab-result" }]}
                         active={resultTab === "history" ? "" : "result"}
@@ -885,7 +885,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     />
                     <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto py-4 pl-4 pr-3">
                         {result.stale ? (
-                            <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[11px] text-[#ad6800]" data-testid="refine-stale">
+                            <p className="rounded-md bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300" data-testid="refine-stale">
                                 原图或配置已变更（{result.drift || "参数"}），下面的结果来自上一版配置，请重新精修。
                             </p>
                         ) : null}

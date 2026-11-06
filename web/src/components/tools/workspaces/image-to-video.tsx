@@ -426,7 +426,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     return (
         <div data-testid="image-to-video-workspace" data-make-type={IMAGE_TO_VIDEO_MAKE_TYPE} className={cn("flex h-full min-h-0 flex-col gap-4", className)}>
             {lostAssets.length ? (
-                <p data-testid="image-to-video-lost" className="rounded-md bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                <p data-testid="image-to-video-lost" className="rounded-md bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700 dark:text-amber-300">
                     有 {lostAssets.length} 个上次的素材已失效（{lostAssets.join("、")}），请重新上传。
                 </p>
             ) : null}
@@ -437,7 +437,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                     <div className="flex h-full min-h-0 flex-col">
                     <div data-testid="i2v-config-scroll" className="min-h-0 flex-1 space-y-[14px] overflow-y-auto pr-1">
                     {/* 原站顶部「普通模式 / 高级模式」分段：透传既有 isPro 字段（进快照与 fields），不虚构模型能力差异。 */}
-                    <div className="flex h-9 gap-[2px] rounded-[8px] border border-[#e4e5ee] bg-[#f4f4f8] p-[3px]" role="tablist" aria-label="模式品质">
+                    <div className="flex h-9 gap-[2px] rounded-[8px] border border-border bg-muted p-[3px]" role="tablist" aria-label="模式品质">
                         {([
                             { value: false, label: "普通模式" },
                             { value: true, label: "高级模式" },
@@ -451,7 +451,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 disabled={disabledField}
                                 title={item.value ? "任务按 isPro=true 提交，是否生效以模型/通道实际能力为准" : "普通模式，isPro=false"}
                                 onClick={() => update({ isPro: item.value })}
-                                className={cn("flex-1 rounded-[5px] text-[14px] font-semibold", values.isPro === item.value ? "bg-white text-[#723cf9]" : "text-[#625c6d]")}
+                                className={cn("flex-1 rounded-[5px] text-[14px] font-semibold", values.isPro === item.value ? "bg-background text-foreground" : "text-foreground/70")}
                             >
                                 {item.label}
                             </button>
@@ -463,7 +463,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             切换只改 values.sourceMode，各模式草稿独立保留，提交只按当前模式校验（registry validateImageToVideoState）。 */}
                         <div className="flex items-center justify-between" data-testid="image-to-video-source-mode" data-mode={mode}>
                             <span className={VF_LABEL}>{framesOn ? "首尾帧" : "参考素材"}</span>
-                            <label className="flex items-center gap-2 text-[12px] text-[#625c6d]">
+                            <label className="flex items-center gap-2 text-[12px] text-foreground/70">
                                 首尾帧
                                 <button
                                     type="button"
@@ -473,9 +473,9 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     disabled={disabledField}
                                     title={IMAGE_TO_VIDEO_SOURCE_MODE_BY_KEY.frames.hint}
                                     onClick={() => update({ sourceMode: framesOn ? (values.productUrl.trim() ? "product-link" : "reference") : "frames" })}
-                                    className={cn("relative h-4 w-7 rounded-full transition-colors disabled:opacity-50", framesOn ? "bg-[#723cf9]" : "bg-[#c9c6d0]")}
+                                    className={cn("relative h-4 w-7 rounded-full transition-colors disabled:opacity-50", framesOn ? "bg-primary" : "bg-foreground/20")}
                                 >
-                                    <span className={cn("absolute top-0.5 size-3 rounded-full bg-white transition-all", framesOn ? "left-[14px]" : "left-0.5")} />
+                                    <span className={cn("absolute top-0.5 size-3 rounded-full bg-background transition-all", framesOn ? "left-[14px]" : "left-0.5")} />
                                 </button>
                             </label>
                         </div>
@@ -483,8 +483,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                         {framesOn ? (
                             <div className={cn(VF_GRAY_CARD, "grid grid-cols-2 gap-2 space-y-0")}>
                                 <div className="space-y-1" data-testid="image-to-video-first-frame">
-                                    <h3 className="text-[12px] font-medium text-[#25212d]">
-                                        首帧 <span className="text-[#fa5151]">*</span>
+                                    <h3 className="text-[12px] font-medium text-foreground">
+                                        首帧 <span className="text-destructive">*</span>
                                     </h3>
                                     <ToolAssetInput
                                         toolId={toolId}
@@ -501,7 +501,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     />
                                 </div>
                                 <div className="space-y-1" data-testid="image-to-video-last-frame">
-                                    <h3 className="text-[12px] font-medium text-[#25212d]">尾帧（选填）</h3>
+                                    <h3 className="text-[12px] font-medium text-foreground">尾帧（选填）</h3>
                                     <ToolAssetInput
                                         toolId={toolId}
                                         draftSlot="last-frame"
@@ -516,11 +516,11 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                         hint="视频在该图结束"
                                     />
                                 </div>
-                                <p className="col-span-2 text-[11px] leading-4 text-black/45">首帧必填、尾帧可选；两帧进入同一次请求，参考图列表保留在草稿但不发送。</p>
+                                <p className="col-span-2 text-[11px] leading-4 text-muted-foreground">首帧必填、尾帧可选；两帧进入同一次请求，参考图列表保留在草稿但不发送。</p>
                             </div>
                         ) : (
                             <div className={VF_GRAY_CARD}>
-                                <span className="text-[12px] font-medium text-[#25212d]">商品链接</span>
+                                <span className="text-[12px] font-medium text-foreground">商品链接</span>
                                 <div className={VF_INPUT_BOX} data-testid="image-to-video-mode-product-link" data-active={mode === "product-link" ? "true" : "false"}>
                                     <input
                                         data-testid="image-to-video-product-url"
@@ -531,11 +531,11 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                         onChange={(event) => update({ productUrl: event.target.value, sourceMode: event.target.value.trim() ? "product-link" : "reference" })}
                                         placeholder="粘贴 TikTok Shop / 亚马逊商品链接"
                                         title="本页不解析商品数据，链接按原样进入任务并校验格式；商品链接模式仍需至少 1 张参考图"
-                                        className="h-full min-w-0 flex-1 bg-transparent text-[12px] outline-none placeholder:text-black/30"
+                                        className="h-full min-w-0 flex-1 bg-transparent text-[12px] outline-none placeholder:text-muted-foreground"
                                     />
-                                    <span className="shrink-0 text-[12px] text-[#723cf9]/50" title="本地未接入商品链接解析">分析</span>
+                                    <span className="shrink-0 text-[12px] text-foreground/50" title="本地未接入商品链接解析">分析</span>
                                 </div>
-                                <p className="flex items-center gap-2 text-[11px] leading-4 text-black/45 before:h-px before:flex-1 before:bg-black/10 after:h-px after:flex-1 after:bg-black/10">或 手动上传参考素材</p>
+                                <p className="flex items-center gap-2 text-[11px] leading-4 text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">或 手动上传参考素材</p>
                                 {referenceInput}
                             </div>
                         )}
@@ -543,7 +543,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
 
                     <section className="space-y-2">
                         <h3 className={VF_LABEL}>
-                            商品信息<span className="font-normal text-[#939599]">（选填）</span>
+                            商品信息<span className="font-normal text-muted-foreground">（选填）</span>
                         </h3>
                         <div className={VF_TEXT_BOX}>
                             <textarea
@@ -563,7 +563,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     disabled={disabledField || !values.productInfo.trim()}
                                     title={values.productInfo.trim() ? "按商品信息做本地分析" : "先在「商品信息」里填写卖点再分析"}
                                     onClick={() => update({ productAnalyzed: true })}
-                                    className="text-[12px] font-semibold text-[#723cf9] disabled:text-[#b8bcc6]"
+                                    className="text-[12px] font-semibold text-foreground disabled:text-muted-foreground/60"
                                 >
                                     AI 分析
                                 </button>
@@ -575,8 +575,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                     <section className="space-y-2" data-testid="image-to-video-type">
                         <div className="flex items-center justify-between">
                             <h3 className={VF_LABEL}>
-                                视频描述 <span className="text-[#fa5151]">*</span>
-                                <span className="font-normal text-[#939599]">（必填项）</span>
+                                视频描述 <span className="text-destructive">*</span>
+                                <span className="font-normal text-muted-foreground">（必填项）</span>
                             </h3>
                             {/* 「怎么写描述？」：真实帮助说明，不做跳转假链接。 */}
                             <button
@@ -584,13 +584,13 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 data-testid="image-to-video-prompt-help"
                                 aria-expanded={helpOpen}
                                 onClick={() => setHelpOpen((previous) => !previous)}
-                                className="text-[12px] font-semibold text-[#1677ff]"
+                                className="text-[12px] font-semibold text-muted-foreground hover:text-foreground"
                             >
                                 怎么写描述？
                             </button>
                         </div>
                         {helpOpen ? (
-                            <div data-testid="image-to-video-help-panel" className="space-y-1 rounded-[8px] bg-[#f7f7f7] p-2 text-[11px] leading-4 text-black/55">
+                            <div data-testid="image-to-video-help-panel" className="space-y-1 rounded-[8px] bg-muted p-2 text-[11px] leading-4 text-muted-foreground">
                                 <p>视频模板：选择类型后自动套用对应运镜骨架，可再补充商品细节；提示词为空时按模板骨架生成。</p>
                                 <p>自定义描述：写清画面主体、动作、镜头运动、光线与节奏，长度 1～{IMAGE_TO_VIDEO_PROMPT_LIMIT} 字；模板模式下为空也能提交。</p>
                                 <p>开启「提示词优化」后，任务会携带优化标志并附上运镜节奏优化要求，由模型按能力执行，本页不做本地改写。</p>
@@ -616,7 +616,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                         }
                                         className={cn(
                                             "h-6 rounded-full border px-2.5 text-[12px] font-semibold",
-                                            values.promptMode === "template" && values.videoType === item.key ? "border-[#723cf9]/40 bg-[#f3edff] text-[#723cf9]" : "border-[#e4e5ee] bg-white text-black/65",
+                                            values.promptMode === "template" && values.videoType === item.key ? "border-selected bg-selected-soft text-selected" : "border-border bg-background text-foreground/70",
                                         )}
                                     >
                                         {item.label}
@@ -631,7 +631,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     onClick={() => update({ promptMode: "custom" })}
                                     className={cn(
                                         "h-6 rounded-full border px-2.5 text-[12px] font-semibold",
-                                        values.promptMode === "custom" ? "border-[#723cf9]/40 bg-[#f3edff] text-[#723cf9]" : "border-[#e4e5ee] bg-white text-black/65",
+                                        values.promptMode === "custom" ? "border-selected bg-selected-soft text-selected" : "border-border bg-background text-foreground/70",
                                     )}
                                 >
                                     自定义
@@ -655,7 +655,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     disabled={disabledField}
                                     title="开启后随任务提交优化标志，由模型按能力执行"
                                     onClick={() => update({ promptOptimizer: !values.promptOptimizer })}
-                                    className={cn("h-6 rounded-[4px] px-2 text-[12px] font-semibold", values.promptOptimizer ? "bg-[#f3edff] text-[#723cf9]" : "bg-[#f1f2f5] text-[#b8bcc6]")}
+                                    className={cn("h-6 rounded-[4px] px-2 text-[12px] font-semibold", values.promptOptimizer ? "bg-selected-soft text-selected" : "bg-muted text-muted-foreground")}
                                 >
                                     提示词优化
                                 </button>
@@ -704,11 +704,11 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
 
                     <section className="space-y-2">
                         <h3 className={VF_LABEL}>生成设置</h3>
-                        <p className="text-[11px] font-medium text-[#77717f]">视频时长</p>
+                        <p className="text-[11px] font-medium text-muted-foreground">视频时长</p>
                         <div className={VF_DURATION_BOX}>
-                            <div className="flex items-center justify-between text-[12px] text-[#6e6878]">
+                            <div className="flex items-center justify-between text-[12px] text-muted-foreground">
                                 <span>拖动选择时长</span>
-                                <strong data-testid="image-to-video-duration-value" className="font-semibold text-[#723cf9]">{values.duration}秒</strong>
+                                <strong data-testid="image-to-video-duration-value" className="font-semibold text-foreground">{values.duration}秒</strong>
                             </div>
                             <input
                                 type="range"
@@ -719,20 +719,20 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 value={values.duration}
                                 disabled={disabledField}
                                 onChange={(event) => update({ duration: Number(event.target.value) as ImageToVideoValues["duration"] })}
-                                className="w-full accent-[#723cf9]"
+                                className="w-full accent-[var(--selected)]"
                             />
                             <VfDurationStops values={IMAGE_TO_VIDEO_DURATIONS} value={values.duration} disabled={disabledField} onChange={(duration) => update({ duration })} />
                         </div>
-                        <p data-testid="image-to-video-hint" className="text-[11px] text-black/45">
+                        <p data-testid="image-to-video-hint" className="text-[11px] text-muted-foreground">
                             预计产出 {capability.expected}；来源模式「{IMAGE_TO_VIDEO_SOURCE_MODE_BY_KEY[mode].label}」
                         </p>
                         <div className="space-y-2" data-testid="image-to-video-ratio">
-                            <p className="text-[11px] font-medium text-[#77717f]">视频比例</p>
+                            <p className="text-[11px] font-medium text-muted-foreground">视频比例</p>
                             <VfRatioGrid options={IMAGE_TO_VIDEO_RATIOS.map((item) => ({ value: item.key, label: item.label }))} value={values.aspectRatio} disabled={disabledField} onChange={(aspectRatio) => update({ aspectRatio })} />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                             <label className="space-y-2">
-                                <span className="block text-[11px] font-medium text-[#77717f]">销售国家/地区</span>
+                                <span className="block text-[11px] font-medium text-muted-foreground">销售国家/地区</span>
                                 <select data-testid="image-to-video-country" value={values.saleCountry} disabled={disabledField} onChange={(event) => update({ saleCountry: event.target.value })} className={VF_SELECT}>
                                     {IMAGE_TO_VIDEO_COUNTRIES.map((item) => (
                                         <option key={item.key} value={item.key}>{item.label}</option>
@@ -740,7 +740,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 </select>
                             </label>
                             <label className="space-y-2">
-                                <span className="block text-[11px] font-medium text-[#77717f]">目标语言</span>
+                                <span className="block text-[11px] font-medium text-muted-foreground">目标语言</span>
                                 <select data-testid="image-to-video-language" value={values.language} disabled={disabledField} onChange={(event) => update({ language: event.target.value })} className={VF_SELECT}>
                                     {IMAGE_TO_VIDEO_LANGUAGES.map((item) => (
                                         <option key={item} value={item}>{item}</option>
@@ -750,7 +750,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                         </div>
                     </section>
                     </div>
-                    <div data-testid="i2v-submit-bar" className="shrink-0 space-y-2 bg-white pb-1 pt-2">
+                    <div data-testid="i2v-submit-bar" className="shrink-0 space-y-2 bg-background pb-1 pt-2">
                     <button
                         type="button"
                         data-testid="image-to-video-submit"
@@ -759,7 +759,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                         className={cn(VF_SUBMIT, "flex items-center justify-center gap-2")}
                     >
                         {running ? "生成中…" : "立即生成"}
-                        <span className="text-[12px] font-medium text-white/60">{capability.expected}</span>
+                        <span className="text-[12px] font-medium text-primary-foreground/60">{capability.expected}</span>
                     </button>
                     {(capability.blockers.length > 0 || issues.warnings.length > 0 || capability.notices.length > 0 || runError || notice) ? (
                         <ul data-testid="image-to-video-issues" className="flex flex-col gap-1 text-[11px]">
@@ -806,9 +806,9 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             ) : (
                                 /* 原站空态：白卡（850×590、圆角 12）+ 示例插画 + 16px 灰字说明 */
                                 <div className={GUIDE_WRAP_CLASS} data-testid="image-to-video-empty">
-                                    <div className="flex w-full max-w-[850px] flex-col items-center rounded-[12px] bg-white px-10 pb-5 pt-[17px]">
+                                    <div className="flex w-full max-w-[850px] flex-col items-center rounded-[12px] bg-background px-10 pb-5 pt-[17px]">
                                         <img src={IMAGE_TO_VIDEO_EMPTY_IMAGE} alt="动态展示商品" className="aspect-[770/510] w-full max-w-[770px] object-contain" draggable={false} />
-                                        <span className="mt-5 text-[16px] leading-[25px] text-[#939599]">动态展示商品，点击率大大提升</span>
+                                        <span className="mt-5 text-[16px] leading-[25px] text-muted-foreground">动态展示商品，点击率大大提升</span>
                                     </div>
                                 </div>
                             )}

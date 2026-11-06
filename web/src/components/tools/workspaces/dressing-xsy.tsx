@@ -139,7 +139,7 @@ function XsySegmented<T extends string>({
                             onClick={() => onChange(option.id)}
                             className={cn(
                                 "min-h-10 rounded-md border px-3 text-xs transition-colors disabled:opacity-40",
-                                active ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:text-foreground",
+                                active ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:text-foreground",
                             )}
                         >
                             {option.label}
@@ -795,7 +795,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
 
             {lostAssets.length > 0 ? (
-                <p data-testid="xsy-lost-assets" className="rounded-lg border border-amber-500/50 bg-amber-500/5 px-3 py-2 text-[11px] text-amber-600">
+                <p data-testid="xsy-lost-assets" className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-600 dark:text-amber-400">
                     草稿里的 {lostAssets.length} 个素材已不在资产库（{lostAssets.join("、")}），请重新上传后再生成。
                 </p>
             ) : null}
@@ -831,7 +831,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         }
                         className={cn(
                             "min-h-10 rounded-md border px-3 text-xs",
-                            values.activeTab === tab.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
+                            values.activeTab === tab.id ? "border-border bg-accent text-foreground" : "border-border text-muted-foreground",
                         )}
                     >
                         {tab.label}
@@ -985,13 +985,13 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         value={values.stepLength}
                         disabled={running}
                         onChange={(event) => edit({ stepLength: Number(event.target.value) }, 4)}
-                        className="w-full accent-[#723cf9]"
+                        className="w-full accent-[var(--selected)]"
                     />
                     <div className="relative h-4 text-[12px]">
                         {XSY_STEP_LENGTH.marks.map((mark) => (
                             <span
                                 key={mark}
-                                className={cn("absolute -translate-x-1/2", values.stepLength === mark ? "text-black" : "text-black/30")}
+                                className={cn("absolute -translate-x-1/2", values.stepLength === mark ? "text-foreground" : "text-muted-foreground")}
                                 style={{ left: `${((mark - XSY_STEP_LENGTH.min) / (XSY_STEP_LENGTH.max - XSY_STEP_LENGTH.min)) * 100}%` }}
                             >
                                 {mark}
@@ -1040,7 +1040,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             {/* 结果 */}
             <XsySection title="试穿结果" hint="结果显示在下方；结果与提交快照不一致时会标注旧配置" testId="xsy-results">
                 {stale ? (
-                    <p data-testid="xsy-stale" className="rounded-lg border border-amber-500/50 bg-amber-500/5 px-3 py-2 text-[11px] text-amber-600">
+                    <p data-testid="xsy-stale" className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-600 dark:text-amber-400">
                         配置已改动，下面的结果来自提交时的旧版本配置。
                     </p>
                 ) : null}

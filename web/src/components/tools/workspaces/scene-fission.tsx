@@ -144,9 +144,9 @@ function SceneLayerComposer({
                 />
             </div>
             {restoring ? <p className="mt-2 text-[11px] text-muted-foreground">正在恢复上次的参考图…</p> : null}
-            {lostSource ? <p className="mt-2 text-[11px] text-amber-600">上次的参考图已失效，请重新上传。</p> : null}
+            {lostSource ? <p className="mt-2 text-[11px] text-amber-600 dark:text-amber-400">上次的参考图已失效，请重新上传。</p> : null}
             {sourceIssue && !sourceIssue.ok ? (
-                <p className="mt-2 text-[11px] text-red-600" data-testid="scene-source-error">
+                <p className="mt-2 text-[11px] text-destructive" data-testid="scene-source-error">
                     {sourceIssue.message}
                 </p>
             ) : null}
@@ -191,7 +191,7 @@ function SimilarityControl({
                 背景相似度：
             </FieldLabel>
             {smart ? (
-                <p id="scene-similarity-hint" className="rounded-[4px] bg-amber-50 p-[5px] text-[12px] leading-[22px] text-amber-600 dark:bg-amber-500/10 dark:text-amber-300">
+                <p id="scene-similarity-hint" className="rounded-[4px] bg-amber-500/10 p-[5px] text-[12px] leading-[22px] text-amber-700 dark:text-amber-300">
                     💡已选择智能模式，将根据模型自动生成场景
                 </p>
             ) : (
@@ -205,7 +205,7 @@ function SimilarityControl({
                 disabled={disabled || smart}
                 aria-describedby="scene-similarity-hint"
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
-                className="h-4 w-full accent-primary disabled:opacity-50"
+                className="h-4 w-full accent-[var(--selected)] disabled:opacity-50"
             />
             )}
         </div>
@@ -257,7 +257,7 @@ function SceneVariantGrid({
                                 <span>生成中…</span>
                             ) : (
                                 <>
-                                    <span className="text-amber-600">
+                                    <span className="text-amber-600 dark:text-amber-400">
                                         {cell.status === "failed" ? cell.message ?? "生成失败" : cell.message ?? "缺少该张结果"}
                                     </span>
                                     <button
@@ -571,7 +571,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
             <OrigRail items={PRODUCT_SCENE_RAIL} active="场景裂变" driver testId="product-scene-rail" className="mb-2" />
             <ToolWorkspaceColumns
                 configSide="left"
-                className="h-[calc(100dvh-76px)] min-h-[560px] overflow-hidden rounded-[8px] border border-black/[0.06]"
+                className="h-[calc(100dvh-76px)] min-h-[560px] overflow-hidden rounded-[8px] border border-border"
                 config={
                     <div className="flex h-full flex-col">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="scene-form">
@@ -597,7 +597,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         </div>
 
                         <div className="mt-[10px]">
-                            <FieldLabel htmlFor="scene-prompt" extra={<span className="text-[12px] leading-4 text-[#3a7df9]">💡场景描述怎么写？</span>}>
+                            <FieldLabel htmlFor="scene-prompt" extra={<span className="text-[12px] leading-4 text-foreground">💡场景描述怎么写？</span>}>
                                 场景描述（可选）
                             </FieldLabel>
                             <div className="relative rounded-[6px] border border-border bg-card pb-5 focus-within:border-primary">
@@ -635,17 +635,17 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onClick={() => update({ modelId: item.id })}
                                             className="w-[60px] shrink-0 text-center transition disabled:opacity-50"
                                         >
-                                            <span className={`relative block size-[60px] overflow-hidden rounded-[6px] border-2 ${active ? "border-primary" : "border-transparent hover:border-primary/40"}`}>
+                                            <span className={`relative block size-[60px] overflow-hidden rounded-[6px] border-2 ${active ? "border-selected" : "border-transparent hover:border-selected"}`}>
                                                 <img src={MODEL_PREVIEW[item.id]} alt="" className="size-full object-cover" draggable={false} />
                                                 {active ? (
-                                                    <span className="absolute inset-0 flex items-center justify-center bg-primary/50">
+                                                    <span className="absolute inset-0 flex items-center justify-center bg-black/40">
                                                         <Check aria-hidden="true" className="size-7 text-white" />
                                                     </span>
                                                 ) : null}
                                             </span>
                                             <span
                                                 className={`mt-1 block text-[12px] leading-[19px] ${
-                                                    active ? "text-primary" : "text-muted-foreground"
+                                                    active ? "text-selected" : "text-muted-foreground"
                                                 }`}
                                             >
                                                 {item.label}
@@ -678,8 +678,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onClick={() => update({ sizeType: item.id })}
                                             className={`h-8 rounded-[6px] border px-[15px] text-[14px] transition ${
                                                 active
-                                                    ? "border-primary bg-primary/10 text-primary"
-                                                    : "border-border bg-card text-muted-foreground hover:border-primary/40"
+                                                    ? "border-selected bg-selected-soft text-selected"
+                                                    : "border-border bg-card text-muted-foreground hover:border-selected"
                                             } disabled:opacity-50`}
                                         >
                                             {item.label}
@@ -736,8 +736,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onClick={() => update({ outputNum: count })}
                                             className={`h-[26px] w-[42px] rounded-[4px] border text-[12px] tabular-nums transition ${
                                                 active
-                                                    ? "border-primary bg-primary/10 text-primary"
-                                                    : "border-border bg-card text-muted-foreground hover:border-primary/40"
+                                                    ? "border-selected bg-selected-soft text-selected"
+                                                    : "border-border bg-card text-muted-foreground hover:border-selected"
                                             } disabled:opacity-50`}
                                         >
                                             {count}
@@ -750,7 +750,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
                     <div className="shrink-0 border-t border-border px-4 py-3">
                         {issues.length > 0 && runError ? (
-                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-[#c47a1a]" data-testid="scene-issues">
+                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-amber-600 dark:text-amber-400" data-testid="scene-issues">
                                 {issues.map((issue) => (
                                     <li key={`${issue.code}-${issue.field}`}>· {issue.message}</li>
                                 ))}
@@ -764,7 +764,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             </ul>
                         ) : null}
                         {runError ? (
-                            <p className="mb-2 text-[10px] leading-4 text-red-600" data-testid="scene-run-error">
+                            <p className="mb-2 text-[10px] leading-4 text-destructive" data-testid="scene-run-error">
                                 {runError}
                             </p>
                         ) : null}
@@ -773,7 +773,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             disabled={blocked || !source}
                             onClick={() => void onGenerate()}
                             data-testid="scene-generate"
-                            className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-primary text-[13px] font-medium leading-none text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/40"
+                            className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-primary text-[13px] font-medium leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/40"
                         >
                             <span>{running ? "裂变中…" : "立即生成"}</span>
                         </button>
@@ -803,11 +803,11 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     data-testid={`scene-tab-${item.id}`}
                                     onClick={() => setTab(item.id)}
                                     className={`relative h-full px-3 leading-none transition ${item.id === "history" ? "ml-auto! text-[12px]" : "text-[14px]"} ${
-                                        active ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground"
+                                        active ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground"
                                     }`}
                                 >
                                     {item.label}
-                                    {active ? <span className="absolute inset-x-3 bottom-0 h-[2px] rounded-full bg-primary" /> : null}
+                                    {active ? <span className="absolute inset-x-3 bottom-0 h-[2px] rounded-full bg-foreground" /> : null}
                                 </button>
                             );
                         })}
@@ -818,7 +818,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             <div className="flex min-h-full flex-col gap-3 p-4">
                                 {drift && task ? (
                                     <p
-                                        className="rounded-[6px] border border-[#f0d9b0] bg-[#fdf6e8] px-3 py-1.5 text-[11px] leading-4 text-[#8a5d10]"
+                                        className="rounded-[6px] border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300"
                                         data-testid="scene-stale"
                                     >
                                         配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。

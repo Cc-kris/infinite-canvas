@@ -251,7 +251,7 @@ export function OrigRail({ items, active, testId = "orig-rail", label = "同类�
             data-orig-rail={sidebar ? "sidebar" : "inline"}
             aria-label={label}
             className={cn(
-                sidebar ? "flex h-full flex-col gap-0 overflow-y-auto bg-white px-2 py-2" : "flex flex-wrap items-center gap-1 rounded-lg border border-border/70 bg-muted/30 px-2 py-1.5",
+                sidebar ? "flex h-full flex-col gap-0 overflow-y-auto bg-background px-2 py-2" : "flex flex-wrap items-center gap-1 rounded-lg border border-border/70 bg-muted/30 px-2 py-1.5",
                 className,
             )}
         >
@@ -285,7 +285,7 @@ export function OrigRail({ items, active, testId = "orig-rail", label = "同类�
                             aria-current={current ? "page" : undefined}
                             title={current ? undefined : "原站入口，本地未开通"}
                             className={cn(
-                                current ? (sidebar ? "bg-[#f3edff] font-medium text-[#723cf9]" : "border-primary bg-primary/10 text-foreground") : "cursor-not-allowed text-muted-foreground/70",
+                                current ? (sidebar ? "bg-accent font-medium text-foreground" : "border-foreground bg-accent text-foreground") : "cursor-not-allowed text-muted-foreground/70",
                                 sidebar ? "flex h-9 items-center gap-2.5 rounded px-2 text-[13px] leading-5" : "rounded-md border border-dashed border-border px-2 py-[3px] text-[11px] leading-4",
                             )}
                         >
@@ -303,11 +303,11 @@ export function OrigRail({ items, active, testId = "orig-rail", label = "同类�
                             sidebar
                                   ? cn(
                                         "flex h-9 items-center gap-2.5 rounded px-2 text-[13px] leading-5",
-                                        item.label === active ? "bg-[#f3edff] font-medium text-[#723cf9]" : "text-foreground hover:bg-[#f7f7f8]",
+                                        item.label === active ? "bg-accent font-medium text-foreground" : "text-foreground hover:bg-accent",
                                     )
                                   : cn(
                                         "rounded-md border px-2 py-[3px] text-[11px] leading-4",
-                                        item.label === active ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground",
+                                        item.label === active ? "border-foreground bg-accent text-foreground" : "border-border text-muted-foreground hover:text-foreground",
                                     ),
                           )}
                       >

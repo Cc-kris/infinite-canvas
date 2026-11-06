@@ -158,29 +158,29 @@ export function AiPoseGeneratorWorkspace({ className }: { className?: string }) 
         <div data-testid="ai-pose-generator-workspace" className={cn("flex h-full min-h-0 flex-col", className)}>
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-hidden rounded-[8px] border border-black/[0.08] bg-white"
+                configClassName="overflow-hidden rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={<ToolTaskHistory toolId={toolId} className="m-3 border-0 bg-transparent p-0" emptyHint="还没有生成过参考图" />}
             >
-                <div className="flex h-[42px] shrink-0 items-center border-b border-black/[0.08] bg-white px-4">
-                    <span className="border-b-2 border-[#723cf9] py-[9px] text-[14px] text-[#723cf9]">生成参考图</span>
+                <div className="flex h-[42px] shrink-0 items-center border-b border-border bg-background px-4">
+                    <span className="border-b-2 border-foreground py-[9px] text-[14px] text-foreground">生成参考图</span>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto p-4">
                     {activeTask ? (
                         <ToolResult task={activeTask} toolId={toolId} title="生成结果" />
                     ) : (
-                        <div data-testid="ai-pose-results-empty" className="flex h-full min-h-[240px] flex-col items-center justify-center text-[14px] text-black/45">
+                        <div data-testid="ai-pose-results-empty" className="flex h-full min-h-[240px] flex-col items-center justify-center text-[14px] text-muted-foreground">
                             <p>💡 告诉我你要的感觉→模特姿势套图秒出</p>
                             <p className="mt-2 text-[12px]">不知道怎么写，试试点击👇</p>
                         </div>
                     )}
                 </div>
-                <div data-testid="ai-pose-panel" className="relative m-4 mt-0 shrink-0 rounded-[12px] border border-[#e8e8e8] bg-white p-3">
-                    <button type="button" data-testid="ai-pose-template-btn" onClick={() => setTemplatesOpen((open) => !open)} className="mb-2 rounded-[6px] border border-[#e8e8e8] px-2 py-0.5 text-[12px] text-black/70 hover:border-[#723cf9] hover:text-[#723cf9]">
+                <div data-testid="ai-pose-panel" className="relative m-4 mt-0 shrink-0 rounded-[12px] border border-border bg-background p-3">
+                    <button type="button" data-testid="ai-pose-template-btn" onClick={() => setTemplatesOpen((open) => !open)} className="mb-2 rounded-[6px] border border-border px-2 py-0.5 text-[12px] text-foreground/70 hover:border-selected hover:text-foreground">
                         模板库
                     </button>
                     {templatesOpen ? (
-                        <div data-testid="ai-pose-templates" className="absolute bottom-full left-0 z-20 mb-2 grid w-full grid-cols-3 gap-2 rounded-[12px] bg-white p-3 shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
+                        <div data-testid="ai-pose-templates" className="absolute bottom-full left-0 z-20 mb-2 grid w-full grid-cols-3 gap-2 rounded-[12px] bg-background p-3 shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
                             {POSE_TEMPLATES.map((template) => (
                                 <button
                                     key={template.id}
@@ -190,10 +190,10 @@ export function AiPoseGeneratorWorkspace({ className }: { className?: string }) 
                                         setPrompt(template.prompt);
                                         setTemplatesOpen(false);
                                     }}
-                                    className="rounded-[8px] border border-[#e8e8e8] p-2 text-left hover:border-[#723cf9]"
+                                    className="rounded-[8px] border border-border p-2 text-left hover:border-selected"
                                 >
                                     <p className="text-[13px] font-medium">{template.title}</p>
-                                    <p className="mt-1 line-clamp-3 text-[12px] text-black/50">{template.prompt}</p>
+                                    <p className="mt-1 line-clamp-3 text-[12px] text-muted-foreground">{template.prompt}</p>
                                 </button>
                             ))}
                         </div>
@@ -206,10 +206,10 @@ export function AiPoseGeneratorWorkspace({ className }: { className?: string }) 
                         maxLength={AI_POSE_GENERATOR_PROMPT_MAX}
                         placeholder={PROMPT_TEMPLATE}
                         onChange={(event) => setPrompt(event.target.value)}
-                        className="block w-full resize-none bg-transparent text-[14px] leading-[22px] outline-none placeholder:text-black/25"
+                        className="block w-full resize-none bg-transparent text-[14px] leading-[22px] outline-none placeholder:text-muted-foreground/70"
                     />
                     <div className="mt-2 flex items-center justify-between gap-2">
-                        <span className="text-[12px] text-black/30" title="原站根据已上传服装推荐套图场景；独立页面没有服装图，不推荐">
+                        <span className="text-[12px] text-muted-foreground" title="原站根据已上传服装推荐套图场景；独立页面没有服装图，不推荐">
                             推荐套图场景
                         </span>
                         <div className="flex items-center gap-2">
@@ -219,7 +219,7 @@ export function AiPoseGeneratorWorkspace({ className }: { className?: string }) 
                                 disabled={noText || expanding || running}
                                 title={noText ? "请先输入需要扩写的描述" : ""}
                                 onClick={() => void expand()}
-                                className="inline-flex h-8 items-center gap-1 rounded-[6px] border border-[#723cf9] px-3 text-[12px] text-[#723cf9] disabled:cursor-not-allowed disabled:opacity-40"
+                                className="inline-flex h-8 items-center gap-1 rounded-[6px] border border-border bg-background px-3 text-[12px] text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 {expanding ? <RefreshCw className="size-3.5 animate-spin" /> : <Sparkles className="size-3.5" />}
                                 {expanding ? "智能扩写中..." : "智能扩写"}
@@ -229,14 +229,14 @@ export function AiPoseGeneratorWorkspace({ className }: { className?: string }) 
                                 data-testid="ai-pose-submit"
                                 disabled={noText || running}
                                 onClick={() => void submit()}
-                                className="inline-flex h-8 items-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] px-4 text-[12px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                className="inline-flex h-8 items-center gap-1 rounded-[6px] bg-primary px-4 text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                                 立即生成
                             </button>
                         </div>
                     </div>
-                    {errorText ? <p data-testid="ai-pose-error" className="mt-1 text-[12px] text-[#ff4d4f]">{errorText}</p> : null}
+                    {errorText ? <p data-testid="ai-pose-error" className="mt-1 text-[12px] text-destructive">{errorText}</p> : null}
                 </div>
             </ToolWorkspaceColumns>
         </div>

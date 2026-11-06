@@ -45,7 +45,7 @@ export function TryDemoStrip({ demos, onPick, busySrc, disabled }: { demos: { sr
 
 export function DesignRowCard({ image, title, desc, onClick, open, imageClassName, testId, children }: { image: string; title: ReactNode; desc: ReactNode; onClick?: () => void; open?: boolean; imageClassName?: string; testId?: string; children?: ReactNode }) {
     return (
-        <div className="rounded-[6px] border border-border bg-muted" data-testid={testId}>
+        <div className="rounded-[6px] border border-border bg-muted transition hover:border-selected" data-testid={testId}>
             <button type="button" aria-expanded={open} onClick={onClick} className="flex w-full items-center gap-[10px] p-[10px] text-left">
                 <img src={image} alt="" className={cn("w-[60px] shrink-0 rounded-[4px] object-cover", imageClassName ?? "h-[60px]")} draggable={false} />
                 <span className="min-w-0 flex-1">
@@ -60,19 +60,19 @@ export function DesignRowCard({ image, title, desc, onClick, open, imageClassNam
 }
 
 /** 原站「上传多图，体验新功能商品套图 →」一类的描边主色按钮（268×32、6px 圆角、14px）。 */
-export const DESIGN_OUTLINE_BUTTON = "mt-[10px] flex h-8 w-full items-center justify-center gap-1 rounded-[6px] border border-primary bg-card px-[15px] text-[14px] leading-5 text-primary transition hover:bg-primary/5 disabled:opacity-50";
+export const DESIGN_OUTLINE_BUTTON = "mt-[10px] flex h-8 w-full items-center justify-center gap-1 rounded-[6px] border border-border bg-background px-[15px] text-[14px] leading-5 text-foreground transition hover:bg-accent disabled:opacity-50";
 
 /** 原站上传卡外层 `_uploadPanel`：#f7f7f7 灰底、8px 圆角、10px 内边距（这里用主题 muted token）。 */
 export const DESIGN_UPLOAD_PANEL = "relative rounded-[8px] bg-muted p-[10px]";
 
-/** 原站 `_uploadBox`：虚线框高 196、内边距 16、顶部 40px 紫色图片图标（`UploadPanelIcon`）+ 标题 + 按钮组 + 提示，自上而下间距 10。 */
+/** 原站 `_uploadBox`：虚线框高 196、内边距 16、顶部 40px 图片图标（`UploadPanelIcon`）+ 标题 + 按钮组 + 提示，自上而下间距 10。 */
 export const DESIGN_UPLOAD_DROPZONE =
     "relative [&_[data-testid=tool-asset-dropzone]]:min-h-[196px] [&_[data-testid=tool-asset-dropzone]]:justify-start [&_[data-testid=tool-asset-dropzone]]:gap-[10px] [&_[data-testid=tool-asset-dropzone]]:rounded-[8px] [&_[data-testid=tool-asset-dropzone]]:bg-card/60 [&_[data-testid=tool-asset-dropzone]]:px-4 [&_[data-testid=tool-asset-dropzone]]:pb-4 [&_[data-testid=tool-asset-dropzone]]:pt-[66px] " +
     // 原站上传卡是单一入口：已上传图直接铺在虚线框里预览（右上「移除」），不在卡下平铺文件列表。
     "[&_[data-testid=tool-asset-list]]:absolute! [&_[data-testid=tool-asset-list]]:inset-x-0 [&_[data-testid=tool-asset-list]]:top-0 [&_[data-testid=tool-asset-list]]:z-20 [&_[data-testid=tool-asset-list]]:m-0! [&_[data-testid=tool-asset-list]]:h-[196px] [&_[data-testid=tool-asset-list]>li]:relative [&_[data-testid=tool-asset-list]>li]:h-full [&_[data-testid=tool-asset-list]>li]:justify-center [&_[data-testid=tool-asset-list]>li]:rounded-[8px]! [&_[data-testid=tool-asset-list]>li]:border-border! [&_[data-testid=tool-asset-list]>li]:bg-card [&_[data-testid=tool-asset-list]>li>img]:h-[172px]! [&_[data-testid=tool-asset-list]>li>img]:w-auto! [&_[data-testid=tool-asset-list]>li>img]:max-w-full [&_[data-testid=tool-asset-list]>li>img]:object-contain! [&_[data-testid=tool-asset-list]>li[data-status=ready]>div]:hidden [&_[data-testid=tool-asset-list]>li:not(:first-child)]:hidden [&_[data-testid=tool-asset-list]>li>button]:absolute [&_[data-testid=tool-asset-list]>li>button]:bottom-2 [&_[data-testid=tool-asset-list]>li>button]:right-2 [&_[data-testid=tool-asset-list]>li>button]:bg-card";
 
 export function UploadPanelIcon({ className }: { className?: string }) {
-    return <ImagePlus aria-hidden="true" strokeWidth={1.5} className={cn("pointer-events-none absolute left-1/2 top-[27px] z-10 size-10 -translate-x-1/2 text-primary", className)} />;
+    return <ImagePlus aria-hidden="true" strokeWidth={1.5} className={cn("pointer-events-none absolute left-1/2 top-[27px] z-10 size-10 -translate-x-1/2 text-muted-foreground", className)} />;
 }
 
 /**

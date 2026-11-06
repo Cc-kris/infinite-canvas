@@ -32,7 +32,7 @@ import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import type { BrowserToolInput } from "@/services/api/tools/gateway";
 
 const toolId = AI_TEXT_TOOL_ID;
-const sectionTitle = "text-[14px] leading-[22px] text-black/30";
+const sectionTitle = "text-[14px] leading-[22px] text-muted-foreground";
 
 function RatioGrid({ value, onChange }: { value: string; onChange: (value: string) => void }) {
     return (
@@ -45,10 +45,10 @@ function RatioGrid({ value, onChange }: { value: string; onChange: (value: strin
                     onClick={() => onChange(ratio.value)}
                     className={cn(
                         "flex h-[26px] items-center justify-center rounded-[4px] border text-[14px] transition-colors",
-                        ratio.value === value ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#ccc] bg-white text-black/80 hover:bg-[#f2f2f2] hover:text-[#81849b]",
+                        ratio.value === value ? "border-selected bg-selected-soft text-foreground" : "border-border bg-background text-foreground/70 hover:bg-accent hover:text-foreground",
                     )}
                 >
-                    <span className={cn("mr-[5px] inline-block border", ratio.value === value ? "border-[#723cf9]" : "border-black/30")} style={{ width: ratio.w, height: ratio.h }} />
+                    <span className={cn("mr-[5px] inline-block border", ratio.value === value ? "border-selected" : "border-foreground/30")} style={{ width: ratio.w, height: ratio.h }} />
                     {ratio.value}
                 </button>
             ))}
@@ -72,7 +72,7 @@ function AutopromptGrid({ value, onChange }: { value: AiTextAutoprompt; onChange
                         type="button"
                         aria-pressed={option.value === value}
                         onClick={() => onChange(option.value)}
-                        className={cn("h-[26px] rounded-[4px] border text-[14px]", option.value === value ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#ccc] bg-white hover:bg-[#f2f2f2]")}
+                        className={cn("h-[26px] rounded-[4px] border text-[14px]", option.value === value ? "border-selected bg-selected-soft text-foreground" : "border-border bg-background hover:bg-accent")}
                     >
                         {option.title}
                     </button>
@@ -84,7 +84,7 @@ function AutopromptGrid({ value, onChange }: { value: AiTextAutoprompt; onChange
 
 function PromptBox({ value, limit, placeholder, onChange, onExample, light }: { value: string; limit: number; placeholder: string; onChange: (value: string) => void; onExample: () => void; light?: boolean }) {
     return (
-        <div className={cn("rounded-[6px]", light ? "border border-[#e8e8e8] bg-white" : "bg-[#f7f7f7]")}>
+        <div className={cn("rounded-[6px]", light ? "border border-border bg-background" : "bg-muted")}>
             <textarea
                 aria-label="文字内容和创意方向"
                 rows={4}
@@ -92,14 +92,14 @@ function PromptBox({ value, limit, placeholder, onChange, onExample, light }: { 
                 maxLength={limit}
                 placeholder={placeholder}
                 onChange={(event) => onChange(event.target.value)}
-                className="block w-full resize-none bg-transparent px-[11px] py-2 text-[14px] leading-[22px] text-[#666] outline-none placeholder:text-black/25"
+                className="block w-full resize-none bg-transparent px-[11px] py-2 text-[14px] leading-[22px] text-muted-foreground outline-none placeholder:text-muted-foreground/70"
             />
             <div className="flex items-center justify-between px-[10px] pb-[10px] text-[12px]">
-                <button type="button" onClick={onExample} className="inline-flex items-center gap-1 hover:text-[#723cf9]">
+                <button type="button" onClick={onExample} className="inline-flex items-center gap-1 hover:text-foreground">
                     <RefreshCw className="size-3" />
                     尝试示例
                 </button>
-                <span className="text-black/25">
+                <span className="text-muted-foreground">
                     {value.length} / {limit}
                 </span>
             </div>
@@ -118,7 +118,7 @@ function StyleChips({ value, onToggle }: { value: readonly string[]; onToggle: (
                         type="button"
                         aria-pressed={active}
                         onClick={() => onToggle(style.styleEn)}
-                        className={cn("rounded-[4px] border px-[10px] py-[2px] text-[13px]", active ? "border-[#8d34f9]/15 bg-[#8d34f9]/15 text-[#723cf9]" : "border-[#e8e8e8] bg-white text-black/70 hover:text-[#723cf9]")}
+                        className={cn("rounded-[4px] border px-[10px] py-[2px] text-[13px]", active ? "border-selected bg-selected-soft text-foreground" : "border-border bg-background text-foreground/70 hover:text-foreground")}
                     >
                         {style.style}
                     </button>
@@ -134,48 +134,48 @@ function SimilarModal({ initial, onClose, onSubmit, running }: { initial: AiText
     const marks = Object.entries(AI_TEXT_SIMILARITY_MARKS);
     return (
         <div role="dialog" aria-modal="true" aria-label="生成创意文字的相似裂变图" data-testid="ai-text-similar-modal" className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-6">
-            <div className="flex max-h-full w-[670px] max-w-full flex-col overflow-hidden rounded-[12px] bg-white">
+            <div className="flex max-h-full w-[670px] max-w-full flex-col overflow-hidden rounded-[12px] bg-background">
                 <div className="flex items-center justify-between px-6 pt-5">
                     <h2 className="text-[16px] font-medium">生成创意文字的相似裂变图</h2>
-                    <button type="button" aria-label="关闭" onClick={onClose} className="text-black/45 hover:text-black">
+                    <button type="button" aria-label="关闭" onClick={onClose} className="text-muted-foreground hover:text-foreground">
                         <X className="size-4" />
                     </button>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
-                    <p className="mb-3 text-[14px] text-black/45">根据选择的参考图，生成相似裂变图</p>
+                    <p className="mb-3 text-[14px] text-muted-foreground">根据选择的参考图，生成相似裂变图</p>
                     <div className="mb-4 flex items-center gap-3">
-                        <span className="text-[14px] text-black/60">选择的参考图</span>
+                        <span className="text-[14px] text-foreground/70">选择的参考图</span>
                         <img src={values.imageUrl} alt="选择的参考图" className="h-20 w-20 rounded-[6px] object-cover" />
                     </div>
-                    <label className="mb-1 block text-[14px] text-black/60">生成图与原图相似度</label>
-                    <input type="range" min={0} max={100} step={25} value={values.variationStrength} onChange={(event) => setValues({ ...values, variationStrength: Number(event.target.value) })} className="w-full accent-[#723cf9]" aria-label="生成图与原图相似度" />
-                    <div className="mb-4 flex justify-between text-[12px] text-black/45">
+                    <label className="mb-1 block text-[14px] text-foreground/70">生成图与原图相似度</label>
+                    <input type="range" min={0} max={100} step={25} value={values.variationStrength} onChange={(event) => setValues({ ...values, variationStrength: Number(event.target.value) })} className="w-full accent-[var(--selected)]" aria-label="生成图与原图相似度" />
+                    <div className="mb-4 flex justify-between text-[12px] text-muted-foreground">
                         {marks.map(([key, label]) => (
-                            <span key={key} className={Number(key) === values.variationStrength ? "text-[#723cf9]" : ""}>
+                            <span key={key} className={Number(key) === values.variationStrength ? "text-foreground" : ""}>
                                 {label}
                             </span>
                         ))}
                     </div>
-                    <label className="mb-1 block text-[14px] text-black/60">生成文字和创意方向</label>
+                    <label className="mb-1 block text-[14px] text-foreground/70">生成文字和创意方向</label>
                     <textarea
                         rows={4}
                         value={values.prompt}
                         maxLength={AI_TEXT_ADVANCED_LIMIT}
                         onChange={(event) => setValues({ ...values, prompt: event.target.value })}
                         placeholder={'输入要生成的文字内容和创意方向，使用英文更准确。例如填写“"I love you" in shape of heart”就可以生成心形的"I love you"文字'}
-                        className="mb-4 block w-full resize-none rounded-[6px] bg-[#f7f7f7] px-[11px] py-2 text-[14px] outline-none"
+                        className="mb-4 block w-full resize-none rounded-[6px] bg-muted px-[11px] py-2 text-[14px] outline-none"
                     />
-                    <label className="mb-2 block text-[14px] text-black/60">创意风格（可多选）</label>
+                    <label className="mb-2 block text-[14px] text-foreground/70">创意风格（可多选）</label>
                     <StyleChips value={values.styles} onToggle={(en) => setValues({ ...values, styles: values.styles.includes(en) ? values.styles.filter((s) => s !== en) : [...values.styles, en] })} />
                 </div>
-                <div className="flex items-center justify-end gap-3 border-t border-[#f0f0f0] px-6 py-3">
-                    <span className="text-[12px] text-black/45">生成张数: {values.outputNum}</span>
+                <div className="flex items-center justify-end gap-3 border-t border-border px-6 py-3">
+                    <span className="text-[12px] text-muted-foreground">生成张数: {values.outputNum}</span>
                     <button
                         type="button"
                         data-testid="ai-text-similar-submit"
                         disabled={running || !values.prompt.trim()}
                         onClick={() => onSubmit(values)}
-                        className="inline-flex h-10 w-[268px] items-center justify-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[12px] text-white disabled:opacity-50"
+                        className="inline-flex h-10 w-[268px] items-center justify-center gap-1 rounded-[6px] bg-primary text-[12px] text-primary-foreground! disabled:opacity-50"
                     >
                         {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                         立即生成
@@ -188,7 +188,7 @@ function SimilarModal({ initial, onClose, onSubmit, running }: { initial: AiText
 
 function CaseCard({ item, onApply, onSimilar, onPreview }: { item: AiTextCase; onApply: () => void; onSimilar: () => void; onPreview: () => void }) {
     return (
-        <div data-testid="ai-text-case" className="mb-3 break-inside-avoid overflow-hidden rounded-[12px] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
+        <div data-testid="ai-text-case" className="mb-3 break-inside-avoid overflow-hidden rounded-[12px] bg-background shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
             <div className="group relative">
                 <img src={item.image} alt={`优秀案例-${item.id}`} loading="lazy" className="block w-full object-contain" />
                 <div className="absolute inset-0 flex flex-col items-center justify-between bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100">
@@ -197,7 +197,7 @@ function CaseCard({ item, onApply, onSimilar, onPreview }: { item: AiTextCase; o
                         预览
                     </button>
                     <div className="mb-[10px] flex gap-[5px]">
-                        <button type="button" onClick={onApply} className="rounded-[4px] bg-[#723cf9] px-2 py-0.5 text-[12px]">
+                        <button type="button" onClick={onApply} className="rounded-[4px] bg-primary px-2 py-0.5 text-[12px] text-primary-foreground">
                             做同款
                         </button>
                         <button type="button" onClick={onSimilar} className="rounded-[4px] border border-white/60 px-2 py-0.5 text-[12px]">
@@ -206,7 +206,7 @@ function CaseCard({ item, onApply, onSimilar, onPreview }: { item: AiTextCase; o
                     </div>
                 </div>
             </div>
-            <p className="line-clamp-2 border-t border-[#f3f3f3] px-3 pb-2 pt-2 text-[13px] text-black/70 hover:text-[#8d34f9]">
+            <p className="line-clamp-2 border-t border-border px-3 pb-2 pt-2 text-[13px] text-foreground/70 hover:text-foreground">
                 {item.prompt}
                 {item.styles ? `,${item.styles}` : ""}
             </p>
@@ -319,7 +319,7 @@ export function AiTextStatic() {
             role="tab"
             aria-selected={rightTab === key}
             onClick={() => setRightTab(key)}
-            className={cn("h-10 border-b-2 text-[14px]", rightTab === key ? "border-[#723cf9] text-[#723cf9]" : "border-transparent text-black/60 hover:text-[#723cf9]")}
+            className={cn("h-10 border-b-2 text-[14px]", rightTab === key ? "border-foreground text-foreground" : "border-transparent text-foreground/70 hover:text-foreground")}
         >
             {label}
         </button>
@@ -331,11 +331,11 @@ export function AiTextStatic() {
         <div data-testid="ai-text-workspace" className="flex h-full min-h-0 flex-col">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                configClassName="overflow-hidden rounded-[8px] border border-[#e8e8e8] bg-white"
+                configClassName="overflow-hidden rounded-[8px] border border-border bg-background"
                 mainClassName="min-h-0 overflow-hidden"
                 config={
                     <div className="flex h-full min-h-0 flex-col">
-                        <div role="tablist" aria-label="生成模式" className="flex h-10 shrink-0 items-center justify-center gap-[22px] border-b border-[#f0f0f0]">
+                        <div role="tablist" aria-label="生成模式" className="flex h-10 shrink-0 items-center justify-center gap-[22px] border-b border-border">
                             {(["SIMPLE", "ADVANCED"] as const).map((mode) => (
                                 <button
                                     key={mode}
@@ -344,7 +344,7 @@ export function AiTextStatic() {
                                     aria-selected={values.mode === mode}
                                     data-testid={`ai-text-mode-${mode.toLowerCase()}`}
                                     onClick={() => update({ mode })}
-                                    className={cn("h-10 border-b-2 text-[14px]", values.mode === mode ? "border-[#723cf9] text-[#723cf9]" : "border-transparent text-black/40 hover:text-[#8d34f9]/60")}
+                                    className={cn("h-10 border-b-2 text-[14px]", values.mode === mode ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}
                                 >
                                     {mode === "SIMPLE" ? "简易模式" : "高阶模式"}
                                 </button>
@@ -353,7 +353,7 @@ export function AiTextStatic() {
                         <div className="min-h-0 flex-1 overflow-y-auto p-4 [scrollbar-gutter:stable]">
                             {values.mode === "SIMPLE" ? (
                                 <>
-                                    <p className="mb-[5px] text-[12px] leading-[22px] text-black/30">文字内容和创意方向</p>
+                                    <p className="mb-[5px] text-[12px] leading-[22px] text-muted-foreground">文字内容和创意方向</p>
                                     <PromptBox light value={values.simplePrompt} limit={AI_TEXT_SIMPLE_LIMIT} placeholder="输入要生成的文字内容，使用英文更准确。例如“I love you”或谚语语句等" onChange={(simplePrompt) => update({ simplePrompt })} onExample={simpleExample} />
                                     <div className="mt-5">
                                         <AutopromptGrid value={values.simpleAutoprompt} onChange={(simpleAutoprompt) => update({ simpleAutoprompt })} />
@@ -367,12 +367,12 @@ export function AiTextStatic() {
                                                 aria-pressed={template.id === values.templateId}
                                                 aria-label={template.style}
                                                 onClick={() => update({ templateId: template.id })}
-                                                className={cn("relative aspect-square overflow-hidden rounded-[8px] border-[3px]", template.id === values.templateId ? "border-[#723cf9]" : "border-transparent")}
+                                                className={cn("relative aspect-square overflow-hidden rounded-[8px] border-[3px]", template.id === values.templateId ? "border-selected" : "border-transparent")}
                                             >
                                                 <img src={template.image} alt="" className="h-full w-full object-cover" />
                                                 <span className="absolute inset-x-0 bottom-0 flex h-5 items-center justify-center truncate bg-black/40 text-[13px] text-white">{template.style}</span>
                                                 {template.id === values.templateId ? (
-                                                    <span className="absolute right-0 top-0 flex size-4 items-center justify-center rounded-bl-[6px] bg-[#723cf9] text-white">
+                                                    <span className="absolute right-0 top-0 flex size-4 items-center justify-center rounded-bl-[6px] bg-selected text-white">
                                                         <Check className="size-3" />
                                                     </span>
                                                 ) : null}
@@ -386,7 +386,7 @@ export function AiTextStatic() {
                                 </>
                             ) : (
                                 <>
-                                    <p className="mb-[10px] text-[14px] text-black/30">文字内容和创意方向</p>
+                                    <p className="mb-[10px] text-[14px] text-muted-foreground">文字内容和创意方向</p>
                                     <PromptBox
                                         value={values.advancedPrompt}
                                         limit={AI_TEXT_ADVANCED_LIMIT}
@@ -406,18 +406,18 @@ export function AiTextStatic() {
                                 </>
                             )}
                         </div>
-                        <div className="flex h-12 shrink-0 items-center gap-2 border-t-[3px] border-[#f5f7fa] px-4">
+                        <div className="flex h-12 shrink-0 items-center gap-2 border-t-[3px] border-border px-4">
                             <button
                                 type="button"
                                 data-testid="ai-text-submit"
                                 disabled={blocked}
                                 onClick={() => void submit(() => buildAiTextModeInput(values, model))}
-                                className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[12px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-[6px] bg-primary text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
                                 立即生成
                             </button>
-                            <label className="flex items-center whitespace-nowrap text-[12px] text-black/60">
+                            <label className="flex items-center whitespace-nowrap text-[12px] text-foreground/70">
                                 生成
                                 <select aria-label="生成张数" value={values.outputNum} onChange={(event) => update({ outputNum: Number(event.target.value) })} className="bg-transparent text-[14px] outline-none">
                                     {AI_TEXT_OUTPUT_OPTIONS.map((count) => (
@@ -428,16 +428,16 @@ export function AiTextStatic() {
                                 </select>
                             </label>
                         </div>
-                        {errorText ? <p data-testid="ai-text-error" className="px-4 pb-2 text-[12px] text-[#ff4d4f]">{errorText}</p> : null}
+                        {errorText ? <p data-testid="ai-text-error" className="px-4 pb-2 text-[12px] text-destructive">{errorText}</p> : null}
                     </div>
                 }
             >
-                <div className="flex h-10 shrink-0 items-center justify-between border-b border-[#e8e8e8] bg-white px-3">
+                <div className="flex h-10 shrink-0 items-center justify-between border-b border-border bg-background px-3">
                     <div role="tablist" aria-label="结果区" className="flex gap-[22px]">
                         {tabButton("result", "生成结果")}
                         {tabButton("cases", "优秀案例")}
                     </div>
-                    <button type="button" onClick={() => setRightTab("history")} className={cn("inline-flex items-center gap-1 text-[12px]", rightTab === "history" ? "text-[#723cf9]" : "text-black/60 hover:text-[#723cf9]")}>
+                    <button type="button" onClick={() => setRightTab("history")} className={cn("inline-flex items-center gap-1 text-[12px]", rightTab === "history" ? "text-foreground" : "text-foreground/70 hover:text-foreground")}>
                         <History className="size-3.5" />
                         历史记录
                     </button>
@@ -452,18 +452,18 @@ export function AiTextStatic() {
                                         type="button"
                                         data-testid="ai-text-result-similar"
                                         onClick={() => openSimilar(firstResultUrl, values.mode === "SIMPLE" ? values.simplePrompt : values.advancedPrompt, values.mode === "ADVANCED" ? values.styles : [], values.mode === "SIMPLE" ? values.simpleRatio : values.advancedRatio)}
-                                        className="mt-3 rounded-[6px] border border-[#723cf9] px-3 py-1 text-[12px] text-[#723cf9] hover:bg-[#723cf9]/5"
+                                        className="mt-3 rounded-[6px] border border-border bg-background px-3 py-1 text-[12px] text-foreground hover:bg-accent"
                                     >
                                         相似裂变
                                     </button>
                                 ) : null}
                             </>
                         ) : (
-                            <div data-testid="ai-text-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-black/45">
+                            <div data-testid="ai-text-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-muted-foreground">
                                 <p>暂无生成结果图</p>
                                 <p className="mt-1 text-[12px]">
                                     快在左侧输入文字生成，或去
-                                    <button type="button" onClick={() => setRightTab("cases")} className="text-[#8d34f9]">
+                                    <button type="button" onClick={() => setRightTab("cases")} className="text-foreground">
                                         优秀案例
                                     </button>
                                     找灵感吧~
@@ -472,16 +472,16 @@ export function AiTextStatic() {
                         )
                     ) : rightTab === "cases" ? (
                         <>
-                            <div className="sticky top-[-16px] z-10 -mx-4 -mt-4 mb-2 flex items-center justify-between bg-[#edeff5] px-4 py-2 text-[14px]">
-                                <span className="text-black/60">
-                                    筛选：<span className="text-[#723cf9]">全部</span>
+                            <div className="sticky top-[-16px] z-10 -mx-4 -mt-4 mb-2 flex items-center justify-between bg-canvas px-4 py-2 text-[14px]">
+                                <span className="text-foreground/70">
+                                    筛选：<span className="text-foreground">全部</span>
                                 </span>
-                                <label className="flex h-8 w-[260px] items-center gap-2 rounded-[6px] bg-white px-2">
-                                    <Search className="size-3.5 text-black/30" />
+                                <label className="flex h-8 w-[260px] items-center gap-2 rounded-[6px] bg-background px-2">
+                                    <Search className="size-3.5 text-muted-foreground" />
                                     <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="请输入关键词" aria-label="请输入关键词" className="min-w-0 flex-1 bg-transparent text-[13px] outline-none" />
                                 </label>
-                                <span className="text-black/60">
-                                    排序：<span className="text-[#723cf9]">官方推荐</span>
+                                <span className="text-foreground/70">
+                                    排序：<span className="text-foreground">官方推荐</span>
                                 </span>
                             </div>
                             {cases.length ? (
@@ -497,7 +497,7 @@ export function AiTextStatic() {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="flex h-[500px] items-center justify-center text-[14px] text-black/45">暂无搜索结果</div>
+                                <div className="flex h-[500px] items-center justify-center text-[14px] text-muted-foreground">暂无搜索结果</div>
                             )}
                         </>
                     ) : (
@@ -524,9 +524,9 @@ export function AiTextStatic() {
 
             {preview ? (
                 <div role="dialog" aria-modal="true" onClick={() => setPreview(null)} className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6">
-                    <div className="max-h-full max-w-[720px] overflow-hidden rounded-[12px] bg-white" onClick={(event) => event.stopPropagation()}>
+                    <div className="max-h-full max-w-[720px] overflow-hidden rounded-[12px] bg-background" onClick={(event) => event.stopPropagation()}>
                         <img src={preview.image} alt={`优秀案例-${preview.id}`} className="max-h-[70vh] w-full object-contain" />
-                        <p className="border-t border-[#f3f3f3] px-3 py-2 text-[13px] text-[#939599]">
+                        <p className="border-t border-border px-3 py-2 text-[13px] text-muted-foreground">
                             {preview.prompt}
                             {preview.styles ? `,${preview.styles}` : ""}
                         </p>

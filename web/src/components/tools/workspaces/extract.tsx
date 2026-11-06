@@ -78,7 +78,7 @@ const STATUS_LABEL: Record<PrintExtractItemStatus, string> = {
 
 const STATUS_TONE: Record<PrintExtractItemStatus, string> = {
     idle: "border-border text-muted-foreground",
-    running: "border-primary/40 bg-primary/10 text-foreground",
+    running: "border-border bg-foreground/[0.06] text-foreground",
     succeeded: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
     failed: "border-destructive/40 bg-destructive/10 text-destructive",
     unknown: "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300",
@@ -238,7 +238,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                 }}
                 className={cn(
                     "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[10px] rounded-[8px] border border-dashed px-2 text-center transition",
-                    dragging ? "border-primary bg-primary/5" : "border-border bg-card/60",
+                    dragging ? "border-selected bg-selected-soft" : "border-border bg-card/60",
                     disabled && "cursor-not-allowed opacity-60",
                 )}
             >
@@ -259,7 +259,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                         disabled={disabled || !library.length}
                         title={library.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
                         onClick={() => setLibraryOpen((open) => !open)}
-                        className="h-7 rounded-[4px] border border-primary bg-card px-[8px] text-[14px] leading-none text-primary transition hover:bg-primary/5 disabled:border-border disabled:text-muted-foreground disabled:opacity-60"
+                        className="h-7 rounded-[4px] border border-border bg-background px-[8px] text-[14px] leading-none text-foreground transition hover:bg-accent disabled:text-muted-foreground disabled:opacity-60"
                     >
                         从作品库选择
                     </button>
@@ -378,7 +378,7 @@ export function TransparencySwitch({
                     onClick={() => onValueChange(!value)}
                     className={cn(
                         "inline-flex h-6 w-11 shrink-0 items-center rounded-full border px-0.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        value && format === "png" ? "border-primary bg-primary" : "border-border bg-muted",
+                        value && format === "png" ? "border-selected bg-selected" : "border-border bg-muted",
                         locked && "cursor-not-allowed opacity-50",
                     )}
                 >
@@ -399,7 +399,7 @@ export function TransparencySwitch({
                         onClick={() => onFormatChange(item)}
                         className={cn(
                             "min-h-9 flex-1 rounded-md border px-2 text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                            format === item ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                            format === item ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:bg-accent",
                         )}
                     >
                         导出 {FORMAT_LABEL[item]}
@@ -455,7 +455,7 @@ export function AssetResultGrid({
                         data-testid={`print-extract-card-${index}`}
                         data-status={item.status}
                         data-stale={item.stale ? "true" : "false"}
-                        className={cn("group overflow-hidden rounded-lg border bg-card transition", active ? "border-primary ring-1 ring-primary/30" : "border-border hover:border-primary/40")}
+                        className={cn("group overflow-hidden rounded-lg border bg-card transition", active ? "border-selected ring-1 ring-selected/30" : "border-border hover:border-selected")}
                     >
                         <button
                             type="button"
@@ -864,7 +864,7 @@ export function PrintExtractWorkspace() {
                             aria-pressed={batch}
                             disabled={busy}
                             onClick={() => setBatch((value) => !value)}
-                            className={cn(DESIGN_OUTLINE_BUTTON, batch && "bg-primary text-primary-foreground hover:bg-primary/90")}
+                            className={cn(DESIGN_OUTLINE_BUTTON, batch && "border-selected bg-selected-soft text-selected hover:bg-selected-soft")}
                         >
                             <span>上传多张图片，开始批量提取</span>
                             <ArrowRight className="size-3.5" aria-hidden />
@@ -881,12 +881,12 @@ export function PrintExtractWorkspace() {
                                 disabled={busy}
                                 onClick={() => applyConfig({ isTransparent: !config.isTransparent, format: !config.isTransparent ? "png" : config.format })}
                                 className={cn(
-                                    "relative flex h-[22px] w-[52px] items-center rounded-full px-[7px] text-[12px] leading-none text-white transition disabled:opacity-50",
-                                    config.isTransparent ? "justify-start bg-primary" : "justify-end bg-black/25 dark:bg-white/25",
+                                    "relative flex h-[22px] w-[52px] items-center rounded-full px-[7px] text-[12px] leading-none transition disabled:opacity-50",
+                                    config.isTransparent ? "justify-start bg-selected text-white" : "justify-end bg-muted-foreground text-background",
                                 )}
                             >
                                 <span>{config.isTransparent ? "开启" : "关闭"}</span>
-                                <span aria-hidden className={cn("absolute top-[2px] size-[18px] rounded-full bg-white shadow transition-all", config.isTransparent ? "left-[32px]" : "left-[2px]")} />
+                                <span aria-hidden className={cn("absolute top-[2px] size-[18px] rounded-full bg-background shadow transition-all", config.isTransparent ? "left-[32px]" : "left-[2px]")} />
                             </button>
                         </div>
                     </div>
@@ -913,7 +913,7 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-result"
                             aria-pressed={tab === "result"}
                             onClick={() => setTab("result")}
-                            className={cn("text-sm transition", tab === "result" ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground")}
+                            className={cn("text-sm transition", tab === "result" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
                         >
                             生成结果
                         </button>
@@ -922,10 +922,10 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-history"
                             aria-pressed={tab === "history"}
                             onClick={() => setTab("history")}
-                            className={cn("order-last flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-muted-foreground hover:text-foreground")}
+                            className={cn("order-last flex items-center gap-1 text-xs transition", tab === "history" ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
                         >
                             历史记录
-                            {items.some((item) => item.status === "succeeded") ? <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span> : null}
+                            {items.some((item) => item.status === "succeeded") ? <span className="rounded bg-foreground/10 px-1 text-[11px] text-foreground">{items.filter((item) => item.status === "succeeded").length}</span> : null}
                         </button>
                         <div className="ml-auto flex items-center gap-2">
                             {summary.failed > 0 ? (
@@ -1028,7 +1028,7 @@ export function PrintExtractWorkspace() {
                                                         {item.width} × {item.height} · {item.snapshotHash ? "已留档" : "本地产出"}
                                                     </p>
                                                 </div>
-                                                <button type="button" className="text-[11px] text-primary" onClick={() => handleDownload(item, index)}>
+                                                <button type="button" className="text-[11px] text-muted-foreground hover:text-foreground" onClick={() => handleDownload(item, index)}>
                                                     下载
                                                 </button>
                                             </li>

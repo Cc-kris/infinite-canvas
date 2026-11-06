@@ -587,7 +587,7 @@ export function DesignerWorkspace({
                         </ul>
                         <div className="flex items-center gap-1.5">
                             {DESIGNER_CANVAS_PRESETS.map((preset) => (
-                                <button key={preset.id} type="button" onClick={() => setCanvasPreset(preset.id)} className={cn("h-8 flex-1 rounded-md border text-[11px]", document.width === preset.width && document.height === preset.height ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}>
+                                <button key={preset.id} type="button" onClick={() => setCanvasPreset(preset.id)} className={cn("h-8 flex-1 rounded-md border text-[11px]", document.width === preset.width && document.height === preset.height ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:bg-accent")}>
                                     {preset.label}
                                 </button>
                             ))}
@@ -706,7 +706,7 @@ export function DesignerWorkspace({
                                                             data-testid={`designer-font-${family.id}`}
                                                             aria-pressed={designerFontFamily(selected.fontFamily).id === family.id}
                                                             onClick={() => apply(updateDesignerLayer(document, selected.id, { fontFamily: family.id }))}
-                                                            className={`h-8 rounded-md border px-2 ${designerFontFamily(selected.fontFamily).id === family.id ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground"}`}
+                                                            className={`h-8 rounded-md border px-2 ${designerFontFamily(selected.fontFamily).id === family.id ? "border-selected bg-selected-soft text-selected" : "border-border bg-background text-muted-foreground"}`}
                                                             style={{ fontFamily: family.stack }}
                                                         >
                                                             {family.label}
@@ -741,11 +741,11 @@ export function DesignerWorkspace({
                                 </div>
                                 <label className="flex flex-col gap-1">
                                     旋转 {Math.round(selected.rotation)}°
-                                    <input type="range" min={DESIGNER_LAYER_LIMITS.rotationMin} max={DESIGNER_LAYER_LIMITS.rotationMax} value={selected.rotation} onChange={(event) => apply(rotateDesignerLayer(document, selected.id, Number(event.target.value)))} />
+                                    <input type="range" min={DESIGNER_LAYER_LIMITS.rotationMin} max={DESIGNER_LAYER_LIMITS.rotationMax} value={selected.rotation} onChange={(event) => apply(rotateDesignerLayer(document, selected.id, Number(event.target.value)))} className="accent-primary" />
                                 </label>
                                 <label className="flex flex-col gap-1">
                                     不透明度 {Math.round(selected.opacity * 100)}%
-                                    <input type="range" min={Math.round(DESIGNER_LAYER_LIMITS.opacityMin * 100)} max={100} value={Math.round(selected.opacity * 100)} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { opacity: Number(event.target.value) / 100 }))} />
+                                    <input type="range" min={Math.round(DESIGNER_LAYER_LIMITS.opacityMin * 100)} max={100} value={Math.round(selected.opacity * 100)} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { opacity: Number(event.target.value) / 100 }))} className="accent-primary" />
                                 </label>
                             </div>
                         ) : (

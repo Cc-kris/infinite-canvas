@@ -85,32 +85,32 @@ const REFERENCE_CONSTRAINTS: Partial<ToolAssetConstraints> = {
     maxBytes: CHANGE_COLOR_REFERENCE_LIMITS.maxBytes,
 };
 
-/** 原站输入框：白底、圆角 4、1px #EDEDF0、12px 字（数值框 48×22，见 b9 real form.json）。 */
+/** 原站输入框：面板底、圆角 4、1px 描边、12px 字（数值框 48×22，见 b9 real form.json）。 */
 const fieldClass = "h-[26px] rounded-md border border-border bg-card px-2 text-[12px] leading-none text-foreground outline-none transition focus:border-primary disabled:opacity-60";
 
-const numClass = "h-6 w-[50px] shrink-0 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[14px] leading-none tabular-nums text-foreground outline-none transition focus:border-primary disabled:bg-black/[0.04] disabled:text-black/25";
+const numClass = "h-6 w-[50px] shrink-0 rounded-[4px] border border-border bg-card px-[7px] text-[14px] leading-none tabular-nums text-foreground outline-none transition focus:border-primary disabled:bg-foreground/[0.04] disabled:text-foreground/30";
 
-const ghostButton = "inline-flex h-6 shrink-0 items-center justify-center rounded-md px-2 text-[12px] leading-none text-foreground transition hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50";
+const ghostButton = "inline-flex h-6 shrink-0 items-center justify-center rounded-md px-2 text-[12px] leading-none text-foreground transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50";
 
 /** 原站「选择颜色」一行 5 个预设色点（24px 色块 + 32px 白圈），见 linkfox 换色页 DOM。 */
 const PRESET_DOTS = ["#EDB393", "#90CCAF", "#88ACEC", "#9285F4", "#EB88A0"] as const;
 
 /** 原站分区重置：通栏 28 高胶囊按钮（圆角 32）。 */
 const pillReset =
-    "inline-flex h-7 w-full items-center justify-center gap-1 rounded-[32px] border border-[#d9d9d9] bg-card text-[12px] text-foreground! transition hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!";
+    "inline-flex h-7 w-full items-center justify-center gap-1 rounded-[32px] border border-border bg-card text-[12px] text-foreground! transition hover:bg-accent disabled:bg-foreground/[0.04] disabled:text-foreground/30!";
 
-/** 配置列折叠分区：原站 antd Collapse（#f9f9f9 底、圆角 8、标题 12px 30% 黑、右侧 12px 箭头，收起 ∧ / 展开 ∨）。 */
+/** 配置列折叠分区：原站 antd Collapse（bg-muted 底、圆角 8、标题 12px 弱字、右侧 12px 箭头，收起 ∧ / 展开 ∨）。 */
 function ConfigSection({ title, open, onToggle, aside, extra, testId, children }: { title: string; open: boolean; onToggle: () => void; aside?: React.ReactNode; extra?: React.ReactNode; testId?: string; children: React.ReactNode }) {
     return (
-        <section className="rounded-[8px] bg-[#f9f9f9]" data-testid={testId} data-open={open ? "true" : "false"}>
+        <section className="rounded-[8px] bg-muted" data-testid={testId} data-open={open ? "true" : "false"}>
             <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-2 px-4 py-3 text-left">
-                <span className="flex items-center gap-1 text-[12px] leading-[19px] text-black/30!">
+                <span className="flex items-center gap-1 text-[12px] leading-[19px] text-muted-foreground!">
                     {title}
                     {extra}
                 </span>
                 <span className="flex items-center gap-2">
-                    {aside ? <span className="text-[11px] leading-5 text-black/30">{aside}</span> : null}
-                    {open ? <ChevronDown className="size-3 shrink-0 text-[#444]" aria-hidden="true" /> : <ChevronUp className="size-3 shrink-0 text-[#444]" aria-hidden="true" />}
+                    {aside ? <span className="text-[11px] leading-5 text-muted-foreground">{aside}</span> : null}
+                    {open ? <ChevronDown className="size-3 shrink-0 text-foreground/70" aria-hidden="true" /> : <ChevronUp className="size-3 shrink-0 text-foreground/70" aria-hidden="true" />}
                 </span>
             </button>
             {/* 收起时仍保留 DOM（hidden），保证表单值/测试锚点不随折叠丢失。 */}
@@ -119,7 +119,7 @@ function ConfigSection({ title, open, onToggle, aside, extra, testId, children }
     );
 }
 
-/** 原站开关：32×18 圆角轨道，开启紫底（`去除杂色` 默认关闭，见 page-dom aria-checked=false）。 */
+/** 原站开关：32×18 圆角轨道，开启主色底（`去除杂色` 默认关闭，见 page-dom aria-checked=false）。 */
 function Switch({ checked, disabled, onChange, label, testId, showText }: { checked: boolean; disabled?: boolean; onChange: (next: boolean) => void; label: string; testId?: string; showText?: boolean }) {
     if (showText) {
         /* 原站 ant-switch 轨道内直接写「开启/关闭」(57×22，inner 文字 10px) */
@@ -131,12 +131,12 @@ function Switch({ checked, disabled, onChange, label, testId, showText }: { chec
                 aria-label={label}
                 disabled={disabled}
                 onClick={() => onChange(!checked)}
-                className={cn("relative inline-flex h-[22px] w-[57px] shrink-0 items-center overflow-hidden rounded-full text-[12px] leading-none text-white! transition disabled:opacity-50", checked ? "bg-primary" : "bg-black/25")}
+                className={cn("relative inline-flex h-[22px] w-[57px] shrink-0 items-center overflow-hidden rounded-full text-[12px] leading-none transition disabled:opacity-50", checked ? "bg-primary text-primary-foreground!" : "bg-foreground/25 text-background!")}
                 data-testid={testId}
             >
                 {/* 原站 ant-switch-inner：开启时文字在左、关闭时在右，滑块压在另一侧 */}
                 <span className={cn("absolute inset-y-0 flex items-center", checked ? "left-[9px]" : "right-[9px]")}>{checked ? "开启" : "关闭"}</span>
-                <span className={cn("absolute top-[2px] size-[18px] rounded-full bg-white shadow-sm transition-all", checked ? "right-[2px]" : "left-[2px]")} aria-hidden />
+                <span className={cn("absolute top-[2px] size-[18px] rounded-full bg-background shadow-sm transition-all", checked ? "right-[2px]" : "left-[2px]")} aria-hidden />
             </button>
         );
     }
@@ -270,7 +270,7 @@ function MaskCanvas({ src, strokes, brush, disabled, onChange }: { src: string; 
                     setPainting(false);
                 }}
             />
-            {painting ? <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] text-primary-foreground">涂抹中…</span> : null}
+            {painting ? <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] text-white">涂抹中…</span> : null}
         </div>
     );
 }
@@ -320,7 +320,7 @@ function SwatchButton({ hex, active, disabled, onPick, onRemove }: { hex: string
                 aria-pressed={active}
                 disabled={disabled}
                 onClick={onPick}
-                className={cn("size-6 rounded-md border transition", active ? "border-primary ring-2 ring-primary/25" : "border-border hover:border-primary/60", "disabled:opacity-50")}
+                className={cn("size-6 rounded-md border transition", active ? "border-selected ring-2 ring-selected/30" : "border-border hover:border-selected", "disabled:opacity-50")}
                 style={{ backgroundColor: hex }}
                 data-swatch={hex}
             />
@@ -707,10 +707,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     }, []);
 
     return (
-        <div data-testid="change-color-workspace" className={cn("flex h-full min-h-0 flex-col bg-[#f4f6f8] p-[10px]", className)}>
-            {/* 原站一键换色（1600×1000）：左白卡（#edeff5 画布 + 307 配置列）| 右 330 结果卡，间距 10。 */}
+        <div data-testid="change-color-workspace" className={cn("flex h-full min-h-0 flex-col bg-canvas p-[10px]", className)}>
+            {/* 原站一键换色（1600×1000）：左面板卡（画布 + 307 配置列）| 右 330 结果卡，间距 10。 */}
             <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_330px]">
-            <div className="flex min-h-0 min-w-0 overflow-hidden rounded-[8px] border border-black/[0.08] bg-card">
+            <div className="flex min-h-0 min-w-0 overflow-hidden rounded-[8px] border border-border bg-card">
             <div data-testid="tool-config-column" className="order-2 flex min-h-0 w-[307px] shrink-0 flex-col">
             <Edit8Config
                 className="w-full rounded-none! border-0!"
@@ -765,13 +765,13 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                     aria-pressed={normalizeHex(hex) === normalizeHex(values.targetColor)}
                                     disabled={disabled}
                                     onClick={() => pickColor(hex)}
-                                    className={cn("flex size-8 items-center justify-center rounded-full border bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)] transition disabled:opacity-50", normalizeHex(hex) === normalizeHex(values.targetColor) ? "border-primary" : "border-[#f0f0f0] hover:border-primary/60")}
+                                    className={cn("flex size-8 items-center justify-center rounded-full border bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)] transition disabled:opacity-50", normalizeHex(hex) === normalizeHex(values.targetColor) ? "border-selected" : "border-border hover:border-selected")}
                                     data-swatch={hex}
                                 >
                                     <span className="size-6 rounded-full" style={{ backgroundColor: hex }} />
                                 </button>
                             ))}
-                            <label className="relative flex size-8 cursor-pointer items-center justify-center rounded-full border border-[#f0f0f0] bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)]" title="自定义颜色">
+                            <label className="relative flex size-8 cursor-pointer items-center justify-center rounded-full border border-border bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)]" title="自定义颜色">
                                 <span className="size-6 rounded-full bg-[conic-gradient(#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]" />
                                 <input
                                     type="color"
@@ -783,12 +783,12 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                     data-testid="change-color-picker"
                                 />
                             </label>
-                            <button type="button" disabled title="吸管取色：本地暂未接入" className="flex size-8 items-center justify-center rounded-full border border-[#d9d9d9] bg-black/[0.04] text-black/25!">
+                            <button type="button" disabled title="吸管取色：本地暂未接入" className="flex size-8 items-center justify-center rounded-full border border-border bg-foreground/[0.04] text-muted-foreground!">
                                 <Pipette className="size-3.5" aria-hidden />
                             </button>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="size-4 shrink-0 rounded-[4px] border border-black/10" style={{ backgroundColor: normalizeHex(values.targetColor)?.slice(0, 7) ?? "#000000" }} aria-hidden />
+                            <span className="size-4 shrink-0 rounded-[4px] border border-border" style={{ backgroundColor: normalizeHex(values.targetColor)?.slice(0, 7) ?? "#000000" }} aria-hidden />
                             <input type="text" aria-label="颜色值" value={values.targetColor} disabled={disabled} onChange={(event) => pickColor(event.target.value)} className={cn(fieldClass, "h-6 min-w-0 flex-1 font-mono")} data-testid="change-color-hex" />
                         </div>
                         {values.palette.length > 0 ? (
@@ -800,10 +800,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         ) : null}
 
                         {reference ? (
-                            <div className="flex items-center gap-2 rounded-[8px] border border-dashed border-[#d9d9d9] p-2" data-testid="change-color-reference">
+                            <div className="flex items-center gap-2 rounded-[8px] border border-dashed border-border p-2" data-testid="change-color-reference">
                                 <img src={reference.url} alt="颜色参考图" className="size-12 shrink-0 rounded-[4px] object-cover" />
                                 <span className="min-w-0 flex-1 truncate text-[12px] text-foreground/60">{reference.name}</span>
-                                <button type="button" aria-label="移除颜色参考图" disabled={disabled} onClick={() => onReferenceChange([], [])} className="inline-flex size-6 items-center justify-center rounded text-black/45! hover:bg-black/5">
+                                <button type="button" aria-label="移除颜色参考图" disabled={disabled} onClick={() => onReferenceChange([], [])} className="inline-flex size-6 items-center justify-center rounded text-muted-foreground! hover:bg-accent">
                                     <X className="size-3.5" aria-hidden />
                                 </button>
                             </div>
@@ -818,7 +818,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
                         <div className="flex items-center justify-between gap-2">
                             <span className="inline-flex items-center gap-1 text-[14px] leading-[22px] text-foreground/60">
-                                去除杂色 <CircleQuestionMark className="size-3 text-black/30" aria-label="开启后清除原色噪点" />
+                                去除杂色 <CircleQuestionMark className="size-3 text-muted-foreground" aria-label="开启后清除原色噪点" />
                             </span>
                             <Switch checked={values.removeNoise} disabled={disabled} onChange={(next) => update({ removeNoise: next })} label="去除杂色" testId="change-color-noise-switch" showText />
                         </div>
@@ -990,7 +990,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </>
                 ) : (
                     <div className="flex h-full items-center justify-center py-[44px] pl-[49px] pr-20">
-                        <div className="w-[660px] max-w-full rounded-[8px] bg-[#f7f7f7] p-[10px]">
+                        <div className="w-[660px] max-w-full rounded-[8px] bg-muted p-[10px]">
                             <Edit8UploadCard
                                 testId="change-color-source"
                                 className="p-5"
@@ -1003,7 +1003,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                 heading={
                                     <>
                                         <h2 className="m-0! mb-[10px]! text-[20px] font-normal leading-[31px] text-foreground/85">一键快速上色</h2>
-                                        <p className="m-0! mb-5! text-[16px] leading-[25px] text-[#939599]">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
+                                        <p className="m-0! mb-5! text-[16px] leading-[25px] text-muted-foreground">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
                                     </>
                                 }
                                 extraActions={
@@ -1017,7 +1017,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 )}
             </section>
             </div>
-            <section data-region="results" data-testid="change-color-results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+            <section data-region="results" data-testid="change-color-results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-canvas">
                 <Edit8ResultTabs
                     tabs={[
                         { id: "result", label: "生成结果", testId: "change-color-tab-result" },
@@ -1031,7 +1031,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 />
                 <div className="flex min-h-0 flex-1 flex-col gap-[10px] overflow-y-auto py-4 pl-4 pr-3">
                     {caseNotice ? (
-                        <p className="m-0! rounded-md bg-primary/5 px-2 py-1 text-[11px] leading-4 text-primary" data-testid="change-color-case-notice">{caseNotice}</p>
+                        <p className="m-0! rounded-md bg-foreground/[0.04] px-2 py-1 text-[11px] leading-4 text-foreground/70" data-testid="change-color-case-notice">{caseNotice}</p>
                     ) : null}
                     {resultTab === "result" ? (
                         activeTask ? (

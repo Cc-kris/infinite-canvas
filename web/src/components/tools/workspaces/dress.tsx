@@ -105,7 +105,7 @@ function StepBar({ step }: { step: number }) {
                             data-active={active ? "true" : undefined}
                             className={cn(
                                 "rounded-md border px-2 py-1",
-                                active ? "border-primary bg-primary text-primary-foreground" : done ? "border-primary/40 text-foreground" : "border-border text-muted-foreground",
+                                active ? "border-border bg-accent font-medium text-foreground" : done ? "border-foreground/30 text-foreground" : "border-border text-muted-foreground",
                             )}
                         >
                             {index1}. {label}
@@ -163,7 +163,7 @@ function Segmented<T extends string>({
                             onClick={() => onChange(option.key)}
                             className={cn(
                                 "min-h-10 rounded-lg border px-3 text-xs focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                                active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground hover:bg-accent",
+                                active ? "border-selected bg-selected-soft text-selected" : "border-border bg-background text-foreground hover:bg-accent",
                                 option.disabled ? "cursor-not-allowed opacity-50" : "",
                             )}
                         >
@@ -326,7 +326,7 @@ function PickerCard({
             onClick={onClick}
             className={cn(
                 "flex w-[268px] max-w-full items-center gap-[10px] rounded-[6px] border bg-muted p-[10px] text-left transition",
-                open ? "border-primary" : "border-border hover:border-foreground/30",
+                open ? "border-selected" : "border-border hover:border-selected",
                 disabled ? "cursor-not-allowed opacity-60" : "",
             )}
         >
@@ -422,7 +422,7 @@ function PickerPanel({
                     <X aria-hidden className="size-3.5" />
                 </button>
             </div>
-            {hint ? <div className="mb-2 rounded bg-amber-50 px-2 py-1 text-[11px] leading-4 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">{hint}</div> : null}
+            {hint ? <div className="mb-2 rounded bg-amber-500/10 px-2 py-1 text-[11px] leading-4 text-amber-700 dark:text-amber-300">{hint}</div> : null}
             {children}
         </div>
     );
@@ -891,7 +891,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                 </p>
             ) : null}
             {lostAssets.length ? (
-                <p data-testid="dress-lost-assets" className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
+                <p data-testid="dress-lost-assets" className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700 dark:text-amber-300">
                     有 {lostAssets.length} 个素材文件已不在本地库存，请重新上传对应图片。
                 </p>
             ) : null}
@@ -902,7 +902,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                     <div className="flex h-full min-h-0 flex-col overflow-y-auto rounded-[8px] bg-card px-4 pt-[10px]">
                         <section data-testid="dress-product-upload">
                             <p className="text-[12px] leading-[19px] text-muted-foreground">上传穿戴商品</p>
-                            <p className="mt-[10px] text-[12px] leading-[19px] text-muted-foreground">💡 以<span className="text-primary">模特穿戴效果图</span>作为商品图，会为AI提供更好的作图参考</p>
+                            <p className="mt-[10px] text-[12px] leading-[19px] text-muted-foreground">💡 以<span className="text-foreground">模特穿戴效果图</span>作为商品图，会为AI提供更好的作图参考</p>
                             <div className={cn(DESIGN_UPLOAD_PANEL, "mt-[10px]")}>
                             <UploadPanelIcon />
                             <div className="absolute right-[18px] top-[14px] z-30">
@@ -928,7 +928,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                             disabled={running}
                                             title="从作品库（本地资产库）选择"
                                             onClick={() => setLibraryOpen("works")}
-                                            className="h-6 w-[100px] rounded border border-primary bg-card text-[12px] leading-none text-primary transition hover:bg-primary/10 disabled:opacity-50"
+                                            className="h-6 w-[100px] rounded border border-border bg-background text-[12px] leading-none text-foreground transition hover:bg-accent disabled:opacity-50"
                                         >
                                             从作品库选择
                                         </button>
@@ -939,7 +939,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                             disabled={running}
                                             title="商品库：本地未接入账号级商品库，点开可查看说明"
                                             onClick={() => setLibraryOpen("goods")}
-                                            className="h-6 w-[100px] rounded border border-primary bg-card text-[12px] leading-none text-primary transition hover:bg-primary/10 disabled:opacity-50"
+                                            className="h-6 w-[100px] rounded border border-border bg-background text-[12px] leading-none text-foreground transition hover:bg-accent disabled:opacity-50"
                                         >
                                             从商品库选择
                                         </button>
@@ -968,7 +968,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                                         type="button"
                                                         data-testid={`dress-work-${item.id}`}
                                                         onClick={() => void pickFromLibrary(item)}
-                                                        className="w-full overflow-hidden rounded-md border border-border text-left transition hover:border-primary"
+                                                        className="w-full overflow-hidden rounded-md border border-border text-left transition hover:border-selected"
                                                     >
                                                         <img src={item.url} alt={item.name} className="h-16 w-full object-cover" />
                                                         <span className="block truncate px-1 py-1 text-[11px] text-muted-foreground">{item.name}</span>
@@ -1033,7 +1033,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                                         }}
                                                         className={cn(
                                                             "w-full rounded-md border p-1 text-center transition",
-                                                            active ? "border-primary bg-primary/5" : "border-transparent hover:border-border",
+                                                            active ? "border-selected bg-selected-soft" : "border-transparent hover:border-border",
                                                         )}
                                                     >
                                                         <span className="flex h-[72px] w-full items-center justify-center rounded bg-muted text-muted-foreground">
@@ -1107,7 +1107,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                             onClick={() => update({ outputNum: count })}
                                             className={cn(
                                                 "h-[26px] w-10 rounded-md border text-xs tabular-nums transition",
-                                                active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-card text-foreground/80 hover:border-foreground/30",
+                                                active ? "border-selected bg-selected-soft text-selected" : "border-border bg-card text-foreground/80 hover:border-foreground/30",
                                             )}
                                         >
                                             {count}
@@ -1116,7 +1116,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 })}
                             </div>
                             <p className="mt-[10px] px-1 text-[12px] leading-[19px] text-muted-foreground">
-                                Tips：为您的穿戴商品选择与原图<span className="text-primary">角度、部位与画面占比</span>相近的模特参考，生成的效果更好哦！
+                                Tips：为您的穿戴商品选择与原图<span className="text-foreground">角度、部位与画面占比</span>相近的模特参考，生成的效果更好哦！
                             </p>
                         </section>
 
@@ -1195,7 +1195,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                         {/* 原站主按钮吸底 268×32：sticky 保证在滚动末端可达，不被父级裁切 */}
                         <div className="sticky bottom-0 z-10 mt-auto flex w-[268px] flex-col gap-1.5 bg-card pb-1 pt-2">
                             {issues.length ? (
-                                <ul className="list-disc pl-4 text-[11px] leading-4 text-amber-600" data-testid="dress-issues">
+                                <ul className="list-disc pl-4 text-[11px] leading-4 text-amber-600 dark:text-amber-400" data-testid="dress-issues">
                                     {issues.map((issue) => (
                                         <li key={`${issue.code}-${issue.field}`} data-issue={issue.code}>
                                             {issue.message}
@@ -1204,7 +1204,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 </ul>
                             ) : null}
                             {runError ? (
-                                <p className="text-[11px] leading-4 text-red-600" data-testid="dress-run-error">
+                                <p className="text-[11px] leading-4 text-destructive" data-testid="dress-run-error">
                                     {runError}
                                 </p>
                             ) : null}
@@ -1296,7 +1296,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     </p>
                                 ) : null}
                                 {drift && task ? (
-                                    <p data-testid="dress-stale" className="rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                                    <p data-testid="dress-stale" className="rounded-md bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300">
                                         配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
                                     </p>
                                 ) : null}

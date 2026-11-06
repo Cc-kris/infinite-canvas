@@ -136,7 +136,7 @@ function CountStepper({ value, onChange, label }: { value: number; onChange: (va
 function Toggle({ label, checked, onChange, hint }: { label: string; checked: boolean; onChange: (checked: boolean) => void; hint?: string }) {
     return (
         <label className="flex cursor-pointer items-start gap-2">
-            <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[var(--primary)]" checked={checked} onChange={(event) => onChange(event.target.checked)} />
+            <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[var(--selected)]" checked={checked} onChange={(event) => onChange(event.target.checked)} />
             <span className="flex min-w-0 flex-col">
                 <span className="text-sm">{label}</span>
                 {hint ? <span className="text-[11px] leading-4 text-muted-foreground">{hint}</span> : null}
@@ -148,7 +148,7 @@ function Toggle({ label, checked, onChange, hint }: { label: string; checked: bo
 /* ------------------------------------------------------------------ *
  * 服装套图工作区（DRESS_WEAR_SET / makeType 69）
  *
- * 区域：上传（≤5 张）｜商品信息｜主副图｜A+ 图｜套图结果。
+ * 区域：上传（≤16 张）｜商品信息｜主副图｜A+ 图｜套图结果。
  * 真实执行：每个选中的场景分组 = 一次真实上游请求，结果按标签归组，
  * 部分失败只允许人工重试单组，不会因为“未知”自动重刷扣费。
  * ------------------------------------------------------------------ */
@@ -372,7 +372,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
             return;
         }
         if (!references.length) {
-            setNotice("请先上传服装图（最多 5 张）。");
+            setNotice(`请先上传服装图（最多 ${DRESS_UPLOAD_LIMITS.maxFiles} 张）。`);
             return;
         }
         if (!model) {
@@ -527,7 +527,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                                     data-testid={`dress-suite-sample-${group.id}`}
                                                     disabled={running || applyingCaseId !== null}
                                                     onClick={() => void applyCase(group)}
-                                                    className="flex gap-1 rounded-[6px] border border-black/[0.08] bg-card p-1 transition hover:border-primary disabled:opacity-50 dark:border-white/10"
+                                                    className="flex gap-1 rounded-[6px] border border-border bg-card p-1 transition hover:border-selected disabled:opacity-50"
                                                 >
                                                     {group.params.map((param) => (
                                                         <img key={param.src} src={param.src} alt={param.label} className="size-10 rounded-[4px] object-cover" draggable={false} />
@@ -666,7 +666,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             <input
                                 type="checkbox"
                                 aria-label="智能合规检查"
-                                className="h-4 w-4 accent-[var(--primary)]"
+                                className="h-4 w-4 accent-[var(--selected)]"
                                 checked={values.complianceCheck}
                                 onChange={(event) => setField("complianceCheck", event.target.checked)}
                             />
@@ -729,7 +729,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                     type="button"
                                     onClick={() => setField("resolution", value)}
                                     className={`rounded-md border px-2 py-[2px] text-[11px] ${
-                                        values.resolution === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                        values.resolution === value ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                                     }`}
                                 >
                                     {value}
@@ -747,7 +747,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                         type="button"
                                         onClick={() => setField("quality", option.value)}
                                         className={`rounded-md border px-2 py-[2px] text-[11px] ${
-                                            values.quality === option.value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                            values.quality === option.value ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                                         }`}
                                     >
                                         {option.label}
@@ -767,7 +767,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                     type="button"
                                     onClick={() => setField("aspectRatio", value)}
                                     className={`rounded-md border px-2 py-[2px] text-[11px] ${
-                                        values.aspectRatio === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                        values.aspectRatio === value ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                                     }`}
                                 >
                                     {value}
@@ -790,7 +790,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                           type="button"
                                           onClick={() => setField("aspectRatio", value)}
                                           className={`rounded-md border px-2 py-[2px] text-[11px] ${
-                                              values.aspectRatio === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                              values.aspectRatio === value ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                                           }`}
                                       >
                                           {value}
@@ -906,7 +906,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 aria-selected={rightTab === id}
                                 data-testid={`dress-suite-tab-${id}`}
                                 onClick={() => setRightTab(id)}
-                                className={cn("h-[42px] border-b-2 text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-primary font-medium text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                                className={cn("h-[42px] border-b-2 text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-foreground font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}
                             >
                                 {label}
                             </button>
@@ -970,19 +970,19 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                                             <div className="flex items-center gap-2">
                                                                 <button
                                                                     type="button"
-                                                                    className="text-[11px] text-primary underline-offset-2 hover:underline"
+                                                                    className="text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
                                                                     onClick={() => void handleSaveImageToAssets(image, group.label)}
                                                                 >
                                                                     存入资产
                                                                 </button>
                                                                 <button
                                                                     type="button"
-                                                                    className="text-[11px] text-primary underline-offset-2 hover:underline"
+                                                                    className="text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
                                                                     onClick={() => void handleSendImageToCanvas(image, group.label)}
                                                                 >
                                                                     发送画布
                                                                 </button>
-                                                                <a className="text-[11px] text-primary underline-offset-2 hover:underline" href={image.dataUrl} download={`${group.scene}-${image.id}.png`}>
+                                                                <a className="text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline" href={image.dataUrl} download={`${group.scene}-${image.id}.png`}>
                                                                     下载
                                                                 </a>
                                                             </div>

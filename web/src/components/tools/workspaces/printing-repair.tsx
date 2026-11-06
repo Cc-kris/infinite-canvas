@@ -163,7 +163,7 @@ export function PrintingRepairResultActions({ imageUrl, imageName = "", pending 
                     href={imageUrl}
                     download={printingRepairDownloadName(imageName)}
                     data-testid="printing-repair-download"
-                    className="inline-flex items-center gap-1 text-primary underline-offset-2 hover:underline"
+                    className="inline-flex items-center gap-1 text-foreground underline-offset-2 hover:underline"
                 >
                     <Download aria-hidden="true" className="size-3.5" />
                     下载结果
@@ -196,7 +196,7 @@ function StepCard({
 }) {
     return (
         <section data-testid={`printing-repair-step-${step}`} data-state={done ? "done" : active ? "active" : "pending"} className={className}>
-            <h2 className={cn("text-xs font-normal leading-[25px]", active || done ? "text-primary" : "text-muted-foreground/60")}>{title}</h2>
+            <h2 className={cn("text-xs font-normal leading-[25px]", active || done ? "font-medium text-foreground" : "text-muted-foreground/60")}>{title}</h2>
             <div className="mt-2.5">{children}</div>
         </section>
     );
@@ -205,7 +205,7 @@ function StepCard({
 function IssueList({ issues, testId = "printing-repair-issues" }: { issues: string[]; testId?: string }) {
     if (!issues.length) return null;
     return (
-        <ul data-testid={testId} className="space-y-1 text-[11px] leading-4 text-[#d46b08]">
+        <ul data-testid={testId} className="space-y-1 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
             {issues.map((issue) => (
                 <li key={issue}>{issue}</li>
             ))}
@@ -309,7 +309,7 @@ function PrintStage({
                 onPointerCancel={endDrag}
             >
                 <img src={printUrl} alt="正确印花图层" className="size-full max-h-[45vw] object-contain drop-shadow" draggable={false} />
-                <span className="pointer-events-none absolute inset-0 rounded border border-dashed border-primary/70" aria-hidden="true" />
+                <span className="pointer-events-none absolute inset-0 rounded border border-dashed border-selected/70" aria-hidden="true" />
             </div>
         </div>
     );
@@ -787,7 +787,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
             <h1 className="sr-only">{spec?.title ?? "印花修复"}</h1>
             <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
                 <section data-testid="tool-main-column" data-region="canvas" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-border p-[11px]">
-                    <p className="shrink-0 rounded-lg bg-card px-2.5 py-[5px] text-sm leading-[22px] text-[#3a7df9]">
+                    <p className="shrink-0 rounded-lg bg-card px-2.5 py-[5px] text-sm leading-[22px] text-foreground">
                         💡 小贴士：您可以调整印花的大小并将其置于合适的位置！
                         <a href="https://yxgb3sicy7.feishu.cn/wiki/U3OmwvnyxiPBtCkB2S3cfjKrnug" target="_blank" rel="noreferrer" className="underline underline-offset-2">
                             看看怎么操作？
@@ -923,7 +923,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                         <span>{running ? "修复中…" : "立即生成"}</span>
                     </button>
                 </div>
-                <section data-testid="printing-repair-result" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+                <section data-testid="printing-repair-result" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-canvas">
                     <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
                         <button
                             type="button"
@@ -931,7 +931,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             aria-selected={resultTab === "result"}
                             data-testid="printing-repair-tab-result"
                             onClick={() => setResultTab("result")}
-                            className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                            className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}
                         >
                             生成结果
                         </button>
@@ -941,7 +941,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             aria-selected={resultTab === "history"}
                             data-testid="printing-repair-tab-history"
                             onClick={() => setResultTab("history")}
-                            className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                            className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
                         >
                             <History aria-hidden="true" className="size-3.5" />
                             历史记录
@@ -949,7 +949,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     </div>
                     <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 pb-4 pt-2">
                         {stale ? (
-                            <span data-testid="printing-repair-stale" className="w-fit rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
+                            <span data-testid="printing-repair-stale" className="w-fit rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] text-amber-700 dark:text-amber-300">来自旧版本</span>
                         ) : null}
                         {resultTab === "history" ? (
                             <p data-testid="printing-repair-history-empty" className="flex flex-1 items-center justify-center text-sm text-muted-foreground">

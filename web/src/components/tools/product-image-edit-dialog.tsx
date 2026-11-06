@@ -315,14 +315,14 @@ export function ProductImageEditDialog({ open, mode, source, onClose, onApply }:
                             <button
                                 type="button"
                                 onClick={() => setTool("brush")}
-                                className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-[12px] ${tool === "brush" ? "border-primary text-primary" : "border-border text-muted-foreground"}`}
+                                className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-[12px] ${tool === "brush" ? "border-border bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent"}`}
                             >
                                 <Paintbrush className="size-3.5" /> 画笔
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setTool("eraser")}
-                                className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-[12px] ${tool === "eraser" ? "border-primary text-primary" : "border-border text-muted-foreground"}`}
+                                className={`inline-flex items-center gap-1 rounded border px-2 py-1 text-[12px] ${tool === "eraser" ? "border-border bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent"}`}
                             >
                                 <Eraser className="size-3.5" /> 橡皮擦
                             </button>

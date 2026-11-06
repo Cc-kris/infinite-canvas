@@ -483,7 +483,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
             {notice ? (
                 <div
                     role="status"
-                    className="mb-2 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"
+                    className="mb-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300"
                 >
                     {notice}
                 </div>
@@ -566,7 +566,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         }
                                         className={cn(
                                             "overflow-hidden rounded-[4px] border bg-card p-0.5 transition",
-                                            selected ? "border-primary" : "border-border hover:border-primary/50",
+                                            selected ? "border-selected" : "border-border hover:border-selected",
                                         )}
                                     >
                                         <img
@@ -642,7 +642,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     </div>
                         <div className="shrink-0 pt-2">
                         {issues.length && product ? (
-                            <ul className="mb-2 space-y-1 text-[12px] leading-[18px] text-[#d46b08]">
+                            <ul className="mb-2 space-y-1 text-[12px] leading-[18px] text-amber-700 dark:text-amber-300">
                                 {issues.map((issue) => (
                                     <li key={`${issue.code}-${issue.field}`}>· {issue.message}</li>
                                 ))}
@@ -712,7 +712,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                                         const run = runs.find((candidate) => candidate.index === item.index);
                                                         if (run) void retryOne(run);
                                                     }}
-                                                    className="rounded-md border border-border px-1.5 py-0.5 transition hover:bg-primary/10 disabled:opacity-50"
+                                                    className="rounded-md border border-border px-1.5 py-0.5 transition hover:bg-accent disabled:opacity-50"
                                                 >
                                                     {retrying === item.index ? "重试中…" : "重试"}
                                                 </button>
@@ -736,7 +736,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             type="button"
                                             data-testid="handheld-crop-original"
                                             onClick={() => setCropDialogOpen(true)}
-                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                            className="text-[12px] leading-[18px] text-muted-foreground underline underline-offset-2 transition hover:text-foreground"
                                         >
                                             点击这里裁剪原图尺寸
                                         </button>
@@ -744,7 +744,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             type="button"
                                             data-testid="handheld-erase-original"
                                             onClick={() => void openEdit("erase")}
-                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                            className="text-[12px] leading-[18px] text-muted-foreground underline underline-offset-2 transition hover:text-foreground"
                                         >
                                             点击这里消除原图瑕疵
                                         </button>
@@ -752,7 +752,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             type="button"
                                             data-testid="handheld-cutout-original"
                                             onClick={() => void openEdit("cutout")}
-                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                            className="text-[12px] leading-[18px] text-muted-foreground underline underline-offset-2 transition hover:text-foreground"
                                         >
                                             点击这里继续抠图
                                         </button>
