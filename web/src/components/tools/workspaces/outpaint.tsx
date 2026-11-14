@@ -89,6 +89,7 @@ import {
 import { AI_OUTPAINTING_CASES } from "@/features/tools/tool-cases-data";
 import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, uploadToolAsset } from "@/services/api/tools/assets";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { generateMarketingCopyWithAI } from "@/services/api/tools/content-analysis";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -753,13 +754,6 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         >
                             重新上传
                         </button>
-                        <span className="ml-auto flex items-center gap-2 text-muted-foreground">
-                            <span className="inline-flex items-center gap-1" title={maskState === "synced" ? "蒙版几何与画布一致" : "画布有改动，提交时会按当前几何重渲蒙版"}>
-                                <Maximize2 className="size-3" />
-                                快照 {snapshot.hash.slice(0, 8)}
-                                {maskState === "synced" ? "· 已同步" : "· 待重渲"}
-                            </span>
-                        </span>
                     </div>
                 ) : null}
 
@@ -825,6 +819,25 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     placeholder="描述想要扩图的内容，不填将基于原图生成"
                     className="h-7 min-w-[160px] flex-1 rounded-[6px] bg-muted px-[21px] text-[14px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:ring-1 focus:ring-primary"
                 />
+                {values.sourceAssetId ? (
+                    <button
+                        type="button"
+                        disabled={busy}
+                        onClick={() => {
+                            void generateMarketingCopyWithAI({
+                                kind: "scene",
+                                productInfo: values.sourceName || "商品原图外扩背景",
+                                userHint: values.prompt || "自然延伸原有场景光影、桌面或室内外空间细节",
+                            }).then((text) => commit({ ...valuesRef.current, prompt: text.slice(0, OUTPAINT_MAX_PROMPT) }));
+                        }}
+                        data-testid="outpaint-ai-prompt"
+                        title="AI 生成扩图描述"
+                        className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground hover:bg-accent disabled:opacity-50"
+                    >
+                        <Sparkles className="size-3 text-primary" />
+                        AI润色
+                    </button>
+                ) : null}
                 <div className="relative flex h-7 shrink-0 items-center gap-0 rounded-[6px] bg-muted px-[10px] text-[12px] leading-none text-foreground/60">
                     <span>生成：</span>
                     <button
@@ -909,15 +922,6 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                     onRetryItem={retryItem}
                                     retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
                                 />
-                                {stale ? (
-                                    <p data-testid="outpaint-stale" className="rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
-                                        画布/提示词已改动，上面是上一次的结果，请重新「立即生成」。
-                                    </p>
-                                ) : null}
-                                <div className="flex items-start gap-1.5 rounded-lg bg-card/70 px-2 py-1.5 text-[10px] leading-4 text-muted-foreground">
-                                    <RefreshCw className="mt-0.5 size-3 shrink-0" />
-                                    <span>蒙版以第 2 张参考图随请求提交（当前网关未提供独立 mask 通道），字段里同时保留 maskUrl 便于排查。</span>
-                                </div>
                             </div>
                         ) : (
                             <Edit8Empty testId="outpaint-panel-result" className="tab-pane-empty min-h-[240px]" lines={["暂无生成结果图", "快在左侧操作智能扩图吧~"]} />

@@ -177,9 +177,35 @@
     color: revert-layer;
 }
 
+/*
+ * FE-G01：antd/dist/reset.css 给 p / h1~h6 / dl / ul / ol / figure 注入未分层的默认 margin-bottom: 1em，
+ * 压过 Tailwind base 与 utilities 层，导致工具页标题、段落、表单项上下间距被撑大或错位。
+ * 用 revert-layer 回落到 Tailwind 的 utilities / base 层（无工具类时由 @layer base 归零为 margin: 0）。
+ */
+.tool-linkfox-surface :is(p, h1, h2, h3, h4, h5, h6, dl, dd, ul, ol, figure, blockquote),
+[data-testid="tool-workspace"] :is(p, h1, h2, h3, h4, h5, h6, dl, dd, ul, ol, figure, blockquote),
+[data-testid="tool-workspace-columns"] :is(p, h1, h2, h3, h4, h5, h6, dl, dd, ul, ol, figure, blockquote) {
+    margin: revert-layer;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;
+    }
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    dl,
+    dd,
+    ul,
+    ol,
+    figure,
+    blockquote {
+        margin: 0;
     }
     html,
     body {

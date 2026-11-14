@@ -52,7 +52,6 @@ import {
     type ColorV2Values,
 } from "@/features/tools/registry/change-color-v2";
 import { getToolById } from "@/features/tools/registry";
-import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import { cn } from "@/lib/utils";
 import {
     DEFAULT_IMAGE_CONSTRAINTS,
@@ -601,7 +600,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
             className={cn("min-h-0 min-w-0 bg-card text-[13px] text-foreground", className)}
         >
-            <OrigRail items={ECOMMERCE_SUITE_RAIL} active="套图换色" driver testId="change-color-rail" className="m-1 shrink-0" />
             <ToolWorkspaceColumns
                 config={(
                     <>
@@ -658,24 +656,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             <p className="mt-1 truncate text-[11px] leading-4 text-muted-foreground" title={record.name}>
                                                 {record.name}
                                             </p>
-                                            {/* `imageName` 提交键：上传后自动填文件名，这里可编辑展示名 */}
-                                            <input
-                                                data-testid="color-v2-image-name"
-                                                data-asset-id={record.id}
-                                                aria-label={`商品图展示名（imageName）：${record.name}`}
-                                                value={values.imageNames[record.id] ?? record.name}
-                                                disabled={busy}
-                                                maxLength={COLOR_V2_MAX_REGION_LENGTH}
-                                                onChange={(event) => {
-                                                    const text = event.target.value;
-                                                    commit({
-                                                        ...valuesRef.current,
-                                                        imageNames: { ...valuesRef.current.imageNames, [record.id]: text },
-                                                    });
-                                                }}
-                                                placeholder="上传后自动填入"
-                                                className="mt-1 w-full rounded-md border border-border bg-card px-1.5 py-0.5 text-[11px] leading-4 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary disabled:opacity-60"
-                                            />
                                         </li>
                                     ))}
                                 </ul>
@@ -975,11 +955,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
                         </p>
                     ) : null}
-                    {stale ? (
-                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-md bg-accent px-2 py-1 text-[11px] leading-4 text-destructive">
-                            输入已变更，当前结果来自旧快照 {runHash?.slice(0, 8)}；重新生成才会反映最新设置。
-                        </p>
-                    ) : null}
                     {notice ? (
                         <p data-testid="color-v2-notice" className="mb-1 text-[11px] leading-4 text-muted-foreground">
                             {notice}
@@ -1099,13 +1074,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             </span>
                                         ))}
                                     </div>
-                                ) : null}
-
-                                {consistency ? (
-                                    <p className="text-[11px] leading-4 text-muted-foreground">
-                                        一致性：{consistency.completeMatrix ? "整套矩阵覆盖完整" : "矩阵尚未覆盖全部商品图 × 方案"}
-                                        {consistency.deviatingUnits.length ? ` · ${consistency.deviatingUnits.length} 张做过单图微调` : " · 无单图微调"}
-                                    </p>
                                 ) : null}
 
                                 {actionNotice ? (
@@ -1249,23 +1217,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                           })
                                         : null}
                                 </div>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setShowSnapshot((value) => !value)}
-                                    aria-expanded={showSnapshot}
-                                    className="text-[11px] leading-4 text-muted-foreground underline-offset-2 transition hover:text-primary hover:underline"
-                                >
-                                    {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
-                                </button>
-                                {showSnapshot ? (
-                                    <pre
-                                        data-testid="color-v2-snapshot"
-                                        className="max-h-[240px] overflow-auto rounded-lg border border-border bg-card p-2 text-[11px] leading-4 text-muted-foreground"
-                                    >
-                                        {JSON.stringify(currentSnapshot, null, 2)}
-                                    </pre>
-                                ) : null}
                             </div>
                         ) : (
                             /* 原站空态：单张 958 宽案例轮播，卡内标题 + 上传商品图 → 生成结果（352×352 居中）+ 一键做同款，前 6 个案例。 */

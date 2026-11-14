@@ -2,6 +2,7 @@ import { ArrowRight, Download, History, MoveDownLeft, MoveDownRight, Upload, Wan
 
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { Edit8Dropzone, Edit8Empty, Edit8ResultTabs, Edit8Switch, Edit8UploadCard, edit8GradientButtonClass, edit8OutlineButtonClass } from "@/components/tools/edit8-frame";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -406,6 +407,50 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                             </button>
                         );
                     })}
+                    {source && values.mode === "custom" ? (
+                        <div className="flex items-center gap-1.5 text-xs" data-testid="scale-up-custom-size">
+                            <input
+                                type="number"
+                                aria-label="输出宽度"
+                                value={values.customWidth || ""}
+                                disabled={running}
+                                onChange={(event) => update(linkedCustomSize(values, source, "width", Number(event.target.value)))}
+                                className={`${inputClass} h-7 w-16`}
+                            />
+                            <span className="text-foreground/60">×</span>
+                            <input
+                                type="number"
+                                aria-label="输出高度"
+                                value={values.customHeight || ""}
+                                disabled={running}
+                                onChange={(event) => update(linkedCustomSize(values, source, "height", Number(event.target.value)))}
+                                className={`${inputClass} h-7 w-16`}
+                            />
+                        </div>
+                    ) : null}
+                    {source ? (
+                        <div className="flex items-center gap-1" data-testid="scale-up-qualities">
+                            {SCALE_UP_QUALITIES.map((q) => {
+                                const active = values.quality === q.id;
+                                return (
+                                    <button
+                                        key={q.id}
+                                        type="button"
+                                        disabled={running}
+                                        onClick={() => update({ quality: q.id })}
+                                        className={cn(
+                                            toolbarButton,
+                                            active
+                                                ? "border-selected bg-selected-soft text-foreground"
+                                                : "border-border bg-card text-foreground/80 hover:border-selected",
+                                        )}
+                                    >
+                                        {q.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    ) : null}
                     <label className={cn("flex items-center gap-0 text-[12px] leading-[19px] text-foreground/60", (!source || running) && "text-muted-foreground")}>
                         面部美化：
                         <Edit8Switch
@@ -498,9 +543,9 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                     </>
                                 }
                                 extraActions={
-                                    <button type="button" disabled title="批量高清放大：本地暂未接入批量队列" className={edit8OutlineButtonClass} data-testid="scale-up-batch-entry">
+                                    <Link to="/tools/batch?tool=scale-up" className={edit8OutlineButtonClass} data-testid="scale-up-batch-entry">
                                         批量高清放大 <ArrowRight className="size-3.5" aria-hidden />
-                                    </button>
+                                    </Link>
                                 }
                                 hint={
                                     <div className="mt-3 text-[14px] leading-[22px] text-muted-foreground [&>p]:m-0!">
@@ -512,13 +557,6 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                             />
                         )}
                         {restoringSource ? <p className="mt-2 text-[12px] text-foreground/60">正在恢复上次的原图…</p> : null}
-                        {source && values.mode === "custom" ? (
-                            <div className="mt-3 flex items-center justify-center gap-2 text-xs" data-testid="scale-up-custom-size">
-                                <input type="number" aria-label="输出宽度" value={values.customWidth || ""} disabled={running} onChange={(event) => update(linkedCustomSize(values, source, "width", Number(event.target.value)))} className={`${inputClass} w-20`} />
-                                <span className="text-foreground/60">×</span>
-                                <input type="number" aria-label="输出高度" value={values.customHeight || ""} disabled={running} onChange={(event) => update(linkedCustomSize(values, source, "height", Number(event.target.value)))} className={`${inputClass} w-20`} />
-                            </div>
-                        ) : null}
                         {source && blocking.length > 0 ? (
                             <ul className="mt-3 list-disc pl-4 text-[12px] text-amber-700 dark:text-amber-300" data-testid="scale-up-issues">
                                 {blocking.map((issue) => (
@@ -540,7 +578,11 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                     输出尺寸：<span className="text-foreground" data-testid="scale-up-output-size">{outputSizeLabel(output)}</span>
                                 </p>
                                 <ToolResult task={activeTask} toolId={toolId} title="高清放大图" onCancel={onCancel} onRetry={onRetry} />
-                                {result.stale ? <p className="mt-2 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scale-up-stale">原图或参数已变更，下面的结果来自上一版配置，请重新生成。</p> : null}
+                                {resultImage && (source?.dataUrl || source?.url) ? (
+                                    <div className="mt-3 rounded-[8px] bg-card p-2">
+                                        <CompareSlider before={source.dataUrl ?? source.url ?? ""} after={resultImage} testIdPrefix="scale-up" labels={{ before: "原图", after: "放大后" }} />
+                                    </div>
+                                ) : null}
                             </>
                         ) : (
                             <Edit8Empty large lines={source ? [`输出尺寸：${outputSizeLabel(output)}`, "点击「立即生成」进行图片高清放大"] : ["暂无结果图", "请在左侧上传图片后，进行图片高清放大操作"]} />
@@ -847,6 +889,62 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
                 <div className="px-3 py-[10px]">
+                    <p className="m-0! text-[12px] leading-[22px] text-muted-foreground">精修强度</p>
+                    <div className="mt-[10px] grid grid-cols-3 gap-1.5" data-testid="refine-strengths" role="radiogroup" aria-label="精修强度">
+                        {PRODUCT_REFINE_STRENGTHS.map((item) => {
+                            const active = values.strength === item.id;
+                            return (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={active}
+                                    data-strength={item.id}
+                                    disabled={running}
+                                    onClick={() => update({ strength: item.id })}
+                                    className={cn(
+                                        "h-7 rounded-[6px] border text-[12px] transition disabled:opacity-50",
+                                        active ? "border-selected bg-selected-soft text-foreground" : "border-border bg-card text-foreground/80 hover:bg-accent",
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+                <div className="px-3 py-[10px]">
+                    <div className="flex items-center justify-between">
+                        <span className="text-[12px] leading-[22px] text-muted-foreground">色彩校正</span>
+                        <Edit8Switch
+                            checked={values.colorEnabled}
+                            disabled={running}
+                            onChange={(next) => update({ colorEnabled: next, ...(next && !values.color ? { color: "#FFFFFF" } : {}) })}
+                            label="色彩校正"
+                            testId="refine-color-switch"
+                        />
+                    </div>
+                    {values.colorEnabled ? (
+                        <div className="mt-2 flex items-center gap-2" data-testid="refine-color-picker">
+                            <input
+                                type="color"
+                                value={values.color || "#FFFFFF"}
+                                disabled={running}
+                                onChange={(event) => update({ color: event.target.value.toUpperCase() })}
+                                className="h-7 w-9 cursor-pointer rounded border border-border bg-transparent p-0.5"
+                            />
+                            <input
+                                type="text"
+                                value={values.color}
+                                disabled={running}
+                                placeholder="#FFFFFF"
+                                onChange={(event) => update({ color: event.target.value })}
+                                className={cn(inputClass, "flex-1")}
+                            />
+                        </div>
+                    ) : null}
+                </div>
+                <div className="px-3 py-[10px]">
                     <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-muted-foreground">上传待精修的商品图</p>
                     <Edit8Dropzone target="需要修复的图" hint="20M以内，jpg/jpeg/png/webp" constraints={REFINE_ASSET_CONSTRAINTS} disabled={running} onPick={(record) => onSourceChange([record.id], [record])} testId="refine-dropzone" />
                     {restoringSource ? <p className="mt-2 text-[11px] text-foreground/60">正在恢复上次的商品图…</p> : null}
@@ -884,11 +982,6 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         historyTestId="refine-tab-history"
                     />
                     <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto py-4 pl-4 pr-3">
-                        {result.stale ? (
-                            <p className="rounded-md bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300" data-testid="refine-stale">
-                                原图或配置已变更（{result.drift || "参数"}），下面的结果来自上一版配置，请重新精修。
-                            </p>
-                        ) : null}
                         {resultTab === "history" ? (
                             <ToolTaskHistory
                                 toolId={toolId}

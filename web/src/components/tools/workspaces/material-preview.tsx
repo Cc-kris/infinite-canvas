@@ -18,6 +18,7 @@ import {
     type MaterialPreviewValues,
 } from "@/features/tools/registry/material-preview";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { autoSegmentSubjectMask } from "@/services/api/tools/segmentation";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -44,9 +45,28 @@ export function MaterialPreviewWorkspace() {
 
     const [values, setValues] = useState<MaterialPreviewValues>(DEFAULT_MATERIAL_PREVIEW_VALUES);
     const [source, setSource] = useState<ToolAssetRecord | null>(null);
+    const [cutoutPreviewUrl, setCutoutPreviewUrl] = useState<string>("");
     const [shownIds, setShownIds] = useState<{ id: string; label: string }[]>([]);
     const [running, setRunning] = useState(false);
     const [errorText, setErrorText] = useState("");
+
+    useEffect(() => {
+        let cancelled = false;
+        if (!source?.url || !values.isMatting) {
+            setCutoutPreviewUrl("");
+            return;
+        }
+        void autoSegmentSubjectMask(source.url)
+            .then((seg) => {
+                if (!cancelled) setCutoutPreviewUrl(seg.cutoutDataUrl);
+            })
+            .catch(() => {
+                if (!cancelled) setCutoutPreviewUrl("");
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [source?.url, values.isMatting]);
 
     useEffect(() => {
         let alive = true;
@@ -78,7 +98,9 @@ export function MaterialPreviewWorkspace() {
         setRunning(true);
         setErrorText("");
         try {
-            const inputs = buildMaterialPreviewInputs(values, assetRecordToReference(source), model);
+            const ref = assetRecordToReference(source);
+            const effectiveRef = values.isMatting && cutoutPreviewUrl ? { ...ref, url: cutoutPreviewUrl, dataUrl: cutoutPreviewUrl } : ref;
+            const inputs = buildMaterialPreviewInputs(values, effectiveRef, model);
             const submitted = await Promise.all(
                 inputs.map((input) => {
                     const promise = runTool(input, { draftRevision });
@@ -170,7 +192,7 @@ export function MaterialPreviewWorkspace() {
                     {source ? (
                         /* 原站 _main：500 高、棋盘格底的素材大图。 */
                         <div data-testid="material-preview-source-image" className="mb-4 flex h-[500px] items-center justify-center">
-                            <img src={source.url} alt="素材图" className="max-h-full max-w-full object-contain [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%,transparent_75%,#ccc_75%),linear-gradient(45deg,#ccc_25%,transparent_25%,transparent_75%,#ccc_75%)] [background-position:0_0,8px_8px] [background-size:16px_16px]" />
+                            <img src={values.isMatting && cutoutPreviewUrl ? cutoutPreviewUrl : source.url} alt="素材图" className="max-h-full max-w-full object-contain [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%,transparent_75%,#ccc_75%),linear-gradient(45deg,#ccc_25%,transparent_25%,transparent_75%,#ccc_75%)] [background-position:0_0,8px_8px] [background-size:16px_16px]" />
                         </div>
                     ) : null}
                     {shown.length ? (

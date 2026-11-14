@@ -140,18 +140,12 @@ import {
     type VideoConcatState,
 } from "@/features/tools/registry/video-concat";
 import {
-    assertVideoConcatInput,
-    buildVideoConcatBrowserInput,
-    createVideoConcatRunPort,
     mapVideoConcatIssues,
-    resolveVideoConcatProviderCapability,
-    retryVideoConcatTask,
-    runVideoConcatTask,
-    videoConcatBlockedReason,
     videoConcatResultView,
     videoConcatSummary,
-    VideoConcatAdapterError,
 } from "@/features/tools/adapters/video-concat";
+import { createVideoConcatLocalPort, runVideoConcatLocalTask } from "@/features/tools/adapters/video-concat-local";
+import { analyzeProductLink, analyzeVideoTranscript, generateMarketingCopyWithAI, parseEcommerceProductLink, readPublicVideoBlob, transcribeToolVideo } from "@/services/api/tools/content-analysis";
 import { DEFAULT_VIDEO_CONSTRAINTS, loadToolAssetRecords, readToolAssetBlob, toolAssetLibraryItemsFromAssets, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { VIDEO_REPLICATION_CASES as VIDEO_REPLICATION_CASE_DATA, type VideoReplicationCase } from "@/features/tools/video-replication-cases-data";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
@@ -161,6 +155,7 @@ import {
     resolveModelScript,
     selectableModelsByCapability,
     useConfigStore,
+    withLocalProxy,
     type AiConfig,
 } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -508,19 +503,29 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
         [records],
     );
 
-    /* ---------- 商品链接「分析」：本地没有链接解析通道，只校验不伪造结果 ---------- */
-    const handleAnalyze = useCallback(() => {
+    /* ---------- 商品链接：读取网页真实正文，再交给用户配置的文本模型 ---------- */
+    const handleAnalyze = useCallback(async () => {
         const link = productLink.trim();
         if (!link) {
             setNotice("请先粘贴商品链接");
             return;
         }
-        if (!/^https?:\/\//i.test(link)) {
-            setNotice("商品链接需以 http:// 或 https:// 开头");
-            return;
+        setRunning(true);
+        setError("");
+        setNotice("正在读取商品页面并分析真实内容…");
+        try {
+            const result = await analyzeProductLink({ url: link, config, language: state.language });
+            scriptBackupRef.current = state.prompt;
+            setState((previous) => ({ ...previous, prompt: result.script.slice(0, SALE_VIDEO_PROMPT_MAX) }));
+            setScriptUndoable(true);
+            setNotice(`已读取「${result.title || "商品页面"}」并生成可编辑草稿；请核对网页未提供的商品信息`);
+        } catch (cause) {
+            setNotice("");
+            setError(cause instanceof Error ? cause.message : "商品链接分析失败");
+        } finally {
+            setRunning(false);
         }
-        setNotice("已记录商品链接；本地未接入链接解析通道，请直接上传商品图（不会伪造解析结果）");
-    }, [productLink]);
+    }, [config, productLink, state.language, state.prompt]);
 
     /* ---------- UGC种草：把风格写进提示词描述（真实生效，可再编辑） ---------- */
     const handleUgcStyle = useCallback(() => {
@@ -537,19 +542,37 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
      * 用一次性的备份保存被替换前的草稿，撤销后清空，避免撤销本身也被记录成一次改写。
      */
     const handleWriteScript = useCallback(() => {
-        setState((previous) => {
-            scriptBackupRef.current = previous.prompt;
-            return {
-                ...previous,
-                prompt: composeSaleVideoScriptDraft({
-                    state: previous,
-                    sourceCount: records.length,
-                }),
-            };
+        const previousPrompt = state.prompt;
+        const fallbackDraft = composeSaleVideoScriptDraft({
+            state,
+            sourceCount: records.length,
         });
+        scriptBackupRef.current = previousPrompt;
+        setState((previous) => ({
+            ...previous,
+            prompt: fallbackDraft,
+        }));
         setScriptUndoable(true);
-        setNotice("已按国家/语言/商品图生成口播草稿（本地模板，可自行修改，也可撤销）");
-    }, [records]);
+        setNotice("已按国家/语言/商品图生成口播草稿（可自行修改，也可撤销）");
+        const textModel = (config.textModel || config.model || "").trim();
+        if (textModel) {
+            void generateMarketingCopyWithAI({
+                mode: "sale-script",
+                currentDraft: previousPrompt,
+                durationSeconds: state.videoTime,
+                language: state.language,
+                imageUrl: records[0]?.url,
+                config,
+            })
+                .then((aiDraft) => {
+                    if (aiDraft.trim() && aliveRef.current) {
+                        setState((previous) => ({ ...previous, prompt: aiDraft.slice(0, SALE_VIDEO_PROMPT_MAX) }));
+                        setNotice("已由 AI 生成带货口播脚本草稿（可自行修改，也可撤销）");
+                    }
+                })
+                .catch(() => undefined);
+        }
+    }, [config, records, state]);
 
     /** 撤销 AI帮写：把提示词还原成帮写前的草稿。 */
     const handleUndoScript = useCallback(() => {
@@ -711,7 +734,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         <button
                             type="button"
                             aria-label="分析商品链接"
-                            onClick={handleAnalyze}
+                            onClick={() => void handleAnalyze()}
                             disabled={running}
                             data-testid="sale-video-analyze"
                             className="shrink-0 text-[12px] text-foreground disabled:opacity-50"
@@ -955,11 +978,6 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </div>
                         ) : (
                         <div className="space-y-3 px-1 py-3">
-                            {stale ? (
-                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600 dark:text-amber-400" data-testid="sale-video-stale">
-                                    来自旧版本配置
-                                </span>
-                            ) : null}
                             <ToolResult
                                 task={task}
                                 toolId={SALE_VIDEO_TOOL_ID}
@@ -970,27 +988,6 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                                 emptyHint="填好口播提示词后点「立即生成」，带货口播视频会显示在这里"
                                 className="min-h-[320px]"
                             />
-                            {snapshot ? (
-                                <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground">
-                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
-                                    <dl className="mt-2 grid grid-cols-2 gap-1">
-                                        <dt>模型</dt>
-                                        <dd>{snapshot.model || "—"}</dd>
-                                        <dt>国家/语言</dt>
-                                        <dd>
-                                            {snapshot.saleCountry} / {snapshot.language}
-                                        </dd>
-                                        <dt>分辨率</dt>
-                                        <dd>{snapshot.resolution}</dd>
-                                        <dt>时长/比例</dt>
-                                        <dd>
-                                            {snapshot.videoTime}s / {snapshot.aspectRatio}
-                                        </dd>
-                                        <dt>商品图</dt>
-                                        <dd>{snapshot.sourceAssetIds.length} 张</dd>
-                                    </dl>
-                                </details>
-                            ) : null}
                         </div>
                         )
                     ) : (
@@ -1070,13 +1067,10 @@ type ConcatClip = VideoConcatClip;
 export type VideoConcatWorkspaceProps = { className?: string };
 
 export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = {}) {
-    const spec = useMemo(() => getVideoConcatSpec(), []);
-    const config = useConfigStore((state) => state.config);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
 
     const [state, setState] = useState<VideoConcatState>(() => createVideoConcatState());
-    const [model, setModel] = useState(() => config.videoModel || "");
     const [clipRecords, setClipRecords] = useState<ToolAssetRecord[]>([]);
     const [coverRecords, setCoverRecords] = useState<ToolAssetRecord[]>([]);
     const [activeClipId, setActiveClipId] = useState("");
@@ -1297,7 +1291,9 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
         setResultTab("result");
         setNotice("");
         const snap = historyTask.configSnapshot as { model?: string } | undefined;
-        if (snap?.model) setModel(snap.model);
+        if (snap?.model && snap.model !== "local-ffmpeg") {
+            setNotice("这是旧的生成模型任务；新拼接只在本地处理原视频，不恢复视频模型配置");
+        }
         const ids = (historyTask.sourceAssetIds ?? []).filter((id) => typeof id === "string" && id.length > 0);
         if (!ids.length) {
             setNotice(`已恢复任务结果（${historyTask.status}）；该任务没有记录片段资产，无法回填片段列表`);
@@ -1322,27 +1318,18 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
     }, [syncClips]);
 
     /* ---------- 派生状态 ---------- */
-    const issues = useMemo(() => validateVideoConcatState({ state, model }), [model, state]);
-    const capability = useMemo(
-        () =>
-            resolveVideoConcatProviderCapability({
-                model,
-                apiFormat: resolveModelRequestConfig(config, model).apiFormat,
-                hasPluginScript: Boolean(resolveModelScript(config, model)),
-            }),
-        [config, model],
-    );
-    const blockedReason = videoConcatBlockedReason({ issues, capability });
+    const issues = useMemo(() => validateVideoConcatState({ state }), [state]);
+    const blockedReason = issues[0]?.message ?? "";
 
     const currentSnapshot = useMemo(
         () =>
             createVideoConcatSnapshot({
                 state,
-                model,
+                model: "local-ffmpeg",
                 draftRevision: revisionRef.current,
                 clientOperationId: "preview",
             }),
-        [model, state],
+        [state],
     );
     const stale = snapshot ? isVideoConcatSnapshotStale(snapshot, currentSnapshot) : false;
     const activeClip = state.clips.find((clip) => clip.id === activeClipId) ?? state.clips[0] ?? null;
@@ -1355,20 +1342,22 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
             setNotice("");
             setRunning(true);
             try {
-                assertVideoConcatInput({ state, model, capability });
-                const browserInput = buildVideoConcatBrowserInput({ state, model });
+                const port = await createVideoConcatLocalPort();
+                const clientOperationId = `concat-${Date.now()}`;
+                const next = await runVideoConcatLocalTask({
+                    state,
+                    port,
+                    draftRevision: revisionRef.current,
+                    clientOperationId,
+                });
                 setSnapshot(
                     createVideoConcatSnapshot({
                         state,
-                        model,
+                        model: "local-ffmpeg",
                         draftRevision: revisionRef.current,
-                        clientOperationId: `concat-${Date.now()}`,
+                        clientOperationId,
                     }),
                 );
-                const port = await createVideoConcatRunPort();
-                const next = options?.retry
-                    ? await retryVideoConcatTask({ browserInput, port, draftRevision: revisionRef.current })
-                    : await runVideoConcatTask({ browserInput, port, draftRevision: revisionRef.current });
                 if (!aliveRef.current) return;
                 setTask(next);
                 const view = videoConcatResultView(next);
@@ -1380,12 +1369,12 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                 if (!aliveRef.current) return;
                 const message = cause instanceof Error ? cause.message : String(cause);
                 setError(message || "提交失败");
-                if (cause instanceof VideoConcatAdapterError) setTask(null);
+                if (cause instanceof Error && "code" in cause) setTask(null);
             } finally {
                 if (aliveRef.current) setRunning(false);
             }
         },
-        [capability, model, running, state],
+        [running, state],
     );
 
     /**
@@ -1636,25 +1625,17 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                             ))}
                         </div>
                         <p className="text-[11px] text-muted-foreground">
-                            自动 = 片段有效时长之和 {effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips })}s
+                            {state.videoTime === "auto"
+                                ? `自动 = 片段有效时长之和 ${effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips })}s`
+                                : "固定档暂未接入本地合成，不会自动截断或补齐片段；请切换到「自动」"}
+
                         </p>
                     </section>
 
-                    {/* 通道能力说明是只读信息，留在正文里；底部操作条只放按钮与真实阻断原因。 */}
                     <section className="space-y-1" data-testid="video-concat-channel-block">
                         <p className="text-[11px] text-muted-foreground" data-testid="video-concat-channel">
-                            通道 {capability.channel} · 多段视频{" "}
-                            {capability.evidence.multiReference === "supported"
-                                ? "已验证发送"
-                                : capability.evidence.multiReference === "unsupported"
-                                    ? "不会发送（阻断）"
-                                    : "无证据（阻断）"}
+                            本地确定性合成 · 按列表顺序和每段裁剪区间处理原视频，不调用生成模型，不重拍画面。
                         </p>
-                        {capability.notes.map((note) => (
-                            <p key={note} className="text-[11px] text-muted-foreground">
-                                {note}
-                            </p>
-                        ))}
                     </section>
                     </div>
 
@@ -1704,11 +1685,6 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                 >
                     {resultTab === "result" ? (
                         <div className="space-y-3 px-1 py-3" data-testid="video-concat-results">
-                            {stale ? (
-                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600 dark:text-amber-400" data-testid="video-concat-stale">
-                                    来自旧版本配置
-                                </span>
-                            ) : null}
                             {/* 原站只有一块结果区：有片段时才出现预览，空态交给 ToolResult，不再叠两层空卡片。 */}
                             {activeClip ? (
                                 <section className="space-y-2">
@@ -1750,23 +1726,6 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                                 onRetry={() => void handleSubmit({ retry: true })}
                                 className="min-h-[320px]"
                             />
-                            {snapshot ? (
-                                <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground" data-testid="video-concat-snapshot">
-                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
-                                    <dl className="mt-2 grid grid-cols-2 gap-1">
-                                        <dt>模型</dt>
-                                        <dd>{snapshot.model || "—"}</dd>
-                                        <dt>片段</dt>
-                                        <dd>{snapshot.clips.length} 段</dd>
-                                        <dt>比例/时长</dt>
-                                        <dd>
-                                            {snapshot.videoRatio} / {snapshot.videoTime}s
-                                        </dd>
-                                        <dt>封面</dt>
-                                        <dd>{snapshot.coverSource === "frame" ? "抓帧" : "上传"}</dd>
-                                    </dl>
-                                </details>
-                            ) : null}
                         </div>
                     ) : (
                         <div className="px-1 py-3" data-testid="video-concat-history">
@@ -2056,17 +2015,36 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     );
 
     const handleOptimizePrompt = useCallback(() => {
-        setPromptUndoValue(state.prompt);
+        const previousPrompt = state.prompt;
+        setPromptUndoValue(previousPrompt);
+        const fallbackDraft = composeAiVideoEditingPromptDraft({
+            state,
+            window,
+            referenceCount: referenceRecords.length,
+        });
         setState((previous) => ({
             ...previous,
-            prompt: composeAiVideoEditingPromptDraft({
-                state: previous,
-                window,
-                referenceCount: referenceRecords.length,
-            }),
+            prompt: fallbackDraft,
         }));
-        setNotice("已用本地模板生成编辑需求草稿（模板优化，可撤销）");
-    }, [referenceRecords.length, state.prompt, window]);
+        setNotice("已生成编辑需求草稿（可撤销）");
+        const textModel = (config.textModel || config.model || "").trim();
+        if (textModel) {
+            void generateMarketingCopyWithAI({
+                mode: "video-prompt",
+                currentDraft: previousPrompt,
+                durationSeconds: window.durationSec,
+                imageUrl: referenceRecords[0]?.url,
+                config,
+            })
+                .then((aiDraft) => {
+                    if (aiDraft.trim() && aliveRef.current) {
+                        setState((previous) => ({ ...previous, prompt: aiDraft.slice(0, AI_VIDEO_EDITING_PROMPT_MAX) }));
+                        setNotice("已由 AI 优化编辑需求描述（可撤销）");
+                    }
+                })
+                .catch(() => undefined);
+        }
+    }, [config, referenceRecords, state, window]);
 
     const handleUndoPrompt = useCallback(() => {
         if (promptUndoValue === null) return;
@@ -2476,14 +2454,7 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         </div>
                     ) : resultTab === "result" ? (
                         <div className="min-w-0 space-y-3 px-1 py-3" data-testid="ai-video-editing-results">
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                                {stale ? (
-                                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600 dark:text-amber-400" data-testid="ai-video-editing-stale">
-                                        来自旧版本配置
-                                    </span>
-                                ) : (
-                                    <span />
-                                )}
+                            <div className="flex flex-wrap items-center justify-end gap-2">
                                 {/* 原站结果区右上角「一键做同款」；没有可复用的提交快照时禁用并说明，不做假装可点。 */}
                                 <button
                                     type="button"
@@ -2506,25 +2477,6 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                                 emptyHint="填好编辑需求后点「立即生成」，前后对比结果会显示在这里"
                                 className="min-h-[320px]"
                             />
-                            {snapshot ? (
-                                <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground" data-testid="ai-video-editing-snapshot">
-                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
-                                    <dl className="mt-2 grid grid-cols-2 gap-1">
-                                        <dt>模型</dt>
-                                        <dd>{snapshot.model || "—"}</dd>
-                                        <dt>视频类型</dt>
-                                        <dd>{snapshot.videoType}</dd>
-                                        <dt>截取区间</dt>
-                                        <dd>
-                                            {snapshot.clipStartSec}–{snapshot.clipStartSec + snapshot.durationSec} 秒（共 {snapshot.durationSec} 秒）
-                                        </dd>
-                                        <dt>源视频</dt>
-                                        <dd>{snapshot.sourceVideoSec} 秒</dd>
-                                        <dt>参考图</dt>
-                                        <dd>{snapshot.referenceAssetIds.length} 张</dd>
-                                    </dl>
-                                </details>
-                            ) : null}
                         </div>
                     ) : (
                         <div className="px-1 py-3" data-testid="ai-video-editing-history">
@@ -2554,7 +2506,6 @@ import {
     VIDEO_REPLICATION_VIDEO_LIMITS,
     VIDEO_REPLICATION_VIDEO_TYPES,
     applyVideoReplicationCountry,
-    composeVideoReplicationScriptDraft,
     createVideoReplicationValues,
     normalizeVideoReplicationClip,
     parseVideoReplicationDraftValues,
@@ -2603,6 +2554,15 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const config = useConfigStore((state) => state.config);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    const assets = useAssetStore((state) => state.assets);
+    const videoLibrary = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is VideoAsset => asset.kind === "video")),
+        [assets],
+    );
+    const imageLibrary = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset => asset.kind === "image")),
+        [assets],
+    );
 
     const catalog = useMemo(() => resolveVideoReplicationCatalog(), []);
     const [values, setValues] = useState<VideoReplicationValues>(() => createVideoReplicationValues());
@@ -2751,11 +2711,35 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
         setValues((previous) => ({ ...previous, clipMode: "manual", clipStart: start, clipEnd: end }));
     }, []);
 
-    const handleScriptDraft = useCallback(() => {
-        const draft = composeVideoReplicationScriptDraft({ values, catalog });
-        setValues((previous) => ({ ...previous, prompt: draft.slice(0, VIDEO_REPLICATION_PROMPT_LIMIT) }));
-        setNotice("已按当前国家/语言/时长生成脚本草稿（本地模板，未调用模型）");
-    }, [catalog, values]);
+    const handleScriptDraft = useCallback(async () => {
+        setError("");
+        setNotice("");
+        setRunning(true);
+        try {
+            let video: Blob;
+            if (values.sourceMode === "upload") {
+                if (!videoRecord) throw new Error("请先上传参考视频，再分析其真实内容");
+                const stored = await readToolAssetBlob(videoRecord.storageKey);
+                if (!stored) throw new Error("参考视频本地数据已失效，请重新上传");
+                video = stored;
+            } else {
+                const link = parsePublicVideoLink(values.videoLink);
+                if (!link.ok) throw new Error(link.message);
+                video = await readPublicVideoBlob(link.url);
+            }
+            setNotice("正在提取并转录参考视频的真实语音…");
+            const transcript = await transcribeToolVideo({ config, video, sourceLanguage: "auto" });
+            setNotice("已读取真实转录，正在由文本模型分析脚本…");
+            const script = await analyzeVideoTranscript({ config, transcript: transcript.text, targetLanguage: values.targetLanguage });
+            setValues((previous) => ({ ...previous, prompt: script.slice(0, VIDEO_REPLICATION_PROMPT_LIMIT), analyzeMode: "auto" }));
+            setNotice("已依据参考视频的真实语音转录生成脚本，请校对商品信息与镜头安排");
+        } catch (cause) {
+            setNotice("");
+            setError(cause instanceof Error ? cause.message : "视频脚本分析失败");
+        } finally {
+            setRunning(false);
+        }
+    }, [config, values.sourceMode, values.targetLanguage, values.videoLink, videoRecord]);
 
     /* ---------- 提交 / 重试 ---------- */
     const buildInput = useCallback(async () => {
@@ -2906,6 +2890,28 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
         setValues((previous) => ({ ...previous, refImageAssetIds: ids }));
     }, []);
 
+    const handleParseVideoLink = useCallback(async () => {
+        const raw = values.videoLink.trim();
+        if (!raw) {
+            setError("请先粘贴视频链接");
+            return;
+        }
+        const checked = parsePublicVideoLink(raw);
+        if (checked.ok) {
+            setError("");
+            setValues((previous) => ({ ...previous, videoLink: checked.url, sourceMode: "link" }));
+            setNotice("已识别公网视频链接，可直接生成或点击「分析视频脚本」");
+            return;
+        }
+        try {
+            const parsed = await parseEcommerceProductLink(raw);
+            setError("");
+            setNotice(`已读取链接「${parsed.title || "页面"}」信息`);
+        } catch {
+            setError(checked.message);
+        }
+    }, [values.videoLink]);
+
     const sourceMode = values.sourceMode;
 
     return (
@@ -2928,20 +2934,16 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                 placeholder="粘贴 TikTok 视频链接"
                                 data-testid="video-replication-link"
                             />
-                            {/* 原站按钮位置保留；本地没有 TikTok 链接解析通道，禁用并如实说明原因，不假装能解析。 */}
                             <button
                                 type="button"
-                                className="shrink-0 text-[12px] text-foreground disabled:opacity-50"
-                                disabled
-                                title="链接解析通道未接入：请改为本地上传参考视频"
+                                className="shrink-0 text-[12px] text-foreground hover:text-selected disabled:opacity-50"
+                                disabled={running || !values.videoLink.trim()}
+                                onClick={() => void handleParseVideoLink()}
                                 data-testid="video-replication-parse"
                             >
                                 解析
                             </button>
                         </div>
-                        <p className="text-[11px] leading-4 text-muted-foreground">
-                            本地未接入 TikTok 链接解析（禁用）；可手动上传参考视频，或直接粘贴公网视频直链
-                        </p>
                         <p className="flex items-center gap-2 text-[11px] leading-4 text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">或 手动上传参考视频</p>
                         <ToolAssetInput
                             toolId={VIDEO_REPLICATION_TOOL_ID}
@@ -2949,21 +2951,13 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             maxCount={1}
                             disabled={running}
                             onChange={handleVideoChange}
+                            library={videoLibrary}
                             variant="linkfox"
                             uploadLabel="本地上传"
                             dropLabel="上传参考视频"
                             wide
                             compact
                             className="[&_div[role=button]]:min-h-[104px]"
-                            actions={
-                                <button
-                                    type="button"
-                                    className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                    disabled
-                                >
-                                    作品选择
-                                </button>
-                            }
                             constraints={{
                                 kind: "video",
                                 mimeTypes: [...VIDEO_REPLICATION_VIDEO_LIMITS.mimeTypes],
@@ -3075,29 +3069,12 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             maxCount={VIDEO_REPLICATION_REFERENCE_LIMITS.maxCount}
                             disabled={running}
                             onChange={handleReferenceChange}
+                            library={imageLibrary}
                             variant="linkfox"
                             uploadLabel="本地上传"
                             wide
                             compact
                             className="[&_div[role=button]]:min-h-[104px]"
-                            actions={
-                                <>
-                                    <button
-                                        type="button"
-                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                        disabled
-                                    >
-                                        作品选择
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                        disabled
-                                    >
-                                        商品库选择
-                                    </button>
-                                </>
-                            }
                             constraints={{
                                 kind: "image",
                                 mimeTypes: [...VIDEO_REPLICATION_IMAGE_MIME_TYPES],
@@ -3161,16 +3138,15 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             data-testid="video-replication-prompt"
                         />
                         <div className={cn(VF_TOOLBAR, "justify-between")}>
-                            {/* 本地没有视频理解/脚本分析模型：这里是确定性模板，按钮和说明都不冒充模型输出。 */}
                             <button
                                 type="button"
-                                onClick={handleScriptDraft}
-                                disabled={running}
-                                title="按当前国家/语言/时长用本地模板拼脚本，不调用模型"
+                                onClick={() => void handleScriptDraft()}
+                                disabled={running || !videoReady}
+                                title="提取参考视频音轨，经 ASR 转录后由已配置文本模型分析"
                                 className="rounded-[4px] bg-muted px-2 py-0.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground disabled:opacity-50"
                                 data-testid="video-replication-script-draft"
                             >
-                                本地模板生成脚本
+                                {running ? "正在读取视频…" : "分析视频脚本"}
                             </button>
                             <span data-testid="video-replication-prompt-counter">
                                 {counter.length}/{counter.limit}
@@ -3178,7 +3154,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         </div>
                         </div>
                         <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-replication-script-note">
-                            本地未接入视频脚本分析模型；「本地模板生成脚本」按当前国家/语言/时长拼草稿，写完请自行校对。
+                            读取视频音轨并通过已配置 ASR 与文本模型分析；只根据真实转录改写，分享页或没有音轨的视频会明确报错。
                         </p>
                     </section>
 
@@ -3360,11 +3336,6 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                     一键做同款
                                 </button>
                             </div>
-                            {result.message ? (
-                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600 dark:text-amber-400" data-testid="video-replication-status-hint">
-                                    {result.message}
-                                </span>
-                            ) : null}
                             {running && task ? (
                                 <button
                                     type="button"

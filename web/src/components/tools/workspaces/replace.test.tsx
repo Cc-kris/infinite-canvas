@@ -5,7 +5,7 @@ type Expectation = {
     toBe: (expected: unknown) => void;
     toBeGreaterThan: (expected: number) => void;
     toContain: (expected: string) => void;
-    not: { toContain: (expected: string) => void };
+    not: { toContain: (expected: string) => void; toEqual: (expected: unknown) => void };
 };
 
 // 与 suite.test.tsx / mask.test.tsx 一致：仓库未装 bun 类型包，动态导入避免 tsc --noEmit 报 TS2307。
@@ -16,6 +16,7 @@ const { describe, expect, test } = (await import("bun:test" as string)) as {
 };
 
 const values = new Map<string, string>();
+const { guideDrawCalls } = await import("@/features/tools/adapters/replace-goods");
 Object.defineProperty(globalThis, "localStorage", {
     configurable: true,
     writable: true,
@@ -34,9 +35,9 @@ Object.defineProperty(globalThis, "localStorage", {
 /**
  * 商品替换（REPLACE_GOODS）对照原站 product-replacement 的骨架证据。
  *
- * 原站形态：大画布 + 底部横向参数条（生成尺寸 / 场景变化程度 / 张数 / 立即生成）+ 右侧 300 结果列。
+ * 原站形态：大画布 + 底部横向参数条（生成尺寸 / 场景变化程度 / 张数 / 立即生成）+ 右侧 504 结果列。
  * 这里用 react-dom/server 渲染真实组件，断言：
- *  - 参数条在画布列里（不是塞进 300 结果列）；
+ *  - 参数条在画布列里（不是塞进 504 结果列）；
  *  - 结果列只有 生成结果 / 优秀案例 / 历史记录 三个入口；
  *  - 上一版的自造块（键盘快捷键面板、锁定覆盖读数、多商品分步标题、重复导航）已删除；
  *  - 真实链路仍在：上传 input、四角拖动句柄、蒙版画笔、SKU 页签、提交按钮。
@@ -58,6 +59,18 @@ function columns(html: string): { main: string; config: string } {
 }
 
 describe("商品替换工作区（对齐原站：画布 + 底部参数条 + 右侧结果列）", () => {
+    test("落位预览复用请求的导引图几何，四边形改变会改变仿射像素变换", () => {
+        const scene = { width: 1000, height: 800 };
+        const target = { width: 400, height: 600 };
+        const base = { topLeft: { x: 0.2, y: 0.2 }, topRight: { x: 0.8, y: 0.2 }, bottomRight: { x: 0.8, y: 0.8 }, bottomLeft: { x: 0.2, y: 0.8 } };
+        const warped = { ...base, topRight: { x: 0.9, y: 0.3 } };
+        const before = guideDrawCalls(base, scene, target);
+        const after = guideDrawCalls(warped, scene, target);
+        expect(before.length).toBe(2);
+        expect(after.length).toBe(2);
+        expect(after[0]!.affine).not.toEqual(before[0]!.affine);
+    });
+
     test("参数条在画布列底部，画布是主区", async () => {
         const html = await renderWorkspace();
         const { main } = columns(html);
@@ -74,9 +87,10 @@ describe("商品替换工作区（对齐原站：画布 + 底部参数条 + 右�
         expect(main).toContain('data-testid="replace-goods-canvas"');
     });
 
-    test("结果列是 300 右列，只有生成结果 / 优秀案例 / 历史记录三个入口", async () => {
+    test("结果列是 504 右列，只有生成结果 / 优秀案例 / 历史记录三个入口", async () => {
         const html = await renderWorkspace();
         const { config } = columns(html);
+        expect(html).toContain("lg:grid-cols-[minmax(0,1fr)_504px]");
         expect(config).toContain('data-testid="replace-goods-tab-result"');
         expect(config).toContain('data-testid="replace-goods-tab-cases"');
         expect(config).toContain('data-testid="replace-goods-tab-history"');

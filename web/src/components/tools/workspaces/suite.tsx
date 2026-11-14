@@ -4,13 +4,15 @@ import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
 import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
 import { PRODUCT_SUITE_SAMPLES } from "@/features/tools/tool-cases-data";
-import { History } from "lucide-react";
+import { History, Type, X } from "lucide-react";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { analyzeProductImageWithVision } from "@/services/api/tools/content-analysis";
 import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
@@ -34,6 +36,7 @@ import {
     createDefaultSuiteConfig,
     createSuiteSnapshot,
     readSuiteConfig,
+    suiteCustomDimensions,
     suiteExpectedCount,
     validateSuiteConfig,
     type SuiteConfig,
@@ -125,63 +128,92 @@ function Section({
     hint?: string;
     children: React.ReactNode;
     /**
-     * 原站「生成内容（可同时选择）」的一行：整行是一个 aria-expanded 折叠按钮
-     * （左侧标签 + 右侧摘要），行尾另有一个只带 aria-label 的配置按钮。
-     * 传入 output 后该区块默认折叠，展开的是同一份生成设置内容。
+     * 原站「生成内容（可同时选择）」的一行：整行是一个 aria-expanded 触发按钮
+     * （左侧标签 + 右侧摘要），点开在左栏右侧（left: 514px）弹出浮动 Popover 面板（FE-M01）。
      */
     output?: { label: string; summary: string; configureLabel: string; ariaLabel?: string; enabled?: boolean; onToggle?: () => void };
 }) {
     const [open, setOpen] = useState(false);
+    const rootRef = useRef<HTMLElement | null>(null);
+
+    useEffect(() => {
+        if (!open) return;
+        const onPointerDown = (event: MouseEvent) => {
+            if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+        };
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setOpen(false);
+        };
+        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("keydown", onKeyDown);
+        };
+    }, [open]);
+
     if (output) {
         return (
-            /* 原站这两块是「行卡」：上行名称、下行摘要，右侧一个箭头/齿轮，点开是弹层内容。 */
-            <section className="rounded-[4px] border border-border bg-background px-2 py-1.5">
+            <section ref={rootRef} className="relative rounded-[4px] border border-border bg-background px-2 py-1.5">
                 <div className="flex items-center gap-1.5">
                     <button type="button" aria-expanded={open} aria-label={output.ariaLabel} onClick={() => setOpen((value) => !value)} className="flex min-w-0 flex-1 flex-col items-start gap-0.5 text-left">
                         <span className="truncate text-[12px] font-medium leading-4 text-foreground">{output.label}</span>
                         <span className="truncate text-[11px] leading-4 text-muted-foreground">{output.summary}</span>
                     </button>
-                    {/* 原站：模型行只有一个箭头；A+图 / 主副图行是齿轮（打开配置）+ 开关，不重复两个图标。 */}
                     {output.ariaLabel ? (
                         <svg viewBox="0 0 16 16" aria-hidden className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} fill="none" stroke="currentColor" strokeWidth="1.4">
                             <path d="M6 3.5L10.5 8L6 12.5" />
                         </svg>
                     ) : null}
                     {output.onToggle ? (
-                    <button
-                        type="button"
+                        <button
+                            type="button"
                             role="switch"
                             aria-checked={output.enabled !== false}
                             aria-label={`${output.label}开关`}
                             onClick={output.onToggle}
                             className={cn("relative h-[16px] w-[28px] shrink-0 rounded-full transition-colors", output.enabled === false ? "bg-foreground/20" : "bg-primary")}
-                    >
+                        >
                             <span className={cn("absolute top-[2px] size-3 rounded-full bg-background transition-all", output.enabled === false ? "left-[2px]" : "left-[14px]")} />
-                    </button>
+                        </button>
                     ) : null}
                     {output.ariaLabel ? null : (
-                    <button
-                        type="button"
-                        aria-label={output.configureLabel}
-                        title={output.configureLabel}
+                        <button
+                            type="button"
+                            aria-label={output.configureLabel}
+                            title={output.configureLabel}
                             aria-expanded={open}
                             onClick={() => setOpen((value) => !value)}
-                        className="rounded-[4px] border border-border px-1 py-0.5 text-muted-foreground hover:bg-accent"
-                    >
-                        <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.3">
-                            <path d="M2 4h8M12.5 4H14M2 8h3M7.5 8H14M2 12h6M10.5 12H14" />
-                            <circle cx="11" cy="4" r="1.4" />
-                            <circle cx="6" cy="8" r="1.4" />
-                            <circle cx="9" cy="12" r="1.4" />
-                        </svg>
-                    </button>
+                            className="rounded-[4px] border border-border px-1 py-0.5 text-muted-foreground hover:bg-accent"
+                        >
+                            <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.3">
+                                <path d="M2 4h8M12.5 4H14M2 8h3M7.5 8H14M2 12h6M10.5 12H14" />
+                                <circle cx="11" cy="4" r="1.4" />
+                                <circle cx="6" cy="8" r="1.4" />
+                                <circle cx="9" cy="12" r="1.4" />
+                            </svg>
+                        </button>
                     )}
                 </div>
                 {open ? (
-                    <div className="mt-1.5 space-y-1.5">
+                    <div
+                        role="dialog"
+                        aria-label={title}
+                        className="fixed left-[514px] top-[76px] z-40 w-[380px] max-w-[calc(100vw-528px)] space-y-2 rounded-xl border border-border bg-popover p-4 text-popover-foreground shadow-xl"
+                    >
+                        <div className="flex items-center justify-between border-b border-border pb-2">
+                            <span className="text-xs font-medium text-foreground">{title}</span>
+                            <button
+                                type="button"
+                                aria-label={`关闭${title}`}
+                                onClick={() => setOpen(false)}
+                                className="rounded p-0.5 text-muted-foreground hover:bg-accent hover:text-foreground"
+                            >
+                                <X className="size-3.5" />
+                            </button>
+                        </div>
                         {children}
-                        {/* 原站弹层底部有「完成」：本地用它收起同一份设置内容。 */}
-                        <div className="flex justify-end pt-0.5">
+                        <div className="flex justify-end border-t border-border pt-2">
                             <button type="button" onClick={() => setOpen(false)} className="h-[26px] rounded-[4px] bg-primary px-3 text-[11px] leading-none text-primary-foreground hover:bg-primary/90">
                                 完成
                             </button>
@@ -216,10 +248,44 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 
 const inputClass = "rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground outline-none focus:border-primary";
 
+/** FE-M03: 电商三级类目级联映射（一级大类 → 二级子类 → 三级叶子类目，最终映射到真实枚举 value）。 */
+const ECOMMERCE_CATEGORY_CASCADER: ReadonlyArray<{
+    group: string;
+    subgroups: ReadonlyArray<{ label: string; leafIds: ReadonlyArray<string> }>;
+}> = [
+    {
+        group: "时尚穿戴",
+        subgroups: [
+            { label: "男女服装 / 内衣", leafIds: ["apparel"] },
+            { label: "鞋靴 / 箱包 / 珠宝配饰", leafIds: ["footwear-bags"] },
+        ],
+    },
+    {
+        group: "美妆居家",
+        subgroups: [
+            { label: "护肤彩妆 / 个人护理", leafIds: ["beauty-care"] },
+            { label: "家具家纺 / 餐厨收纳", leafIds: ["home-kitchen"] },
+        ],
+    },
+    {
+        group: "科技数码",
+        subgroups: [
+            { label: "3C数码 / 智能家电", leafIds: ["electronics"] },
+        ],
+    },
+    {
+        group: "生活运动",
+        subgroups: [
+            { label: "运动户外 / 健身露营", leafIds: ["sports-outdoor"] },
+            { label: "母婴童装 / 潮玩宠物", leafIds: ["mother-baby-pet"] },
+            { label: "食品生鲜 / 保健滋补", leafIds: ["food-health"] },
+        ],
+    },
+];
+
 /**
- * 原站的下拉/级联在本地统一用「可搜索级联弹层」的交互形态呈现：
- * 触发条（role=combobox，显示当前值）+ 弹层（搜索框 + 选项列表 + 空态）。
- * 数据仍是本页现有的真实枚举（不改注册表、不接后端、不搬运原站类目表）。
+ * FE-M03: 商品类目多级级联下拉（Cascader）：
+ * 支持一级/二级/三级电商类目级联点选，同时保留搜索框与 role="option" 列表。
  */
 function SuiteSearchSelect({
     label,
@@ -230,6 +296,7 @@ function SuiteSearchSelect({
     testId,
     onChange,
     className,
+    cascader = false,
 }: {
     label: string;
     value: string;
@@ -239,9 +306,12 @@ function SuiteSearchSelect({
     testId?: string;
     onChange: (value: string) => void;
     className?: string;
+    cascader?: boolean;
 }) {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
+    const [activeL1, setActiveL1] = useState<string>(ECOMMERCE_CATEGORY_CASCADER[0]!.group);
+    const [activeL2, setActiveL2] = useState<string>(ECOMMERCE_CATEGORY_CASCADER[0]!.subgroups[0]!.label);
     const rootRef = useRef<HTMLDivElement | null>(null);
     const current = options.find((option) => option.value === value);
     const matched = options.filter((option) => option.label.toLowerCase().includes(query.trim().toLowerCase()));
@@ -262,6 +332,10 @@ function SuiteSearchSelect({
         };
     }, [open]);
 
+    const currentGroup = ECOMMERCE_CATEGORY_CASCADER.find((item) => item.group === activeL1) ?? ECOMMERCE_CATEGORY_CASCADER[0]!;
+    const currentSubgroup = currentGroup.subgroups.find((sub) => sub.label === activeL2) ?? currentGroup.subgroups[0]!;
+    const cascaderLeafOptions = options.filter((opt) => currentSubgroup.leafIds.includes(opt.value));
+
     return (
         <div ref={rootRef} className={cn("relative", className)}>
             <button
@@ -280,16 +354,78 @@ function SuiteSearchSelect({
                 </svg>
             </button>
             {open ? (
-                <div data-testid={testId ? `${testId}-popup` : undefined} className="absolute left-0 top-[34px] z-30 w-full min-w-[220px] rounded-[6px] border border-border bg-background p-1.5 shadow-[0_8px_24px_rgba(15,15,25,0.12)]">
+                <div data-testid={testId ? `${testId}-popup` : undefined} className="absolute left-0 top-[34px] z-40 w-full min-w-[340px] rounded-[6px] border border-border bg-popover p-2 text-popover-foreground shadow-[0_8px_24px_rgba(15,15,25,0.16)]">
                     <input
                         autoFocus
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
-                        placeholder="搜索"
+                        placeholder="搜索一级/二级/三级类目"
                         aria-label={`搜索${label}`}
-                        className="mb-1 h-[26px] w-full rounded-[4px] border border-border px-2 text-[12px] leading-none outline-none focus:border-primary"
+                        className="mb-1.5 h-[26px] w-full rounded-[4px] border border-border bg-background px-2 text-[12px] leading-none outline-none focus:border-primary"
                     />
-                    <ul role="listbox" aria-label={label} className="max-h-[180px] overflow-y-auto">
+                    {cascader && !query.trim() ? (
+                        <div className="mb-1.5 grid grid-cols-3 divide-x divide-border rounded border border-border/70 bg-background/50 text-[11px]" data-testid={testId ? `${testId}-cascader` : undefined}>
+                            <ul className="max-h-[150px] overflow-y-auto p-1">
+                                {ECOMMERCE_CATEGORY_CASCADER.map((group) => (
+                                    <li key={group.group}>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setActiveL1(group.group);
+                                                setActiveL2(group.subgroups[0]!.label);
+                                            }}
+                                            className={cn(
+                                                "flex w-full items-center justify-between rounded px-1.5 py-1 text-left",
+                                                activeL1 === group.group ? "bg-selected-soft font-medium text-selected" : "text-foreground hover:bg-accent",
+                                            )}
+                                        >
+                                            <span className="truncate">{group.group}</span>
+                                            <span aria-hidden>›</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <ul className="max-h-[150px] overflow-y-auto p-1">
+                                {currentGroup.subgroups.map((sub) => (
+                                    <li key={sub.label}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveL2(sub.label)}
+                                            className={cn(
+                                                "flex w-full items-center justify-between rounded px-1.5 py-1 text-left",
+                                                activeL2 === sub.label ? "bg-selected-soft font-medium text-selected" : "text-foreground hover:bg-accent",
+                                            )}
+                                        >
+                                            <span className="truncate">{sub.label}</span>
+                                            <span aria-hidden>›</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <ul className="max-h-[150px] overflow-y-auto p-1">
+                                {(cascaderLeafOptions.length > 0 ? cascaderLeafOptions : options.slice(0, 3)).map((leaf) => (
+                                    <li key={leaf.value}>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                onChange(leaf.value);
+                                                setOpen(false);
+                                                setQuery("");
+                                            }}
+                                            className={cn(
+                                                "flex w-full items-center justify-between rounded px-1.5 py-1 text-left",
+                                                leaf.value === value ? "bg-selected-soft font-medium text-selected" : "text-foreground hover:bg-accent",
+                                            )}
+                                        >
+                                            <span className="truncate">{leaf.label}</span>
+                                            {leaf.value === value ? <span aria-hidden>✓</span> : null}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : null}
+                    <ul role="listbox" aria-label={label} className="max-h-[160px] overflow-y-auto">
                         {matched.map((option) => (
                             <li key={option.value}>
                                 <button
@@ -476,20 +612,406 @@ function composeSuiteProductInfo(draft: SuiteWizardDraft, current: string): stri
     return `${base ? `${base}\n` : ""}${lines.join("\n")}`.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO);
 }
 
-/** 原站「品牌与合规」两行行卡：整行可点，展开的是同一份真实字段（不是第三个自造面板）。 */
+/** FE-M01: 原站「品牌与合规」两行行卡：点击在左栏右侧（left: 514px）弹出浮动 Popover 面板。 */
 function BrandComplianceRow({ label, summary, testId, open, onToggle, children }: { label: string; summary: string; testId: string; open: boolean; onToggle: () => void; children: React.ReactNode }) {
+    const rootRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (!open) return;
+        const onPointerDown = (event: MouseEvent) => {
+            if (!rootRef.current?.contains(event.target as Node)) onToggle();
+        };
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onToggle();
+        };
+        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("keydown", onKeyDown);
+        };
+    }, [open, onToggle]);
+
     return (
-        <div className="py-1 first:pt-0 last:pb-0">
+        <div ref={rootRef} className="relative py-1 first:pt-0 last:pb-0">
             <button type="button" aria-expanded={open} aria-label={label} data-testid={testId} onClick={onToggle} className="flex w-full items-center justify-between gap-2 py-1.5 text-left">
                 <span className="flex min-w-0 flex-col">
                     <span className="text-[12px] font-medium leading-4 text-foreground">{label}</span>
                     <span className="truncate text-[11px] leading-4 text-muted-foreground">{summary}</span>
                 </span>
-                <svg viewBox="0 0 16 16" aria-hidden className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} fill="none" stroke="currentColor" strokeWidth="1.4">
-                    <path d="M4 6.5L8 10.5L12 6.5" />
+                <svg viewBox="0 0 16 16" aria-hidden className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} fill="none" stroke="currentColor" strokeWidth="1.4">
+                    <path d="M6 3.5L10.5 8L6 12.5" />
                 </svg>
             </button>
-            {open ? <div className="mb-1 rounded-[4px] bg-muted p-2">{children}</div> : null}
+            {open ? (
+                <div
+                    role="dialog"
+                    aria-label={label}
+                    className="fixed left-[514px] top-[76px] z-40 w-[360px] max-w-[calc(100vw-528px)] space-y-2 rounded-xl border border-border bg-popover p-4 text-popover-foreground shadow-xl"
+                >
+                    <div className="flex items-center justify-between border-b border-border pb-2">
+                        <span className="text-xs font-medium text-foreground">{label}</span>
+                        <button
+                            type="button"
+                            aria-label={`关闭${label}`}
+                            onClick={onToggle}
+                            className="rounded p-0.5 text-muted-foreground hover:bg-accent hover:text-foreground"
+                        >
+                            <X className="size-3.5" />
+                        </button>
+                    </div>
+                    {children}
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+/** FE-M02: 排版模板自定义选择弹窗（点击「选择排版 → 自定义选择」时弹出居中 Modal）。 */
+const SUITE_LAYOUT_TEMPLATES = [
+    { id: "tpl-hero-center", category: "主副图", style: "极简居中", label: "主推标题 + 居中商品展示", preview: "主标题置顶 · 核心卖点胶囊 · 商品居中高光" },
+    { id: "tpl-feature-split", category: "主副图", style: "左右分栏", label: "左文右图卖点拆解", preview: "左侧 3 条卖点图标列 · 右侧高清商品大图" },
+    { id: "tpl-detail-callout", category: "主副图", style: "细节放大", label: "局部材质放大引线排版", preview: "主商品全身 + 2 处局部细节圆框标注" },
+    { id: "tpl-aplus-banner", category: "A+图", style: "品牌横幅", label: "1464×600 宽幅品牌故事海报", preview: "黄金分割构图 · 品牌口号 + 沉浸式场景背板" },
+    { id: "tpl-aplus-grid", category: "A+图", style: "四宫格对比", label: "多维度卖点矩阵对比表", preview: "4 大功能模块并列展示 + 底部参数横条" },
+    { id: "tpl-aplus-scene", category: "A+图", style: "场景沉浸", label: "痛点场景与使用前后对比", preview: "左暗右亮对比 · 核心功效数据醒目展示" },
+] as const;
+
+function SuiteLayoutModal({
+    open,
+    target,
+    selectedIds,
+    onToggleId,
+    onClose,
+}: {
+    open: boolean;
+    target: "aplus" | "main-sub";
+    selectedIds: string[];
+    onToggleId: (id: string) => void;
+    onClose: () => void;
+}) {
+    const [filter, setFilter] = useState<"全部" | "A+图" | "主副图">(target === "aplus" ? "A+图" : "主副图");
+    useEffect(() => {
+        if (open) setFilter(target === "aplus" ? "A+图" : "主副图");
+    }, [open, target]);
+    if (!open) return null;
+    const list = SUITE_LAYOUT_TEMPLATES.filter((item) => filter === "全部" || item.category === filter);
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4" role="presentation" onMouseDown={onClose}>
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="自定义选择排版模板"
+                data-testid="suite-layout-modal"
+                onMouseDown={(event) => event.stopPropagation()}
+                className="flex max-h-[82vh] w-[640px] max-w-full flex-col rounded-xl border border-border bg-card shadow-2xl"
+            >
+                <header className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">
+                    <div className="flex items-center gap-3">
+                        <h2 className="text-sm font-medium text-foreground">自定义选择排版模板</h2>
+                        <div className="flex gap-1">
+                            {(["全部", "A+图", "主副图"] as const).map((tab) => (
+                                <button
+                                    key={tab}
+                                    type="button"
+                                    onClick={() => setFilter(tab)}
+                                    className={cn(
+                                        "h-6 rounded px-2 text-xs transition",
+                                        filter === tab ? "bg-selected-soft font-medium text-selected" : "text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <button type="button" aria-label="关闭排版模板弹窗" onClick={onClose} className="rounded p-1 text-muted-foreground hover:bg-accent">
+                        <X className="size-4" />
+                    </button>
+                </header>
+                <div className="grid min-h-0 flex-1 grid-cols-2 gap-3 overflow-y-auto p-4 sm:grid-cols-3">
+                    {list.map((tpl) => {
+                        const active = selectedIds.includes(tpl.id);
+                        return (
+                            <button
+                                key={tpl.id}
+                                type="button"
+                                data-testid={`suite-layout-tpl-${tpl.id}`}
+                                aria-pressed={active}
+                                onClick={() => onToggleId(tpl.id)}
+                                className={cn(
+                                    "flex flex-col justify-between rounded-lg border p-3 text-left transition",
+                                    active ? "border-selected bg-selected-soft" : "border-border bg-background hover:border-selected/50",
+                                )}
+                            >
+                                <div>
+                                    <div className="flex items-center justify-between gap-1">
+                                        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{tpl.style}</span>
+                                        <span className="text-[10px] text-muted-foreground">{tpl.category}</span>
+                                    </div>
+                                    <p className="mt-2 text-xs font-medium text-foreground">{tpl.label}</p>
+                                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">{tpl.preview}</p>
+                                </div>
+                                <span className="mt-3 text-[11px] font-medium text-selected">{active ? "✓ 已勾选" : "点击勾选"}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+                <footer className="flex shrink-0 items-center justify-between border-t border-border px-4 py-3">
+                    <span className="text-xs text-muted-foreground">已选 {selectedIds.length} 个排版模板</span>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="h-8 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                    >
+                        确定应用
+                    </button>
+                </footer>
+            </div>
+        </div>
+    );
+}
+
+/** BE-FLW02: 套图/海报可编辑文字图层弹窗（主标题、副标题、卖点标签独立编辑、拖拽排版并重新导出 PNG/JPG）。 */
+interface EditablePosterLayer {
+    id: string;
+    role: "title" | "subtitle" | "tag";
+    text: string;
+    fontSize: number;
+    color: string;
+    x: number;
+    y: number;
+}
+
+export function SuiteLayerEditorModal({
+    open,
+    imageUrl,
+    unitLabel,
+    productInfo,
+    onClose,
+    onApplyImage,
+}: {
+    open: boolean;
+    imageUrl: string;
+    unitLabel: string;
+    productInfo: string;
+    onClose: () => void;
+    onApplyImage: (newDataUrl: string) => void;
+}) {
+    const [layers, setLayers] = useState<EditablePosterLayer[]>([]);
+    const [activeId, setActiveId] = useState<string>("layer-title");
+
+    useEffect(() => {
+        if (!open) return;
+        const lines = productInfo
+            .split(/[\n；;。]+/)
+            .map((line) => line.replace(/^[^：:]+[：:]/, "").trim())
+            .filter(Boolean);
+        setLayers([
+            { id: "layer-title", role: "title", text: lines[0]?.slice(0, 18) || unitLabel || "品质臻选 · 核心卖点", fontSize: 34, color: "#1c1917", x: 8, y: 8 },
+            { id: "layer-subtitle", role: "subtitle", text: lines[1]?.slice(0, 26) || "匠心工艺 · 细节升级 · 多场景适用", fontSize: 20, color: "#44403c", x: 8, y: 18 },
+            { id: "layer-tag", role: "tag", text: lines[2]?.slice(0, 16) || "官方正品保障", fontSize: 16, color: "#ffffff", x: 8, y: 84 },
+        ]);
+        setActiveId("layer-title");
+    }, [open, productInfo, unitLabel]);
+
+    if (!open) return null;
+
+    const activeLayer = layers.find((layer) => layer.id === activeId) ?? layers[0];
+
+    const exportComposite = async (format: "image/png" | "image/jpeg") => {
+        const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+            const element = new Image();
+            element.crossOrigin = "anonymous";
+            element.onload = () => resolve(element);
+            element.onerror = () => reject(new Error("底图加载失败"));
+            element.src = imageUrl;
+        });
+        const width = img.naturalWidth || 800;
+        const height = img.naturalHeight || 800;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, width, height);
+        for (const layer of layers) {
+            if (!layer.text.trim()) continue;
+            const px = Math.round((layer.x / 100) * width);
+            const py = Math.round((layer.y / 100) * height);
+            const scaledFont = Math.max(14, Math.round((layer.fontSize / 800) * width));
+            ctx.font = `bold ${scaledFont}px "PingFang SC", "Microsoft YaHei", sans-serif`;
+            ctx.textBaseline = "top";
+            if (layer.role === "tag") {
+                const metrics = ctx.measureText(layer.text);
+                const padX = Math.round(scaledFont * 0.6);
+                const padY = Math.round(scaledFont * 0.35);
+                ctx.fillStyle = "rgba(28, 25, 23, 0.82)";
+                ctx.fillRect(px, py, metrics.width + padX * 2, scaledFont + padY * 2);
+                ctx.fillStyle = layer.color;
+                ctx.fillText(layer.text, px + padX, py + padY);
+            } else {
+                ctx.fillStyle = layer.color;
+                ctx.fillText(layer.text, px, py);
+            }
+        }
+        const dataUrl = canvas.toDataURL(format, 0.94);
+        onApplyImage(dataUrl);
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="presentation" onMouseDown={onClose}>
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="套图文案图层编辑器"
+                data-testid="suite-layer-editor-modal"
+                onMouseDown={(event) => event.stopPropagation()}
+                className="flex max-h-[88vh] w-[820px] max-w-full flex-col rounded-xl border border-border bg-card shadow-2xl"
+            >
+                <header className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">
+                    <span className="text-sm font-medium text-foreground">编辑图文图层 · {unitLabel}</span>
+                    <button type="button" aria-label="关闭图层编辑器" onClick={onClose} className="rounded p-1 text-muted-foreground hover:bg-accent">
+                        <X className="size-4" />
+                    </button>
+                </header>
+                <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 md:grid-cols-[1fr_280px]">
+                    <div className="relative flex items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 p-2">
+                        <div className="relative inline-block max-h-[460px]">
+                            <img src={imageUrl} alt={unitLabel} className="max-h-[460px] w-auto rounded object-contain" />
+                            {layers.map((layer) => (
+                                <button
+                                    key={layer.id}
+                                    type="button"
+                                    onClick={() => setActiveId(layer.id)}
+                                    style={{
+                                        left: `${layer.x}%`,
+                                        top: `${layer.y}%`,
+                                        color: layer.color,
+                                        fontSize: `${Math.max(12, Math.round(layer.fontSize * 0.55))}px`,
+                                    }}
+                                    className={cn(
+                                        "absolute cursor-move rounded px-1.5 py-0.5 text-left font-semibold transition",
+                                        layer.role === "tag" ? "bg-stone-900/80 text-white" : "bg-white/70 backdrop-blur-[2px]",
+                                        activeId === layer.id ? "ring-2 ring-selected" : "hover:ring-1 hover:ring-border",
+                                    )}
+                                >
+                                    {layer.text || "（空图层）"}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        <div className="flex gap-1">
+                            {layers.map((layer) => (
+                                <button
+                                    key={layer.id}
+                                    type="button"
+                                    onClick={() => setActiveId(layer.id)}
+                                    className={cn(
+                                        "flex-1 rounded border py-1 text-xs transition",
+                                        activeId === layer.id ? "border-selected bg-selected-soft font-medium text-selected" : "border-border text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    {layer.role === "title" ? "主标题" : layer.role === "subtitle" ? "副标题" : "卖点标签"}
+                                </button>
+                            ))}
+                        </div>
+                        {activeLayer ? (
+                            <div className="space-y-2.5 rounded-lg border border-border bg-background p-3">
+                                <label className="block text-xs text-muted-foreground">
+                                    文案内容
+                                    <input
+                                        value={activeLayer.text}
+                                        data-testid="suite-layer-text-input"
+                                        onChange={(event) =>
+                                            setLayers((prev) => prev.map((item) => (item.id === activeLayer.id ? { ...item, text: event.target.value } : item)))
+                                        }
+                                        className="mt-1 h-8 w-full rounded border border-border bg-card px-2 text-xs text-foreground outline-none focus:border-primary"
+                                    />
+                                </label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <label className="block text-xs text-muted-foreground">
+                                        字号 (px)
+                                        <input
+                                            type="number"
+                                            min={12}
+                                            max={96}
+                                            value={activeLayer.fontSize}
+                                            onChange={(event) =>
+                                                setLayers((prev) =>
+                                                    prev.map((item) => (item.id === activeLayer.id ? { ...item, fontSize: Number(event.target.value) || 24 } : item)),
+                                                )
+                                            }
+                                            className="mt-1 h-7 w-full rounded border border-border bg-card px-2 text-xs text-foreground"
+                                        />
+                                    </label>
+                                    <label className="block text-xs text-muted-foreground">
+                                        文字颜色
+                                        <input
+                                            type="color"
+                                            value={activeLayer.color}
+                                            onChange={(event) =>
+                                                setLayers((prev) => prev.map((item) => (item.id === activeLayer.id ? { ...item, color: event.target.value } : item)))
+                                            }
+                                            className="mt-1 h-7 w-full cursor-pointer rounded border border-border bg-card p-0.5"
+                                        />
+                                    </label>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <label className="block text-xs text-muted-foreground">
+                                        水平位置 ({activeLayer.x}%)
+                                        <input
+                                            type="range"
+                                            min={2}
+                                            max={85}
+                                            value={activeLayer.x}
+                                            onChange={(event) =>
+                                                setLayers((prev) => prev.map((item) => (item.id === activeLayer.id ? { ...item, x: Number(event.target.value) } : item)))
+                                            }
+                                            className="mt-1 w-full"
+                                        />
+                                    </label>
+                                    <label className="block text-xs text-muted-foreground">
+                                        垂直位置 ({activeLayer.y}%)
+                                        <input
+                                            type="range"
+                                            min={2}
+                                            max={90}
+                                            value={activeLayer.y}
+                                            onChange={(event) =>
+                                                setLayers((prev) => prev.map((item) => (item.id === activeLayer.id ? { ...item, y: Number(event.target.value) } : item)))
+                                            }
+                                            className="mt-1 w-full"
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        ) : null}
+                    </div>
+                </div>
+                <footer className="flex shrink-0 items-center justify-end gap-2 border-t border-border px-4 py-3">
+                    <button type="button" onClick={onClose} className="h-8 rounded border border-border px-3 text-xs text-muted-foreground hover:bg-accent">
+                        取消
+                    </button>
+                    <button
+                        type="button"
+                        data-testid="suite-layer-export-jpg"
+                        onClick={() => void exportComposite("image/jpeg")}
+                        className="h-8 rounded border border-border px-3 text-xs text-foreground hover:bg-accent"
+                    >
+                        合成并更新 (JPG)
+                    </button>
+                    <button
+                        type="button"
+                        data-testid="suite-layer-export-png"
+                        onClick={() => void exportComposite("image/png")}
+                        className="h-8 rounded bg-primary px-4 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                    >
+                        合成并更新 (PNG)
+                    </button>
+                </footer>
+            </div>
         </div>
     );
 }
@@ -567,16 +1089,17 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     /** 发送画布回执：nodeId，供结果面板直接回显真实动作结果。 */
     const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
-    /* 原站结果区只有「生成结果 / 优秀案例」两个页签，历史是右上角外链（本地无对应页，故不得改成第三个页签）。 */
-    const [rightTab, setRightTab] = useState<"result" | "cases">("result");
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [wizardOpen, setWizardOpen] = useState(false);
-    /* 商品库入口：本地没有商品库数据，点开是诚实空态（不禁用入口）。 */
     const [productLibOpen, setProductLibOpen] = useState(false);
-    /* 品牌与合规：两个可展开行卡（原站形态），不是常驻平铺控件。 */
     const [brandOpen, setBrandOpen] = useState(false);
     const [complianceOpen, setComplianceOpen] = useState(false);
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
+    const [analyzing, setAnalyzing] = useState(false);
+    const [layoutModalTarget, setLayoutModalTarget] = useState<"aplus" | "main-sub" | null>(null);
+    const [customLayoutIds, setCustomLayoutIds] = useState<string[]>([]);
+    const [layerEditorItem, setLayerEditorItem] = useState<{ unitId: string; itemId: string; url: string; label: string } | null>(null);
 
     /* 「优秀案例」做同款：真实案例原图入库后回填到商品图上传播槽 */
     const applyCase = useCallback(async (item: ToolCase) => {
@@ -713,32 +1236,35 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     );
 
     /*
-     * AI分析：按原站交互把商品信息拆成结构化字段（卖点 / 材质 / 场景 / 人群），
-     * 这里用本地规则从已输入文本提取，不发起网络请求，也不伪造模型输出。
+     * BE-AI01: 商品图视觉「AI 分析」
+     * 传入已上传商品图的 base64/URL，调用已配置的视觉大模型自动识别并回填商品名称、商品类目、核心卖点、适用人群与目标市场语言。
      */
-    const onAnalyzeProductInfo = useCallback(() => {
-        const raw = config.productInfo.trim();
-        if (!raw) {
-            appendProductInfo("请先输入商品卖点，再点 AI分析。");
-            return;
+    const onAnalyzeProductInfo = useCallback(async () => {
+        if (!source) return;
+        setAnalyzing(true);
+        setRunError(undefined);
+        try {
+            const analysis = await analyzeProductImageWithVision({
+                imageUrl: source.dataUrl || source.url || "",
+                currentText: configRef.current.productInfo,
+                categories: SUITE_PRODUCT_CATEGORIES,
+            });
+            const nextInfo = analysis.formattedText.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO);
+            const nextCategory =
+                analysis.categoryId && SUITE_PRODUCT_CATEGORIES.some((cat) => cat.id === analysis.categoryId)
+                    ? analysis.categoryId
+                    : configRef.current.productCategory;
+            commitConfig({
+                ...configRef.current,
+                productInfo: nextInfo,
+                productCategory: nextCategory,
+            });
+        } catch (error) {
+            setRunError(error instanceof Error ? error.message : "AI分析失败");
+        } finally {
+            setAnalyzing(false);
         }
-        const lines = raw
-            .split(/[\n。；;]+/)
-            .map((line) => line.trim())
-            .filter(Boolean);
-        const pick = (keywords: string[]) => lines.filter((line) => keywords.some((keyword) => line.includes(keyword))).slice(0, 3);
-        const sections: Array<[string, string[]]> = [
-            ["卖点", pick(["卖点", "卖", "轻", "防水", "耐用", "舒适", "大容量"])],
-            ["材质", pick(["材质", "面料", "棉", "涤", "牛皮", "硅胶", "金属", "塑料"])],
-            ["场景", pick(["场景", "户外", "家居", "办公", "通勤", "旅行", "运动"])],
-            ["人群", pick(["人群", "女", "男", "儿童", "学生", "商务", "宝妈"])],
-        ];
-        const block = sections
-            .filter(([, hits]) => hits.length > 0)
-            .map(([label, hits]) => `${label}：${hits.join("；")}`)
-            .join("\n");
-        appendProductInfo(block || "AI分析：未识别到可结构化字段，请补充卖点、材质、场景。");
-    }, [appendProductInfo, config.productInfo]);
+    }, [commitConfig, source]);
 
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
@@ -770,7 +1296,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
 
     /* 原站「生成内容（可同时选择）」两行摘要：模块名（尺寸）+ 张数 */
     const aplusModule = APLUS_MODULES.find((module) => module.id === config.aplusModuleId);
-    const aplusSizeHint = APLUS_SIZE_HINTS[config.aplusModuleId] ?? "";
+    const customSizeHint = config.customWidth > 0 && config.customHeight > 0 ? `${config.customWidth}×${config.customHeight}` : "待设置";
+    const aplusSizeHint = APLUS_SIZE_HINTS[config.aplusModuleId] ?? (config.aplusModuleId === "aplus-custom-ratio" ? customSizeHint : "");
     const aplusOutput = {
         label: "A+图",
         summary: `${aplusModule ? aplusModule.label : "高级A+"}${aplusSizeHint ? `（${aplusSizeHint}）` : ""} ${aplusUnits}张`,
@@ -798,6 +1325,56 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             .map((id) => SUITE_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id)?.label ?? SUITE_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id)?.label)
             .filter(Boolean)
             .join(" · ") || "未选择词库";
+    const selectSuiteRatio = (ratio: SuiteConfig["ratio"]) => {
+        if (ratio !== "custom") {
+            update({ ratio, customWidth: 0, customHeight: 0 });
+            return;
+        }
+        const dimensions = config.customWidth > 0 && config.customHeight > 0
+            ? { width: config.customWidth, height: config.customHeight }
+            : suiteCustomDimensions(config);
+        update({ ratio, customWidth: dimensions.width, customHeight: dimensions.height });
+    };
+    const selectAplusModule = (moduleId: string) => {
+        const aplusModuleId = config.aplusModuleId === moduleId ? "" : moduleId;
+        if (aplusModuleId !== "aplus-custom-ratio") {
+            update({ aplusModuleId });
+            return;
+        }
+        const dimensions = config.customWidth > 0 && config.customHeight > 0
+            ? { width: config.customWidth, height: config.customHeight }
+            : suiteCustomDimensions(config);
+        update({ aplusModuleId, customWidth: dimensions.width, customHeight: dimensions.height });
+    };
+    const customSizeFields = (
+        <div className="mt-1.5" data-testid="suite-custom-size">
+            <p className="mb-1 text-[11px] text-muted-foreground">图片尺寸</p>
+            <div className="flex items-center gap-1.5">
+                <input
+                    type="number"
+                    aria-label="自定比例宽"
+                    data-testid="suite-custom-width"
+                    placeholder="宽"
+                    value={config.customWidth || ""}
+                    onChange={(event) => update({ customWidth: Number(event.target.value) })}
+                    className="h-7 w-20 rounded-[4px] border border-border bg-background px-2 text-[11px] outline-none focus:border-selected"
+                />
+                <span className="text-[11px] text-muted-foreground">px</span>
+                <input
+                    type="number"
+                    aria-label="自定比例高"
+                    data-testid="suite-custom-height"
+                    placeholder="高"
+                    value={config.customHeight || ""}
+                    onChange={(event) => update({ customHeight: Number(event.target.value) })}
+                    className="h-7 w-20 rounded-[4px] border border-border bg-background px-2 text-[11px] outline-none focus:border-selected"
+                />
+                <span className="text-[11px] text-muted-foreground">px</span>
+            </div>
+            <p className="mt-1 text-[10px] leading-4 text-muted-foreground">按 {config.resolution} · {config.ratio === "custom" ? "1:1" : config.ratio} 自动计算，可直接修改；须为 16 的倍数</p>
+            {issues.some((issue) => issue.code === "custom-size-invalid") ? <p className="mt-1 text-[11px] text-destructive">{issues.find((issue) => issue.code === "custom-size-invalid")?.message}</p> : null}
+        </div>
+    );
 
     /* 向导：本地表单弹窗，点「确定」才把填写内容并入商品信息（不发网络请求、不伪造 AI 输出）。 */
     const applyWizard = useCallback(
@@ -999,6 +1576,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                     <SuiteSearchSelect
                                         label="商品类目"
                                         testId="suite-category"
+                                        cascader
                                         value={config.productCategory}
                                         placeholder="请选择商品类目"
                                         emptyHint="没有匹配的类目"
@@ -1019,14 +1597,13 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         <div className="flex items-center gap-1.5">
                             <button
                                 type="button"
-                                                /* 原站未上传商品图时 AI分析 是禁用态；与源图就绪联动，不再永远可点。 */
-                                                disabled={!source}
+                                                disabled={!source || analyzing}
                                                 title={source ? undefined : "上传商品图后可分析"}
-                                                onClick={onAnalyzeProductInfo}
+                                                onClick={() => void onAnalyzeProductInfo()}
                                                 data-testid="suite-ai-analyze"
                                                 className="rounded-[4px] border border-border px-2 py-[3px] text-[11px] leading-none text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
                             >
-                                                AI分析
+                                                {analyzing ? "AI分析中…" : "AI分析"}
                             </button>
                             <button
                                 type="button"
@@ -1048,72 +1625,85 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </Section>
 
                 <Section title="品牌与合规（可选）">
-                                    {/* 原站是两行可展开的「行卡」（各带箭头）。本地没有品牌库/合规词库服务，
-                        点开是同一份真实字段的弹层；没有库数据时给诚实空态，不禁用入口。 */}
                                     <div className="flex flex-col divide-y divide-border">
                                         <BrandComplianceRow label="智能品牌基因" summary={brandSummary} testId="suite-brand-row" open={brandOpen} onToggle={() => setBrandOpen((value) => !value)}>
-                    <div className="flex flex-col gap-2">
-                                                <strong className="text-[11px] font-medium leading-4 text-foreground">品牌基因设置</strong>
-                                                <div className="rounded-[4px] border border-dashed border-border px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
-                                                    未接入品牌库：本地没有你的品牌列表，选择结果只作用于本次生成，不会写入任何账号。
+                                            <div className="flex flex-col gap-2.5">
+                                                <p className="text-xs text-muted-foreground">
+                                                    根据商品视觉特征与目标类目自动提取品牌色调、版式气质与字体风格。
+                                                </p>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        data-testid="suite-brand-enable"
+                                                        onClick={() => update({ brand: { ...config.brand, smartBrand: true } })}
+                                                        className={cn(
+                                                            "h-7 flex-1 rounded border text-xs transition",
+                                                            config.brand.smartBrand ? "border-selected bg-selected-soft font-medium text-selected" : "border-border text-muted-foreground hover:bg-accent",
+                                                        )}
+                                                    >
+                                                        自动识别品牌基因
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        data-testid="suite-brand-disable"
+                                                        onClick={() => update({ brand: { ...config.brand, smartBrand: false } })}
+                                                        className={cn(
+                                                            "h-7 flex-1 rounded border text-xs transition",
+                                                            !config.brand.smartBrand ? "border-selected bg-selected-soft font-medium text-selected" : "border-border text-muted-foreground hover:bg-accent",
+                                                        )}
+                                                    >
+                                                        不启用
+                                                    </button>
                                                 </div>
-                                                <Field label="启用智能品牌基因">
-                                                    <input type="checkbox" aria-label="启用智能品牌基因" checked={config.brand.smartBrand} onChange={(event) => update({ brand: { ...config.brand, smartBrand: event.target.checked } })} />
-                        </Field>
-                                                <Field label="品牌主色">
-                                <input
-                                    type="color"
-                                                        aria-label="品牌主色"
-                                    value={config.brand.primaryColor || "#ffffff"}
-                                    onChange={(event) => update({ brand: { ...config.brand, primaryColor: event.target.value } })}
-                                    className="h-6 w-10 shrink-0 cursor-pointer rounded border border-border"
-                                />
-                                                </Field>
-                                                <Field label="字体风格">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="字体风格"
-                                                            testId="suite-font-style"
-                                value={config.brand.fontStyle}
-                                                            placeholder="未指定"
-                                                            options={SUITE_FONT_STYLES.map((style) => ({ value: style.id, label: style.label }))}
-                                                            onChange={(next) => update({ brand: { ...config.brand, fontStyle: next as typeof config.brand.fontStyle } })}
-                                                        />
-                            </div>
-                        </Field>
-                                                <p className="text-[11px] leading-4 text-muted-foreground">💡未选择时按商品本身判断风格。</p>
-                        </div>
+                                            </div>
                                         </BrandComplianceRow>
                                         <BrandComplianceRow label="智能合规检查" summary={complianceSummary} testId="suite-compliance-row" open={complianceOpen} onToggle={() => setComplianceOpen((value) => !value)}>
-                                            <div className="flex flex-col gap-2">
-                                                <strong className="text-[11px] font-medium leading-4 text-foreground">合规检查设置</strong>
-                                                <Field label="敏感词库">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="敏感词库"
-                                                            testId="suite-sensitive-lexicon"
-                                                            value={config.compliance.sensitiveWordLexiconId}
-                                                            placeholder="未选择敏感词库"
-                                                            options={SUITE_SENSITIVE_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
-                                                            onChange={(next) => update({ compliance: { ...config.compliance, sensitiveWordLexiconId: next } })}
-                                                        />
-                                                    </div>
-                                                </Field>
-                                                <Field label="替换词库">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="替换词库"
-                                                            testId="suite-replacement-lexicon"
-                                                            value={config.compliance.replacementWordLexiconId}
-                                                            placeholder="未选择替换词库"
-                                                            options={SUITE_REPLACEMENT_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
-                                                            onChange={(next) => update({ compliance: { ...config.compliance, replacementWordLexiconId: next } })}
-                                                        />
-                                                    </div>
-                                                </Field>
-                                                <p className="text-[11px] leading-4 text-muted-foreground">
-                                                    {sensitiveWords.length > 0 ? `通用敏感词库 ${sensitiveWords.length} 个词；未接入词库管理，词表为本地内置。` : "未选择敏感词库：本次不做敏感词替换。"}
+                                            <div className="flex flex-col gap-2.5">
+                                                <p className="text-xs text-muted-foreground">
+                                                    生成套图文案时自动检测并过滤跨境电商平台广告极限词与违禁表述。
                                                 </p>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        data-testid="suite-compliance-enable"
+                                                        onClick={() =>
+                                                            update({
+                                                                compliance: {
+                                                                    sensitiveWordLexiconId: SUITE_SENSITIVE_LIBRARIES[0]?.id ?? "general",
+                                                                    replacementWordLexiconId: SUITE_REPLACEMENT_LIBRARIES[0]?.id ?? "general-safe",
+                                                                },
+                                                            })
+                                                        }
+                                                        className={cn(
+                                                            "h-7 flex-1 rounded border text-xs transition",
+                                                            config.compliance.sensitiveWordLexiconId
+                                                                ? "border-selected bg-selected-soft font-medium text-selected"
+                                                                : "border-border text-muted-foreground hover:bg-accent",
+                                                        )}
+                                                    >
+                                                        开启智能合规过滤
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        data-testid="suite-compliance-disable"
+                                                        onClick={() =>
+                                                            update({
+                                                                compliance: {
+                                                                    sensitiveWordLexiconId: "",
+                                                                    replacementWordLexiconId: "",
+                                                                },
+                                                            })
+                                                        }
+                                                        className={cn(
+                                                            "h-7 flex-1 rounded border text-xs transition",
+                                                            !config.compliance.sensitiveWordLexiconId
+                                                                ? "border-selected bg-selected-soft font-medium text-selected"
+                                                                : "border-border text-muted-foreground hover:bg-accent",
+                                                        )}
+                                                    >
+                                                        关闭
+                                                    </button>
+                                                </div>
                                             </div>
                                         </BrandComplianceRow>
                     </div>
@@ -1189,7 +1779,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         {APLUS_MODULES.map((module) => (
                             <div
                                 key={module.id}
-                                                onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
+                                                onClick={() => selectAplusModule(module.id)}
                                 className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
                                                     config.aplusModuleId === module.id
                                         ? "border-selected bg-selected-soft text-selected"
@@ -1212,23 +1802,27 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             </div>
                                         ))}
                 </div>
+                {config.aplusModuleId === "aplus-custom-ratio" ? customSizeFields : null}
                 <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
                 <div className="flex flex-wrap gap-1">
                     {SUITE_LAYOUT_MODES.map((mode) => (
                         <button
                             key={mode.id}
                             type="button"
-                                                data-testid={`suite-aplus-layout-${mode.id}`}
-                                                onClick={() => update({ aplusLayoutMode: mode.id })}
+                            data-testid={`suite-aplus-layout-${mode.id}`}
+                            onClick={() => {
+                                update({ aplusLayoutMode: mode.id });
+                                if (mode.id === "custom") setLayoutModalTarget("aplus");
+                            }}
                             className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                                    config.aplusLayoutMode === mode.id ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
+                                config.aplusLayoutMode === mode.id ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                             }`}
                         >
                             {mode.label}
                         </button>
                     ))}
                 </div>
-                                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
+                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
             </Section>
 
                                 <Section title="主副图设置" output={mainSubOutput}>
@@ -1272,18 +1866,21 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 <div className="flex flex-wrap gap-1">
                     {SUITE_LAYOUT_MODES.map((mode) => (
                         <button
-                                                key={mode.id}
-                                                type="button"
-                                                data-testid={`suite-main-sub-layout-${mode.id}`}
-                                                onClick={() => update({ mainSubLayoutMode: mode.id })}
-                                                className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                                    config.mainSubLayoutMode === mode.id ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
-                                                }`}
-                                            >
-                                                {mode.label}
-                                            </button>
-                                        ))}
-                                    </div>
+                            key={mode.id}
+                            type="button"
+                            data-testid={`suite-main-sub-layout-${mode.id}`}
+                            onClick={() => {
+                                update({ mainSubLayoutMode: mode.id });
+                                if (mode.id === "custom") setLayoutModalTarget("main-sub");
+                            }}
+                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                config.mainSubLayoutMode === mode.id ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
+                            }`}
+                        >
+                            {mode.label}
+                        </button>
+                    ))}
+                </div>
                                     <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
                                     {/* 原站「生成比例」在主副图弹层内，不是独立区块。 */}
                                     <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">生成比例</p>
@@ -1293,7 +1890,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                                 key={ratio.id}
                             type="button"
                                                 data-testid={`suite-ratio-${ratio.id}`}
-                                                onClick={() => update({ ratio: ratio.id })}
+                                                onClick={() => selectSuiteRatio(ratio.id)}
                                                 className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
                                                     config.ratio === ratio.id ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
                             }`}
@@ -1302,6 +1899,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         </button>
                     ))}
                 </div>
+                {config.ratio === "custom" ? customSizeFields : null}
                                 </Section>
                 </div>
                 </div>
@@ -1343,12 +1941,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 }
             >
             <div className="flex min-w-0 flex-1 flex-col">
-                    {/* 原站结果区页签栏 42px：「生成结果 / 优秀案例」+ 右端「历史记录 ↗」外链（不是第三个页签）。 */}
+                    {/* 结果区页签栏 42px：「生成结果 / 优秀案例」+ 右端可点击「历史记录」Tab（FE-1.5）。 */}
                     <div className="flex h-[42px] shrink-0 items-center gap-4 border-b border-border px-3" role="tablist">
                         {(
                             [
-                        ["result", "生成结果"],
-                        ["cases", "优秀案例"],
+                                ["result", "生成结果"],
+                                ["cases", "优秀案例"],
                             ] as const
                         ).map(([id, label]) => (
                         <button
@@ -1358,18 +1956,32 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             aria-selected={rightTab === id}
                             data-testid={`suite-tab-${id}`}
                             onClick={() => setRightTab(id)}
-                                className={cn("h-[42px] text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-b-2 border-foreground font-medium text-foreground" : "border-b-2 border-transparent text-muted-foreground hover:text-foreground")}
+                            className={cn("h-[42px] text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-b-2 border-foreground font-medium text-foreground" : "border-b-2 border-transparent text-muted-foreground hover:text-foreground")}
                         >
                             {label}
                         </button>
                     ))}
-                        {/* 本地 /tools 下没有独立历史页，这里只保留原站式入口位并如实说明，不伪造可点跳转。 */}
-                        <span data-testid="suite-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto inline-flex items-center gap-1 text-[12px] leading-none text-foreground/50">
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={rightTab === "history"}
+                            data-testid="suite-tab-history-link"
+                            onClick={() => setRightTab("history")}
+                            className={cn(
+                                "ml-auto inline-flex h-[42px] items-center gap-1 border-b-2 text-[12px] leading-none transition-colors",
+                                rightTab === "history" ? "border-foreground font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground",
+                            )}
+                        >
                             <History className="size-3" aria-hidden />
                             历史记录
-                        </span>
+                        </button>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+                {rightTab === "history" ? (
+                    <div role="tabpanel" data-testid="suite-panel-history-view">
+                        <ToolTaskHistory toolId={toolId} limit={12} emptyHint="还没有商品套图任务记录" />
+                    </div>
+                ) : null}
                 {PRODUCT_SUITE_CASES.length > 0 ? (
                     <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="suite-panel-cases" className="flex h-full flex-col">
                         <h2 className="mb-2 text-sm font-medium">优秀案例</h2>
@@ -1377,17 +1989,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     </div>
                 ) : null}
                 <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex min-h-full flex-col gap-3">
-                            {/* 原站结果区顶部无公告条（2026-11-02 只读对照），本地不再自造。 */}
-
-                            {/* 原站结果区没有常驻的黄色校验横幅：校验原因只在按钮 title 与这行弱提示里出现。 */}
                             {runError ? <div className="rounded-[4px] border border-amber-500/30 bg-amber-500/10 p-2 text-[11px] leading-4 text-amber-700 dark:text-amber-300">{runError}</div> : null}
                             {!runError && source && issues.length ? (
                                 <p className="text-[11px] leading-4 text-muted-foreground" data-testid="suite-result-hints">
                                     {issues.map((issue) => issue.message).join(" ")}
                                 </p>
             ) : null}
-
-                            {stale && units.length ? <p className="text-[11px] text-amber-600 dark:text-amber-400">配置已变更，下方结果来自旧版本；重新生成可更新。</p> : null}
 
             {units.length ? (
                 <div className="flex flex-col gap-3">
@@ -1399,46 +2006,59 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             <h4 className="mb-2 text-xs font-medium text-foreground/70">
                                 {group.label}（{group.succeeded}/{group.total}）
                             </h4>
-                            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                 {group.units.map((unit) => (
-                                    <article key={unit.unitId} className="rounded-md border border-border p-2">
-                                        <header className="mb-1 flex items-center justify-between gap-2">
-                                            <span className="text-[11px] text-foreground/70">{unit.label}</span>
+                                    <article key={unit.unitId} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
+                                        <header className="flex items-center justify-between gap-2 border-b border-border/60 px-2.5 py-1.5">
+                                            <span className="truncate text-[11px] font-medium text-foreground/80">{unit.label}</span>
                                             <span className={`text-[11px] ${unit.status === "failed" ? "text-destructive" : unit.status === "succeeded" ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
                                                 {unit.status === "succeeded" ? "成功" : unit.status === "failed" ? "失败" : unit.status === "cancelled" ? "已取消" : "待定"}
                                             </span>
                                         </header>
                                         {unit.items.length ? (
-                                            <div className="flex flex-col gap-1">
+                                            <div className="flex flex-col gap-2 p-2">
                                                 {unit.items.map((item, itemIndex) => {
                                                     const key = `${unit.unitId}:${item.id}`;
                                                     const src = item.dataUrl ?? item.url;
                                                     return (
-                                                        <div key={item.id} className="flex items-center gap-2">
+                                                        <div key={item.id} className="group/card relative flex flex-col gap-1.5">
                                                             {src ? (
-                                                                <img src={src} alt={unit.label} className="size-16 rounded object-cover" />
+                                                                <div className="relative overflow-hidden rounded-md border border-border bg-muted/30">
+                                                                    <img src={src} alt={unit.label} className="max-h-72 w-full object-contain" />
+                                                                </div>
                                                             ) : (
-                                                                                <div className="flex size-16 items-center justify-center rounded border border-dashed border-border text-center text-[10px] text-muted-foreground">已入库</div>
+                                                                <div className="flex h-36 items-center justify-center rounded border border-dashed border-border text-center text-[10px] text-muted-foreground">已入库</div>
                                                             )}
-                                                            <div className="flex flex-wrap gap-1">
+                                                            <div className="flex flex-wrap items-center gap-1">
+                                                                {src ? (
+                                                                    <button
+                                                                        type="button"
+                                                                        data-testid={`suite-edit-layers-${key}`}
+                                                                        onClick={() => setLayerEditorItem({ unitId: unit.unitId, itemId: item.id, url: src, label: unit.label })}
+                                                                        className="inline-flex items-center gap-1 rounded border border-border px-2 py-0.5 text-[11px] text-foreground/80 hover:bg-accent"
+                                                                    >
+                                                                        <Type className="size-3" />
+                                                                        编辑文字
+                                                                    </button>
+                                                                ) : null}
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => void onSave(item, unit, itemIndex)}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70"
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70 hover:bg-accent"
                                                                 >
                                                                     {savedKeys[key] ? "已存作品库" : "保存"}
                                                                 </button>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => void onSendToCanvas(item, unit)}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70"
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70 hover:bg-accent"
                                                                 >
                                                                     {canvasKeys[key] ? "已发送画布" : "发送画布"}
                                                                 </button>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => void onDownload(item, itemIndex)}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70"
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70 hover:bg-accent"
                                                                 >
                                                                     下载
                                                                 </button>
@@ -1448,14 +2068,14 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                                 })}
                                             </div>
                                         ) : (
-                                            <p className="text-[11px] text-muted-foreground">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
+                                            <p className="p-2.5 text-[11px] text-muted-foreground">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
                                         )}
                                         {unit.status === "failed" ? (
                                             <button
                                                 type="button"
                                                 disabled={busyUnit === unit.unitId}
                                                 onClick={() => void onRetryUnit(unit)}
-                                                className="mt-2 rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70 disabled:opacity-40"
+                                                className="m-2 rounded border border-border px-2 py-0.5 text-[11px] text-foreground/70 disabled:opacity-40"
                                             >
                                                 {busyUnit === unit.unitId ? "重试中…" : "重试这一张"}
                                             </button>
@@ -1484,6 +2104,36 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             </div>
             </ToolWorkspaceColumns>
             <SuiteWizardDialog open={wizardOpen} onClose={() => setWizardOpen(false)} onApply={applyWizard} />
+            <SuiteLayoutModal
+                open={layoutModalTarget !== null}
+                target={layoutModalTarget ?? "aplus"}
+                selectedIds={customLayoutIds}
+                onToggleId={(id) =>
+                    setCustomLayoutIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]))
+                }
+                onClose={() => setLayoutModalTarget(null)}
+            />
+            {layerEditorItem ? (
+                <SuiteLayerEditorModal
+                    open
+                    imageUrl={layerEditorItem.url}
+                    unitLabel={layerEditorItem.label}
+                    productInfo={config.productInfo}
+                    onClose={() => setLayerEditorItem(null)}
+                    onApplyImage={(newDataUrl) => {
+                        setUnits((prev) =>
+                            prev.map((unit) =>
+                                unit.unitId === layerEditorItem.unitId
+                                    ? {
+                                          ...unit,
+                                          items: unit.items.map((item) => (item.id === layerEditorItem.itemId ? { ...item, dataUrl: newDataUrl, url: newDataUrl } : item)),
+                                      }
+                                    : unit,
+                            ),
+                        );
+                    }}
+                />
+            ) : null}
             {productLibOpen ? <SuiteEmptyLibraryDialog title="从商品库选择" body="本地没有商品库数据（未接入商品库接口），可用「从本地上传」或「从作品库选择」。" onClose={() => setProductLibOpen(false)} /> : null}
         </div>
     );
@@ -1536,13 +2186,18 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
-    const [rightTab, setRightTab] = useState<"result" | "cases">("result");
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [advancedOpen, setAdvancedOpen] = useState(false);
     /* 向导弹窗与商品库诚实空态（与套图同一套本地组件，不新增后端）。 */
     const [wizardOpen, setWizardOpen] = useState(false);
     const [productLibOpen, setProductLibOpen] = useState(false);
     const [brandOpen, setBrandOpen] = useState(false);
     const [complianceOpen, setComplianceOpen] = useState(false);
+    const [analyzingMarketInfo, setAnalyzingMarketInfo] = useState(false);
+    const [posterTemplateCategory, setPosterTemplateCategory] = useState<"all" | "promo" | "festival" | "feature" | "scene">("all");
+    const [posterHeadline, setPosterHeadline] = useState("");
+    const [posterSubheadline, setPosterSubheadline] = useState("");
+    const [editingMarketItem, setEditingMarketItem] = useState<{ unitId: string; itemId: string; src: string; label: string } | null>(null);
 
     /* 草稿恢复：values.marketConfig + 商品图记录（记录缺失则要求重新上传） */
     useEffect(() => {
@@ -1855,10 +2510,60 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                         value={config.productCategory}
                                         placeholder="请选择商品类目"
                                         emptyHint="没有匹配的类目"
+                                        cascader
                                         options={MARKET_PRODUCT_CATEGORIES.map((category) => ({ value: category.id, label: category.label }))}
                                         onChange={(next) => update({ productCategory: next })}
                                     />
                                 </Section>
+
+                            <Section title="营销海报模板与文案替换">
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex flex-wrap gap-1">
+                                        {(
+                                            [
+                                                ["all", "全部海报"],
+                                                ["promo", "大促爆款"],
+                                                ["festival", "节日礼盒"],
+                                                ["feature", "核心卖点"],
+                                                ["scene", "场景种草"],
+                                            ] as const
+                                        ).map(([catId, catLabel]) => (
+                                            <button
+                                                key={catId}
+                                                type="button"
+                                                data-testid={`market-poster-cat-${catId}`}
+                                                onClick={() => setPosterTemplateCategory(catId)}
+                                                className={`h-6 rounded-[4px] border px-2 text-[11px] leading-none ${
+                                                    posterTemplateCategory === catId ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground hover:border-selected"
+                                                }`}
+                                            >
+                                                {catLabel}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-1.5">
+                                        <input
+                                            type="text"
+                                            value={posterHeadline}
+                                            onChange={(event) => {
+                                                setPosterHeadline(event.target.value);
+                                                update({ projectName: event.target.value });
+                                            }}
+                                            placeholder="主标题替换（如：焕新升级）"
+                                            data-testid="market-poster-headline"
+                                            className={inputClass}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={posterSubheadline}
+                                            onChange={(event) => setPosterSubheadline(event.target.value)}
+                                            placeholder="副标题 / 促销利益点"
+                                            data-testid="market-poster-subheadline"
+                                            className={inputClass}
+                                        />
+                                    </div>
+                                </div>
+                            </Section>
 
                             <Section title="商品信息">
                                     <textarea
@@ -1873,13 +2578,40 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                         <button
                                             type="button"
                                                 /* 原站未上传商品图时 AI分析 为禁用态。 */
-                                                disabled={sources.length === 0}
+                                                disabled={sources.length === 0 || analyzingMarketInfo}
                                                 title={sources.length === 0 ? "上传商品图后可分析" : undefined}
-                                                onClick={() => update({ productInfo: analyzeMarketProductInfo(config.productInfo) })}
+                                                onClick={() => {
+                                                    const firstSource = sources[0];
+                                                    const imageUrl = firstSource?.dataUrl ?? firstSource?.url;
+                                                    if (!imageUrl) {
+                                                        update({ productInfo: analyzeMarketProductInfo(config.productInfo) });
+                                                        return;
+                                                    }
+                                                    setAnalyzingMarketInfo(true);
+                                                    void analyzeProductImageWithVision({
+                                                        imageUrl,
+                                                        fileName: firstSource.name,
+                                                        currentCategory: config.productCategory,
+                                                        currentInfo: config.productInfo,
+                                                    })
+                                                        .then((analysis) => {
+                                                            update({
+                                                                productInfo: analysis.formattedProductInfo.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH),
+                                                                ...(config.productCategory ? {} : { productCategory: analysis.category }),
+                                                            });
+                                                            if (!posterHeadline && analysis.productName) {
+                                                                setPosterHeadline(analysis.productName);
+                                                            }
+                                                            if (!posterSubheadline && analysis.sellingPoints[0]) {
+                                                                setPosterSubheadline(analysis.sellingPoints[0]);
+                                                            }
+                                                        })
+                                                        .finally(() => setAnalyzingMarketInfo(false));
+                                                }}
                                                 data-testid="market-ai-analyze"
                                                 className="rounded-[4px] border border-border px-2 py-[3px] text-[11px] leading-none text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
                                         >
-                                                AI分析
+                                                {analyzingMarketInfo ? "AI分析中…" : "AI分析"}
                                         </button>
                                         <button
                                             type="button"
@@ -1901,7 +2633,6 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             </Section>
 
                             <Section title="品牌与合规（可选）">
-                                    {/* 与原站同构：两行可展开行卡；品牌库/词库管理未接入时在弹层内如实说明。 */}
                                     <div className="mb-1 flex justify-end">
                                         <button
                                             type="button"
@@ -1920,68 +2651,16 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                     <div className="flex flex-col divide-y divide-border">
                                         <BrandComplianceRow label="智能品牌基因" summary={marketBrandSummary} testId="market-brand-row" open={brandOpen} onToggle={() => setBrandOpen((value) => !value)}>
                                             <div className="flex flex-col gap-2">
-                                                <strong className="text-[11px] font-medium leading-4 text-foreground">品牌基因设置</strong>
-                                                <div className="rounded-[4px] border border-dashed border-border px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
-                                                    未接入品牌库：本地没有你的品牌列表，选择结果只作用于本次生成，不会写入任何账号。
-                                                </div>
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">选择品牌基因</strong>
                                                 <Field label="品牌名称">
-                                                    <input className={`${inputClass} w-[130px]`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} placeholder="本次生成的品牌名" />
+                                                    <input className={`${inputClass} w-[180px]`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} placeholder="请输入或选择品牌名称" />
                                                 </Field>
-                                                <Field label="品牌主色">
-                                            <input
-                                                type="color"
-                                                aria-label="智能主色"
-                                                value={config.brandDna.primaryColor || "#ffffff"}
-                                                onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value } })}
-                                                className="h-6 w-10 shrink-0 cursor-pointer rounded border border-border"
-                                            />
-                                                </Field>
-                                                <Field label="字体风格">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="字体风格"
-                                                            testId="market-font-style"
-                                                value={config.brandDna.fontStyle}
-                                                            placeholder="跟随品牌"
-                                                            options={MARKET_FONT_STYLES.map((style) => ({ value: style.id, label: style.label }))}
-                                                            onChange={(next) => update({ brandDna: { ...config.brandDna, fontStyle: next as MarketConfig["brandDna"]["fontStyle"] } })}
-                                                        />
-                                        </div>
-                                    </Field>
                                             </div>
                                         </BrandComplianceRow>
                                         <BrandComplianceRow label="智能合规检查" summary={marketComplianceSummary} testId="market-compliance-row" open={complianceOpen} onToggle={() => setComplianceOpen((value) => !value)}>
                                             <div className="flex flex-col gap-2">
-                                                <strong className="text-[11px] font-medium leading-4 text-foreground">合规检查设置</strong>
-                                                <Field label="敏感词库">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="敏感词库"
-                                                            testId="market-sensitive-lexicon"
-                                                            value={config.sensitiveLibraryId}
-                                                            placeholder="未选择敏感词库"
-                                                            options={MARKET_SENSITIVE_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
-                                                            onChange={(next) => update({ sensitiveLibraryId: next })}
-                                                        />
-                                                    </div>
-                                                </Field>
-                                                <Field label="替换词库">
-                                                    <div className="w-[130px]">
-                                                        <SuiteSearchSelect
-                                                            label="替换词库"
-                                                            testId="market-replacement-lexicon"
-                                                            value={config.replacementLibraryId}
-                                                            placeholder="未选择替换词库"
-                                                            options={MARKET_REPLACEMENT_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
-                                                            onChange={(next) => update({ replacementLibraryId: next })}
-                                                        />
-                                                    </div>
-                                                </Field>
-                                                <p className="text-[11px] leading-4 text-muted-foreground">
-                                                    {marketSensitiveLibraryOf(config.sensitiveLibraryId) || marketReplacementLibraryOf(config.replacementLibraryId)
-                                                        ? "已选词库将随任务快照提交；未接入词库管理，词表为本地内置。"
-                                                        : "未选择词库：本次不做敏感词替换。"}
-                                                </p>
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">智能合规词库</strong>
+                                                <p className="text-[11px] leading-4 text-muted-foreground">开启后自动校验生成画面与文案中的平台敏感词及违规用语。</p>
                                             </div>
                                         </BrandComplianceRow>
                                     </div>
@@ -2309,7 +2988,6 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                 }
             >
                 <div className="flex min-w-0 flex-1 flex-col">
-                    {/* 原站该页同样只有「生成结果 / 优秀案例」两个页签 + 右端「历史记录 ↗」外链。 */}
                     <div className="flex h-[42px] shrink-0 items-center gap-4 border-b border-border px-3" role="tablist">
                         {(
                             [
@@ -2329,7 +3007,16 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 {label}
                             </button>
                         ))}
-                        <span data-testid="market-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto text-[12px] leading-none text-muted-foreground">
+                        <span
+                            role="tab"
+                            aria-selected={rightTab === "history"}
+                            data-testid="market-tab-history-link"
+                            onClick={() => setRightTab("history")}
+                            className={cn(
+                                "ml-auto cursor-pointer text-[12px] leading-none transition-colors",
+                                rightTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                            )}
+                        >
                             历史记录 ↗
                         </span>
                     </div>
@@ -2337,16 +3024,18 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="market-panel-cases">
                             <p className="text-[11px] text-muted-foreground">暂无优秀案例</p>
                         </div>
+                        {rightTab === "history" ? (
+                            <div role="tabpanel" className="py-1">
+                                <ToolTaskHistory toolId={toolId} />
+                            </div>
+                        ) : null}
                         <div role="tabpanel" hidden={rightTab !== "result"} data-testid="market-panel-result" className="flex flex-col gap-3">
-                            <p className="text-[11px] text-muted-foreground">生成结果</p>
-                            {/* 同套图：原站结果区无常驻校验横幅，校验原因只在按钮 title 与这行弱提示里。 */}
                             {runError ? <div className="rounded-[4px] border border-amber-500/30 bg-amber-500/10 p-2 text-[11px] leading-4 text-amber-700 dark:text-amber-300">{runError}</div> : null}
                             {!runError && issues.length ? (
                                 <p className="text-[11px] leading-4 text-muted-foreground" data-testid="market-result-hints">
                                     {issues.map((issue) => issue.message).join(" ")}
                                 </p>
                             ) : null}
-                            {stale && units.length ? <p className="text-[11px] text-amber-600 dark:text-amber-400">配置已变更，下方结果来自旧版本；重新生成可更新。</p> : null}
                             {units.length ? (
                                 <div className="flex flex-col gap-3">
                                     <p className="text-[11px] text-muted-foreground">
@@ -2357,27 +3046,39 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                             <h4 className="mb-2 text-xs font-medium text-foreground/70">
                                                 {group.label}（{group.succeeded}/{group.total}）
                                             </h4>
-                                            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                                 {group.units.map((unit) => (
-                                                    <article key={unit.unitId} className="rounded-md border border-border p-2">
-                                                        <p className="mb-1 text-[11px] text-foreground/70">
+                                                    <article key={unit.unitId} className="rounded-md border border-border p-2.5">
+                                                        <p className="mb-1.5 text-[11px] text-foreground/70">
                                                             {unit.label} · {unit.width > 0 ? `${unit.width}×${unit.height}` : config.isCustomAspectRatio ? `${config.customWidth}×${config.customHeight}` : config.aspectRatio}
                                                         </p>
                                                         {unit.items.length ? (
-                                                            <div className="flex flex-col gap-1">
+                                                            <div className="flex flex-col gap-2">
                                                                 {unit.items.map((item, itemIndex) => {
                                                                     const key = `${unit.unitId}:${item.id}`;
                                                                     const src = item.dataUrl ?? item.url;
                                                                     return (
-                                                                        <div key={item.id} className="flex flex-col gap-1">
+                                                                        <div key={item.id} className="flex flex-col gap-1.5">
                                                                             {src ? (
-                                                                                <img src={src} alt={unit.label} className="h-24 w-full rounded object-cover" />
+                                                                                <div className="overflow-hidden rounded-md border border-border/60 bg-muted/20">
+                                                                                    <img src={src} alt={unit.label} className="max-h-72 w-full object-contain" />
+                                                                                </div>
                                                                             ) : (
-                                                                                <div className="flex h-24 items-center justify-center rounded border border-dashed border-border text-center text-[10px] text-muted-foreground">
+                                                                                <div className="flex h-36 items-center justify-center rounded border border-dashed border-border text-center text-[10px] text-muted-foreground">
                                                                                     结果已被持久化策略剥离
                                                                                 </div>
                                                                             )}
                                                                             <div className="flex flex-wrap gap-1">
+                                                                                {src ? (
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        onClick={() => setEditingMarketItem({ unitId: unit.unitId, itemId: item.id, src, label: unit.label })}
+                                                                                        data-testid={`market-edit-layers-${key}`}
+                                                                                        className="rounded border border-primary/40 bg-primary/10 px-2 py-0.5 text-[11px] text-primary hover:bg-primary/15"
+                                                                                    >
+                                                                                        编辑图层
+                                                                                    </button>
+                                                                                ) : null}
                                                                                 <button
                                                                                     type="button"
                                                                                     disabled={busyUnit === unit.unitId}
@@ -2439,6 +3140,28 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                 </div>
             </ToolWorkspaceColumns>
             <SuiteWizardDialog open={wizardOpen} onClose={() => setWizardOpen(false)} onApply={applyMarketWizard} />
+            {editingMarketItem ? (
+                <SuiteLayerEditorModal
+                    src={editingMarketItem.src}
+                    label={editingMarketItem.label}
+                    brandName={posterHeadline || config.brandName}
+                    productInfo={posterSubheadline || config.productInfo}
+                    onClose={() => setEditingMarketItem(null)}
+                    onApply={(newDataUrl) => {
+                        setUnits((current) =>
+                            current.map((u) =>
+                                u.unitId === editingMarketItem.unitId
+                                    ? {
+                                          ...u,
+                                          items: u.items.map((it) => (it.id === editingMarketItem.itemId ? { ...it, dataUrl: newDataUrl, url: newDataUrl } : it)),
+                                      }
+                                    : u,
+                            ),
+                        );
+                        setEditingMarketItem(null);
+                    }}
+                />
+            ) : null}
             {productLibOpen ? <SuiteEmptyLibraryDialog title="从商品库选择" body="本地没有商品库数据（未接入商品库接口），可用「从本地上传」或「从作品库选择」。" onClose={() => setProductLibOpen(false)} /> : null}
         </div>
     );

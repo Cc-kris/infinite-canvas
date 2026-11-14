@@ -12,6 +12,7 @@ import {
     createSuiteSnapshot,
     isSuiteSnapshotStale,
     suiteConfigFingerprint,
+    suiteRequestSize,
     validateSuiteConfig,
     type SuiteConfig,
     type SuiteConfigSnapshot,
@@ -104,7 +105,7 @@ export type SuiteUnitInputOptions = {
  */
 export function buildSuiteUnitInput({ config, unit, source, draftRevision }: SuiteUnitInputOptions): BrowserToolInput {
     const reference = toSuiteReference(source);
-    const size = config.ratio;
+    const size = suiteRequestSize(config, unit.kind);
     return {
         toolId: PRODUCT_IMAGE_SUITE_TOOL_ID,
         prompt: unit.prompt,

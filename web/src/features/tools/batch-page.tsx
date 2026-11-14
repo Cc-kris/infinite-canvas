@@ -10,7 +10,8 @@ import {
     BATCH_CONCURRENCY_MAX,
     BATCH_CONCURRENCY_MIN,
 } from "@/services/api/tools/batch-runner";
-import { useBatchTaskStore, sortBatchesForHistory, type BatchStatus, type BatchTask, type BatchTaskRow } from "@/stores/use-batch-task-store";
+import { createBatchTaskRow, useBatchTaskStore, sortBatchesForHistory, type BatchStatus, type BatchTask, type BatchTaskRow } from "@/stores/use-batch-task-store";
+import type { ReferenceImage } from "@/types/image";
 
 /**
  * 批量生图工作台（TASK-007）。
@@ -76,6 +77,7 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
     const setTool = useBatchTaskStore((state) => state.setTool);
     const setConcurrency = useBatchTaskStore((state) => state.setConcurrency);
     const addRow = useBatchTaskStore((state) => state.addRow);
+    const replaceRows = useBatchTaskStore((state) => state.replaceRows);
     const appendRowsFromText = useBatchTaskStore((state) => state.appendRowsFromText);
     const updateRow = useBatchTaskStore((state) => state.updateRow);
     const removeRow = useBatchTaskStore((state) => state.removeRow);
@@ -88,6 +90,9 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
 
     const [busy, setBusy] = useState<null | "run" | "retry" | "preflight">(null);
     const [bulkText, setBulkText] = useState("");
+    const [matrixImages, setMatrixImages] = useState<ReferenceImage[]>([]);
+    const [matrixPromptsText, setMatrixPromptsText] = useState("");
+    const matrixInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (!hydrated) hydrate();
@@ -100,6 +105,21 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
 
     const batchTools = useMemo(() => getBatchTools(), []);
     const batch: BatchTask | undefined = batchId ? batches[batchId] : batches[activeBatchId ?? ""];
+
+    useEffect(() => {
+        if (!hydrated || batchId || batch) return;
+        const params = new URLSearchParams(window.location.search);
+        const rawTool = (params.get("tool") ?? "").trim();
+        if (!rawTool) return;
+        const normalized = rawTool.toUpperCase().replace(/-/g, "_");
+        const matched = batchTools.find(
+            (item) => item.id === rawTool || item.id === normalized || item.slug === rawTool,
+        );
+        if (matched) {
+            const created = createBatch(matched.id);
+            window.history.replaceState(null, "", `/tools/batch-generate/${created.batchId}`);
+        }
+    }, [hydrated, batchId, batch, batchTools, createBatch]);
 
     const outcomesById = useMemo(() => {
         const map = new Map<string, BatchRowOutcome>();
@@ -194,6 +214,71 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
         if (added > 0) setBulkText("");
     };
 
+    const handleMatrixFiles = async (files: FileList | null) => {
+        if (!files?.length) return;
+        const loaded = await Promise.all(
+            Array.from(files).map(async (file, offset) => ({
+                id: `matrix-ref-${Date.now()}-${offset}`,
+                name: file.name,
+                type: file.type || "image/png",
+                dataUrl: await readFileAsDataUrl(file),
+            })),
+        );
+        setMatrixImages((previous) => [...previous, ...loaded]);
+        if (matrixInputRef.current) matrixInputRef.current.value = "";
+    };
+
+    const handleGenerateMatrixRows = () => {
+        if (!batch) return;
+        const prompts = matrixPromptsText
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean);
+        const promptList = prompts.length > 0 ? prompts : [""];
+        if (matrixImages.length === 0 && prompts.length === 0) return;
+
+        const matrixRows: BatchTaskRow[] = [];
+        if (matrixImages.length > 0) {
+            for (const image of matrixImages) {
+                for (const prompt of promptList) {
+                    matrixRows.push(
+                        createBatchTaskRow({
+                            label: `${image.name}${prompt ? ` × ${prompt.slice(0, 16)}` : ""}`,
+                            prompt,
+                            references: [image],
+                        }),
+                    );
+                }
+            }
+        } else {
+            for (const prompt of promptList) {
+                matrixRows.push(createBatchTaskRow({ label: prompt.slice(0, 20), prompt }));
+            }
+        }
+        const existingNonEmpty = batch.rows.filter((row) => row.prompt?.trim() || row.references.length > 0);
+        replaceRows(batch.batchId, [...existingNonEmpty, ...matrixRows]);
+        setMatrixImages([]);
+        setMatrixPromptsText("");
+    };
+
+    const allResultUrls = useMemo(
+        () => (batch?.outcomes ?? []).flatMap((outcome) => outcome.resultUrls),
+        [batch?.outcomes],
+    );
+
+    const handleDownloadAllImages = () => {
+        allResultUrls.forEach((url, idx) => {
+            const anchor = document.createElement("a");
+            anchor.href = url;
+            anchor.download = `batch-${batch?.batchId ?? "result"}-${idx + 1}.png`;
+            anchor.target = "_blank";
+            anchor.rel = "noreferrer";
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+        });
+    };
+
     const headerBadges = batch ? (
         <span
             data-testid="batch-status"
@@ -281,6 +366,16 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
             >
                 <Download className="size-3.5" />
                 JSON
+            </button>
+            <button
+                type="button"
+                data-testid="batch-download-all-images"
+                onClick={handleDownloadAllImages}
+                disabled={allResultUrls.length === 0}
+                className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border px-2.5 text-xs transition hover:bg-accent disabled:opacity-50"
+            >
+                <Download className="size-3.5" />
+                批量下载结果图 ({allResultUrls.length})
             </button>
         </div>
     ) : null;
@@ -378,6 +473,65 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
                                 ）。批量不会自动去重，确认要重复请求再执行。
                             </p>
                         ) : null}
+
+                        <section data-testid="batch-matrix-builder" className="rounded-lg border border-border bg-card px-4 py-3">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div>
+                                    <h2 className="text-sm font-medium">矩阵组合生成（多商品图 × 多场景/模板）</h2>
+                                    <p className="text-xs text-muted-foreground">
+                                        上传多张商品图并输入多行场景提示词，按笛卡尔积一键生成批量任务行。
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        data-testid="batch-matrix-upload-btn"
+                                        disabled={running}
+                                        onClick={() => matrixInputRef.current?.click()}
+                                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border px-2.5 text-xs transition hover:bg-accent disabled:opacity-50"
+                                    >
+                                        <ImagePlus className="size-3.5" />
+                                        添加商品图 ({matrixImages.length})
+                                    </button>
+                                    <input
+                                        ref={matrixInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        hidden
+                                        onChange={(event) => void handleMatrixFiles(event.target.files)}
+                                    />
+                                    <button
+                                        type="button"
+                                        data-testid="batch-matrix-generate-btn"
+                                        disabled={running || (matrixImages.length === 0 && !matrixPromptsText.trim())}
+                                        onClick={handleGenerateMatrixRows}
+                                        className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-2.5 text-xs text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+                                    >
+                                        <Plus className="size-3.5" />
+                                        生成矩阵组合行
+                                    </button>
+                                </div>
+                            </div>
+                            {matrixImages.length > 0 ? (
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {matrixImages.map((img) => (
+                                        <span key={img.id} className="relative inline-flex size-12 overflow-hidden rounded border border-border">
+                                            <img src={img.dataUrl} alt={img.name} className="size-full object-cover" />
+                                        </span>
+                                    ))}
+                                </div>
+                            ) : null}
+                            <textarea
+                                data-testid="batch-matrix-prompts"
+                                rows={2}
+                                value={matrixPromptsText}
+                                disabled={running}
+                                onChange={(event) => setMatrixPromptsText(event.target.value)}
+                                placeholder="每行输入一个场景模板或提示词（若上传 3 张商品图 × 2 行场景，将自动组合生成 6 行任务）"
+                                className="mt-2 w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs outline-none"
+                            />
+                        </section>
 
                         <section className="rounded-lg border border-border bg-card">
                             <header className="flex items-center justify-between border-b border-border px-4 py-2">

@@ -803,6 +803,9 @@ export default {
         tools: {
             PRODUCT_IMAGE_SUITE: "Product Image Suite",
             DRESS_WEAR_SET: "Apparel Image Suite",
+            WHITE_BACKGROUND: "White Background",
+            IMAGE_REPLICATION: "Image Replication",
+            BATCH_MATTING: "Batch Cutout",
             CHANGE_COLOR_V2: "Set Color Swap",
             IMAGE_TRANSLATION: "Batch Translation",
             SCALE_UP: "Upscale",

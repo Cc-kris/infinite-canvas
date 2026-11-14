@@ -12,23 +12,20 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  * - 结果区页签：生成结果 / 优秀案例 / 历史记录（历史读真实落盘任务，不伪造）。
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, SlidersHorizontal, X } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
-import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
-import { resolveModelChannel, useConfigStore } from "@/stores/use-config-store";
+import { useConfigStore } from "@/stores/use-config-store";
 import { dressingResultPanelTask } from "@/features/tools/adapters/ai-dressing-v2";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
 import {
     AI_DRESSING_V2_TOOL_ID,
     DRESSING_MAX_POSES,
-    DRESSING_MODEL_TYPES,
-    DRESSING_NAME_MAX,
     DRESSING_OUTPUT_OPTIONS,
     DRESSING_TABS,
     DRESSING_UPLOAD_LIMITS,
@@ -39,14 +36,11 @@ import {
     fillGarmentMask,
     firstDressingError,
     normalizeDressingValues,
-    normalizeModelType,
     serializeDressingValues,
     slotMeta,
     switchTab,
-    tabLabel,
     tabSlots,
     validateDressing,
-    type DressingGarmentSnapshot,
     type DressingSnapshot,
     type DressingTab,
     type DressingValues,
@@ -105,25 +99,18 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
     /** §4：每次提交固化的输入快照，供结果区「查看本次输入快照」。 */
     const [lastSnapshot, setLastSnapshot] = useState<DressingSnapshot | null>(null);
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
-    /** 原站「选择穿衣模特」是一张可展开的行卡，默认收起。 */
+    /** 原站「选择穿衣模特」是一张可展开的行卡，点击在右侧弹出模特面板。 */
     const [modelOpen, setModelOpen] = useState(false);
+    const [modelPanelTab, setModelPanelTab] = useState<"library" | "upload" | "history">("library");
+    const [maskModalSlot, setMaskModalSlot] = useState<GarmentSlotKey | null>(null);
     const dragRef = useRef<{ slot: GarmentSlotKey; id: string } | null>(null);
 
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const flushDraft = useToolDraftStore((state) => state.flush);
     // provider 为空 = 跟随当前模型配置；提交时把解析出的渠道写进 model，网关才有真实执行渠道。
-    const config = useConfigStore((state) => state.config);
     const imageModel = useConfigStore((state) => state.config.imageModel);
     const effectiveModel = values.provider.trim() || (imageModel ?? "");
-    const resolvedProvider = useMemo(() => {
-        if (!effectiveModel.trim()) return "";
-        try {
-            return resolveModelChannel(config, effectiveModel).apiFormat;
-        } catch {
-            return "";
-        }
-    }, [config, effectiveModel]);
 
     // 作品库（本地资产库）：上传卡上的「从作品库选择」从真实资产列表读取，不伪造商品库入口。
     const assets = useAssetStore((state) => state.assets);
@@ -295,16 +282,26 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                 setValues((prev) => ({ ...prev, garments: { ...prev.garments, [slot]: createGarment(slot) } }));
                 return;
             }
-            patchGarment(slot, {
-                assetId: record.id,
-                name: record.name,
-                imageUrl: record.url,
-                originUrl: record.url,
-                width: record.width ?? 0,
-                height: record.height ?? 0,
-            });
+            setValues((prev) => ({
+                ...prev,
+                garments: {
+                    ...prev.garments,
+                    [slot]: fillGarmentMask(
+                        {
+                            ...prev.garments[slot],
+                            assetId: record.id,
+                            name: record.name,
+                            imageUrl: record.url,
+                            originUrl: record.url,
+                            width: record.width ?? 0,
+                            height: record.height ?? 0,
+                        },
+                        strokeId(),
+                    ),
+                },
+            }));
         },
-        [patchGarment],
+        [],
     );
 
     /** 配置栏上传按钮：按上传张数顺序落位到当前 Tab 的服装槽位（上装→下装→套装）。 */
@@ -317,15 +314,18 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                 for (const slot of order) garments[slot] = createGarment(slot);
                 records.slice(0, order.length).forEach((record, index) => {
                     const slot = order[index];
-                    garments[slot] = {
-                        ...createGarment(slot),
-                        assetId: record.id,
-                        name: record.name,
-                        imageUrl: record.url,
-                        originUrl: record.url,
-                        width: record.width ?? 0,
-                        height: record.height ?? 0,
-                    };
+                    garments[slot] = fillGarmentMask(
+                        {
+                            ...createGarment(slot),
+                            assetId: record.id,
+                            name: record.name,
+                            imageUrl: record.url,
+                            originUrl: record.url,
+                            width: record.width ?? 0,
+                            height: record.height ?? 0,
+                        },
+                        strokeId(),
+                    );
                 });
                 return { ...prev, garments };
             });
@@ -547,16 +547,11 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
     );
 
     const [resultTab, setResultTab] = useState<"result" | "cases" | "history">("result");
-
-    const [railReady, setRailReady] = useState(false);
-    useEffect(() => {
-        setRailReady(true);
-    }, []);
+    const activeMaskGarment = maskModalSlot ? values.garments[maskModalSlot] : null;
+    const activeMaskMeta = maskModalSlot ? slotMeta(maskModalSlot) : null;
 
     return (
-        <section className={cn("flex h-full min-h-0 min-w-0 flex-col", className)} data-testid="ai-dressing-workspace">
-            {/* OrigRail 内部用 react-router Link；SSR 单测无 Router 上下文，故挂载后再渲染 */}
-            {railReady ? <OrigRail items={WEAR_RAIL} active="AI穿衣" driver testId="dressing-rail" className="mb-2 shrink-0" /> : null}
+        <section className={cn("relative flex h-full min-h-0 min-w-0 flex-col", className)} data-testid="ai-dressing-workspace">
             <ToolWorkspaceColumns
                 configSide="left"
                 className="min-h-0 flex-1 overflow-hidden"
@@ -617,109 +612,31 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             onChange={onGarmentChange(slot)}
                                         />
                                         {garment.imageUrl ? (
-                                            <>
-                                                <div className="relative overflow-hidden rounded-[6px] border border-border/70">
+                                            <div className="flex items-center justify-between rounded-[6px] border border-border/70 bg-card px-2 py-1.5">
+                                                <div className="flex min-w-0 items-center gap-2">
                                                     <img
                                                         src={garment.imageUrl}
                                                         alt={meta.label}
-                                                        className="block max-h-[150px] w-full object-contain"
+                                                        className="size-10 shrink-0 rounded object-contain bg-muted"
                                                         draggable={false}
                                                     />
-                                                    <div
-                                                        className="absolute inset-0 cursor-crosshair touch-none"
-                                                        onPointerDown={startStroke(slot)}
-                                                        onPointerMove={moveStroke(slot)}
-                                                        onPointerUp={endStroke}
-                                                        onPointerCancel={endStroke}
-                                                        onPointerLeave={endStroke}
-                                                    >
-                                                        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
-                                                            {garment.mask.strokes.map((stroke) => (
-                                                                <polyline
-                                                                    key={stroke.id}
-                                                                    points={stroke.points.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")}
-                                                                    fill="none"
-                                                                    stroke="rgba(56,189,248,0.45)"
-                                                                    strokeWidth={(stroke.size / Math.max(1, garment.width)) * 100}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                />
-                                                            ))}
-                                                        </svg>
+                                                    <div className="min-w-0">
+                                                        <p className="truncate text-xs text-foreground">{garment.name || meta.label}</p>
+                                                        <p className="text-[11px] text-muted-foreground">
+                                                            {garment.mask.strokes.length > 0 ? "已生成服装蒙版" : "待选区"}
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <details className="rounded-[6px] border border-border/70 px-2 py-1">
-                                                    <summary className="flex cursor-pointer list-none items-center gap-1" aria-label="蒙版工具">
-                                                        <svg viewBox="0 0 16 16" className="h-3 w-3 text-muted-foreground" aria-hidden="true">
-                                                            <circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                                                        </svg>
-                                                        <span className="text-[11px] leading-4 text-muted-foreground">涂抹需贴合的部位，或点「整件」</span>
-                                                    </summary>
-                                                    <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] leading-4">
-                                                        <button
-                                                            type="button"
-                                                            data-testid={`dressing-fill-${slot}`}
-                                                            disabled={!garment.imageUrl}
-                                                            onClick={() =>
-                                                                setValues((prev) => ({
-                                                                    ...prev,
-                                                                    garments: {
-                                                                        ...prev.garments,
-                                                                        [slot]: fillGarmentMask(prev.garments[slot], strokeId()),
-                                                                    },
-                                                                }))
-                                                            }
-                                                            className="rounded border border-border px-2 py-0.5 disabled:opacity-40"
-                                                        >
-                                                            整件
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            disabled={garment.past.length === 0}
-                                                            onClick={() => maskHistory(slot, "undo")}
-                                                            className="rounded border border-border px-2 py-0.5 disabled:opacity-40"
-                                                        >
-                                                            撤销
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            disabled={garment.future.length === 0}
-                                                            onClick={() => maskHistory(slot, "redo")}
-                                                            className="rounded border border-border px-2 py-0.5 disabled:opacity-40"
-                                                        >
-                                                            重做
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            disabled={garment.mask.strokes.length === 0}
-                                                            onClick={() => maskHistory(slot, "clear")}
-                                                            className="rounded border border-border px-2 py-0.5 disabled:opacity-40"
-                                                        >
-                                                            清空
-                                                        </button>
-                                                        <label className="flex items-center gap-1">
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={garment.mask.inverted}
-                                                                onChange={(event) =>
-                                                                    patchGarment(slot, { mask: { ...garment.mask, inverted: event.target.checked } })
-                                                                }
-                                                            />
-                                                            反向
-                                                        </label>
-                                                        <label className="flex items-center gap-1">
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={garment.mask.autoExpand}
-                                                                onChange={(event) =>
-                                                                    patchGarment(slot, { mask: { ...garment.mask, autoExpand: event.target.checked } })
-                                                                }
-                                                            />
-                                                            扩边
-                                                        </label>
-                                                    </div>
-                                                </details>
-                                            </>
+                                                <button
+                                                    type="button"
+                                                    data-testid={`dressing-adjust-mask-${slot}`}
+                                                    onClick={() => setMaskModalSlot(slot)}
+                                                    className="inline-flex shrink-0 items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-foreground transition hover:bg-accent"
+                                                >
+                                                    <SlidersHorizontal className="size-3" aria-hidden />
+                                                    调整选区
+                                                </button>
+                                            </div>
                                         ) : null}
                                         {maskIssue ? <p className="text-[11px] leading-4 text-destructive">{maskIssue.message}</p> : null}
                                     </div>
@@ -727,59 +644,142 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                             })}
                             <TryDemoStrip demos={DESIGN_TRY_DEMOS.dressing} busySrc={demoBusy} disabled={busy} onPick={(src, index) => void pickDemo(src, index)} />
                             </div>
-                            {/* 原站「上传多件衣服，开始批量穿衣」入口：本地批量穿衣走模特参考多选（下方行卡），这里不伪造批量服装上传 */}
-                            <button type="button" disabled title="本地暂不支持批量上传多件服装；可在「选择穿衣模特」里一次选多张模特参考批量生成" className={cn(DESIGN_OUTLINE_BUTTON, "disabled:cursor-not-allowed")}>
+                            {/* 原站「上传多件衣服，开始批量穿衣」入口 */}
+                            <button
+                                type="button"
+                                onClick={() => setModelOpen(true)}
+                                className={DESIGN_OUTLINE_BUTTON}
+                            >
                                 上传多件衣服，开始批量穿衣
                                 <ArrowRight aria-hidden="true" className="size-3.5" />
                             </button>
-                            {/* 原站「选择穿衣模特」行卡：缩略图 + 标题 + 副标题 + 展开箭头 */}
+                            {/* 原站「选择穿衣模特」行卡：点击在配置列右侧弹出悬浮面板 */}
                             <div data-field="poses" data-testid="dressing-model-card">
                                 <DesignRowCard
                                     image={values.poses[0]?.imageUrl ?? DESIGN_ICON_FEATURE}
                                     imageClassName="h-[79px] w-[59px] object-contain"
                                     title="选择穿衣模特"
-                                    desc="穿衣的部位与模特参考"
+                                    desc={values.poses.length ? `已选 ${values.poses.length} 张模特参考` : "穿衣的部位与模特参考"}
                                     open={modelOpen}
                                     onClick={() => setModelOpen((open) => !open)}
-                                >
-                                    <div className="space-y-2">
-                                        <ToolAssetInput
-                                            toolId={AI_DRESSING_V2_TOOL_ID}
-                                            draftSlot="poses"
-                                            syncIds={values.poses.map((item) => item.id)}
-                                            maxCount={DRESSING_MAX_POSES}
-                                            constraints={UPLOAD_CONSTRAINTS}
-                                            library={library}
-                                            thirdAction={null}
-                                            variant="linkfox"
-                                            wide
-                                            compact
-                                            dropLabel="选择参考图"
-                                            hint="10M以内，384*384 ~ 4096*4096"
-                                            onChange={onPosesChange}
-                                        />
-                                        {values.poses.length > 0 ? (
-                                            <div className="grid grid-cols-4 gap-2" data-testid="dressing-pose-list">
-                                                {values.poses.map((item) => (
-                                                    <button
-                                                        key={item.id}
-                                                        type="button"
-                                                        data-testid={`dressing-pose-${item.id}`}
-                                                        onClick={() => setValues((prev) => ({ ...prev, activePoseId: item.id }))}
-                                                        className={cn(
-                                                            "overflow-hidden rounded-[6px] border-2",
-                                                            values.activePoseId === item.id ? "border-selected" : "border-transparent",
-                                                        )}
-                                                    >
-                                                        <img src={item.imageUrl} alt={item.name || "模特参考"} className="h-12 w-full object-cover" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        ) : null}
-                                        {poseIssue ? <p className="text-[11px] leading-4 text-destructive">{poseIssue.message}</p> : null}
-                                    </div>
-                                </DesignRowCard>
+                                />
+                                {poseIssue ? <p className="mt-1 text-[11px] leading-4 text-destructive">{poseIssue.message}</p> : null}
                             </div>
+                            {modelOpen ? (
+                                <div
+                                    role="dialog"
+                                    aria-label="选择穿衣模特"
+                                    data-testid="dressing-model-panel"
+                                    className="fixed left-[310px] top-[76px] z-40 w-[440px] max-w-[calc(100vw-324px)] rounded-xl border border-border bg-popover p-4 text-popover-foreground shadow-xl"
+                                >
+                                    <div className="mb-3 flex items-center justify-between">
+                                        <div role="tablist" aria-label="模特来源" className="flex items-center gap-3 text-xs">
+                                            {([
+                                                ["library", "模特库"],
+                                                ["upload", "上传模特"],
+                                                ["history", "历史模特"],
+                                            ] as const).map(([key, label]) => (
+                                                <button
+                                                    key={key}
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-selected={modelPanelTab === key}
+                                                    data-testid={`dressing-model-tab-${key}`}
+                                                    onClick={() => setModelPanelTab(key)}
+                                                    className={cn(
+                                                        "border-b-2 pb-1 transition-colors",
+                                                        modelPanelTab === key
+                                                            ? "border-selected font-medium text-foreground"
+                                                            : "border-transparent text-muted-foreground hover:text-foreground",
+                                                    )}
+                                                >
+                                                    {label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <button
+                                            type="button"
+                                            aria-label="关闭选择穿衣模特面板"
+                                            onClick={() => setModelOpen(false)}
+                                            className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                                        >
+                                            <X className="size-4" />
+                                        </button>
+                                    </div>
+                                    {modelPanelTab === "library" ? (
+                                        <div className="space-y-2">
+                                            <div className="grid max-h-[320px] grid-cols-4 gap-2 overflow-y-auto">
+                                                {AI_DRESSING_GUIDE_CASES.map((item) => {
+                                                    const modelSrc = typeof item.files?.model === "string" ? item.files.model : item.coverUrl;
+                                                    return (
+                                                        <button
+                                                            key={item.id}
+                                                            type="button"
+                                                            onClick={async () => {
+                                                                try {
+                                                                    const record = await uploadCaseFile(modelSrc, `dressing-model-${item.id}`);
+                                                                    onPosesChange([record.id], [record]);
+                                                                    setModelOpen(false);
+                                                                } catch (cause) {
+                                                                    setError(cause instanceof Error ? cause.message : String(cause));
+                                                                }
+                                                            }}
+                                                            className="overflow-hidden rounded-lg border border-border bg-card p-1 text-center transition hover:border-selected"
+                                                        >
+                                                            <img src={modelSrc} alt={item.title} className="aspect-[3/4] w-full rounded object-cover" />
+                                                            <span className="mt-1 block truncate text-[11px] text-foreground">{item.title}</span>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ) : modelPanelTab === "upload" ? (
+                                        <div className="space-y-2">
+                                            <ToolAssetInput
+                                                toolId={AI_DRESSING_V2_TOOL_ID}
+                                                draftSlot="poses"
+                                                syncIds={values.poses.map((item) => item.id)}
+                                                maxCount={DRESSING_MAX_POSES}
+                                                constraints={UPLOAD_CONSTRAINTS}
+                                                library={library}
+                                                thirdAction={null}
+                                                variant="linkfox"
+                                                wide
+                                                compact
+                                                dropLabel="选择参考图"
+                                                hint="10M以内，384*384 ~ 4096*4096"
+                                                onChange={onPosesChange}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {values.poses.length > 0 ? (
+                                                <div className="grid grid-cols-4 gap-2" data-testid="dressing-pose-list">
+                                                    {values.poses.map((item) => (
+                                                        <button
+                                                            key={item.id}
+                                                            type="button"
+                                                            data-testid={`dressing-pose-${item.id}`}
+                                                            onClick={() => {
+                                                                setValues((prev) => ({ ...prev, activePoseId: item.id }));
+                                                                setModelOpen(false);
+                                                            }}
+                                                            className={cn(
+                                                                "overflow-hidden rounded-[6px] border-2",
+                                                                values.activePoseId === item.id ? "border-selected" : "border-transparent",
+                                                            )}
+                                                        >
+                                                            <img src={item.imageUrl} alt={item.name || "模特参考"} className="h-16 w-full object-cover" />
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="py-6 text-center text-xs text-muted-foreground">暂无历史模特，请先上传或从模特库选择</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ) : null}
                             {/* 原站「选择生成张数」1/2/3/4，默认选中 4 */}
                             <div className="space-y-1.5 pt-[10px]">
                                 <p className="text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
@@ -803,61 +803,6 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                     ))}
                                 </div>
                             </div>
-                            {/* 原站面板无这些参数：收进「高级参数」折叠区。模型渠道由全局配置决定，
-                                provider/version 字段仅作渠道覆盖值传递（空 = 跟随配置），不在页面露出裸输入框。 */}
-                            <details className="rounded-[6px] border border-border/70 px-2 py-1.5">
-                                <summary className="cursor-pointer list-none text-[11px] leading-4 text-muted-foreground" aria-label="高级参数">
-                                    高级参数
-                                </summary>
-                                <div className="mt-2 space-y-2">
-                                    <div className="grid gap-2">
-                                        <label className="space-y-1 text-[11px] leading-4">
-                                            <span className="text-muted-foreground">模型类型</span>
-                                            <select
-                                                value={values.modelType}
-                                                onChange={(event) => setValues((prev) => ({ ...prev, modelType: normalizeModelType(event.target.value) }))}
-                                                className="w-full rounded-[6px] border border-border px-2 py-1 text-[12px]"
-                                            >
-                                                {DRESSING_MODEL_TYPES.map((item) => (
-                                                    <option key={item.id} value={item.id}>
-                                                        {item.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </label>
-                                        <label className="space-y-1 text-[11px] leading-4">
-                                            <span className="text-muted-foreground">任务名称</span>
-                                            <input
-                                                value={values.name}
-                                                maxLength={DRESSING_NAME_MAX}
-                                                onChange={(event) => setValues((prev) => ({ ...prev, name: event.target.value }))}
-                                                className="w-full rounded-[6px] border border-border px-2 py-1 text-[12px]"
-                                            />
-                                        </label>
-                                    </div>
-                                    <p className="text-[11px] leading-4 text-muted-foreground">
-                                        生成渠道跟随「设置 → 模型服务」的当前配置{resolvedProvider ? `（${resolvedProvider}）` : ""}。
-                                    </p>
-                                    <div className="flex flex-wrap gap-3 text-[11px] leading-4">
-                                        <label className="flex items-center gap-1">
-                                            <input
-                                                type="checkbox"
-                                                checked={values.genOriRes}
-                                                onChange={(event) => setValues((prev) => ({ ...prev, genOriRes: event.target.checked }))}
-                                            />
-                                            保持原分辨率
-                                        </label>
-                                        <label className="flex items-center gap-1">
-                                            <input
-                                                type="checkbox"
-                                                checked={values.isSecondOperate}
-                                                onChange={(event) => setValues((prev) => ({ ...prev, isSecondOperate: event.target.checked }))}
-                                            />
-                                            二次操作
-                                        </label>
-                                    </div>
-                                </div>
-                            </details>
                             {error ? (
                                 <p className="text-[11px] leading-4 text-destructive" data-testid="dressing-error">
                                     {error}
@@ -935,7 +880,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                     <div data-testid="dressing-result-panel">
                                         <ToolResult task={panelTask} toolId={AI_DRESSING_V2_TOOL_ID} title="生成结果" projectTitle="AI穿衣结果" />
                                     </div>
-                                ) : (
+                                ) : outcomes.length === 0 ? (
                                     <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center" data-testid="dressing-result-empty">
                                         {busy ? (
                                             <p className="text-[13px] leading-6 text-muted-foreground">正在生成，结果会出现在这里…</p>
@@ -949,30 +894,9 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             />
                                         )}
                                     </div>
-                                )}
-                                {outcomes.length > 0 ? (
+                                ) : null}
+                                {outcomes.length > 0 && !panelTask ? (
                                     <div className="mt-2 space-y-2" data-testid="dressing-results">
-                                        <details data-testid="dressing-snapshot" className="rounded-md border border-border/70 px-2 py-1.5">
-                                            <summary className="cursor-pointer select-none text-[11px] leading-4 text-muted-foreground">查看本次输入快照</summary>
-                                            {lastSnapshot ? (
-                                                <dl className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] leading-4 text-muted-foreground">
-                                                    <dt>穿衣模式</dt>
-                                                    <dd className="text-foreground">{tabLabel(lastSnapshot.tab)}</dd>
-                                                    <dt>服装</dt>
-                                                    <dd className="truncate text-foreground">
-                                                        {lastSnapshot.garments.map((garment: DressingGarmentSnapshot) => garment.label).join("＋") || "—"}
-                                                    </dd>
-                                                    <dt>模特参考</dt>
-                                                    <dd className="truncate text-foreground">{lastSnapshot.poseName || "—"}</dd>
-                                                    <dt>张数</dt>
-                                                    <dd className="text-foreground">{lastSnapshot.outputNum} 张</dd>
-                                                    <dt>模型类型</dt>
-                                                    <dd className="text-foreground">{lastSnapshot.modelType === "kid" ? "儿童模特" : "成人模特"}</dd>
-                                                    <dt>保持原分辨率</dt>
-                                                    <dd className="text-foreground">{lastSnapshot.genOriRes ? "开启" : "关闭"}</dd>
-                                                </dl>
-                                            ) : null}
-                                        </details>
                                         {outcomes.map((outcome) => {
                                             const view = dressingResultView(outcome, {
                                                 tab: values.activeTab,
@@ -982,7 +906,6 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                                 <div key={outcome.unitId} className="space-y-1 rounded-[6px] border border-border/70 p-2">
                                                     <p className="text-[11px] leading-4 text-muted-foreground">{view.caption}</p>
                                                     <p className="text-[12px] leading-5">{describeDressingOutcome(outcome)}</p>
-                                                    {view.stale ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">表单已改动，这批结果对应旧快照。</p> : null}
                                                     {view.images.length > 0 ? (
                                                         <div className="grid grid-cols-4 gap-2">
                                                             {view.images.map((image, index) => {
@@ -1028,7 +951,6 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                         ) : null}
                         {resultTab === "cases" ? (
                             <div data-testid="ai-dressing-v2-cases">
-                                {/* 复用共享案例卡：输入参考图缩略图（商品/参考图）+ 悬浮预览 + 真实「做同款」回填，套用失败有明确提示。 */}
                                 <ToolCases
                                     cases={AI_DRESSING_V2_CASES}
                                     onApply={(item) => applyCase(item)}
@@ -1045,6 +967,140 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                     </div>
                 </aside>
             </ToolWorkspaceColumns>
+
+            {maskModalSlot && activeMaskGarment?.imageUrl ? (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="调整选区"
+                    data-testid="dressing-mask-modal"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+                    onClick={() => setMaskModalSlot(null)}
+                >
+                    <div
+                        className="flex max-h-[85vh] w-full max-w-xl flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+                            <div>
+                                <h3 className="text-sm font-medium">调整选区 · {activeMaskMeta?.label ?? "服装"}</h3>
+                                <p className="text-[11px] text-muted-foreground">涂抹需要保留的服装部位，或点击「整件」自动全选</p>
+                            </div>
+                            <button
+                                type="button"
+                                aria-label="关闭调整选区弹窗"
+                                onClick={() => setMaskModalSlot(null)}
+                                className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                            >
+                                <X className="size-4" />
+                            </button>
+                        </div>
+                        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+                            <div className="relative mx-auto max-w-md overflow-hidden rounded-lg border border-border bg-muted">
+                                <img
+                                    src={activeMaskGarment.imageUrl}
+                                    alt={activeMaskMeta?.label ?? "服装"}
+                                    className="block max-h-[360px] w-full object-contain"
+                                    draggable={false}
+                                />
+                                <div
+                                    className="absolute inset-0 cursor-crosshair touch-none"
+                                    onPointerDown={startStroke(maskModalSlot)}
+                                    onPointerMove={moveStroke(maskModalSlot)}
+                                    onPointerUp={endStroke}
+                                    onPointerCancel={endStroke}
+                                    onPointerLeave={endStroke}
+                                >
+                                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+                                        {activeMaskGarment.mask.strokes.map((stroke) => (
+                                            <polyline
+                                                key={stroke.id}
+                                                points={stroke.points.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")}
+                                                fill="none"
+                                                stroke="rgba(56,189,248,0.45)"
+                                                strokeWidth={(stroke.size / Math.max(1, activeMaskGarment.width)) * 100}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        ))}
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2 text-xs">
+                                <button
+                                    type="button"
+                                    data-testid={`dressing-fill-${maskModalSlot}`}
+                                    onClick={() =>
+                                        setValues((prev) => ({
+                                            ...prev,
+                                            garments: {
+                                                ...prev.garments,
+                                                [maskModalSlot]: fillGarmentMask(prev.garments[maskModalSlot], strokeId()),
+                                            },
+                                        }))
+                                    }
+                                    className="rounded border border-border px-2.5 py-1 hover:bg-accent"
+                                >
+                                    整件
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={activeMaskGarment.past.length === 0}
+                                    onClick={() => maskHistory(maskModalSlot, "undo")}
+                                    className="rounded border border-border px-2.5 py-1 hover:bg-accent disabled:opacity-40"
+                                >
+                                    撤销
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={activeMaskGarment.future.length === 0}
+                                    onClick={() => maskHistory(maskModalSlot, "redo")}
+                                    className="rounded border border-border px-2.5 py-1 hover:bg-accent disabled:opacity-40"
+                                >
+                                    重做
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={activeMaskGarment.mask.strokes.length === 0}
+                                    onClick={() => maskHistory(maskModalSlot, "clear")}
+                                    className="rounded border border-border px-2.5 py-1 hover:bg-accent disabled:opacity-40"
+                                >
+                                    清空
+                                </button>
+                                <label className="flex items-center gap-1">
+                                    <input
+                                        type="checkbox"
+                                        checked={activeMaskGarment.mask.inverted}
+                                        onChange={(event) =>
+                                            patchGarment(maskModalSlot, { mask: { ...activeMaskGarment.mask, inverted: event.target.checked } })
+                                        }
+                                    />
+                                    反向
+                                </label>
+                                <label className="flex items-center gap-1">
+                                    <input
+                                        type="checkbox"
+                                        checked={activeMaskGarment.mask.autoExpand}
+                                        onChange={(event) =>
+                                            patchGarment(maskModalSlot, { mask: { ...activeMaskGarment.mask, autoExpand: event.target.checked } })
+                                        }
+                                    />
+                                    扩边
+                                </label>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-end border-t border-border px-4 py-3">
+                            <button
+                                type="button"
+                                onClick={() => setMaskModalSlot(null)}
+                                className="h-8 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                            >
+                                完成
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </section>
     );
 }

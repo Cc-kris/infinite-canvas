@@ -16,6 +16,7 @@ import { CircleAlert, Download, History, Inbox, Loader2, Move, Redo2, RotateCcw,
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
 import { RepairGuideCard } from "@/components/tools/workspaces/repair-guide";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
@@ -948,13 +949,17 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                         </button>
                     </div>
                     <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 pb-4 pt-2">
-                        {stale ? (
-                            <span data-testid="printing-repair-stale" className="w-fit rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] text-amber-700 dark:text-amber-300">来自旧版本</span>
-                        ) : null}
                         {resultTab === "history" ? (
-                            <p data-testid="printing-repair-history-empty" className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-                                暂无历史记录
-                            </p>
+                            <div data-testid="printing-repair-history-empty" className="min-h-0 flex-1">
+                                <ToolTaskHistory
+                                    toolId={PRINTING_REPAIR_TOOL_ID}
+                                    emptyHint="暂无历史记录"
+                                    onSelectTask={(historyTask) => {
+                                        setRun(printingRepairRunFromStoredTask(historyTask));
+                                        setResultTab("result");
+                                    }}
+                                />
+                            </div>
                         ) : view.imageUrl && base?.url ? (
                             <>
                                 <RegionCompare baseUrl={base.url} resultUrl={view.imageUrl} split={split} mode={compareMode} region={compareRegion(transform)} onSplit={(next) => setSplit(clampSplit01(next))} />

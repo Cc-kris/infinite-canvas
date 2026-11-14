@@ -31,6 +31,7 @@ import {
     buildReplaceGoodsInput,
     buildReplaceGoodsUnit,
     replaceGoodsOutcomeFromTask,
+    renderPlacementGuidePng,
     type ReplaceGoodsUnit,
     type ReplaceGoodsUnitOutcome,
 } from "@/features/tools/adapters/replace-goods";
@@ -152,6 +153,7 @@ function PerspectiveWarpCanvas({
     scene,
     quad,
     mask,
+    targetUrl,
     mode,
     tool,
     brush,
@@ -163,6 +165,7 @@ function PerspectiveWarpCanvas({
     scene: { url: string; width: number; height: number } | null;
     quad: ReplaceGoodsQuad;
     mask: ReplaceGoodsMask;
+    targetUrl?: string;
     mode: ReplaceGoodsWarpMode;
     tool: CanvasTool;
     brush: number;
@@ -176,6 +179,19 @@ function PerspectiveWarpCanvas({
     const [frame, setFrame] = useState({ width: 0, height: 0 });
     const [live, setLive] = useState<ReplaceGoodsQuad | null>(null);
     const [draft, setDraft] = useState<ReplaceGoodsPoint[] | null>(null);
+    const [targetPreview, setTargetPreview] = useState("");
+    const current = live ?? quad;
+    useEffect(() => {
+        let alive = true;
+        setTargetPreview("");
+        if (!scene || !targetUrl) return;
+        void loadImageElement(targetUrl).then((image) => renderPlacementGuidePng(scene, current, { image, width: image.naturalWidth, height: image.naturalHeight })).then((rendered) => {
+            if (alive) setTargetPreview(rendered.dataUrl);
+        }).catch(() => {
+            /* 像素渲染不可用时只隐藏预览，生成仍会由适配器明确拦截。 */
+        });
+        return () => { alive = false; };
+    }, [scene?.url, scene?.width, scene?.height, targetUrl, current]);
     const dragRef = useRef<{ kind: "corner"; corner: ReplaceGoodsCorner } | { kind: "move"; last: ReplaceGoodsPoint } | null>(null);
 
     useEffect(() => {
@@ -189,7 +205,6 @@ function PerspectiveWarpCanvas({
         return () => observer.disconnect();
     }, []);
 
-    const current = live ?? quad;
     const aspect = scene && scene.width > 0 && scene.height > 0 ? scene.width / scene.height : 1;
     const fitted = useMemo(() => {
         if (!frame.width || !frame.height) return null;
@@ -306,6 +321,7 @@ function PerspectiveWarpCanvas({
                 onPointerCancel={handleUp}
             >
                 <img src={scene.url} alt="参考场景" className="block h-full w-full object-contain" draggable={false} />
+                {targetPreview ? <img data-testid="replace-goods-target-preview" src={targetPreview} alt="商品落位预览" className="pointer-events-none absolute inset-0 size-full" draggable={false} /> : null}
                 <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <path
                         d={`M0 0 H100 V100 H0 Z ${points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x * 100} ${point.y * 100}`).join(" ")} Z`}
@@ -831,7 +847,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         <section className={cn("flex h-full min-h-0 flex-col bg-background p-[10px]", className)} data-testid="replace-goods-workspace">
             <ToolWorkspaceColumns
                 configSide="right"
-                className="min-h-0 flex-1 gap-[10px] overflow-hidden"
+                className="min-h-0 flex-1 gap-[10px] overflow-hidden lg:grid-cols-[minmax(0,1fr)_504px]"
                 config={
                     <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-lg bg-canvas" aria-label="生成结果与案例">
                         <div role="tablist" aria-label="结果区页签" className="flex h-[42px] shrink-0 items-center gap-3.5 bg-card px-3">
@@ -871,7 +887,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 <>
                                     {notice ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">{notice}</p> : null}
                                     {submitError ? <p data-testid="replace-goods-submit-error" className="text-[11px] leading-4 text-destructive">{submitError}</p> : null}
-                                    {stale ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">当前配置已变更，下面结果来自旧版本。</p> : null}
 
                                     {task ? (
                                         <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
@@ -886,19 +901,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                         </div>
                                     )}
 
-                                    {unit ? (
-                                        <details data-testid="replace-goods-snapshot" className="rounded-[6px] border border-border px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
-                                            <summary className="cursor-pointer text-[11px] text-foreground">本次输入快照</summary>
-                                            <ul className="mt-1.5 space-y-0.5">
-                                                <li>SKU：{unit.snapshot.skuLabel}（{unit.id}）</li>
-                                                <li>场景：{unit.snapshot.sceneName || "—"} {unit.snapshot.sceneWidth}×{unit.snapshot.sceneHeight}</li>
-                                                <li>替换商品：{unit.snapshot.targetName || "—"} {unit.snapshot.targetWidth}×{unit.snapshot.targetHeight}</li>
-                                                <li>中心点 {unit.snapshot.point.x.toFixed(3)}, {unit.snapshot.point.y.toFixed(3)} · 缩放 {unit.snapshot.scale.toFixed(2)}× · 旋转 {unit.snapshot.rotate.toFixed(1)}°</li>
-                                                <li>字段 {Object.keys(unit.fields).length} 个 · snapshotHash {unit.snapshotHash}</li>
-                                                <li>参考图 {unit.references.length} 张（场景 / 替换商品 / 落位导引 / 保护蒙版）</li>
-                                            </ul>
-                                        </details>
-                                    ) : null}
                                     {outcome && outcome.images.length > 0 ? (
                                         <div className="grid grid-cols-2 gap-2" data-testid="replace-goods-results">
                                             {outcome.images.map((image, index) => {
@@ -1128,6 +1130,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 tool={canvasTool}
                                 brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
                                 mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
+                                targetUrl={target?.url}
                                 disabled={!scene}
                                 onQuad={commitQuad}
                                 onStroke={commitStroke}

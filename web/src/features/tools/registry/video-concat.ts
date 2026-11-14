@@ -391,8 +391,9 @@ export function validateVideoConcatState(input: {
         issues.push({ code: "ratio-invalid", field: "videoRatio", message: `不支持的输出比例：${state.videoRatio}` });
     }
 
-    if (!model) {
-        issues.push({ code: "model-missing", field: "editType", message: "未选择视频模型" });
+    // 本地 FFmpeg 调用不填 model；旧 gateway 显式传 model 时仍保留原有模型校验。
+    if (input.model !== undefined && !model) {
+        issues.push({ code: "model-missing", field: "model", message: "未选择视频模型" });
     }
 
     return issues;

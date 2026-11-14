@@ -1,18 +1,7 @@
 /**
- * VIDEO_TRANSLATION 诚实能力边界（r27 协议调查，提交 1ef24fba）。
- *
- * 事实依据 `docs/V1.0/plan_linkfox_navigation/reports/vt-protocol-r27/REPORT.md`：
- *   - 上游 sub2api `/v1/videos`（MiniMax-H3）只有 model/prompt/seconds/size/ratio/resolution_name/generate_audio/watermark，
- *     没有 sourceLanguage / targetLanguage / lipSync / 字幕字段；
- *   - 语言只能写进提示词，r24 内容级复验输出中文旁白、无字幕 → 无法承诺「换成目标语言」；
- *   - 真正的译制契约是 LinkFox `type=96 / bizType=814` + `SEED_V25`（渠道 DOUBAO_API），我方未接入。
- *
- * 因此面板必须持续说明「当前为 AI 视频重生成，非逐句翻译/口型对齐」，并且：
- *   - 语言选择只影响提示词；
- *   - 口型同步置灰并说明原因（不静默丢参）；
- *   - 结果标为「未验证翻译」草稿，禁止出现「翻译完成/已译制/已对口型/已生成字幕/已识别源语言」。
- *
- * 文案放 i18n（zh-CN / en-US 两套），组件只负责渲染，便于测试断言两种语言都不出现虚假承诺。
+ * VIDEO_TRANSLATION 能力边界：原片译制与历史重生成任务必须明确区分。
+ * 当前新任务由独立 ASR/文本翻译/TTS/FFmpeg 管线执行；口型同步仍未实现。
+ * 共享 i18n 由父会话维护；本工作区对新增管线文案使用本地中文说明。
  */
 
 import { AlertTriangle, FileWarning } from "lucide-react";
@@ -73,16 +62,14 @@ export function videoTranslationHonestyCopy(locale?: string): VideoTranslationHo
 }
 
 /**
- * 面板顶部常驻的琥珀色提示：不能折叠、不能关闭。
- * 文案要点（报告 §6.1）：可选择目标语言，但它只会作为提示词发送，不保证换语言；
- * 不会生成译制字幕或口型对齐。
+ * 文案由调用方区分新原片管线与历史重生成任务；口型同步仍未实现。
  */
 export function VideoTranslationHonestyNotice({ className, copy }: { className?: string; copy?: VideoTranslationHonestyCopy }) {
     const text = copy ?? videoTranslationHonestyCopy();
     return (
         <section
             data-testid="video-translation-honesty-notice"
-            data-capability="ai-regeneration"
+            data-capability="source-preserving-translation"
             role="note"
             aria-live="polite"
             className={cn(
@@ -105,13 +92,13 @@ export function VideoTranslationHonestyNotice({ className, copy }: { className?:
     );
 }
 
-/** 结果区徽标：结果只能当「未验证翻译」草稿。 */
-export function VideoTranslationDraftBadge({ className, copy }: { className?: string; copy?: VideoTranslationHonestyCopy }) {
+/** 结果区徽标：新译制需人工核对；历史重生成仍使用旧「未验证翻译」文案。 */
+export function VideoTranslationDraftBadge({ className, copy, legacy = false }: { className?: string; copy?: VideoTranslationHonestyCopy; legacy?: boolean }) {
     const text = copy ?? videoTranslationHonestyCopy();
     return (
         <span
             data-testid="video-translation-draft-badge"
-            data-capability="unverified-translation"
+            data-capability={legacy ? "unverified-translation" : "source-preserving-translation-result"}
             className={cn(
                 "inline-flex items-center gap-1 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[11px] text-amber-700",
                 "dark:text-amber-300",

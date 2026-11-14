@@ -18,20 +18,53 @@ import { cn } from "@/lib/utils";
 /** LinkFox 原站主流配置列宽：普通工具 300px，画布类工具 360px。 */
 export const TOOL_CONFIG_WIDTH = 300;
 export const TOOL_CONFIG_WIDTH_CANVAS = 360;
+export const TOOL_CONFIG_WIDTH_SUITE = 504;
+export const TOOL_CONFIG_WIDTH_EDIT = 240;
 export const TOOL_CONFIG_MIN_WIDTH = 240;
 export const TOOL_CONFIG_MAX_WIDTH = TOOL_CONFIG_WIDTH;
 export const TOOL_CONFIG_MAX_WIDTH_CANVAS = TOOL_CONFIG_WIDTH_CANVAS;
 
+export type ToolConfigWidth = 240 | 255 | 270 | 296 | 300 | 307 | 330 | 360 | 504;
+
+const LEFT_TEMPLATES: Record<ToolConfigWidth, string> = {
+    240: "lg:grid-cols-[240px_minmax(0,1fr)]",
+    255: "lg:grid-cols-[255px_minmax(0,1fr)]",
+    270: "lg:grid-cols-[270px_minmax(0,1fr)]",
+    296: "lg:grid-cols-[296px_minmax(0,1fr)]",
+    300: "lg:grid-cols-[300px_minmax(0,1fr)]",
+    307: "lg:grid-cols-[307px_minmax(0,1fr)]",
+    330: "lg:grid-cols-[330px_minmax(0,1fr)]",
+    360: "lg:grid-cols-[360px_minmax(0,1fr)]",
+    504: "lg:grid-cols-[504px_minmax(0,1fr)]",
+};
+
+const RIGHT_TEMPLATES: Record<ToolConfigWidth, string> = {
+    240: "lg:grid-cols-[minmax(0,1fr)_240px]",
+    255: "lg:grid-cols-[minmax(0,1fr)_255px]",
+    270: "lg:grid-cols-[minmax(0,1fr)_270px]",
+    296: "lg:grid-cols-[minmax(0,1fr)_296px]",
+    300: "lg:grid-cols-[minmax(0,1fr)_300px]",
+    307: "lg:grid-cols-[minmax(0,1fr)_307px]",
+    330: "lg:grid-cols-[minmax(0,1fr)_330px]",
+    360: "lg:grid-cols-[minmax(0,1fr)_360px]",
+    504: "lg:grid-cols-[minmax(0,1fr)_504px]",
+};
+
 export interface ToolWorkspaceColumnsProps {
-    /** 左列：配置/参数面板。必须承载真实控件，不是占位。 */
+    /** 配置/参数面板（双栏在左或右；三栏在中间 240px）。必须承载真实控件，不是占位。 */
     config: ReactNode;
-    /** 右列：结果网格 / 画布 / 编辑器。 */
+    /** 主区：结果网格 / 画布 / 编辑器。 */
     children: ReactNode;
-    /** 画布类页面（图层、蒙版、裁剪、设计器）允许配置栏扩到 420px。 */
+    /** 修图家族三栏模式右侧 300px 结果与历史栏（提供时自动启用 `minmax(0,1fr) | 240px | 300px`）。 */
+    resultSlot?: ReactNode;
+    /** 画布类页面（图层、蒙版、裁剪、设计器）默认配置栏宽度。 */
     canvas?: boolean;
+    /** 原站家族规范化配置列宽（套图 504px、修图 240px、设计 255/270/296/300/307/330px）。 */
+    configWidth?: ToolConfigWidth;
     className?: string;
     configClassName?: string;
     mainClassName?: string;
+    resultClassName?: string;
     /** 右列在移动端是否排到配置栏上方（结果优先，如视频播放/纯预览页）。 */
     mainFirstOnMobile?: boolean;
     /**
@@ -44,49 +77,60 @@ export interface ToolWorkspaceColumnsProps {
 export function ToolWorkspaceColumns({
     config,
     children,
+    resultSlot,
     canvas = false,
+    configWidth,
     className,
     configClassName,
     mainClassName,
+    resultClassName,
     mainFirstOnMobile = false,
     configSide = "left",
 }: ToolWorkspaceColumnsProps) {
-    // ⚠️ Tailwind 只识别静态字面量类名：这里必须是写死的字符串，不能用模板拼接，
-    // 否则 JIT 扫不到、CSS 不生成、两列会退化成单列全宽（已实测踩过）。
-    const LEFT_CANVAS = "lg:grid-cols-[360px_minmax(0,1fr)]";
-    const LEFT_DEFAULT = "lg:grid-cols-[300px_minmax(0,1fr)]";
-    const RIGHT_CANVAS = "lg:grid-cols-[minmax(0,1fr)_360px]";
-    const RIGHT_DEFAULT = "lg:grid-cols-[minmax(0,1fr)_300px]";
-    const reversed = configSide === "right";
-    const gridTemplate = reversed ? (canvas ? RIGHT_CANVAS : RIGHT_DEFAULT) : canvas ? LEFT_CANVAS : LEFT_DEFAULT;
+    // ⚠️ Tailwind 只识别静态字面量类名：这里必须是写死的字符串，不能用模板拼接。
+    const effectiveWidth: ToolConfigWidth = configWidth ?? (resultSlot !== undefined ? 240 : canvas ? 360 : 300);
+    const reversed = resultSlot !== undefined || configSide === "right";
+    const gridTemplate =
+        resultSlot !== undefined
+            ? "lg:grid-cols-[minmax(0,1fr)_240px_300px]"
+            : reversed
+              ? RIGHT_TEMPLATES[effectiveWidth]
+              : LEFT_TEMPLATES[effectiveWidth];
 
     const configCol = (
         <div
             key="config"
             data-testid="tool-config-column"
-            className={cn("flex min-h-0 min-w-0 flex-col gap-3", configClassName)}
+            className={cn("flex min-h-0 min-w-0 flex-col gap-[10px]", configClassName)}
         >
             {config}
         </div>
     );
     const mainCol = (
-        <div key="main" data-testid="tool-main-column" className={cn("flex min-h-0 min-w-0 flex-col gap-3", mainClassName)}>
+        <div key="main" data-testid="tool-main-column" className={cn("flex min-h-0 min-w-0 flex-col gap-[10px]", mainClassName)}>
             {children}
         </div>
     );
+    const resultCol =
+        resultSlot !== undefined ? (
+            <div key="result" data-testid="tool-result-column" className={cn("flex min-h-0 min-w-0 flex-col gap-[10px]", resultClassName)}>
+                {resultSlot}
+            </div>
+        ) : null;
 
     // 顺序靠 DOM 顺序决定（不靠 order-*）：配置在右时主区先渲染，
     // 栅格模板同步右置；移动端自然变成「主区在上、配置在下」，这也正是画布工具该有的堆叠。
-    const ordered = reversed ? [mainCol, configCol] : [configCol, mainCol];
+    const ordered = resultCol ? [mainCol, configCol, resultCol] : reversed ? [mainCol, configCol] : [configCol, mainCol];
 
     return (
         <div
             data-testid="tool-workspace-columns"
-            data-canvas={canvas ? "true" : "false"}
-            data-config-side={configSide}
-            className={cn("grid min-h-0 min-w-0 grid-cols-1 gap-3", gridTemplate, className)}
+            data-canvas={canvas || resultSlot !== undefined ? "true" : "false"}
+            data-config-side={resultSlot !== undefined ? "right" : configSide}
+            data-config-width={effectiveWidth}
+            className={cn("grid min-h-0 min-w-0 grid-cols-1 gap-[10px] p-[10px]", gridTemplate, className)}
         >
-            {mainFirstOnMobile && !reversed ? [mainCol, configCol] : ordered}
+            {mainFirstOnMobile && !reversed && !resultCol ? [mainCol, configCol] : ordered}
         </div>
     );
 }

@@ -37,8 +37,12 @@ const {
     ToolRouteView,
 } = await import("./tool-page");
 const { toolSpecs } = await import("./registry");
+const { additionalToolSpecs } = await import("./registry/additional-tools");
 
-const catalog = buildToolCatalog({ "./registry/index.ts": { toolSpecs } });
+const catalog = buildToolCatalog({
+    "./registry/index.ts": { toolSpecs },
+    "./registry/additional-tools.ts": { additionalToolSpecs },
+});
 
 function render(element: ReactElement, path: string) {
     return renderToStaticMarkup(<MemoryRouter initialEntries={[path]}>{element}</MemoryRouter>);
@@ -55,7 +59,7 @@ afterAll(() => {
 
 describe("TASK-INTEGRATE workspace map", () => {
     test("maps exactly the registry tool ids, with no duplicates and no extras", () => {
-        const registryIds = toolSpecs.map((spec) => spec.id);
+        const registryIds = [...toolSpecs, ...additionalToolSpecs].map((spec) => spec.id);
         expect(new Set(registryIds).size).toBe(registryIds.length);
         expect(new Set(TOOL_WORKSPACE_IDS).size).toBe(TOOL_WORKSPACE_IDS.length);
         const mappedIds: string[] = [...TOOL_WORKSPACE_IDS];
@@ -65,7 +69,7 @@ describe("TASK-INTEGRATE workspace map", () => {
 
     test("resolves a real workspace for every registry entry at its canonical route", () => {
         const missing: string[] = [];
-        for (const spec of toolSpecs) {
+        for (const spec of [...toolSpecs, ...additionalToolSpecs]) {
             const match = resolveToolRoute({ category: spec.category, toolId: spec.slug }, catalog);
             if (match.type !== "tool") {
                 missing.push(`${spec.id}: route resolved to ${match.type}`);
@@ -79,7 +83,7 @@ describe("TASK-INTEGRATE workspace map", () => {
 
     test("renders the workspace markup instead of the specification placeholder for every tool", () => {
         const failures: string[] = [];
-        for (const spec of toolSpecs) {
+        for (const spec of [...toolSpecs, ...additionalToolSpecs]) {
             const html = renderTool(spec.category, spec.slug);
             if (!html.includes('data-testid="tool-workspace"')) failures.push(`${spec.id}: no workspace wrapper`);
             if (html.includes('data-testid="tool-workspace-placeholder"')) failures.push(`${spec.id}: still placeholder`);
@@ -131,16 +135,39 @@ describe("TASK-INTEGRATE unchanged route contract", () => {
         expect(renderTool("ecommerce-suite", "nope")).not.toContain('data-testid="tool-workspace"');
     });
 
-    test("sidebar scopes itself to the active category, like the reference rail", () => {
-        /*
-         * LinkFox 工具页左栏是该工具所属族的纵向 rail，不是整个分类的注册表列表。
-         * 这里锁住真实契约：当前工具与同族工具可跳转，其它分类工具不出现在同一栏里。
-         */
+    test("sidebar uses the registered category catalogue without original-site placeholders", () => {
         const html = renderTool("ecommerce-suite", "product-image-suite");
-        expect(html).toContain('data-testid="tool-family-rail-sidebar"');
+        expect(html).toContain('data-testid="tool-category-navigation"');
+        expect(html).not.toContain('data-testid="tool-family-rail-sidebar"');
         expect(html).toContain('href="/tools/ecommerce-suite/dress-wear-set"');
         expect(html).toContain('href="/tools/ecommerce-suite/change-color-v2"');
         expect(html).not.toContain('href="/tools/product-design/ai-text"');
+        // Workspaces retain hidden reference rails. Only the visible sidebar is authoritative.
+        const sidebar = html.match(/<aside[^>]*data-testid="tool-sidebar"[\s\S]*?<\/aside>/)?.[0] ?? "";
+        for (const label of ["白底图", "爆款图复刻"]) expect(sidebar).toContain(label);
+        expect(sidebar).not.toContain('aria-disabled="true"');
+    });
+
+    test("extra tools are real routes, not original-site placeholders", () => {
+        for (const [category, slug, label] of [
+            ["ecommerce-suite", "white-background", "白底图"],
+            ["ecommerce-suite", "image-replication", "爆款图复刻"],
+            ["smart-edit", "batch-matting", "批量抠图"],
+        ]) {
+            const html = renderTool(category, slug);
+            expect(html).toContain('data-testid="tool-workspace"');
+            expect(html).not.toContain('data-testid="tool-workspace-placeholder"');
+            expect(html).toContain(label);
+            expect(html).not.toContain("原站入口，本地未开通");
+        }
+    });
+
+    test("every registered design tool remains reachable from the same sidebar", () => {
+        const html = renderTool("product-design", "ai-wearable");
+        const sidebar = html.match(/<aside[^>]*data-testid="tool-sidebar"[\s\S]*?<\/aside>/)?.[0] ?? "";
+        for (const entry of catalog.entries.filter((entry) => entry.category === "product-design")) {
+            expect(sidebar).toContain(`href="/tools/product-design/${entry.slug}"`);
+        }
     });
 
     test("feature flag: a disabled leading tool is skipped by the category default", () => {

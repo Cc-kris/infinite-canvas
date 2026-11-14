@@ -8,7 +8,6 @@ import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
-import { OrigRail, PRODUCT_DESIGN_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
@@ -944,7 +943,6 @@ export function SdsDesignWorkspace() {
 
     return (
         <div className="flex flex-col gap-[10px]" data-tool-workspace="sds-design" data-variant="sds-1to1">
-            <OrigRail items={PRODUCT_DESIGN_RAIL} active="素材贴合" driver testId="sds-family-rail" label="素材和灵感" className="order-first w-full" />
             <ToolWorkspaceColumns
                 configSide="right"
                 className="min-h-0 flex-1 overflow-y-auto"
@@ -1042,20 +1040,6 @@ export function SdsDesignWorkspace() {
 
                             {stageHasContent ? (
                                 <>
-                                    {result.stale ? (
-                                        <p className="rounded-[8px] border border-amber-500/30 bg-amber-500/10 px-2 py-1.5 text-[12px] text-amber-700 dark:text-amber-300">
-                                            结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
-                                        </p>
-                                    ) : null}
-                                    {/* page-spec 24 §4：查看本次输入快照（提交时锁定的配置）。 */}
-                                    {snapshot ? (
-                                        <details className="rounded-[8px] border border-border bg-card px-2 py-1.5">
-                                            <summary className="cursor-pointer text-[12px] text-muted-foreground">查看本次输入快照</summary>
-                                            <pre className="mt-1 max-h-40 overflow-auto whitespace-pre-wrap text-[11px] leading-4 text-foreground">
-                                                {sdsSnapshotSummary(snapshot)}
-                                            </pre>
-                                        </details>
-                                    ) : null}
                                     {resultNotice ? (
                                         <p className="rounded-[8px] border border-border bg-card px-2 py-1.5 text-[12px] text-muted-foreground">
                                             {resultNotice}
@@ -1233,27 +1217,6 @@ export function SdsDesignWorkspace() {
                     <p className="-mt-1 px-1 text-[12px] leading-[18px] text-muted-foreground">
                         预计输出 {sdsExpectedOutputCount(values)} 张（与素材一一对应）
                     </p>
-
-                    {/* 素材名（提交字段 imageName，可编辑；默认取第一个素材名）：原站首屏没有，收进折叠 */}
-                    <details className="group/sds px-1">
-                        <summary className="cursor-pointer list-none text-[12px] leading-[19px] text-muted-foreground [&::-webkit-details-marker]:hidden">
-                            <span className="inline-flex items-center gap-1">
-                                <ChevronRight aria-hidden="true" className="size-3.5 transition group-open/sds:rotate-90" />
-                                更多设置
-                            </span>
-                        </summary>
-                        <label className="mt-2 block rounded-[8px] bg-card/70 px-[16px] py-[10px]">
-                            <span className="text-[12px] leading-[19px] text-muted-foreground">素材名</span>
-                            <input
-                                className="mt-[7px] h-[36px] w-full rounded-[8px] border border-border bg-card px-3 text-[14px] text-foreground outline-none focus:border-primary"
-                                value={values.imageName}
-                                placeholder="默认取第一个素材文件名"
-                                maxLength={60}
-                                disabled={running}
-                                onChange={(event) => update((previous) => ({ ...previous, imageName: event.target.value }))}
-                            />
-                        </label>
-                    </details>
 
                     {/* 当前选中素材的平铺方式（TilingPresetSelect，page-spec 24 §6） */}
                     {sdsSelectedMaterial(values) ? (

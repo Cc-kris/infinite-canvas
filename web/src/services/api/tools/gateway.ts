@@ -108,6 +108,7 @@ const TOOL_ADAPTER_TABLE = {
     AI_VIDEO_EDITING: { kind: "video", requiresReferences: true, requiresVideo: true, promptRequired: true, fields: ["duration", "outputNum", "prompt", "refImageUrls", "sourceVideoDuration", "sourceVideoUrl", "videoType"] },
     VIDEO_TRANSLATION: { kind: "video", requiresReferences: false, requiresVideo: true, promptRequired: true, fields: ["lipSync", "outputNum", "sourceLanguage", "sourceVideoName", "sourceVideoUrl", "targetLanguage", "videoType"] },
     VIDEO_CONCAT: { kind: "video", requiresReferences: true, requiresVideo: true, promptRequired: true, fields: ["editType", "imageFormat", "imageHeight", "imageSize", "imageUrl", "imageWidth", "videoCoverUrl", "videoList", "videoRatio", "videoTime"] },
+    IMAGE_REPLICATION: { kind: "image", requiresReferences: true, requiresVideo: false, promptRequired: true, fields: ["mode", "quality", "count", "market", "language", "productInfo", "productAssetIds", "layoutAssetId"] },
 } as const satisfies Record<string, ToolAdapterDefinition>;
 
 export type ToolId = keyof typeof TOOL_ADAPTER_TABLE;

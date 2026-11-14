@@ -7,14 +7,13 @@ import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
-import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { uploadCaseFile, uploadCaseFiles } from "@/features/tools/case-apply";
 import { AI_WEARABLE_CASES, AI_WEARABLE_GUIDE_CASES, DESIGN_TRY_DEMOS } from "@/features/tools/tool-cases-data";
 import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
 import { DESIGN_GUIDE_PORTRAIT, DESIGN_ICON_FEATURE, DESIGN_UPLOAD_DROPZONE, DESIGN_UPLOAD_PANEL, TryDemoStrip, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 import { adoptLibraryAsset, toolAssetLibraryItemsFromAssets, uploadToolAsset, loadToolAssetRecords, type ToolAssetLibraryItem, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { useAssetStore, type ImageAsset } from "@/stores/use-asset-store";
-import { ChevronRight, Footprints, Gem, Glasses, History as HistoryIcon, ImageIcon, ShoppingBag, Watch, X } from "lucide-react";
+import { ChevronRight, Footprints, Gem, Glasses, History as HistoryIcon, ImageIcon, ShoppingBag, SlidersHorizontal, Watch, X } from "lucide-react";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -514,6 +513,8 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
     const [historyOpen, setHistoryOpen] = useState(false);
     /** 选择卡弹层：品类 / 模特；同一时刻只开一个（原站 ant-popover 行为）。 */
     const [picker, setPicker] = useState<"category" | "model" | null>(null);
+    /** 微调穿戴位置弹窗（商品蒙版 + 目标蒙版）。 */
+    const [positionModalOpen, setPositionModalOpen] = useState(false);
     /** 上传卡的两个库入口弹层。 */
     const [libraryOpen, setLibraryOpen] = useState<"works" | "goods" | null>(null);
     const categoryTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -883,8 +884,6 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
 
     return (
         <div data-testid="dress-workspace" className={cn("flex flex-col gap-3", className)}>
-            <OrigRail items={WEAR_RAIL} active="AI穿戴" driver testId="ai-wearable-rail" />
-
             {restoring ? (
                 <p data-testid="dress-restoring" className="rounded-lg border border-border bg-card px-3 py-2 text-[11px] text-muted-foreground">
                     正在恢复上次的素材…
@@ -897,7 +896,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
             ) : null}
 
             <ToolWorkspaceColumns
-                className="lg:h-[calc(100dvh-76px)]"
+                className="lg:h-[calc(100dvh-56px)]"
                 config={
                     <div className="flex h-full min-h-0 flex-col overflow-y-auto rounded-[8px] bg-card px-4 pt-[10px]">
                         <section data-testid="dress-product-upload">
@@ -1050,7 +1049,20 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                         </section>
 
                         <section data-testid="dress-model" className="space-y-[10px] pt-[15px]">
-                            <p className="text-[12px] leading-[19px] text-muted-foreground">选择穿戴模特</p>
+                            <div className="flex items-center justify-between">
+                                <p className="text-[12px] leading-[19px] text-muted-foreground">选择穿戴模特</p>
+                                {(product || modelAsset) ? (
+                                    <button
+                                        type="button"
+                                        data-testid="dress-open-position-modal"
+                                        onClick={() => setPositionModalOpen(true)}
+                                        className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
+                                    >
+                                        <SlidersHorizontal className="size-3" aria-hidden />
+                                        微调穿戴位置
+                                    </button>
+                                ) : null}
+                            </div>
                             <PickerCard
                                 testId="dress-model-card"
                                 title="选择穿戴模特"
@@ -1068,7 +1080,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     anchor={modelTriggerRef.current}
                                     testId="dress-model-panel"
                                     title="选择穿戴模特"
-                                    hint="原站这里是模特库（智能推荐/我的/收藏/采集素材）。本机没有账号级模特库，不伪造模特数据，只能从本地上传或作品库选择。"
+                                    hint="支持上传模特参考图或从作品库选择。"
                                     onClose={() => setPicker(null)}
                                     width={420}
                                 >
@@ -1119,78 +1131,6 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 Tips：为您的穿戴商品选择与原图<span className="text-foreground">角度、部位与画面占比</span>相近的模特参考，生成的效果更好哦！
                             </p>
                         </section>
-
-                        {/* 原站首屏没有的蒙版微调（真实提交 productMask / targetMask），收进「更多设置」默认折叠 */}
-                        <details data-testid="dress-more-settings" className="group/more mt-[10px] text-[12px] leading-[18px] text-muted-foreground">
-                            <summary className="cursor-pointer list-none py-1 hover:text-foreground [&::-webkit-details-marker]:hidden">
-                                <span className="inline-flex items-center gap-1">
-                                    <ChevronRight aria-hidden="true" className="size-3.5 transition group-open/more:rotate-90" />
-                                    更多设置
-                                </span>
-                            </summary>
-                            <div className="mt-[6px] space-y-2">
-                            <details className="rounded-[6px] border border-border bg-background px-2 py-1.5" data-testid="dress-product-mask">
-                                <summary className="cursor-pointer text-[11px] leading-4 text-muted-foreground">穿戴区域微调（商品蒙版）</summary>
-                                <div className="mt-2">
-                                    <MaskEditor
-                                        label="商品蒙版"
-                                        hint="圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸"
-                                        imageUrl={product?.url}
-                                        history={productMask}
-                                        onSet={applyProductMask}
-                                        onUndo={() =>
-                                            setProductMask((history) => {
-                                                const previous = history.past[history.past.length - 1];
-                                                if (!previous) return history;
-                                                update({ productRegion: previous });
-                                                return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
-                                            })
-                                        }
-                                        onRedo={() =>
-                                            setProductMask((history) => {
-                                                const next = history.future[0];
-                                                if (!next) return history;
-                                                update({ productRegion: next });
-                                                return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
-                                            })
-                                        }
-                                        disabled={running}
-                                        testId="dress-mask-product"
-                                    />
-                                </div>
-                            </details>
-                            <details className="rounded-[6px] border border-border bg-background px-2 py-1.5" data-testid="dress-target-mask">
-                                <summary className="cursor-pointer text-[11px] leading-4 text-muted-foreground">穿戴区域微调（模特蒙版）</summary>
-                                <div className="mt-2">
-                                    <MaskEditor
-                                        label="目标蒙版"
-                                        hint="圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸"
-                                        imageUrl={modelAsset?.url}
-                                        history={targetMask}
-                                        onSet={applyTargetMask}
-                                        onUndo={() =>
-                                            setTargetMask((history) => {
-                                                const previous = history.past[history.past.length - 1];
-                                                if (!previous) return history;
-                                                update({ targetRegion: previous });
-                                                return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
-                                            })
-                                        }
-                                        onRedo={() =>
-                                            setTargetMask((history) => {
-                                                const next = history.future[0];
-                                                if (!next) return history;
-                                                update({ targetRegion: next });
-                                                return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
-                                            })
-                                        }
-                                        disabled={running}
-                                        testId="dress-mask-target"
-                                    />
-                                </div>
-                            </details>
-                            </div>
-                        </details>
 
                         {/* 原站主按钮吸底 268×32：sticky 保证在滚动末端可达，不被父级裁切 */}
                         <div className="sticky bottom-0 z-10 mt-auto flex w-[268px] flex-col gap-1.5 bg-card pb-1 pt-2">
@@ -1287,36 +1227,29 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                             />
                         </Section>
                     ) : rightTab === "result" ? (
-                        <>
-                            {/* 原站结果区没有二级「生成结果」标题：Tab 即标题，空态是三步引导卡 + 一键做同款 */}
-                            <section data-testid="dress-results-section" className="flex flex-1 flex-col gap-2 px-4 pb-4">
-                                {task || running ? (
-                                    <p className="text-right text-[11px] text-muted-foreground">
-                                        本次 {values.outputNum} 张 · 已返回 {result.cells.filter((cell) => cell.status === "succeeded").length} 张
-                                    </p>
-                                ) : null}
-                                {drift && task ? (
-                                    <p data-testid="dress-stale" className="rounded-md bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300">
-                                        配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
-                                    </p>
-                                ) : null}
-                                {result.cells.some((cell) => cell.status === "succeeded" || cell.status === "failed") || running ? (
-                                    <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
-                                ) : (
-                                    <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-1 flex-col items-center justify-center" data-testid="dress-empty">
-                                        <ToolCaseGuide
-                                            className={DESIGN_GUIDE_PORTRAIT}
-                                            title="选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图"
-                                            cases={AI_WEARABLE_GUIDE_CASES}
-                                            applyingId={applyingCaseId}
-                                            onApply={applyCase}
-                                        />
-                                    </div>
-                                )}
-                            </section>
-
-                            {task ? <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} /> : null}
-                        </>
+                        <section data-testid="dress-results-section" className="flex flex-1 flex-col gap-2 px-4 pb-4">
+                            {task ? (
+                                <ToolResult
+                                    task={task}
+                                    toolId={toolId}
+                                    title="生成结果"
+                                    sourceUrl={product?.url}
+                                    onCancel={running ? cancel : undefined}
+                                />
+                            ) : result.cells.some((cell) => cell.status === "succeeded" || cell.status === "failed") || running ? (
+                                <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
+                            ) : (
+                                <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-1 flex-col items-center justify-center" data-testid="dress-empty">
+                                    <ToolCaseGuide
+                                        className={DESIGN_GUIDE_PORTRAIT}
+                                        title="选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图"
+                                        cases={AI_WEARABLE_GUIDE_CASES}
+                                        applyingId={applyingCaseId}
+                                        onApply={applyCase}
+                                    />
+                                </div>
+                            )}
+                        </section>
                     ) : (
                         <Section title="优秀案例" testId="dress-cases">
                             <ToolCases cases={AI_WEARABLE_CASES} applyingId={applyingCaseId} onApply={applyCase} emptyHint="暂无优秀案例" />
@@ -1324,6 +1257,98 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                     )}
                 </section>
             </ToolWorkspaceColumns>
+
+            {positionModalOpen ? (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="微调穿戴位置"
+                    data-testid="dress-position-modal"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+                    onClick={() => setPositionModalOpen(false)}
+                >
+                    <div
+                        className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+                            <div>
+                                <h3 className="text-sm font-medium">微调穿戴位置</h3>
+                                <p className="text-[11px] text-muted-foreground">调整商品主体区域与模特身上的穿戴目标区域</p>
+                            </div>
+                            <button
+                                type="button"
+                                aria-label="关闭微调穿戴位置弹窗"
+                                onClick={() => setPositionModalOpen(false)}
+                                className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                            >
+                                <X className="size-4" />
+                            </button>
+                        </div>
+                        <div className="min-h-0 flex-1 grid gap-4 overflow-y-auto p-4 sm:grid-cols-2">
+                            <MaskEditor
+                                label="商品蒙版"
+                                hint="圈出要穿戴的商品主体"
+                                imageUrl={product?.url}
+                                history={productMask}
+                                onSet={applyProductMask}
+                                onUndo={() =>
+                                    setProductMask((history) => {
+                                        const previous = history.past[history.past.length - 1];
+                                        if (!previous) return history;
+                                        update({ productRegion: previous });
+                                        return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
+                                    })
+                                }
+                                onRedo={() =>
+                                    setProductMask((history) => {
+                                        const next = history.future[0];
+                                        if (!next) return history;
+                                        update({ productRegion: next });
+                                        return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
+                                    })
+                                }
+                                disabled={running}
+                                testId="dress-mask-product"
+                            />
+                            <MaskEditor
+                                label="目标蒙版"
+                                hint="圈出模特身上的目标穿戴区域"
+                                imageUrl={modelAsset?.url}
+                                history={targetMask}
+                                onSet={applyTargetMask}
+                                onUndo={() =>
+                                    setTargetMask((history) => {
+                                        const previous = history.past[history.past.length - 1];
+                                        if (!previous) return history;
+                                        update({ targetRegion: previous });
+                                        return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
+                                    })
+                                }
+                                onRedo={() =>
+                                    setTargetMask((history) => {
+                                        const next = history.future[0];
+                                        if (!next) return history;
+                                        update({ targetRegion: next });
+                                        return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
+                                    })
+                                }
+                                disabled={running}
+                                testId="dress-mask-target"
+                            />
+                        </div>
+                        <div className="flex items-center justify-end border-t border-border px-4 py-3">
+                            <button
+                                type="button"
+                                onClick={() => setPositionModalOpen(false)}
+                                className="h-8 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                            >
+                                完成
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </div>
     );
 }

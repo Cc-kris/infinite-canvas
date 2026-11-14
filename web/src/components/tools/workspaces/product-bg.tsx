@@ -1,9 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, ChevronLeft, Image as ImageIcon, Info, Lightbulb, Pencil, RotateCcw, Shapes, ShoppingBag, Search, Trash2, Upload, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, FlipHorizontal2, FlipVertical2, Image as ImageIcon, Info, Layers2, Lightbulb, Pencil, RotateCcw, Shapes, ShoppingBag, Search, Trash2, Upload, X } from "lucide-react";
 
 import { ToolResult } from "@/components/tools/tool-result";
 import { ProductBgCutout } from "@/components/tools/workspaces/product-bg-cutout";
 import { AssetDrawer, CHECKER, ReferenceDrawer, SceneCard, type BoardAsset, type PickReference } from "@/components/tools/workspaces/product-bg-panels";
+import {
+    DEFAULT_PRODUCT_BG_LAYOUT,
+    cutoutProductBgImage,
+    drawProductBgLayer,
+    drawProductBgReplacementRegion,
+    flipProductBgQuad,
+    moveProductBgCorner,
+    parseProductBgLayout,
+    productBgBaseQuad,
+    productBgPerspectiveMatrix,
+    type ProductBgLayout,
+    type ProductBgTransform,
+} from "@/components/tools/workspaces/product-bg-layout";
 import { uploadCaseFile } from "@/features/tools/case-apply";
 import { modelLabel } from "@/lib/model-label";
 import { cn } from "@/lib/utils";
@@ -71,7 +84,7 @@ const BG_NAME = "linkfox-reference-background";
 type Panel = "ref" | "goods" | "element";
 type GoodsEntry = BoardAsset & { mask?: SceneSourceAsset; preCut?: boolean };
 /** 元素图层：位置为画布归一化中心点，w 为占画布宽的比例，ratio 为图片宽高比。 */
-type BoardElement = { id: string; url: string; x: number; y: number; w: number; ratio: number };
+type BoardElement = ProductBgLayout["elements"][number];
 
 function assetFromRecord(record: ToolAssetRecord): SceneSourceAsset {
     return { assetId: record.id, dataUrl: record.url, url: record.url, name: record.name, mimeType: record.mimeType, bytes: record.bytes, width: record.width, height: record.height };
@@ -114,31 +127,77 @@ function loadImage(src: string) {
 }
 
 /**
- * 按画布所见合成参考图：参考图 object-cover 铺满 + 背景调节（缩放 / 平移）+ 元素图层，
- * 与画布 CSS 渲染一致（translate 按画布宽高百分比，再以中心缩放）。
+ * 按画布所见导出：背景、元素顺序、商品变换和替换区域使用同一份状态。
+ * 合成图承担落位参考，另附未变形的抠图商品，尽量保留商品纹理与轮廓。
  */
-async function composeReference({ bgUrl, width, height, scale, offset, elements }: { bgUrl: string; width: number; height: number; scale: number; offset: { x: number; y: number }; elements: BoardElement[] }): Promise<File> {
+async function composeReference({ goodsUrl, maskUrl, bgUrl, width, height, layout, transform, replace }: {
+    goodsUrl: string;
+    maskUrl?: string;
+    bgUrl: string;
+    width: number;
+    height: number;
+    layout: ProductBgLayout;
+    transform: { x: number; y: number; scale: number; rotate: number };
+    replace: boolean;
+}): Promise<{ background: File; goods: File; mask?: File }> {
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d")!;
-    const image = await loadImage(bgUrl);
-    const cover = Math.max(width / image.naturalWidth, height / image.naturalHeight);
-    context.save();
-    context.translate(width / 2 + offset.x * width, height / 2 + offset.y * height);
-    context.scale(scale, scale);
-    context.drawImage(image, (-image.naturalWidth * cover) / 2, (-image.naturalHeight * cover) / 2, image.naturalWidth * cover, image.naturalHeight * cover);
-    context.restore();
-    for (const item of elements) {
-        const el = await loadImage(item.url);
-        const w = item.w * width;
-        const h = w / item.ratio;
-        const fit = Math.min(w / el.naturalWidth, h / el.naturalHeight);
-        context.drawImage(el, item.x * width - (el.naturalWidth * fit) / 2, item.y * height - (el.naturalHeight * fit) / 2, el.naturalWidth * fit, el.naturalHeight * fit);
+    const [background, goodsImage, goodsMask] = await Promise.all([loadImage(bgUrl), loadImage(goodsUrl), maskUrl ? loadImage(maskUrl) : undefined]);
+    const cover = Math.max(width / background.naturalWidth, height / background.naturalHeight);
+    if (layout.bgTransform.quad) {
+        const layer = document.createElement("canvas");
+        layer.width = width;
+        layer.height = height;
+        const layerContext = layer.getContext("2d")!;
+        layerContext.drawImage(background, (width - background.naturalWidth * cover) / 2, (height - background.naturalHeight * cover) / 2, background.naturalWidth * cover, background.naturalHeight * cover);
+        drawProductBgLayer(context, layer, width, height, { ...layout.bgTransform, scale: 1, rotate: 0, flipX: false, flipY: false });
+    } else {
+        context.save();
+        context.translate(width / 2 + layout.bgOffset.x * width, height / 2 + layout.bgOffset.y * height);
+        context.rotate(layout.bgTransform.rotate * Math.PI / 180);
+        context.scale(layout.bgTransform.scale * (layout.bgTransform.flipX ? -1 : 1), layout.bgTransform.scale * (layout.bgTransform.flipY ? -1 : 1));
+        context.drawImage(background, (-background.naturalWidth * cover) / 2, (-background.naturalHeight * cover) / 2, background.naturalWidth * cover, background.naturalHeight * cover);
+        context.restore();
     }
-    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
-    if (!blob) throw new Error("参考图合成失败");
-    return new File([blob], `${BG_NAME}-composed.png`, { type: "image/png" });
+
+    const cutout = cutoutProductBgImage(goodsImage, goodsMask, goodsImage.naturalWidth, goodsImage.naturalHeight);
+    const drawGoods = () => {
+        const w = width * transform.scale * 0.5;
+        const h = w * goodsImage.naturalHeight / goodsImage.naturalWidth;
+        context.save();
+        context.translate(transform.x * width - (layout.goodsTransform.quad ? 0 : w / 2), transform.y * height - (layout.goodsTransform.quad ? 0 : h / 2));
+        drawProductBgLayer(context, cutout, w, h, layout.goodsTransform.quad ? { ...layout.goodsTransform, scale: 1, rotate: 0, flipX: false, flipY: false } : { ...layout.goodsTransform, rotate: transform.rotate });
+        context.restore();
+    };
+    for (const layer of layout.goodsOnTop ? [...layout.elements, null] : [null, ...layout.elements]) {
+        if (!layer) drawGoods();
+        else {
+            const image = await loadImage(layer.url);
+            const w = layer.w * width;
+            const h = w / layer.ratio;
+            context.save();
+            context.translate(layer.x * width - (layer.transform.quad ? 0 : w / 2), layer.y * height - (layer.transform.quad ? 0 : h / 2));
+            drawProductBgLayer(context, image, w, h, layer.transform.quad ? { ...layer.transform, scale: 1, rotate: 0, flipX: false, flipY: false } : layer.transform);
+            context.restore();
+        }
+    }
+    const asFile = async (source: HTMLCanvasElement, name: string) => {
+        const blob = await new Promise<Blob | null>((resolve) => source.toBlob(resolve, "image/png"));
+        if (!blob) throw new Error("编辑画布导出失败");
+        return new File([blob], name, { type: "image/png" });
+    };
+    let replacementMask: File | undefined;
+    if (replace && layout.replacementRegion.length === 4) {
+        const region = document.createElement("canvas");
+        region.width = width;
+        region.height = height;
+        const regionContext = region.getContext("2d")!;
+        drawProductBgReplacementRegion(regionContext, layout.replacementRegion, width, height);
+        replacementMask = await asFile(region, `${BG_NAME}-replacement-mask.png`);
+    }
+    return { background: await asFile(canvas, `${BG_NAME}-composed.png`), goods: await asFile(cutout, "goods-cutout.png"), mask: replacementMask };
 }
 
 export function SceneWorkspace({ className }: { className?: string }) {
@@ -171,17 +230,27 @@ export function SceneWorkspace({ className }: { className?: string }) {
     const [cutoutOpen, setCutoutOpen] = useState(false);
     const [goodsList, setGoodsList] = useState<GoodsEntry[]>([]);
     const [elementList, setElementList] = useState<BoardAsset[]>([]);
-    const [elements, setElements] = useState<BoardElement[]>([]);
-    const [bgScale, setBgScale] = useState(1);
-    const [bgOffset, setBgOffset] = useState({ x: 0, y: 0 });
+    const [layout, setLayout] = useState<ProductBgLayout>(DEFAULT_PRODUCT_BG_LAYOUT);
+    const [layoutReady, setLayoutReady] = useState(false);
+    const [regionEditing, setRegionEditing] = useState(false);
+    const elements = layout.elements;
+    const bgOffset = layout.bgOffset;
+    const bgScale = layout.bgTransform.scale;
+    const setElements: React.Dispatch<React.SetStateAction<BoardElement[]>> = (next) => setLayout((current) => ({ ...current, elements: typeof next === "function" ? next(current.elements) : next }));
+    const setBgOffset = (offset: { x: number; y: number }) => setLayout((current) => ({ ...current, bgOffset: offset }));
+    const setBgScale = (scale: number) => setLayout((current) => ({ ...current, bgTransform: { ...current.bgTransform, scale } }));
     const [selected, setSelected] = useState<string | null>(null);
     const [advanced, setAdvanced] = useState(false);
-    const [composed, setComposed] = useState<{ key: string; asset: SceneSourceAsset } | null>(null);
+    const [composed, setComposed] = useState<{ key: string; background: SceneSourceAsset; goods: SceneSourceAsset; mask?: SceneSourceAsset } | null>(null);
     const abortRef = useRef<AbortController | null>(null);
+    const retryRef = useRef<ReturnType<typeof runOptions> | null>(null);
     const goodsInputRef = useRef<HTMLInputElement | null>(null);
     const boardRef = useRef<HTMLDivElement | null>(null);
+    const [boardSize, setBoardSize] = useState({ width: 0, height: 0 });
     const valuesRef = useRef(values);
     valuesRef.current = values;
+    const layoutRef = useRef(layout);
+    layoutRef.current = layout;
 
     /* 草稿恢复：只恢复值与资产 id；图片本体从本地资产库重新取 */
     useEffect(() => {
@@ -190,9 +259,14 @@ export function SceneWorkspace({ className }: { className?: string }) {
             const restored = await hydrate(toolId);
             if (cancelled) return;
             const parsed = readNewReplaceBgValues(restored?.values?.newReplaceBg);
+            const restoredLayout = parseProductBgLayout(restored?.values?.productBgBoard);
+            setLayout(restoredLayout);
+            setSceneId(restoredLayout.sceneId);
+            setLayoutReady(true);
+            setRegionEditing(productBgModeOf(parsed.customPrompt) === "replace" && restoredLayout.replacementRegion.length === 4);
             setValues(parsed);
             setEditing(Boolean(parsed.goodsAssetId));
-            const ids = [parsed.goodsAssetId, parsed.bgAssetId, parsed.maskAssetId].filter(Boolean);
+            const ids = [parsed.goodsAssetId, parsed.bgAssetId, parsed.maskAssetId, ...restoredLayout.elements.map((item) => item.assetId)].filter(Boolean);
             if (!ids.length) return;
             setRestoring(true);
             try {
@@ -204,6 +278,17 @@ export function SceneWorkspace({ className }: { className?: string }) {
                 const restoredMask = maskRecord ? assetFromRecord(maskRecord) : undefined;
                 if (bgRecord) setBg({ ...assetFromRecord(bgRecord), name: BG_NAME });
                 setMask(restoredMask);
+                setElementList(restoredLayout.elements.flatMap((item) => {
+                    const record = records.find((entry) => entry.id === item.assetId);
+                    return record ? [{ id: record.id, url: record.url, record }] : [];
+                }));
+                setLayout((current) => ({
+                    ...current,
+                    elements: current.elements.flatMap((item) => {
+                        const record = records.find((entry) => entry.id === item.assetId);
+                        return record ? [{ ...item, url: record.url, name: record.name, ratio: record.width && record.height ? record.width / record.height : item.ratio }] : [];
+                    }),
+                }));
                 if (goodsRecord) {
                     const next = assetFromRecord(goodsRecord);
                     const hasAlpha = await detectAlpha(next.url ?? "");
@@ -221,11 +306,33 @@ export function SceneWorkspace({ className }: { className?: string }) {
         };
     }, [toolId, hydrate, flushDraft]);
 
+    useEffect(() => {
+        const board = boardRef.current;
+        if (!board || !editing) return;
+        const measure = () => {
+            const rect = board.getBoundingClientRect();
+            setBoardSize({ width: rect.width, height: rect.height });
+        };
+        measure();
+        if (typeof ResizeObserver === "undefined") return;
+        const observer = new ResizeObserver(measure);
+        observer.observe(board);
+        return () => observer.disconnect();
+    }, [editing, output.width, output.height]);
+
+    useEffect(() => {
+        if (!layoutReady) return;
+        patchDraft(toolId, {
+            values: { productBgBoard: layout },
+            assetIds: [values.goodsAssetId, values.bgAssetId, values.maskAssetId, ...layout.elements.map((item) => item.assetId)].filter((id): id is string => Boolean(id)),
+        });
+    }, [layout, layoutReady, patchDraft, toolId, values.goodsAssetId, values.bgAssetId, values.maskAssetId]);
+
     const update = useCallback(
         (next: Partial<NewReplaceBgValues>) => {
             const merged: NewReplaceBgValues = { ...valuesRef.current, ...next };
             valuesRef.current = merged;
-            patchDraft(toolId, { values: { newReplaceBg: merged }, assetIds: [merged.goodsAssetId, merged.bgAssetId, merged.maskAssetId].filter(Boolean) });
+            patchDraft(toolId, { values: { newReplaceBg: merged }, assetIds: [merged.goodsAssetId, merged.bgAssetId, merged.maskAssetId, ...layoutRef.current.elements.map((item) => item.assetId)].filter(Boolean) });
             setValues(merged);
         },
         [patchDraft, toolId],
@@ -243,13 +350,22 @@ export function SceneWorkspace({ className }: { className?: string }) {
     const mode: ProductBgMode = productBgModeOf(values.customPrompt);
     const occlusion = productBgOcclusionOf(values.customPrompt);
 
-    /* 背景调节 / 元素图层：有改动时提交前把参考图按画布所见合成一张新参考图（adapter 字段不变，仍走 bgAssetId） */
-    const layoutKey = bg && (bgScale !== 1 || bgOffset.x || bgOffset.y || elements.length) ? JSON.stringify([values.bgAssetId, bgScale, bgOffset, elements, output.width, output.height]) : "";
-    const effectiveBgId = !layoutKey ? values.bgAssetId : composed?.key === layoutKey ? composed.asset.assetId : `pending:${layoutKey}`;
+    /* 预览与生成共享布局指纹；有未合成的编辑时先禁用提交，避免发出旧参考图。 */
+    const layoutKey = bg && goods ? JSON.stringify([bg.assetId, goods.assetId, mask?.assetId ?? "", layout, values.transform, output.width, output.height, mode]) : "";
+    const prepared = composed?.key === layoutKey ? composed : undefined;
+    const pendingComposition = Boolean(layoutKey && !prepared);
+    const effectiveBgId = !layoutKey ? values.bgAssetId : prepared?.background.assetId ?? `pending:${layoutKey}`;
+    const effectiveGoodsId = prepared?.goods.assetId ?? values.goodsAssetId;
+    const effectiveMaskId = prepared?.mask?.assetId ?? "";
     const currentSnapshot = useMemo(
-        () => (isSceneSourceReady(goods) ? createNewReplaceBgSnapshot({ ...values, bgAssetId: effectiveBgId }, output, draft?.revision ?? null) : undefined),
-        [values, effectiveBgId, output, goods, draft?.revision],
+        () => (isSceneSourceReady(goods) ? createNewReplaceBgSnapshot({ ...values, bgAssetId: effectiveBgId, goodsAssetId: effectiveGoodsId, maskAssetId: effectiveMaskId, cutoutMode: prepared ? "transparent" : values.cutoutMode }, output, draft?.revision ?? null) : undefined),
+        [values, effectiveBgId, effectiveGoodsId, effectiveMaskId, output, goods, draft?.revision, prepared],
     );
+    const persistedValues = useMemo(() => prepared ? { ...values, bgAssetId: prepared.background.assetId, goodsAssetId: prepared.goods.assetId, maskAssetId: prepared.mask?.assetId ?? "", cutoutMode: "transparent" as const, cutoutConfirmed: true } : values, [prepared, values]);
+    useEffect(() => {
+        if (!layoutReady || (values.bgAssetId === persistedValues.bgAssetId && values.goodsAssetId === persistedValues.goodsAssetId && values.maskAssetId === persistedValues.maskAssetId && values.cutoutMode === persistedValues.cutoutMode && values.cutoutConfirmed === persistedValues.cutoutConfirmed)) return;
+        update(persistedValues);
+    }, [layoutReady, persistedValues, update]);
     const drift = useMemo(() => describeNewReplaceBgDrift(snapshot, currentSnapshot), [snapshot, currentSnapshot]);
     const result = newReplaceBgResultFromTask(task, snapshot, currentSnapshot, drift);
 
@@ -266,6 +382,8 @@ export function SceneWorkspace({ className }: { className?: string }) {
                     setSceneId(id);
                     setBgScale(1);
                     setBgOffset({ x: 0, y: 0 });
+                    setLayout((current) => ({ ...current, sceneId: id, elements: [], replacementRegion: [], bgTransform: { ...DEFAULT_PRODUCT_BG_LAYOUT.bgTransform }, bgOffset: { x: 0, y: 0 } }));
+                    setRegionEditing(false);
                     setTask(undefined);
                     setSnapshot(undefined);
                     const current = valuesRef.current.customPrompt;
@@ -302,6 +420,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
             setSnapshot(undefined);
             setEditing(true);
             setSelected("goods");
+            setLayout((current) => ({ ...current, goodsTransform: { ...DEFAULT_PRODUCT_BG_LAYOUT.goodsTransform }, goodsOnTop: true }));
             update({
                 goodsAssetId: next.assetId,
                 goodsName: next.name ?? "",
@@ -388,6 +507,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
         setPanel(null);
         setEditing(false);
         setElements([]);
+        setRegionEditing(false);
         setSelected(null);
         update({ goodsAssetId: "", goodsName: "", maskAssetId: "", cutoutConfirmed: false });
     }, [update]);
@@ -419,41 +539,87 @@ export function SceneWorkspace({ className }: { className?: string }) {
         (nextMode: ProductBgMode, nextOcclusion: boolean) => {
             const title = productBgTitleOf(valuesRef.current.customPrompt);
             if (title) update({ customPrompt: productBgPrompt(title, nextMode, nextOcclusion) });
+            if (nextMode === "replace") {
+                setLayout((current) => ({ ...current, replacementRegion: current.replacementRegion.length === 4 ? current.replacementRegion : [{ x: 0.25, y: 0.25 }, { x: 0.75, y: 0.25 }, { x: 0.75, y: 0.75 }, { x: 0.25, y: 0.75 }] }));
+                setRegionEditing(true);
+            } else setRegionEditing(false);
         },
         [update],
     );
 
+    const updateLayer = (target: string, transform: ProductBgTransform) => {
+        setLayout((current) => target === "goods"
+            ? { ...current, goodsTransform: transform }
+            : target === "bg"
+                ? { ...current, bgTransform: transform }
+                : { ...current, elements: current.elements.map((item) => item.id === target ? { ...item, transform } : item) });
+    };
+    const layerTransform = (target: string): ProductBgTransform => target === "goods"
+        ? layout.goodsTransform
+        : target === "bg" ? layout.bgTransform : elements.find((item) => item.id === target)?.transform ?? DEFAULT_PRODUCT_BG_LAYOUT.goodsTransform;
+    /** 未变换图层的画布百分比外框，用于把透视局部角点换算为可拖动的画布角点。 */
+    const layerFrame = (target: string) => {
+        if (target === "bg") return { left: 0, top: 0, width: 100, height: 100 };
+        if (target === "goods") {
+            const width = values.transform.scale * 50;
+            const ratio = goods?.width && goods.height ? goods.width / goods.height : 1;
+            const height = width * output.width / output.height / ratio;
+            return { left: values.transform.x * 100 - width / 2, top: values.transform.y * 100 - height / 2, width, height };
+        }
+        const element = elements.find((item) => item.id === target);
+        const width = (element?.w ?? 0) * 100;
+        const height = width * output.width / output.height / (element?.ratio ?? 1);
+        return { left: (element?.x ?? 0) * 100 - width / 2, top: (element?.y ?? 0) * 100 - height / 2, width, height };
+    };
+
     const addElement = (record: ToolAssetRecord) => {
         const id = `${record.id}-${Date.now().toString(36)}`;
         const ratio = record.width && record.height ? record.width / record.height : 1;
-        setElements((list) => [...list, { id, url: record.url, x: 0.5, y: 0.5, w: 0.3, ratio }]);
+        setElements((list) => [...list, { id, assetId: record.id, url: record.url, name: record.name, x: 0.5, y: 0.5, w: 0.3, ratio, transform: { ...DEFAULT_PRODUCT_BG_LAYOUT.goodsTransform } }]);
         setElementList((list) => (list.some((item) => item.id === record.id) ? list : [{ id: record.id, url: record.url, record }, ...list]));
         setSelected(id);
         setPanel(null);
     };
 
-    /** 提交前：背景调节 / 元素有改动时按画布所见合成新参考图并入库；同一布局只合成一次。 */
-    const prepare = async (): Promise<{ values: NewReplaceBgValues; bg?: SceneSourceAsset }> => {
-        if (!layoutKey || !bg?.url) return { values, bg };
-        let asset = composed?.key === layoutKey ? composed.asset : undefined;
-        if (!asset) {
-            const file = await composeReference({ bgUrl: bg.url, width: output.width, height: output.height, scale: bgScale, offset: bgOffset, elements });
-            asset = { ...assetFromRecord(await uploadToolAsset(file, { constraints: GOODS_CONSTRAINTS })), name: BG_NAME };
-            setComposed({ key: layoutKey, asset });
+    /** 提交前按画布所见导出真实像素；同一布局只合成一次，失败不发起生成。 */
+    const prepare = async (): Promise<{ values: NewReplaceBgValues; goods: SceneSourceAsset; mask?: SceneSourceAsset; bg?: SceneSourceAsset }> => {
+        if (!layoutKey || !bg?.url || !goods?.url) return { values, goods: goods!, mask, bg };
+        let assets = prepared;
+        if (!assets) {
+            const files = await composeReference({ goodsUrl: goods.url, maskUrl: values.cutoutMode === "mask" ? mask?.url : undefined, bgUrl: bg.url, width: output.width, height: output.height, layout, transform: values.transform, replace: mode === "replace" });
+            const [backgroundRecord, goodsRecord, maskRecord] = await Promise.all([
+                uploadToolAsset(files.background, { constraints: GOODS_CONSTRAINTS }),
+                uploadToolAsset(files.goods, { constraints: GOODS_CONSTRAINTS }),
+                files.mask ? uploadToolAsset(files.mask, { constraints: MASK_CONSTRAINTS }) : undefined,
+            ]);
+            assets = {
+                key: layoutKey,
+                background: { ...assetFromRecord(backgroundRecord), name: BG_NAME },
+                goods: { ...assetFromRecord(goodsRecord), name: "goods-cutout.png" },
+                mask: maskRecord ? { ...assetFromRecord(maskRecord), name: "goods-replacement-mask.png" } : undefined,
+            };
+            setComposed(assets);
         }
-        return { values: { ...values, bgAssetId: asset.assetId }, bg: asset };
+        return {
+            values: { ...values, bgAssetId: assets.background.assetId, goodsAssetId: assets.goods.assetId, maskAssetId: assets.mask?.assetId ?? "", cutoutMode: "transparent", cutoutConfirmed: true },
+            goods: assets.goods,
+            mask: assets.mask,
+            bg: assets.background,
+        };
     };
 
-    const runOptions = (ready: { values: NewReplaceBgValues; bg?: SceneSourceAsset }) => ({ gateway: getPersistedToolGateway(), values: ready.values, output, goods: goods!, mask, bg: ready.bg, model: imageModel, goodsHasAlpha, revision: draft?.revision ?? null, onUpdate: setTask });
+    const runOptions = (ready: { values: NewReplaceBgValues; goods: SceneSourceAsset; mask?: SceneSourceAsset; bg?: SceneSourceAsset }) => ({ gateway: getPersistedToolGateway(), values: ready.values, output, goods: ready.goods, mask: ready.mask, bg: ready.bg, model: imageModel, goodsHasAlpha: true, revision: draft?.revision ?? null, onUpdate: setTask });
 
     const onGenerate = async () => {
-        if (!goods) return;
+        if (!goods || issues.length) return;
         setRunning(true);
         setRunError(undefined);
         const controller = new AbortController();
         abortRef.current = controller;
         try {
-            const run = await runNewReplaceBg({ ...runOptions(await prepare()), signal: controller.signal });
+            const options = runOptions(await prepare());
+            retryRef.current = options;
+            const run = await runNewReplaceBg({ ...options, signal: controller.signal });
             setTask(run.task);
             setSnapshot(run.snapshot);
         } catch (error) {
@@ -466,13 +632,13 @@ export function SceneWorkspace({ className }: { className?: string }) {
     };
 
     const onRetry = async () => {
-        if (!goods || !task) return;
+        if (!goods || !task || !retryRef.current) return;
         setRunning(true);
         setRunError(undefined);
         const controller = new AbortController();
         abortRef.current = controller;
         try {
-            const run = await retryNewReplaceBg({ ...runOptions(await prepare()), taskId: task.id, signal: controller.signal });
+            const run = await retryNewReplaceBg({ ...retryRef.current, taskId: task.id, signal: controller.signal });
             setTask(run.task);
             setSnapshot(run.snapshot);
         } catch (error) {
@@ -497,7 +663,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
     const dragRef = useRef<{ target: string; resize: boolean; sx: number; sy: number; x: number; y: number; size: number; w: number; h: number; cx: number; cy: number } | null>(null);
     const startDrag = (event: React.PointerEvent, target: string, resize = false) => {
         const board = boardRef.current?.getBoundingClientRect();
-        if (!board || running) return;
+        if (!board || running || layerTransform(target).quad || (target === "bg" && regionEditing)) return;
         event.stopPropagation();
         boardRef.current!.setPointerCapture(event.pointerId);
         const element = elements.find((item) => item.id === target);
@@ -526,6 +692,17 @@ export function SceneWorkspace({ className }: { className?: string }) {
     const onDragEnd = () => {
         if (dragRef.current?.target === "goods") update({});
         dragRef.current = null;
+    };
+    const moveLayerCorner = (target: string, index: number, event: React.PointerEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (event.type === "pointerdown") event.currentTarget.setPointerCapture(event.pointerId);
+        if (event.type !== "pointerdown" && event.buttons === 0) return;
+        const board = boardRef.current!.getBoundingClientRect();
+        const frame = layerFrame(target);
+        updateLayer(target, moveProductBgCorner(layerTransform(target), index, {
+            x: ((event.clientX - board.left) / board.width * 100 - frame.left) / frame.width,
+            y: ((event.clientY - board.top) / board.height * 100 - frame.top) / frame.height,
+        }));
     };
 
     const homeScenes = useMemo(() => filterProductBgScenes(category, query), [category, query]);
@@ -656,8 +833,38 @@ export function SceneWorkspace({ className }: { className?: string }) {
 
     /* 蒙版模式：画布预览按蒙版亮度裁出商品主体（白=主体），与提交给模型的蒙版一致 */
     const maskPreview = values.cutoutMode === "mask" && mask?.url ? { maskImage: `url(${mask.url})`, maskMode: "luminance" as const, maskSize: "100% 100%", WebkitMaskImage: `url(${mask.url})`, WebkitMaskSize: "100% 100%" } : {};
-    const goodsStyle = { left: `${values.transform.x * 100}%`, top: `${values.transform.y * 100}%`, width: `${values.transform.scale * 50}%`, transform: `translate(-50%, -50%) rotate(${values.transform.rotate}deg)` };
+    const goodsStyle = layout.goodsTransform.quad ? {
+        left: `${layerFrame("goods").left}%`, top: `${layerFrame("goods").top}%`, width: `${layerFrame("goods").width}%`, height: `${layerFrame("goods").height}%`,
+        transform: productBgPerspectiveMatrix(layout.goodsTransform.quad, boardSize.width * layerFrame("goods").width / 100, boardSize.height * layerFrame("goods").height / 100), transformOrigin: "0 0",
+    } : {
+        left: `${values.transform.x * 100}%`, top: `${values.transform.y * 100}%`, width: `${values.transform.scale * 50}%`,
+        transform: `translate(-50%, -50%) rotate(${values.transform.rotate}deg) scale(${layout.goodsTransform.scale * (layout.goodsTransform.flipX ? -1 : 1)}, ${layout.goodsTransform.scale * (layout.goodsTransform.flipY ? -1 : 1)})`,
+    };
     const handle = (target: string) => <span onPointerDown={(event) => startDrag(event, target, true)} className="absolute -right-[5px] -top-[5px] size-[10px] cursor-nesw-resize rounded-full border border-selected bg-background" />;
+    const perspective = (target: string) => {
+        const current = layerTransform(target);
+        const quad = productBgBaseQuad(target === "goods" ? { ...current, rotate: values.transform.rotate } : current)
+            .map((point) => target === "bg" ? { x: point.x + layout.bgOffset.x, y: point.y + layout.bgOffset.y } : point);
+        updateLayer(target, { ...current, quad: current.quad ? undefined : quad });
+    };
+    const selectedQuad = selected ? layerTransform(selected).quad : undefined;
+    const selectedFrame = selected ? layerFrame(selected) : undefined;
+    const backgroundStyle = layout.bgTransform.quad ? {
+        transform: productBgPerspectiveMatrix(layout.bgTransform.quad, boardSize.width, boardSize.height), transformOrigin: "0 0",
+    } : {
+        transform: `translate(${bgOffset.x * 100}%, ${bgOffset.y * 100}%) rotate(${layout.bgTransform.rotate}deg) scale(${bgScale * (layout.bgTransform.flipX ? -1 : 1)}, ${bgScale * (layout.bgTransform.flipY ? -1 : 1)})`,
+    };
+    const moveRegionCorner = (index: number, event: React.PointerEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (event.type === "pointerdown") event.currentTarget.setPointerCapture(event.pointerId);
+        if (event.buttons === 0 && event.type !== "pointerdown") return;
+        const board = boardRef.current!.getBoundingClientRect();
+        setLayout((current) => {
+            const region = [...current.replacementRegion];
+            region[index] = { x: Math.max(0, Math.min(1, (event.clientX - board.left) / board.width)), y: Math.max(0, Math.min(1, (event.clientY - board.top) / board.height)) };
+            return { ...current, replacementRegion: region };
+        });
+    };
     const bar = "flex items-center gap-[4px] rounded-[6px] px-[8px] py-[4px] hover:bg-accent disabled:opacity-40";
     const rail: { id: Panel; label: string; icon: typeof ImageIcon; testId: string }[] = [
         { id: "ref", label: "参考图", icon: ImageIcon, testId: "scene-drawer-toggle" },
@@ -705,17 +912,20 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             className={cn("relative max-h-full max-w-full touch-none select-none overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.08)]", CHECKER, bg && "cursor-move", selected === "bg" && "outline-dashed outline-2 outline-[var(--selected)]")}
                             style={{ aspectRatio: `${output.width} / ${output.height}`, height: "min(100%, 600px)" }}
                         >
-                            {bg ? <img data-testid="scene-board-bg" src={bg.url} alt="参考图" draggable={false} className="absolute inset-0 size-full object-cover" style={{ transform: `translate(${bgOffset.x * 100}%, ${bgOffset.y * 100}%) scale(${bgScale})` }} /> : null}
-                            {elements.map((item) => (
-                                <div key={item.id} data-testid={`scene-board-element-${item.id}`} onPointerDown={(event) => startDrag(event, item.id)} className={cn("absolute cursor-move", selected === item.id && "outline-dashed outline-1 outline-[var(--selected)]")} style={{ left: `${item.x * 100}%`, top: `${item.y * 100}%`, width: `${item.w * 100}%`, aspectRatio: `${item.ratio}`, transform: "translate(-50%, -50%)" }}>
-                                    <img src={item.url} alt="元素" draggable={false} className="size-full object-contain" />
-                                    {selected === item.id ? handle(item.id) : null}
-                                </div>
-                            ))}
+                            {bg ? <img data-testid="scene-board-bg" src={bg.url} alt="参考图" draggable={false} className="absolute inset-0 size-full object-cover" style={backgroundStyle} /> : null}
+                            {elements.map((item) => {
+                                const frame = layerFrame(item.id);
+                                return (
+                                    <div key={item.id} data-testid={`scene-board-element-${item.id}`} onPointerDown={(event) => startDrag(event, item.id)} className={cn("absolute cursor-move", selected === item.id && "outline-dashed outline-1 outline-[var(--selected)]")} style={{ left: item.transform.quad ? `${frame.left}%` : `${item.x * 100}%`, top: item.transform.quad ? `${frame.top}%` : `${item.y * 100}%`, width: `${frame.width}%`, height: `${frame.height}%`, zIndex: layout.goodsOnTop ? 1 : 2, ...(item.transform.quad ? { transform: productBgPerspectiveMatrix(item.transform.quad, boardSize.width * frame.width / 100, boardSize.height * frame.height / 100), transformOrigin: "0 0" } : { transform: `translate(-50%, -50%) rotate(${item.transform.rotate}deg) scale(${item.transform.scale * (item.transform.flipX ? -1 : 1)}, ${item.transform.scale * (item.transform.flipY ? -1 : 1)})` }) }}>
+                                        <img src={item.url} alt="元素" draggable={false} className="size-full object-contain" />
+                                        {selected === item.id && !item.transform.quad ? handle(item.id) : null}
+                                    </div>
+                                );
+                            })}
                             {goods ? (
-                                <div data-testid="scene-board-goods-layer" onPointerDown={(event) => startDrag(event, "goods")} className={cn("absolute cursor-move", selected === "goods" && "outline-dashed outline-1 outline-[var(--selected)]")} style={goodsStyle}>
-                                    <img data-testid="scene-board-goods" src={goods.url} alt="商品" draggable={false} className="block w-full" style={maskPreview} />
-                                    {selected === "goods" ? handle("goods") : null}
+                                <div data-testid="scene-board-goods-layer" onPointerDown={(event) => startDrag(event, "goods")} className={cn("absolute cursor-move", selected === "goods" && "outline-dashed outline-1 outline-[var(--selected)]")} style={{ ...goodsStyle, zIndex: layout.goodsOnTop ? 2 : 1 }}>
+                                    <img data-testid="scene-board-goods" src={goods.url} alt="商品" draggable={false} className="block size-full object-contain" style={maskPreview} />
+                                    {selected === "goods" && !layout.goodsTransform.quad ? handle("goods") : null}
                                 </div>
                             ) : (
                                 <button type="button" data-testid="scene-board-upload" onPointerDown={(event) => event.stopPropagation()} onClick={() => goodsInputRef.current?.click()} className="absolute left-1/2 top-1/2 inline-flex h-[32px] -translate-x-1/2 -translate-y-1/2 items-center gap-[6px] rounded-[6px] bg-primary px-[14px] text-[13px] text-primary-foreground hover:opacity-90">
@@ -723,6 +933,19 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                     上传商品
                                 </button>
                             )}
+                            {selected && selectedQuad && selectedFrame ? selectedQuad.map((point, index) => (
+                                <button key={index} type="button" aria-label={`${selected === "goods" ? "商品" : selected === "bg" ? "背景" : "元素"}透视角点 ${index + 1}`} data-testid={`scene-${selected === "goods" ? "goods" : selected === "bg" ? "bg" : "element"}-corner-${index}`} onPointerDown={(event) => moveLayerCorner(selected, index, event)} onPointerMove={(event) => moveLayerCorner(selected, index, event)} className="absolute z-[4] size-[20px] -translate-x-1/2 -translate-y-1/2 cursor-move rounded-full border-2 border-background bg-selected" style={{ left: `${selectedFrame.left + point.x * selectedFrame.width}%`, top: `${selectedFrame.top + point.y * selectedFrame.height}%` }} />
+                            )) : null}
+                            {layout.replacementRegion.length === 4 && mode === "replace" ? (
+                                <div data-testid="scene-replacement-region" className="pointer-events-none absolute inset-0 z-[3]">
+                                    <svg className="size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                        <polygon points={layout.replacementRegion.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")} fill="rgba(249,115,22,0.12)" stroke="var(--selected)" strokeWidth={0.4} strokeDasharray="1.5 1" />
+                                    </svg>
+                                    {regionEditing ? layout.replacementRegion.map((point, index) => (
+                                        <button key={index} type="button" aria-label={`替换区域角点 ${index + 1}`} data-testid={`scene-region-corner-${index}`} onPointerDown={(event) => moveRegionCorner(index, event)} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) moveRegionCorner(index, event); }} className="pointer-events-auto absolute size-[20px] -translate-x-1/2 -translate-y-1/2 cursor-move rounded-full border-2 border-background bg-selected" style={{ left: `${point.x * 100}%`, top: `${point.y * 100}%` }} />
+                                    )) : null}
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                     {/* 画布底部工具条：选中参考图 = 原站「背景调节 小—大 / 重置 / 删除」；选中商品 / 元素 = 编辑 / 重置 / 删除 */}
@@ -731,9 +954,9 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             <>
                                 <span className="text-muted-foreground">背景调节</span>
                                 <span>小</span>
-                                <input data-testid="scene-bg-scale" type="range" min={1} max={3} step={0.1} value={bgScale} disabled={running} onChange={(event) => setBgScale(Number(event.target.value))} className="w-[90px] accent-[var(--selected)]" />
+                                <input data-testid="scene-bg-scale" type="range" min={1} max={3} step={0.1} value={bgScale} disabled={running || Boolean(layout.bgTransform.quad)} onChange={(event) => setBgScale(Number(event.target.value))} className="w-[90px] accent-[var(--selected)]" />
                                 <span>大</span>
-                                <button type="button" data-testid="scene-bg-reset" onClick={() => { setBgScale(1); setBgOffset({ x: 0, y: 0 }); }} className={bar}>
+                                <button type="button" data-testid="scene-bg-reset" onClick={() => { setBgScale(1); setBgOffset({ x: 0, y: 0 }); setLayout((current) => ({ ...current, bgTransform: { ...DEFAULT_PRODUCT_BG_LAYOUT.bgTransform } })); }} className={bar}>
                                     <RotateCcw className="size-3" />
                                     重置
                                 </button>
@@ -748,8 +971,12 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                     <Pencil className="size-3" />
                                     编辑主图
                                 </button>
+                                <button type="button" data-testid="scene-goods-order" aria-pressed={layout.goodsOnTop} title={layout.goodsOnTop ? "商品位于元素上方，点击移到元素下方" : "商品位于元素下方，点击移到元素上方"} disabled={running} onClick={() => setLayout((current) => ({ ...current, goodsOnTop: !current.goodsOnTop }))} className={bar}>
+                                    <Layers2 className="size-3" />
+                                    {layout.goodsOnTop ? "商品置顶" : "商品置底"}
+                                </button>
                                 <span className="ml-[4px] text-muted-foreground">大小</span>
-                                <input data-testid="scene-goods-scale" type="range" min={0.2} max={SCENE_TRANSFORM_LIMITS.scale.max} step={0.05} value={values.transform.scale} disabled={running} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, scale: Number(event.target.value) }) })} className="w-[90px] accent-[var(--selected)]" />
+                                <input data-testid="scene-goods-scale" type="range" min={0.2} max={SCENE_TRANSFORM_LIMITS.scale.max} step={0.05} value={values.transform.scale} disabled={running || Boolean(layout.goodsTransform.quad)} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, scale: Number(event.target.value) }) })} className="w-[90px] accent-[var(--selected)]" />
                                 <button type="button" data-testid="scene-goods-reset" disabled={running} onClick={() => update(resetSceneTransform(values))} className={bar}>
                                     <RotateCcw className="size-3" />
                                     重置大小和位置
@@ -760,15 +987,29 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                 </button>
                             </>
                         ) : selected ? (
-                            <button type="button" data-testid="scene-element-delete" onClick={() => { setElements((list) => list.filter((item) => item.id !== selected)); setSelected(null); }} className={cn(bar, "text-destructive")}>
-                                <Trash2 className="size-3" />
-                                删除元素
-                            </button>
+                            <>
+                                <button type="button" data-testid="scene-element-front" onClick={() => setElements((list) => { const item = list.find((entry) => entry.id === selected); return item ? [...list.filter((entry) => entry.id !== selected), item] : list; })} className={bar}>
+                                    <Layers2 className="size-3" />
+                                    置于顶层
+                                </button>
+                                <button type="button" data-testid="scene-element-delete" onClick={() => { setElements((list) => list.filter((item) => item.id !== selected)); setSelected(null); }} className={cn(bar, "text-destructive")}>
+                                    <Trash2 className="size-3" />
+                                    删除元素
+                                </button>
+                            </>
+                        ) : null}
+                        {selected ? (
+                            <>
+                                <span className="mx-[2px] h-[16px] w-px bg-border" />
+                                <button type="button" data-testid="scene-layer-flip-x" aria-pressed={layerTransform(selected).flipX} title="水平翻转" onClick={() => { const current = layerTransform(selected); updateLayer(selected, flipProductBgQuad({ ...current, flipX: !current.flipX }, "x")); }} className={bar}><FlipHorizontal2 className="size-3" /></button>
+                                <button type="button" data-testid="scene-layer-flip-y" aria-pressed={layerTransform(selected).flipY} title="垂直翻转" onClick={() => { const current = layerTransform(selected); updateLayer(selected, flipProductBgQuad({ ...current, flipY: !current.flipY }, "y")); }} className={bar}><FlipVertical2 className="size-3" /></button>
+                                <button type="button" data-testid="scene-layer-perspective" aria-pressed={Boolean(layerTransform(selected).quad)} title={layerTransform(selected).quad ? "退出透视编辑" : "拖动四角调整透视"} onClick={() => perspective(selected)} className={bar}>透视</button>
+                                {layerTransform(selected).quad ? <span className="text-[11px] text-muted-foreground">透视模式：平移、缩放和旋转请退出后调整</span> : null}
+                            </>
                         ) : null}
                     </div>
                     {task ? (
                         <section data-testid="scene-result" className="mt-[8px] max-h-[45%] shrink-0 overflow-y-auto rounded-[8px] bg-background p-[12px]">
-                            {result.drift && result.status === "succeeded" ? <p data-testid="scene-drift" className="mb-2 text-[12px] text-amber-700 dark:text-amber-300">参数已变化：{result.drift}</p> : null}
                             <ToolResult task={task} toolId={toolId} title={`${NEW_REPLACE_BG_V2_TITLE}结果`} onCancel={running ? onCancel : undefined} onRetry={!running ? () => void onRetry() : undefined} className="border-0 bg-transparent p-0" />
                         </section>
                     ) : null}
@@ -818,6 +1059,15 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                 <Info className="size-[12px] shrink-0 text-amber-500" />
                                 {PRODUCT_BG_MODES.find((item) => item.id === mode)?.hint}
                             </p>
+                            {mode === "replace" ? (
+                                <>
+                                    <button type="button" data-testid="scene-edit-replacement" aria-expanded={regionEditing} disabled={running} onClick={() => setRegionEditing(!regionEditing)} className="mt-[10px] inline-flex h-[28px] items-center gap-[6px] rounded-[6px] border border-border px-[10px] text-foreground hover:bg-accent">
+                                        <Pencil className="size-[12px]" />
+                                        {regionEditing ? "完成区域编辑" : "编辑替换区域"}
+                                    </button>
+                                    <p className="mt-[6px] leading-[18px] text-muted-foreground">黑色区域为待替换商品，白色区域保持不变；拖动四个角点调整，生成时导出真实替换蒙版。</p>
+                                </>
+                            ) : null}
                         </section>
 
                         <section data-testid="scene-reference">
@@ -898,6 +1148,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
 
                     <div data-testid="scene-submit" className="shrink-0 border-t border-border px-[14px] py-[10px]">
                         {runError ? <pre data-testid="scene-run-error" className="mb-2 max-h-24 overflow-auto whitespace-pre-wrap break-words text-[11px] text-destructive">{runError}</pre> : null}
+                        {pendingComposition ? <p data-testid="scene-pending-composition" className="mb-2 text-[11px] text-muted-foreground">画布编辑已更新，点击「立即生成」将先导出当前合成图。</p> : null}
                         {notice ? <p className="mb-2 text-[11px] text-destructive">{notice}</p> : null}
                         {issues.length ? (
                             <ul data-testid="scene-issues" className="mb-2 max-h-20 space-y-0.5 overflow-auto">

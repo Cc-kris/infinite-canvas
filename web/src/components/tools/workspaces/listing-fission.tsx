@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
-import { Check, Loader2, Minus, Plus } from "lucide-react";
+import { Check, Link2, Loader2, Minus, Plus } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -20,6 +20,7 @@ import {
     type ListingFissionValues,
 } from "@/features/tools/registry/listing-fission";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { parseEcommerceProductLink } from "@/services/api/tools/content-analysis";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -102,6 +103,8 @@ export function ListingFissionWorkspace() {
     const [results, setResults] = useState<{ id: string; link: number; label: string }[]>([]);
     const [running, setRunning] = useState(false);
     const [errorText, setErrorText] = useState("");
+    const [linkInput, setLinkInput] = useState("");
+    const [parsingLink, setParsingLink] = useState(false);
 
     useEffect(() => {
         let alive = true;
@@ -167,6 +170,22 @@ export function ListingFissionWorkspace() {
     const label = "text-[12px] leading-[22px] text-muted-foreground";
     const sub = "text-[12px] text-muted-foreground";
 
+    const handleParseLink = useCallback(async () => {
+        if (!linkInput.trim() || parsingLink) return;
+        setParsingLink(true);
+        setErrorText("");
+        try {
+            const parsed = await parseEcommerceProductLink(linkInput.trim());
+            if (parsed.title) {
+                update({ title: parsed.title });
+            }
+        } catch (error) {
+            setErrorText(error instanceof Error ? error.message : "链接解析失败");
+        } finally {
+            setParsingLink(false);
+        }
+    }, [linkInput, parsingLink, update]);
+
     return (
         <div data-testid="listing-fission-workspace" className="flex h-full min-h-0 flex-col">
             <ToolWorkspaceColumns
@@ -176,6 +195,26 @@ export function ListingFissionWorkspace() {
                 config={
                     <div className="h-full overflow-y-auto px-4 py-[10px]" data-testid="listing-fission-source">
                         <p className="text-[12px] text-foreground">裂变来源 · 自有 Listing</p>
+                        <div className="mt-1.5 flex items-center gap-1.5" data-testid="listing-fission-link-parser">
+                            <input
+                                type="url"
+                                value={linkInput}
+                                onChange={(event) => setLinkInput(event.target.value)}
+                                placeholder="粘贴商品链接或 ASIN 解析标题"
+                                disabled={running || parsingLink}
+                                className="h-7 min-w-0 flex-1 rounded-[6px] border border-border bg-background px-2 text-[12px] text-foreground outline-none focus:border-selected"
+                            />
+                            <button
+                                type="button"
+                                data-testid="listing-fission-parse-btn"
+                                disabled={running || parsingLink || !linkInput.trim()}
+                                onClick={() => void handleParseLink()}
+                                className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground hover:border-selected disabled:opacity-50"
+                            >
+                                {parsingLink ? <Loader2 className="size-3 animate-spin" /> : <Link2 className="size-3" />}
+                                解析
+                            </button>
+                        </div>
                         <input
                             aria-label="Listing 标题"
                             data-testid="listing-fission-title"
@@ -183,7 +222,7 @@ export function ListingFissionWorkspace() {
                             maxLength={200}
                             onChange={(event) => update({ title: event.target.value })}
                             placeholder="未命名 Listing"
-                            className="mt-1 h-8 w-full rounded-[6px] border border-border px-[11px] text-[14px] outline-none focus:border-selected"
+                            className="mt-1.5 h-8 w-full rounded-[6px] border border-border px-[11px] text-[14px] outline-none focus:border-selected"
                         />
                         <p className="mt-1 text-[12px] text-muted-foreground">
                             {[mainRecords.length ? `主副图 ${mainRecords.length} 张` : "", aplusRecords.length ? `A+ ${aplusRecords.length} 张` : ""].filter(Boolean).join(" · ") || "源 Listing 不会被修改"}

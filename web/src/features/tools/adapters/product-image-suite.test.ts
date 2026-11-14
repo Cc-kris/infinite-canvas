@@ -485,4 +485,27 @@ describe("单元输入", () => {
         expect(pinned.model).toBe("my-model");
         expect(pinned.size).toBe("1:1");
     });
+
+    test("自定比例宽高进入真实请求、提示词、草稿与配置指纹", () => {
+        const custom = config({ ratio: "custom", customWidth: 1536, customHeight: 2048 });
+        const unit = buildSuiteUnits(custom)[0];
+        const input = buildSuiteUnitInput({ config: custom, unit, source });
+        expect(input.size).toBe("1536x2048");
+        expect(input.prompt).toContain("输出尺寸 1536×2048px");
+        expect(readSuiteConfig(custom as unknown as Record<string, unknown>).config).toMatchObject({ ratio: "custom", customWidth: 1536, customHeight: 2048 });
+        expect(isSuiteSnapshotStale(createSuiteSnapshot(custom, 1), config({ ratio: "custom", customWidth: 2048, customHeight: 1536 }))).toBe(true);
+        expect(validateSuiteConfig(custom, { sourceReady: true, imageModelReady: true })).toHaveLength(0);
+        expect(validateSuiteConfig(config({ ratio: "custom", customWidth: 1537, customHeight: 2048 }), { sourceReady: true, imageModelReady: true }).map((issue) => issue.code)).toContain("custom-size-invalid");
+    });
+
+    test("A+ 自定比例同样按已保存的像素尺寸提交", () => {
+        const custom = config({ aplusModuleId: "aplus-custom-ratio", customWidth: 1464, customHeight: 608 });
+        const unit = buildSuiteUnits(custom)[0];
+        const input = buildSuiteUnitInput({ config: custom, unit, source });
+        expect(input.size).toBe("1464x608");
+        expect(input.prompt).toContain("自定比例");
+        expect(input.prompt).toContain("1464×608px");
+        const mainUnit = buildSuiteUnits(custom).find((item) => item.kind === "main-sub")!;
+        expect(buildSuiteUnitInput({ config: custom, unit: mainUnit, source }).size).toBe("1:1");
+    });
 });

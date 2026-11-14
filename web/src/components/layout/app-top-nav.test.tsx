@@ -78,6 +78,15 @@ describe("AppTopNav shell", () => {
         expect(html).toContain('href="/video"');
     });
 
+    test("uses the requested primary order without a duplicate catalogue", () => {
+        const order = ["canvas", "image", "video", "ecommerce-suite", "smart-edit", "ai-video", "batch-generate", "product-design", "prompts", "assets", "config"];
+        const rendered = [...html.matchAll(/data-testid="tools-nav-trigger-([^"]+)"/g)].map((match) => match[1]);
+        expect(rendered.join(",")).toBe(order.join(","));
+        expect(html).not.toContain('data-testid="mobile-nav-trigger"');
+        expect(html).not.toContain('data-testid="tools-nav-menu"');
+        expect(html).not.toContain('href="/tools/ecommerce-suite/scale-up"');
+    });
+
     test("uses the canvas shell chrome instead of pixel-copied metrics", () => {
         expect(html).toContain("data-testid=\"shell-top-nav\"");
         expect(html).toContain("h-14");

@@ -12,12 +12,9 @@
  * `runHandheldGoods` 返回的 `run.image`，上游没给图就是失败。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, ChevronRight } from "lucide-react";
-import { Link } from "react-router";
-import { listToolsByCategory } from "@/features/tools/registry";
+import { ChevronRight, X } from "lucide-react";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
-import { OrigRail, type RailEntry } from "@/components/tools/workspaces/orig-rail";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     Design19Chip,
@@ -30,12 +27,10 @@ import { cn } from "@/lib/utils";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { handheldGoodsResultPanelTask } from "@/features/tools/adapters/handheld-goods";
 import { ToolResult } from "@/components/tools/tool-result";
-import { ToolShell } from "@/components/tools/tool-shell";
 import {
     buildHandheldGoodsSnapshot,
     createHandheldGoodsState,
     findHandheldGoodsPose,
-    getHandheldGoodsSpec,
     HANDHELD_GOODS_CHECK_TYPES,
     HANDHELD_GOODS_HAND_TABS,
     HANDHELD_GOODS_OUTPUT_OPTIONS,
@@ -44,7 +39,6 @@ import {
     HANDHELD_GOODS_TOOL_ID,
     handheldGoodsOutputLabel,
     handheldGoodsPoseReferenceUrl,
-    handheldGoodsPoseSvg,
     isHandheldGoodsSnapshotStale,
     listHandheldGoodsPoses,
     parseHandheldGoodsDraftValues,
@@ -58,7 +52,6 @@ import {
 import {
     buildHandheldGoodsUnits,
     createHandheldGoodsRunPort,
-    handheldGoodsOutputFields,
     handheldGoodsResultView,
     handheldGoodsStatusText,
     retryHandheldGoodsUnit,
@@ -94,21 +87,7 @@ const SOURCE_CONSTRAINTS = {
 
 export type HandheldGoodsWorkspaceProps = { className?: string };
 
-/** 原站左 rail（商品图设计族）在内容区的等价展示，顺序取自原站 HANDHELD_GOODS 页。 */
-const HANDHELD_GOODS_RAIL: RailEntry[] = [
-    { kind: "flat", label: "商品图" },
-    { kind: "flat", label: "我的商品" },
-    { kind: "flat", label: "场景参考图" },
-    { kind: "flat", label: "商品替换" },
-    { kind: "flat", label: "场景裂变" },
-    { kind: "tool", label: "手持商品", route: "/tools/product-design/handheld-goods" },
-    { kind: "flat", label: "历史记录" },
-    { kind: "tag", label: "企业功能" },
-    { kind: "flat", label: "批量生图" },
-];
-
 export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProps = {}) {
-    const spec = useMemo(() => getHandheldGoodsSpec(), []);
 
     // 结果面板只认落库任务：刷新后由 hydrate 用 storageKey 复原真实字节，再交给共享 ToolResult。
     const storedTasks = useToolTaskStore((state) => state.tasks);
@@ -363,9 +342,6 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
         [product, snapshot],
     );
 
-    const outputFields = useMemo(() => handheldGoodsOutputFields(runs), [runs]);
-    const appliedFields = useMemo(() => Object.keys(outputFields).length, [outputFields]);
-
     /* ---------------- 渲染 ---------------- */
 
     const submitDisabled = running || issues.length > 0;
@@ -458,28 +434,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
         setNotice("已用处理后的图替换商品图");
     }, []);
 
-    const sidebar = (
-        <div className="space-y-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">同类工具</p>
-            {listToolsByCategory("product-design")
-                .filter((tool) => tool.id !== HANDHELD_GOODS_TOOL_ID)
-                .slice(0, 8)
-                .map((tool) => (
-                    <Link
-                        key={tool.id}
-                        to={tool.route}
-                        className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-accent"
-                    >
-                        <span>{tool.title}</span>
-                        <ArrowRight aria-hidden="true" className="size-3.5 opacity-60" />
-                    </Link>
-                ))}
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">商品图 10MB 内，384²–4096²，png/jpeg/webp</p>
-        </div>
-    );
-
     return (
-        <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col", className)} data-testid="handheld-workspace-root">
+        <div className={cn("relative flex min-h-0 min-w-0 flex-1 flex-col", className)} data-testid="handheld-workspace-root">
             {notice ? (
                 <div
                     role="status"
@@ -488,10 +444,9 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     {notice}
                 </div>
             ) : null}
-            <OrigRail items={HANDHELD_GOODS_RAIL} active="手持商品" driver className="mb-2" testId="handheld-family-rail" />
             <ToolWorkspaceColumns
                 data-testid="handheld-goods-workspace"
-                className="lg:h-[calc(100dvh-76px)]"
+                className="lg:h-[calc(100dvh-56px)]"
                 config={(
                     <div className="flex h-full min-h-0 flex-col gap-2 rounded-[8px] bg-card px-3 py-[10px]">
                     <div data-testid="handheld-config-scroll" className="min-h-0 flex-1 space-y-[10px] overflow-y-auto">
@@ -524,61 +479,82 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         <TryDemoStrip demos={DESIGN_TRY_DEMOS.handheld} busySrc={demoBusy} disabled={running} onPick={(src) => void pickDemo(src)} />
                     </div>
 
-                    {/* 2. 选择手持姿势：原站行卡（缩略图 + 标题 + 说明 + 右箭头），点开选部位与姿势；切页签不动商品图（规格 §3） */}
+                    {/* 2. 选择手持姿势：原站行卡（缩略图 + 标题 + 说明 + 右箭头），点击在配置列右侧弹出悬浮面板 */}
                     <DesignRowCard
                         testId="handheld-pose-card"
                         image={activePose ? handheldGoodsPoseReferenceUrl(activePose) : DESIGN_ICON_FEATURE}
                         imageClassName="h-[100px] w-[88px] object-contain"
                         title="选择手持姿势"
-                        desc="手持的部位与姿势参考"
+                        desc={activePose ? activePose.label : "手持的部位与姿势参考"}
                         open={poseOpen}
                         onClick={() => setPoseOpen((open) => !open)}
-                    >
-                        <Design19ChipGroup>
-                            {HANDHELD_GOODS_HAND_TABS.map((tab) => (
-                                <Design19Chip
-                                    key={tab.id}
-                                    selected={tab.id === state.modelTabType}
-                                    disabled={running}
-                                    onClick={() =>
-                                        setState((previous) => switchHandheldGoodsHandTab(previous, tab.id).state)
-                                    }
+                    />
+                    {poseOpen ? (
+                        <div
+                            role="dialog"
+                            aria-label="选择手持姿势"
+                            data-testid="handheld-pose-panel"
+                            className="fixed left-[310px] top-[76px] z-40 w-[420px] max-w-[calc(100vw-324px)] rounded-xl border border-border bg-popover p-4 text-popover-foreground shadow-xl"
+                        >
+                            <div className="mb-3 flex items-center justify-between">
+                                <h3 className="text-sm font-medium text-foreground">选择手持姿势</h3>
+                                <button
+                                    type="button"
+                                    aria-label="关闭手持姿势面板"
+                                    onClick={() => setPoseOpen(false)}
+                                    className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
                                 >
-                                    {tab.label}
-                                </Design19Chip>
-                            ))}
-                        </Design19ChipGroup>
-                        <div className="mt-[8px] grid grid-cols-4 gap-[6px]">
-                            {poses.map((pose) => {
-                                const selected = pose.id === state.modelId;
-                                return (
-                                    <button
-                                        key={pose.id}
-                                        type="button"
-                                        aria-pressed={selected}
+                                    <X className="size-4" />
+                                </button>
+                            </div>
+                            <Design19ChipGroup>
+                                {HANDHELD_GOODS_HAND_TABS.map((tab) => (
+                                    <Design19Chip
+                                        key={tab.id}
+                                        selected={tab.id === state.modelTabType}
                                         disabled={running}
                                         onClick={() =>
-                                            setState((previous) => ({
-                                                ...previous,
-                                                modelId: pose.id,
-                                                modelTabType: pose.hand,
-                                            }))
+                                            setState((previous) => switchHandheldGoodsHandTab(previous, tab.id).state)
                                         }
-                                        className={cn(
-                                            "overflow-hidden rounded-[4px] border bg-card p-0.5 transition",
-                                            selected ? "border-selected" : "border-border hover:border-selected",
-                                        )}
                                     >
-                                        <img
-                                            src={handheldGoodsPoseReferenceUrl(pose)}
-                                            alt={`${pose.label} 示意图`}
-                                            className="aspect-square w-full object-contain"
-                                        />
-                                    </button>
-                                );
-                            })}
+                                        {tab.label}
+                                    </Design19Chip>
+                                ))}
+                            </Design19ChipGroup>
+                            <div className="mt-3 grid max-h-[380px] grid-cols-4 gap-2 overflow-y-auto pr-1">
+                                {poses.map((pose) => {
+                                    const selected = pose.id === state.modelId;
+                                    return (
+                                        <button
+                                            key={pose.id}
+                                            type="button"
+                                            aria-pressed={selected}
+                                            disabled={running}
+                                            onClick={() => {
+                                                setState((previous) => ({
+                                                    ...previous,
+                                                    modelId: pose.id,
+                                                    modelTabType: pose.hand,
+                                                }));
+                                                setPoseOpen(false);
+                                            }}
+                                            className={cn(
+                                                "overflow-hidden rounded-[6px] border bg-card p-1 text-center transition",
+                                                selected ? "border-selected bg-selected-soft" : "border-border hover:border-selected",
+                                            )}
+                                        >
+                                            <img
+                                                src={handheldGoodsPoseReferenceUrl(pose)}
+                                                alt={`${pose.label} 示意图`}
+                                                className="aspect-square w-full object-contain"
+                                            />
+                                            <span className="mt-1 block truncate text-[11px] text-foreground">{pose.label}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </DesignRowCard>
+                    ) : null}
 
                     {/* 3. 选择生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
                     <div className="pt-[10px]">
@@ -671,19 +647,22 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         {view.status !== "idle" ? (
                             <p className="mb-2 text-[12px] leading-[18px] text-muted-foreground">{handheldGoodsStatusText(view)}</p>
                         ) : null}
-                        {stale ? (
-                            <p className="mb-2 rounded-md bg-card px-2 py-1 text-[12px] leading-[18px] text-muted-foreground">
-                                配置已修改，下面的结果来自旧版本（快照指纹不同）。
-                            </p>
-                        ) : null}
 
-                        {appliedFields ? (
-                            <p className="mb-2 text-[12px] leading-[18px] text-muted-foreground">
-                                已回填输出字段：imageResultUrl / targetResultUrl
-                            </p>
-                        ) : null}
-
-                        {view.items.length ? (
+                        {lastTask || panelTask ? (
+                            <div
+                                data-testid="handheld-result-panel"
+                                data-tool-id={HANDHELD_GOODS_TOOL_ID}
+                                data-task-id={(lastTask ?? panelTask)!.id}
+                                data-task-status={(lastTask ?? panelTask)!.status}
+                            >
+                                <ToolResult
+                                    task={(lastTask ?? panelTask)!}
+                                    toolId={HANDHELD_GOODS_TOOL_ID}
+                                    title="生成结果"
+                                    sourceUrl={product?.url}
+                                />
+                            </div>
+                        ) : view.items.length ? (
                             <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3">
                                 {view.items.map((item) => (
                                     <figure key={item.index} className="overflow-hidden rounded-lg border border-border">
@@ -769,22 +748,6 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             >
                                 取消本次生成
                             </button>
-                        ) : null}
-
-                        {lastTask || panelTask ? (
-                            <div
-                                className="mt-4"
-                                data-testid="handheld-result-panel"
-                                data-tool-id={HANDHELD_GOODS_TOOL_ID}
-                                data-task-id={(lastTask ?? panelTask)!.id}
-                                data-task-status={(lastTask ?? panelTask)!.status}
-                            >
-                                <ToolResult
-                                    task={(lastTask ?? panelTask)!}
-                                    toolId={HANDHELD_GOODS_TOOL_ID}
-                                    title="最近一次上游返回"
-                                />
-                            </div>
                         ) : null}
 
                     </div>

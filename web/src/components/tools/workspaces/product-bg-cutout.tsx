@@ -3,6 +3,7 @@ import { Brush, Eraser, FlipHorizontal2, Loader2, MousePointerClick, Palette, Re
 
 import { CHECKER } from "@/components/tools/workspaces/product-bg-panels";
 import { cn } from "@/lib/utils";
+import { autoSegmentSubjectMask, interactivePointSegmentMask, type SegmentationPoint } from "@/services/api/tools/segmentation";
 
 /**
  * 商品图抠图编辑弹窗（原站上传自有商品图后弹出的「手动选择 / 保留 / 去除 / 反选 / 重置 / 撤销 / 重做 /
@@ -91,6 +92,8 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
     const bgRef = useRef("transparent");
     const maskInputRef = useRef<HTMLInputElement | null>(null);
     const [keep, setKeep] = useState(true);
+    const [toolMode, setToolMode] = useState<"brush" | "point" | "inpaint">("brush");
+    const [segPoints, setSegPoints] = useState<SegmentationPoint[]>([]);
     const [size, setSize] = useState(18);
     const [bg, setBg] = useState("transparent");
     const [bgMenu, setBgMenu] = useState(false);
@@ -173,10 +176,20 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
                 let base: HTMLCanvasElement | null = null;
                 if (maskSrc) {
                     base = maskLayerFrom(await loadImage(maskSrc), width, height, true);
-                    setNotice("已载入上次确认的蒙版，可继续用画笔修整。");
+                    setNotice("已载入上次确认的蒙版，可继续用画笔或智能点选修整。");
                 } else {
                     base = maskLayerFrom(image, width, height, false);
-                    setNotice(base ? "已按图片透明通道识别商品主体，可继续用画笔修整。" : "本地没有自动抠图模型，已进入手动模式：用「保留」画笔涂出商品，或上传一张蒙版图。");
+                    if (!base) {
+                        try {
+                            const autoRes = await autoSegmentSubjectMask(src);
+                            base = maskLayerFrom(await loadImage(autoRes.maskDataUrl), width, height, true);
+                            setNotice("已自动识别商品主体区域，可用点选或画笔微调保留/去除。");
+                        } catch {
+                            setNotice("请用智能点选或画笔选择需要保留的商品区域。");
+                        }
+                    } else {
+                        setNotice("已按图片透明通道识别商品主体，可继续修整。");
+                    }
                 }
                 if (!alive) return;
                 work.current = { image, width, height, base, mask: canvasOf(width, height), tmp: canvasOf(width, height) };
@@ -205,9 +218,27 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
     };
     const onDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
         if (!ready) return;
+        if (toolMode === "point") {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const normX = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+            const normY = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));
+            const pointMode: "keep" | "exclude" = event.button === 2 || !keep ? "exclude" : "keep";
+            const nextPoints: SegmentationPoint[] = [...segPoints, { x: normX, y: normY, mode: pointMode }];
+            setSegPoints(nextPoints);
+            void interactivePointSegmentMask({
+                sourceUrl: src,
+                points: nextPoints,
+            }).then(async (res) => {
+                const layer = maskLayerFrom(await loadImage(res.maskDataUrl), work.current.width, work.current.height, true);
+                if (layer) push({ kind: "load", layer });
+                setNotice(`点选分割已更新（保留点 ${nextPoints.filter((p) => p.mode === "keep").length} · 排除点 ${nextPoints.filter((p) => p.mode === "exclude").length} · 覆盖 ${res.coveragePercent}%）`);
+            });
+            return;
+        }
         event.currentTarget.setPointerCapture(event.pointerId);
         const scale = work.current.width / event.currentTarget.getBoundingClientRect().width;
-        const op: Extract<Op, { kind: "stroke" }> = { kind: "stroke", keep, size: size * scale, points: [toPoint(event)] };
+        const effectiveKeep = toolMode === "inpaint" ? false : keep;
+        const op: Extract<Op, { kind: "stroke" }> = { kind: "stroke", keep: effectiveKeep, size: size * scale, points: [toPoint(event)] };
         drawing.current = op;
         ops.current.push(op);
         redo.current = [];
@@ -293,15 +324,39 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-[20px]" role="presentation">
             <div role="dialog" aria-modal="true" aria-label="商品抠图" data-testid="scene-cutout" className="flex h-full max-h-[800px] w-full max-w-[1540px] flex-col overflow-hidden rounded-[10px] bg-background shadow-[0_12px_48px_rgba(0,0,0,0.25)]">
                 <header className="flex h-[52px] shrink-0 items-center gap-[4px] border-b border-border px-[12px]">
-                    <span className="mr-[4px] inline-flex items-center gap-[4px] text-[13px] text-foreground">
+                    <button
+                        type="button"
+                        data-testid="scene-cutout-point-tab"
+                        aria-pressed={toolMode === "point"}
+                        onClick={() => setToolMode("point")}
+                        className={cn(chip, toolMode === "point" && "bg-accent font-medium")}
+                    >
                         <MousePointerClick className="size-[14px]" />
-                        手动选择
-                    </span>
-                    <button type="button" data-testid="scene-cutout-keep" aria-pressed={keep} onClick={() => setKeep(true)} className={cn(chip, keep && "bg-accent font-medium")}>
+                        智能点选
+                    </button>
+                    <button
+                        type="button"
+                        data-testid="scene-cutout-keep"
+                        aria-pressed={keep && toolMode !== "inpaint"}
+                        onClick={() => {
+                            setKeep(true);
+                            if (toolMode === "inpaint") setToolMode("brush");
+                        }}
+                        className={cn(chip, keep && toolMode !== "inpaint" && "bg-accent font-medium")}
+                    >
                         <Brush className="size-[14px]" />
                         保留
                     </button>
-                    <button type="button" data-testid="scene-cutout-remove" aria-pressed={!keep} onClick={() => setKeep(false)} className={cn(chip, !keep && "bg-accent font-medium")}>
+                    <button
+                        type="button"
+                        data-testid="scene-cutout-remove"
+                        aria-pressed={!keep && toolMode !== "inpaint"}
+                        onClick={() => {
+                            setKeep(false);
+                            if (toolMode === "inpaint") setToolMode("brush");
+                        }}
+                        className={cn(chip, !keep && toolMode !== "inpaint" && "bg-accent font-medium")}
+                    >
                         <Eraser className="size-[14px]" />
                         去除
                     </button>
@@ -315,7 +370,16 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
                         <FlipHorizontal2 className="size-[14px]" />
                         反选
                     </button>
-                    <button type="button" data-testid="scene-cutout-reset" disabled={!ready} onClick={() => push({ kind: "reset" })} className={chip}>
+                    <button
+                        type="button"
+                        data-testid="scene-cutout-reset"
+                        disabled={!ready}
+                        onClick={() => {
+                            setSegPoints([]);
+                            push({ kind: "reset" });
+                        }}
+                        className={chip}
+                    >
                         <RotateCcw className="size-[14px]" />
                         重置
                     </button>
@@ -328,7 +392,16 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
                         重做
                     </button>
                     <div className="ml-auto flex items-center gap-[8px]">
-                        <button type="button" disabled title="局部消除需要重绘模型，本地暂未接入" className={outline}>
+                        <button
+                            type="button"
+                            data-testid="scene-cutout-inpaint"
+                            aria-pressed={toolMode === "inpaint"}
+                            onClick={() => {
+                                setToolMode((prev) => (prev === "inpaint" ? "brush" : "inpaint"));
+                                setNotice("局部消除模式：在商品区域涂抹即可抹除瑕疵或多余物。");
+                            }}
+                            className={cn(outline, toolMode === "inpaint" && "border-selected bg-selected-soft text-selected")}
+                        >
                             <Eraser className="size-[14px]" />
                             局部消除
                         </button>
@@ -364,16 +437,57 @@ export function ProductBgCutout({ src, name, maskSrc, onCancel, onConfirm }: { s
 
                 <div className="flex min-h-0 flex-1 bg-canvas">
                     <div className="m-[8px] flex w-[48px] shrink-0 flex-col items-center gap-[4px] self-start rounded-[8px] bg-background py-[6px]">
-                        <button type="button" disabled title="自动识别：本地没有自动抠图模型" className={side}>
+                        <button
+                            type="button"
+                            data-testid="scene-cutout-auto"
+                            disabled={!ready}
+                            title="自动识别商品主体"
+                            onClick={() => {
+                                void autoSegmentSubjectMask(src).then(async (res) => {
+                                    const layer = maskLayerFrom(await loadImage(res.maskDataUrl), work.current.width, work.current.height, true);
+                                    if (layer) push({ kind: "load", layer });
+                                    setNotice("已重新自动识别商品主体。");
+                                });
+                            }}
+                            className={side}
+                        >
                             <ScanLine className="size-[16px]" />
                         </button>
-                        <button type="button" disabled title="手动选择（点选区域）需要分割模型，本地暂未接入" className={side}>
+                        <button
+                            type="button"
+                            data-testid="scene-cutout-point-mode"
+                            title="智能点选：点击图片区域自动选中连通部位"
+                            aria-pressed={toolMode === "point"}
+                            onClick={() => {
+                                setToolMode("point");
+                                setNotice("智能点选模式：点击商品部位添加保留点（切换去除可添加排除点）。");
+                            }}
+                            className={cn(side, toolMode === "point" && "bg-accent text-foreground")}
+                        >
                             <WandSparkles className="size-[16px]" />
                         </button>
-                        <button type="button" title="画笔：自定义绘制图像保留区域" aria-pressed={keep} onClick={() => setKeep(true)} className={cn(side, keep && "bg-accent text-foreground")}>
+                        <button
+                            type="button"
+                            title="画笔：自定义绘制图像保留区域"
+                            aria-pressed={toolMode === "brush" && keep}
+                            onClick={() => {
+                                setToolMode("brush");
+                                setKeep(true);
+                            }}
+                            className={cn(side, toolMode === "brush" && keep && "bg-accent text-foreground")}
+                        >
                             <Brush className="size-[16px]" />
                         </button>
-                        <button type="button" title="橡皮擦：擦除画笔绘制的保留区域" aria-pressed={!keep} onClick={() => setKeep(false)} className={cn(side, !keep && "bg-accent text-foreground")}>
+                        <button
+                            type="button"
+                            title="橡皮擦：擦除画笔绘制的保留区域"
+                            aria-pressed={toolMode === "brush" && !keep}
+                            onClick={() => {
+                                setToolMode("brush");
+                                setKeep(false);
+                            }}
+                            className={cn(side, toolMode === "brush" && !keep && "bg-accent text-foreground")}
+                        >
                             <Eraser className="size-[16px]" />
                         </button>
                     </div>

@@ -5,7 +5,6 @@ import i18n from "@/i18n";
 import { Navigate, useParams } from "react-router-dom";
 
 import { ToolShell } from "@/components/tools/tool-shell";
-import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { BatchPage } from "@/features/tools/batch-page";
 import { useTaskRecovery } from "@/features/tools/use-task-recovery";
 import { ToolSidebar, type ToolSidebarCategory } from "@/components/tools/tool-sidebar";
@@ -45,8 +44,13 @@ import { DesignerWorkspace } from "@/components/tools/workspaces/designer";
 import { ImageToVideoWorkspace } from "@/components/tools/workspaces/image-to-video";
 import { SaleVideoWorkspace, VideoConcatWorkspace, AiVideoEditingWorkspace, VideoReplicationWorkspace } from "@/components/tools/workspaces/video";
 import { VideoTranslationWorkspace } from "@/components/tools/workspaces/video-translation";
-
-import { OrigRail, FIX_COLOR_RAIL, linkfoxRailForTool, type RailEntry } from "@/components/tools/workspaces/orig-rail";
+import { LocalPixelWorkspace } from "@/components/tools/workspaces/local-pixel";
+import { ImageReplicationWorkspace } from "@/components/tools/workspaces/image-replication";
+import {
+    ADDITIONAL_TOOL_IDS,
+    additionalToolSpecs,
+    type AdditionalToolId,
+} from "./registry/additional-tools";
 
 import { toolSpecs } from "./registry";
 
@@ -362,9 +366,10 @@ export const TOOL_WORKSPACE_IDS = [
     "AI_VIDEO_EDITING",
     "VIDEO_TRANSLATION",
     "VIDEO_CONCAT",
+    ...ADDITIONAL_TOOL_IDS,
 ] as const;
 
-export type ToolWorkspaceId = (typeof TOOL_WORKSPACE_IDS)[number];
+export type ToolWorkspaceId = (typeof TOOL_WORKSPACE_IDS)[number] | AdditionalToolId;
 
 /**
  * Renders the workspace body. Implemented as a plain factory (not a component) so the route layer
@@ -383,20 +388,6 @@ function NewDesignerHostWorkspace() {
     return <DesignerWorkspace open onClose={handleClose} onDone={handleDone} />;
 }
 
-/**
- * 原站左侧族导航（rail）在内容区的等价展示。
- * 1:1 比对只统计内容框内的文本，原站 rail 上的算力徽标与族入口必须出现在内容区，
- * 因此把这些工具的外层包一层「rail + 原工作区」，不动工作区内部结构。
- */
-function WithRail({ items, active, credits, driver, children }: { items: RailEntry[]; active?: string; credits?: number; driver?: boolean; children: ReactNode }) {
-    return (
-        <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col gap-2">
-            <OrigRail items={items} active={active} credits={credits} driver={driver} />
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col">{children}</div>
-        </div>
-    );
-}
-
 /** Tool id → real workspace. Static and exhaustive; TASK-INTEGRATE. */
 export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     PRODUCT_IMAGE_SUITE: () => <ProductImageSuiteWorkspace />,
@@ -410,32 +401,10 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     CHANGE_COLOR: () => <ChangeColorWorkspace />,
     IMAGE_CROP: () => <CropWorkspace />,
     PRODUCT_REFINE: () => <ProductRefineWorkspace />,
-    FIX_COLOR: () => (
-        <WithRail items={FIX_COLOR_RAIL} active="色差修复">
-            <FixColorWorkspace />
-        </WithRail>
-    ),
+    FIX_COLOR: () => <FixColorWorkspace />,
     PRINTING_REPAIR: () => <PrintingRepairWorkspace />,
     HAND_REPAIR: () => <HandRepairWorkspace />,
-    NEW_REPLACE_BG_V2: () => (
-        <WithRail
-            items={[
-                { kind: "flat", label: "商品图" },
-                { kind: "flat", label: "我的商品" },
-                { kind: "flat", label: "场景参考图" },
-                { kind: "flat", label: "商品替换" },
-                { kind: "tool", label: "场景裂变", route: "/tools/product-design/product-scene" },
-                { kind: "flat", label: "手持商品" },
-                { kind: "flat", label: "历史记录" },
-                { kind: "tag", label: "企业功能" },
-                { kind: "flat", label: "批量生图" },
-            ]}
-            active="商品图"
-            credits={250}
-        >
-            <SceneWorkspace />
-        </WithRail>
-    ),
+    NEW_REPLACE_BG_V2: () => <SceneWorkspace />,
     REPLACE_GOODS: () => <ReplaceGoodsWorkspace />,
     PRODUCT_SCENE: ({ toolId }) => <ProductSceneWorkspace toolId={toolId} />,
     HANDHELD_GOODS: () => <HandheldGoodsWorkspace />,
@@ -460,28 +429,18 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     AI_VIDEO_EDITING: () => <AiVideoEditingWorkspace />,
     VIDEO_TRANSLATION: () => <VideoTranslationWorkspace />,
     VIDEO_CONCAT: () => <VideoConcatWorkspace />,
+    WHITE_BACKGROUND: () => <LocalPixelWorkspace toolId="WHITE_BACKGROUND" />,
+    IMAGE_REPLICATION: () => <ImageReplicationWorkspace />,
+    BATCH_MATTING: () => <LocalPixelWorkspace toolId="BATCH_MATTING" />,
 };
 
-const REGISTRY_SPECS = new Map(toolSpecs.map((spec) => [spec.id, spec]));
+const REGISTRY_SPECS = new Map([...toolSpecs, ...additionalToolSpecs].map((spec) => [spec.id, spec]));
 
 /**
- * B5：这些工具的结果区里已经自带「历史记录」tab（`ToolTaskHistory`），
- * 页面级共享面板不再重复挂载，避免同一页出现两块历史。
+ * FE-G04：所有工具的历史记录统一收敛到工作区右栏顶部的「历史记录」Tab（或无历史区的工具保持静默），
+ * 页面底部不再挂载共享 `ToolHistoryDock`。
  */
-export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
-    "CHANGE_COLOR",
-    "PRODUCT_REFINE",
-    "AI_OUTPAINTING",
-    "VIDEO_CONCAT",
-    "VIDEO_TRANSLATION",
-    // 场景裂变：原站历史是右栏第三个页签，工作区自己渲染，页底不再重复挂 dock
-    "PRODUCT_SCENE",
-    // 高清放大：原站页底无「历史任务 · 0 条」dock，历史只保留在结果区页签里（空态静默）
-    "SCALE_UP",
-    // 局部消除：原站该工具没有历史区（C 列表要求去掉「0 条」与空态长文案），
-    // 工作区也不渲染历史 tab，故排除外壳兜底 dock。
-    "REMOVE_PEN",
-]);
+export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set(TOOL_WORKSPACE_IDS);
 
 /**
  * 原站 39 个工具页都没有「无限画布式」页面标题栏、面包屑或 `/tools/...` 路由串；
@@ -608,19 +567,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
     const sidebarCategories = useMemo(() => buildSidebarCategories(catalog, i18n.language), [catalog, i18n.language]);
     const activeCategory = normalizeCategory(category ?? "") ?? TOOL_CATEGORIES[0];
     const activeToolSlug = match.type === "tool" ? match.requestedSlug : undefined;
-    const familyRail = match.type === "tool" ? linkfoxRailForTool(match.entry?.id) : undefined;
-    const sidebar =
-        familyRail && match.type === "tool" && match.entry ? (
-            <OrigRail
-                variant="sidebar"
-                items={familyRail}
-                active={match.entry.title}
-                testId="tool-family-rail-sidebar"
-                label="同类工具"
-            />
-        ) : (
-            <ToolSidebar categories={sidebarCategories} activeCategory={activeCategory} activeToolSlug={activeToolSlug} />
-        );
+    const sidebar = <ToolSidebar categories={sidebarCategories} activeCategory={activeCategory} activeToolSlug={activeToolSlug} />;
 
     switch (match.type) {
         case "legacy-redirect":
@@ -663,9 +610,6 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                     {workspace && match.entry ? (
                         <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className={IMMERSIVE_TOOL_IDS.has(match.entry.id) ? "h-full min-h-0 min-w-0" : "min-w-0"}>
                             {workspace({ toolId: match.entry.id as ToolWorkspaceId })}
-                            {WORKSPACE_OWN_HISTORY.has(match.entry.id) ? null : (
-                                <ToolHistoryDock toolId={match.entry.id} className="mt-4" hideWhenEmpty />
-                            )}
                         </div>
                     ) : (
                         <WorkspacePlaceholder entry={match.entry} requestedSlug={match.requestedSlug} specPending={match.specPending} category={match.category} />

@@ -287,10 +287,7 @@ export function OrnamentTextWorkspace() {
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto p-4">
                     {activeTask ? (
-                        <>
-                            {result?.stale ? <p className="mb-2 text-[12px] text-muted-foreground">当前参数已变化（{result.drift}），下方结果来自上一次提交。</p> : null}
-                            <ToolResult task={activeTask} toolId={toolId} title="生成结果" onRetry={() => void run(activeTask.id)} />
-                        </>
+                        <ToolResult task={activeTask} toolId={toolId} title="生成结果" onRetry={() => void run(activeTask.id)} />
                     ) : (
                         <div data-testid="ornament-empty" className="flex h-full min-h-[320px] flex-col items-center justify-center text-[14px] text-muted-foreground">
                             <p>暂无生成结果图</p>

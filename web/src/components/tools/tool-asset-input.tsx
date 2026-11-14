@@ -20,6 +20,19 @@ import {
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useTranslation } from "react-i18next";
 
+export type ToolAssetSampleItem = {
+    id: string;
+    url: string;
+    label?: string;
+};
+
+const DEFAULT_IMAGE_SAMPLES: ToolAssetSampleItem[] = [
+    { id: "sample-1", url: "/__cases/product-scene/1983831220118597632-source.webp", label: "示例 1" },
+    { id: "sample-2", url: "/__cases/product-scene/1984091344636719104-source.webp", label: "示例 2" },
+    { id: "sample-3", url: "/__cases/product-scene/1740339005955035136-source.webp", label: "示例 3" },
+    { id: "sample-4", url: "/__cases/product-scene/1740552538122670080-source.webp", label: "示例 4" },
+];
+
 export type ToolAssetInputProps = {
     toolId: string;
     /**
@@ -33,11 +46,13 @@ export type ToolAssetInputProps = {
     maxCount?: number;
     /** 资产库（作品库/商品库）条目，来自 use-asset-store 的适配结果 */
     library?: ToolAssetLibraryItem[];
+    /** 上传框下方的「或试试这些」示例图列表；传 null 显式关闭，不传且为图片上传时展示默认示例 */
+    samples?: ToolAssetSampleItem[] | null;
     disabled?: boolean;
     title?: string;
     className?: string;
     /**
-     * `linkfox`：原站商品套图的上传卡——紫色「从本地上传」主按钮 + 下方两个库按钮 + 限制提示行，
+     * `linkfox`：原站商品套图的上传卡——「从本地上传」主按钮 + 下方两个库按钮 + 限制提示行，
      * 没有默认的标题行/居中提示文案。默认值保持旧行为，其它工具不受影响。
      */
     variant?: "default" | "linkfox";
@@ -89,13 +104,17 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange, syncIds }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, samples, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange, syncIds }: ToolAssetInputProps) {
     const { t } = useTranslation();
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
     const [dragging, setDragging] = useState(false);
     const [hydratedDraft, setHydratedDraft] = useState(false);
+    const [libraryModalOpen, setLibraryModalOpen] = useState(false);
+    const [libraryTab, setLibraryTab] = useState<"mine" | "history">("mine");
+    const [librarySearch, setLibrarySearch] = useState("");
+    const [selectedLibraryIds, setSelectedLibraryIds] = useState<string[]>([]);
     const itemsRef = useRef<AssetItem[]>([]);
     const libraryRef = useRef<HTMLDetailsElement | null>(null);
     const controllers = useRef(new Map<string, AbortController>());
@@ -322,6 +341,41 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
 
     const linkfox = variant === "linkfox";
     const atLimitForDisplay = Boolean(atLimit);
+    const resolvedSamples = useMemo(
+        () => (samples === null ? [] : samples ?? (effectiveConstraints.kind === "image" ? DEFAULT_IMAGE_SAMPLES : [])),
+        [effectiveConstraints.kind, samples],
+    );
+
+    const pickSample = useCallback(
+        async (sample: ToolAssetSampleItem) => {
+            if (disabled || atLimit) return;
+            try {
+                const response = await fetch(sample.url);
+                if (!response.ok) throw new Error(`示例读取失败（HTTP ${response.status}）`);
+                const blob = await response.blob();
+                const ext = (sample.url.split("?")[0].split(".").pop() ?? "webp").toLowerCase();
+                const mime = blob.type || (ext === "png" ? "image/png" : ext === "jpg" || ext === "jpeg" ? "image/jpeg" : "image/webp");
+                await pickFiles([new File([blob], `${sample.id}.${ext}`, { type: mime })]);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "示例图加载失败");
+            }
+        },
+        [atLimit, disabled, pickFiles],
+    );
+
+    const confirmLibraryModal = useCallback(async () => {
+        if (!library?.length || !selectedLibraryIds.length) {
+            setLibraryModalOpen(false);
+            return;
+        }
+        const byId = new Map(library.map((entry) => [entry.id, entry]));
+        for (const id of selectedLibraryIds) {
+            const found = byId.get(id);
+            if (found) await addFromLibrary(found);
+        }
+        setSelectedLibraryIds([]);
+        setLibraryModalOpen(false);
+    }, [addFromLibrary, library, selectedLibraryIds]);
 
     return (
         <section className={cn("space-y-3", className)} aria-busy={items.some((item) => item.status === "uploading")} data-tool-asset-input={toolId} data-variant={variant}>
@@ -426,10 +480,13 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                             <>
                                 <button
                                     type="button"
+                                    data-testid="tool-asset-open-library-modal"
                                     className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
-                                    disabled={disabled || atLimit || !library?.length}
+                                    disabled={disabled || atLimit}
                                     title={library?.length ? t("toolChrome.assetFromLibraryTitle") : t("toolChrome.assetLibraryEmptyTitle")}
                                     onClick={() => {
+                                        setSelectedLibraryIds([]);
+                                        setLibraryModalOpen(true);
                                         if (libraryRef.current) libraryRef.current.open = true;
                                     }}
                                 >
@@ -438,9 +495,14 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 {thirdAction === undefined ? (
                                 <button
                                     type="button"
+                                    data-testid="tool-asset-open-products-modal"
                                     className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
-                                    disabled
-                                    title={t("toolChrome.assetProductsPartial")}
+                                    disabled={disabled || atLimit}
+                                    onClick={() => {
+                                        setLibraryTab("history");
+                                        setSelectedLibraryIds([]);
+                                        setLibraryModalOpen(true);
+                                    }}
                                 >
                                     {t("toolChrome.assetFromProducts")}
                                 </button>
@@ -524,8 +586,29 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 </p>
             )}
 
+            {readyCount === 0 && resolvedSamples.length > 0 ? (
+                <div className="flex items-center gap-2 pt-0.5" data-testid="tool-asset-samples">
+                    <span className="shrink-0 text-[11px] text-muted-foreground">或试试这些：</span>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                        {resolvedSamples.slice(0, 4).map((sample, idx) => (
+                            <button
+                                key={sample.id}
+                                type="button"
+                                disabled={disabled || atLimit}
+                                title={sample.label ?? `示例 ${idx + 1}`}
+                                data-testid={`tool-asset-sample-${idx}`}
+                                onClick={() => void pickSample(sample)}
+                                className="group relative size-9 overflow-hidden rounded-md border border-border bg-muted transition hover:border-selected disabled:opacity-50"
+                            >
+                                <img src={sample.url} alt={sample.label ?? `示例 ${idx + 1}`} className="size-full object-cover" loading="lazy" />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
+
             {library?.length ? (
-                <details ref={libraryRef} className="rounded-lg border border-border px-3 py-2">
+                <details ref={libraryRef} className="hidden rounded-lg border border-border px-3 py-2">
                     <summary className="cursor-pointer text-xs text-foreground/70">
                         {t("toolChrome.librarySummary", { count: library.length })}
                     </summary>
@@ -541,6 +624,142 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                         ))}
                     </ul>
                 </details>
+            ) : null}
+
+            {libraryModalOpen ? (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="从素材库选择"
+                    data-testid="tool-asset-library-modal"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+                    onClick={() => setLibraryModalOpen(false)}
+                >
+                    <div
+                        className="flex max-h-[82vh] w-full max-w-2xl flex-col gap-3 rounded-xl border border-border bg-card p-4 shadow-2xl"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between border-b border-border pb-2.5">
+                            <div className="flex items-center gap-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setLibraryTab("mine")}
+                                    className={cn(
+                                        "text-sm font-medium transition-colors",
+                                        libraryTab === "mine" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    我的素材（{(library ?? []).filter((entry) => entry.kind === effectiveConstraints.kind).length}）
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setLibraryTab("history")}
+                                    className={cn(
+                                        "text-sm font-medium transition-colors",
+                                        libraryTab === "history" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    示例与商品库（{resolvedSamples.length}）
+                                </button>
+                            </div>
+                            <input
+                                type="search"
+                                value={librarySearch}
+                                onChange={(event) => setLibrarySearch(event.target.value)}
+                                placeholder="搜索素材名称…"
+                                className="h-7 w-44 rounded-md border border-border bg-background px-2.5 text-xs outline-none focus:border-primary"
+                            />
+                        </div>
+
+                        <div className="min-h-[240px] flex-1 overflow-y-auto">
+                            {libraryTab === "mine" ? (
+                                (library ?? []).filter(
+                                    (entry) =>
+                                        entry.kind === effectiveConstraints.kind &&
+                                        (!librarySearch.trim() || entry.name.toLowerCase().includes(librarySearch.trim().toLowerCase())),
+                                ).length > 0 ? (
+                                    <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+                                        {(library ?? [])
+                                            .filter(
+                                                (entry) =>
+                                                    entry.kind === effectiveConstraints.kind &&
+                                                    (!librarySearch.trim() || entry.name.toLowerCase().includes(librarySearch.trim().toLowerCase())),
+                                            )
+                                            .map((libraryItem) => {
+                                                const checked = selectedLibraryIds.includes(libraryItem.id);
+                                                return (
+                                                    <li key={libraryItem.id}>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setSelectedLibraryIds((prev) =>
+                                                                    prev.includes(libraryItem.id)
+                                                                        ? prev.filter((id) => id !== libraryItem.id)
+                                                                        : maxCount === 1
+                                                                          ? [libraryItem.id]
+                                                                          : [...prev, libraryItem.id],
+                                                                );
+                                                            }}
+                                                            className={cn(
+                                                                "group relative flex w-full flex-col overflow-hidden rounded-lg border p-1.5 text-left transition",
+                                                                checked ? "border-selected bg-selected-soft" : "border-border hover:border-foreground/40",
+                                                            )}
+                                                        >
+                                                            <img src={libraryItem.url} alt={libraryItem.name} className="aspect-square w-full rounded object-cover" />
+                                                            <span className="mt-1 w-full truncate text-[11px] text-foreground">{libraryItem.name}</span>
+                                                        </button>
+                                                    </li>
+                                                );
+                                            })}
+                                    </ul>
+                                ) : (
+                                    <div className="flex h-48 items-center justify-center text-xs text-muted-foreground">
+                                        暂无匹配的本地素材，可切换到「示例与商品库」或从本地上传
+                                    </div>
+                                )
+                            ) : (
+                                <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+                                    {resolvedSamples.map((sample, idx) => (
+                                        <li key={sample.id}>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    void pickSample(sample);
+                                                    setLibraryModalOpen(false);
+                                                }}
+                                                className="flex w-full flex-col overflow-hidden rounded-lg border border-border p-1.5 text-left transition hover:border-selected"
+                                            >
+                                                <img src={sample.url} alt={sample.label ?? `示例 ${idx + 1}`} className="aspect-square w-full rounded object-cover" />
+                                                <span className="mt-1 w-full truncate text-[11px] text-foreground">{sample.label ?? `示例商品 ${idx + 1}`}</span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 border-t border-border pt-2.5">
+                            <button
+                                type="button"
+                                onClick={() => setLibraryModalOpen(false)}
+                                className="h-8 rounded-md border border-border px-3 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                            >
+                                取消
+                            </button>
+                            {libraryTab === "mine" ? (
+                                <button
+                                    type="button"
+                                    disabled={selectedLibraryIds.length === 0}
+                                    data-testid="tool-asset-library-confirm"
+                                    onClick={() => void confirmLibraryModal()}
+                                    className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+                                >
+                                    确认选择（{selectedLibraryIds.length}）
+                                </button>
+                            ) : null}
+                        </div>
+                    </div>
+                </div>
             ) : null}
         </section>
     );

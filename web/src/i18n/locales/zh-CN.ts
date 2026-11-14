@@ -802,6 +802,9 @@ export default {
         tools: {
             PRODUCT_IMAGE_SUITE: "商品套图",
             DRESS_WEAR_SET: "服装套图",
+            WHITE_BACKGROUND: "白底图",
+            IMAGE_REPLICATION: "爆款图复刻",
+            BATCH_MATTING: "批量抠图",
             CHANGE_COLOR_V2: "套图换色",
             IMAGE_TRANSLATION: "批量翻译",
             SCALE_UP: "高清放大",

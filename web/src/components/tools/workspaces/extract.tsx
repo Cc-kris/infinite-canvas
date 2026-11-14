@@ -17,8 +17,6 @@ import { ArrowRight, Download, ImagePlus, Loader2, RotateCcw, RotateCw, Sparkles
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { ToolResult } from "@/components/tools/tool-result";
 import { printExtractResultPanelTask } from "@/features/tools/adapters/print-extract";
-import { ToolShell } from "@/components/tools/tool-shell";
-import { OrigRail, PRINT_EXTRACT_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { buildPrintExtractUnit, printExtractPreflightIssues, printExtractSourceReference, runPrintExtract } from "@/features/tools/adapters/print-extract";
 import { getToolById, toolSpecs } from "@/features/tools/registry";
 import {
@@ -466,11 +464,6 @@ export function AssetResultGrid({
                         >
                             <span className={cn("rounded border px-1.5 py-0.5 text-[10px]", STATUS_TONE[item.status])}>{STATUS_LABEL[item.status]}</span>
                             <span className="min-w-0 flex-1 truncate text-[11px] text-muted-foreground">{item.name}</span>
-                            {item.stale ? (
-                                <span data-testid={`print-extract-stale-${index}`} className="shrink-0 rounded border border-amber-500/40 bg-amber-500/10 px-1 text-[10px] text-amber-700 dark:text-amber-300">
-                                    来自旧版本
-                                </span>
-                            ) : null}
                         </button>
 
                         <div className="grid grid-cols-2 gap-px bg-border">
@@ -787,72 +780,22 @@ export function PrintExtractWorkspace() {
 
     const currentHash = (item: PrintExtractItem) => printExtractSnapshotHash({ sourceAssetId: item.assetId, isTransparent: config.isTransparent, width: item.width, height: item.height });
 
-    const staleItems = items.filter((item) => Boolean(item.snapshotHash) && item.snapshotHash !== currentHash(item));
     const canGenerate = items.length > 0 && !busy && (batch ? items.some((item) => item.status === "idle" || item.status === "failed") : true);
 
-    const sidebar = (
-        <nav aria-label="商品图设计工具" className="flex flex-col gap-1">
-            {relatedTools().map((tool) => (
-                <Link key={tool.id} to={tool.route} className={cn("rounded px-2 py-1 text-[11px] transition hover:bg-accent", tool.id === PRINT_EXTRACT_TOOL_ID ? "bg-accent font-medium text-foreground" : "text-muted-foreground")}>
-                    {tool.title}
-                </Link>
-            ))}
-        </nav>
-    );
-
     return (
-        <ToolShell
-            title={spec?.title ?? "印花提取"}
-            subtitle={`快速提取商品中的印花图案 · 20M / ${PRINT_EXTRACT_SOURCE_LIMITS.minSide}–${PRINT_EXTRACT_SOURCE_LIMITS.maxSide}${progress ? ` · ${progress}` : ""}`}
-            breadcrumb={<span className="text-[11px] text-muted-foreground">商品图设计 / 印花提取</span>}
-            notices={
-                <>
-                    {notice ? (
-                        <p data-testid="print-extract-notice" className="rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                            {notice}
-                        </p>
-                    ) : null}
-                    {issueList.length > 0 ? (
-                        <p data-testid="print-extract-source-issue" className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">
-                            {printExtractIssuesText(issueList)}
-                        </p>
-                    ) : null}
-                    {staleItems.length > 0 ? (
-                        <p data-testid="print-extract-stale-banner" className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">
-                            有 {staleItems.length} 张结果来自旧版本（配置或源图已变更），如需当前配置请重新生成。
-                        </p>
-                    ) : null}
-                </>
-            }
-            actions={
-                <>
-                    <button
-                        type="button"
-                        data-testid="print-extract-undo"
-                        onClick={undo}
-                        disabled={cfg.past.length === 0}
-                        className="inline-flex min-h-9 items-center gap-1 rounded-md border border-border px-2 text-xs text-muted-foreground hover:bg-accent disabled:opacity-40"
-                    >
-                        <RotateCcw className="size-3.5" aria-hidden /> 撤销
-                    </button>
-                    <button
-                        type="button"
-                        data-testid="print-extract-redo"
-                        onClick={redo}
-                        disabled={cfg.future.length === 0}
-                        className="inline-flex min-h-9 items-center gap-1 rounded-md border border-border px-2 text-xs text-muted-foreground hover:bg-accent disabled:opacity-40"
-                    >
-                        <RotateCw className="size-3.5" aria-hidden /> 重做
-                    </button>
-                </>
-            }
-            sidebar={sidebar}
-            sidebarLabel="商品图设计"
-        >
-            <OrigRail items={PRINT_EXTRACT_RAIL} active="印花提取" driver testId="print-extract-rail" label="商品图设计" />
-            <div data-testid="print-extract-workspace" className="min-h-[596px]">
+        <div data-testid="print-extract-workspace" className="min-h-[596px]">
+            {notice ? (
+                <p data-testid="print-extract-notice" className="mx-3 mt-2 rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                    {notice}
+                </p>
+            ) : null}
+            {issueList.length > 0 ? (
+                <p data-testid="print-extract-source-issue" className="mx-3 mt-2 rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">
+                    {printExtractIssuesText(issueList)}
+                </p>
+            ) : null}
                 <ToolWorkspaceColumns
-                    className="lg:h-[calc(100dvh-110px)]"
+                    className="lg:h-[calc(100dvh-76px)]"
                     config={(
                         <div data-testid="print-extract-config" className="flex h-full flex-col rounded-[8px] bg-card">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 py-[10px]">
@@ -939,7 +882,7 @@ export function PrintExtractWorkspace() {
                                     <RotateCw className="size-3" aria-hidden /> 只重试失败的 {summary.failed} 张
                                 </button>
                             ) : null}
-                            
+
                         </div>
                     </div>
 
@@ -969,32 +912,6 @@ export function PrintExtractWorkspace() {
                                         }}
                                         onDownload={handleDownload}
                                     />
-                                    {activeTask ? (
-                                        <section className="space-y-2">
-                                            <TaskStatusPanel task={activeTask} onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} />
-                                            <details open={showSnapshot} onToggle={(event) => setShowSnapshot((event.target as HTMLDetailsElement).open)} data-testid="print-extract-snapshot" className="rounded-lg border border-border bg-card px-3 py-2 text-xs">
-                                                <summary className="cursor-pointer text-muted-foreground">查看本次输入快照</summary>
-                                                {activeSnapshot ? (
-                                                    <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-                                                        <dt>源图</dt>
-                                                        <dd className="truncate text-foreground">{activeSnapshot.sourceName}</dd>
-                                                        <dt>尺寸</dt>
-                                                        <dd className="text-foreground">
-                                                            {activeSnapshot.width} × {activeSnapshot.height}
-                                                        </dd>
-                                                        <dt>透明图</dt>
-                                                        <dd className="text-foreground">{activeSnapshot.isTransparent ? "开启" : "关闭"}</dd>
-                                                        <dt>幂等键</dt>
-                                                        <dd className="truncate text-foreground">{activeSnapshot.clientOperationId}</dd>
-                                                        <dt>指纹</dt>
-                                                        <dd className="truncate text-foreground">{activeItem ? currentHash(activeItem) : "-"}</dd>
-                                                    </dl>
-                                                ) : (
-                                                    <p className="mt-2 text-[11px] text-muted-foreground">还没有提交过快照。</p>
-                                                )}
-                                            </details>
-                                        </section>
-                                    ) : null}
                                     {activeTask || persistedPanelTask ? (
                                         <div
                                             data-testid="print-extract-result-panel"
@@ -1039,8 +956,7 @@ export function PrintExtractWorkspace() {
                     </div>
                 </section>
                 </ToolWorkspaceColumns>
-            </div>
-        </ToolShell>
+        </div>
     );
 }
 

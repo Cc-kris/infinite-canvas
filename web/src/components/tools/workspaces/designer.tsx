@@ -411,7 +411,7 @@ export function DesignerWorkspace({
         onClose?.({ designerId: document.designerId, saved: false });
     }, [document.designerId, onClose]);
 
-    const notice = designerResultNotice(stage, error, { stale });
+    const notice = designerResultNotice(stage, error, { stale: false });
 
     /** 首页新建：替换当前唯一的本地草稿（含清空旧导出结果），然后进入编辑器。 */
     const startDocument = useCallback((next: DesignerDocument, selectId?: string) => {
@@ -485,7 +485,6 @@ export function DesignerWorkspace({
                 <div className="flex min-w-0 items-center gap-2">
                     <span className="truncate font-medium">商品图设计器</span>
                     <span className="truncate text-xs text-muted-foreground">{sourceName} · {document.width}×{document.height}</span>
-                    <span className="rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">设计器宿主</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                     <button type="button" onClick={() => setHomeOpen(true)} className="flex h-10 items-center gap-1.5 rounded-lg border border-border px-3 text-muted-foreground hover:bg-accent" data-testid="designer-new-design" title="从模板或商品图新建设计（当前未导出的修改会先保留在草稿中）">
@@ -662,7 +661,7 @@ export function DesignerWorkspace({
                         {error ? <p className="mt-1 text-xs text-destructive">{error.code}：{error.message}</p> : null}
                         {result ? (
                             <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-                                <span>已入库资产 #{result.assetId.slice(0, 8)} · {result.bytes ? `${Math.round(result.bytes / 1024)} KB` : "大小未知"} · 响应 id {resultFingerprint ?? "——"}</span>
+                                <span>已导出设计稿（{result.bytes ? `${Math.round(result.bytes / 1024)} KB` : "PNG"}）</span>
                                 <button type="button" data-testid="designer-download" onClick={() => void handleDownload()} className="rounded border border-border px-2 py-0.5 text-[11px] hover:bg-accent">
                                     下载 PNG
                                 </button>
@@ -772,7 +771,6 @@ export function DesignerWorkspace({
                                 ))}
                             </ul>
                         ) : null}
-                        <p className="mt-auto text-[11px] text-muted-foreground">工具 {NEW_DESIGNER_TOOL_ID} · 草稿键 tool-draft:v1:{NEW_DESIGNER_TOOL_ID}</p>
                     </aside>
                 )}
                 </div>

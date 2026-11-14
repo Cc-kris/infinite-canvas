@@ -1,7 +1,9 @@
-import { ArrowRight, ChevronDown, ChevronUp, CircleQuestionMark, Pipette, RotateCcw, WandSparkles, X } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, CircleQuestionMark, MousePointerClick, Pipette, RotateCcw, WandSparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
+
+import { interactivePointSegmentMask, type SegmentationPoint } from "@/services/api/tools/segmentation";
 
 import { Edit8CanvasToolbar, Edit8Config, Edit8Dropzone, Edit8Empty, Edit8ResultTabs, Edit8UploadCard, edit8GradientButtonClass, edit8OutlineButtonClass } from "@/components/tools/edit8-frame";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
@@ -181,7 +183,27 @@ const MASK_BRUSH = { min: 4, max: 120, step: 1 } as const;
  * 在图上涂抹选区：点的坐标按 0..1 归一化，导出时再放大到原图真实像素，
  * 这样无论预览多大，蒙版始终与原图同尺寸（页面规格对 imageMaskUrl 的硬要求）。
  */
-function MaskCanvas({ src, strokes, brush, disabled, onChange }: { src: string; strokes: Stroke[]; brush: number; disabled?: boolean; onChange: (next: Stroke[]) => void }) {
+function MaskCanvas({
+    src,
+    strokes,
+    brush,
+    disabled,
+    mode = "brush",
+    segPoints = [],
+    pointMaskDataUrl,
+    onChange,
+    onPointClick,
+}: {
+    src: string;
+    strokes: Stroke[];
+    brush: number;
+    disabled?: boolean;
+    mode?: "brush" | "point";
+    segPoints?: SegmentationPoint[];
+    pointMaskDataUrl?: string;
+    onChange: (next: Stroke[]) => void;
+    onPointClick?: (pt: { x: number; y: number; button: number }) => void;
+}) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const drawingRef = useRef<Stroke | null>(null);
     const [painting, setPainting] = useState(false);
@@ -203,7 +225,16 @@ function MaskCanvas({ src, strokes, brush, disabled, onChange }: { src: string; 
             }
             context.fill();
         }
-    }, [strokes]);
+        for (const pt of segPoints) {
+            context.beginPath();
+            context.fillStyle = pt.mode === "keep" ? "#10b981" : "#ef4444";
+            context.arc(pt.x * width, pt.y * height, 6, 0, Math.PI * 2);
+            context.fill();
+            context.strokeStyle = "#ffffff";
+            context.lineWidth = 2;
+            context.stroke();
+        }
+    }, [strokes, segPoints]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -243,11 +274,26 @@ function MaskCanvas({ src, strokes, brush, disabled, onChange }: { src: string; 
     return (
         <div className="relative overflow-hidden rounded-lg border border-border bg-muted" data-testid="change-color-mask-canvas">
             <img src={src} alt="待换色的原图" className="block h-auto w-full select-none" draggable={false} />
+            {pointMaskDataUrl ? (
+                <img
+                    src={pointMaskDataUrl}
+                    alt=""
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 h-full w-full object-contain opacity-35 mix-blend-screen"
+                />
+            ) : null}
             <canvas
                 ref={canvasRef}
                 className={`absolute inset-0 h-full w-full touch-none ${disabled ? "cursor-not-allowed" : "cursor-crosshair"}`}
                 onPointerDown={(event) => {
                     if (disabled) return;
+                    if (mode === "point" && onPointClick) {
+                        const rect = event.currentTarget.getBoundingClientRect();
+                        const x = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(1, rect.width)));
+                        const y = Math.min(1, Math.max(0, (event.clientY - rect.top) / Math.max(1, rect.height)));
+                        onPointClick({ x, y, button: event.button });
+                        return;
+                    }
                     event.currentTarget.setPointerCapture(event.pointerId);
                     const stroke: Stroke = { points: [], radius: brush / 200 };
                     drawingRef.current = stroke;
@@ -255,10 +301,11 @@ function MaskCanvas({ src, strokes, brush, disabled, onChange }: { src: string; 
                     paint(event, stroke);
                 }}
                 onPointerMove={(event) => {
-                    if (!drawingRef.current || disabled) return;
+                    if (!drawingRef.current || disabled || mode === "point") return;
                     paint(event, drawingRef.current);
                 }}
                 onPointerUp={() => {
+                    if (mode === "point") return;
                     const stroke = drawingRef.current;
                     drawingRef.current = null;
                     setPainting(false);
@@ -430,6 +477,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const [source, setSource] = useState<ChangeColorSourceAsset | undefined>();
     const [restoringSource, setRestoringSource] = useState(false);
     const [strokes, setStrokes] = useState<Stroke[]>([]);
+    const [maskMode, setMaskMode] = useState<"brush" | "point">("brush");
+    const [pointKeepMode, setPointKeepMode] = useState<"keep" | "exclude">("keep");
+    const [segPoints, setSegPoints] = useState<SegmentationPoint[]>([]);
+    const [pointMaskDataUrl, setPointMaskDataUrl] = useState<string | undefined>();
     const [brush, setBrush] = useState(28);
     const [reference, setReference] = useState<ToolAssetRecord | undefined>();
     const [paletteNote, setPaletteNote] = useState<string | undefined>();
@@ -437,7 +488,6 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const [snapshot, setSnapshot] = useState<ReturnType<typeof createChangeColorSnapshot> | undefined>();
     const [running, setRunning] = useState(false);
     const [runError, setRunError] = useState<string | undefined>();
-    const [showSnapshot, setShowSnapshot] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
     /* valuesRef 保证事件处理器拿到最新值：patchDraft 不能放进 setValues 的更新函数里
@@ -489,7 +539,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
         };
     }, [toolId, hydrate, flushDraft]);
 
-    const maskReady = strokes.length > 0;
+    const maskReady = strokes.length > 0 || Boolean(pointMaskDataUrl);
     const sourceReady = Boolean(source && isChangeColorSourceUsable(source));
     const modelReady = Boolean(imageModel?.trim());
 
@@ -514,18 +564,38 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const result = changeColorResultFromTask(activeTask, snapshot, currentSnapshot);
     const beforeImage = source?.dataUrl ?? source?.url;
 
+    const handlePointClick = useCallback(
+        ({ x, y, button }: { x: number; y: number; button: number }) => {
+            if (!beforeImage) return;
+            const mode: "keep" | "exclude" = button === 2 ? "exclude" : pointKeepMode;
+            const nextPoints: SegmentationPoint[] = [...segPoints, { x, y, mode }];
+            setSegPoints(nextPoints);
+            void interactivePointSegmentMask({
+                sourceUrl: beforeImage,
+                points: nextPoints,
+            }).then((res) => {
+                setPointMaskDataUrl(res.maskDataUrl);
+            });
+        },
+        [beforeImage, pointKeepMode, segPoints],
+    );
+
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
             const record = records[0];
             if (!record) {
                 setSource(undefined);
                 setStrokes([]);
+                setSegPoints([]);
+                setPointMaskDataUrl(undefined);
                 update({ sourceAssetId: "", imageName: "" });
                 return;
             }
             const next = sourceFromRecord(record);
             setSource(next);
             setStrokes([]);
+            setSegPoints([]);
+            setPointMaskDataUrl(undefined);
             update({ sourceAssetId: next.assetId, imageName: next.name ?? "" });
             const check = validateChangeColorSource(next);
             setRunError(check.ok ? undefined : check.message);
@@ -628,7 +698,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
         try {
             await flushDraft(toolId);
             const size = maskSize();
-            const maskUrl = exportMaskPng(strokes, size.width, size.height);
+            const maskUrl = pointMaskDataUrl ?? exportMaskPng(strokes, size.width, size.height);
             const run = await runChangeColor({
                 gateway: getPersistedToolGateway(),
                 values,
@@ -643,7 +713,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             });
             setTask(run.task);
             setSnapshot(run.snapshot);
-            update({ hasMask: strokes.length > 0 });
+            update({ hasMask: strokes.length > 0 || Boolean(pointMaskDataUrl) });
         } catch (error) {
             const message = error instanceof ChangeColorAdapterError ? error.message : error instanceof Error ? error.message : "生成失败，请重试。";
             setRunError(message);
@@ -651,7 +721,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             abortRef.current = null;
             setRunning(false);
         }
-    }, [source, blocked, flushDraft, toolId, maskSize, strokes, values, reference?.url, imageModel, modelReady, draft?.revision, update]);
+    }, [source, blocked, flushDraft, toolId, maskSize, pointMaskDataUrl, strokes, values, reference?.url, imageModel, modelReady, draft?.revision, update]);
 
     const onCancel = useCallback(() => {
         abortRef.current?.abort();
@@ -672,7 +742,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 taskId: task.id,
                 values,
                 source,
-                maskUrl: exportMaskPng(strokes, size.width, size.height),
+                maskUrl: pointMaskDataUrl ?? exportMaskPng(strokes, size.width, size.height),
                 referenceUrl: reference?.url,
                 model: imageModel,
                 imageModelReady: modelReady,
@@ -688,7 +758,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             abortRef.current = null;
             setRunning(false);
         }
-    }, [task, source, maskSize, strokes, values, reference?.url, imageModel, modelReady, draft?.revision]);
+    }, [task, source, maskSize, pointMaskDataUrl, strokes, values, reference?.url, imageModel, modelReady, draft?.revision]);
 
     const disabled = running;
 
@@ -942,30 +1012,111 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 {beforeImage ? (
                     <>
                         <Edit8CanvasToolbar>
-                            <span className="text-[12px] text-muted-foreground">画笔</span>
-                            <input
-                                type="range"
-                                min={4}
-                                max={80}
-                                value={brush}
-                                disabled={disabled}
-                                aria-label="画笔大小"
-                                onChange={(event) => setBrush(Number(event.target.value))}
-                                className="h-[22px] w-[112px] accent-primary"
-                                data-testid="change-color-brush"
-                            />
-                            <span className="w-6 text-[12px] tabular-nums text-foreground">{brush}</span>
+                            <div className="flex items-center gap-1 rounded-md border border-border bg-card p-0.5">
+                                <button
+                                    type="button"
+                                    data-testid="change-color-mode-point"
+                                    aria-pressed={maskMode === "point"}
+                                    onClick={() => setMaskMode("point")}
+                                    className={cn(
+                                        "inline-flex h-6 items-center gap-1 rounded px-2 text-[12px]",
+                                        maskMode === "point" ? "bg-selected-soft font-medium text-selected" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    <MousePointerClick className="size-3.5" />
+                                    点选区域
+                                </button>
+                                <button
+                                    type="button"
+                                    data-testid="change-color-mode-brush"
+                                    aria-pressed={maskMode === "brush"}
+                                    onClick={() => setMaskMode("brush")}
+                                    className={cn(
+                                        "inline-flex h-6 items-center gap-1 rounded px-2 text-[12px]",
+                                        maskMode === "brush" ? "bg-selected-soft font-medium text-selected" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    画笔涂抹
+                                </button>
+                            </div>
+                            {maskMode === "point" ? (
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        type="button"
+                                        data-testid="change-color-point-keep"
+                                        onClick={() => setPointKeepMode("keep")}
+                                        className={cn("h-6 rounded border px-2 text-[11px]", pointKeepMode === "keep" ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground")}
+                                    >
+                                        + 保留点
+                                    </button>
+                                    <button
+                                        type="button"
+                                        data-testid="change-color-point-exclude"
+                                        onClick={() => setPointKeepMode("exclude")}
+                                        className={cn("h-6 rounded border px-2 text-[11px]", pointKeepMode === "exclude" ? "border-selected bg-selected-soft text-selected" : "border-border text-muted-foreground")}
+                                    >
+                                        - 排除点
+                                    </button>
+                                </div>
+                            ) : (
+                                <>
+                                    <span className="text-[12px] text-muted-foreground">画笔</span>
+                                    <input
+                                        type="range"
+                                        min={4}
+                                        max={80}
+                                        value={brush}
+                                        disabled={disabled}
+                                        aria-label="画笔大小"
+                                        onChange={(event) => setBrush(Number(event.target.value))}
+                                        className="h-[22px] w-[112px] accent-primary"
+                                        data-testid="change-color-brush"
+                                    />
+                                    <span className="w-6 text-[12px] tabular-nums text-foreground">{brush}</span>
+                                </>
+                            )}
                             <span className="ml-2 text-[12px] text-muted-foreground" data-testid="change-color-mask-state">
-                                {strokes.length > 0 ? `已涂 ${strokes.length} 笔选区` : "未涂选区：按整图换色"}
+                                {pointMaskDataUrl
+                                    ? `已点选 ${segPoints.length} 个区域锚点`
+                                    : strokes.length > 0
+                                      ? `已涂 ${strokes.length} 笔选区`
+                                      : "未选区域：按整图换色"}
                             </span>
                             <div className="ml-auto flex items-center gap-2">
                                 <button type="button" className={ghostButton} disabled={disabled} onClick={() => onSourceChange([], [])} data-testid="change-color-reupload">
                                     重新上传
                                 </button>
-                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes((previous) => previous.slice(0, -1))} data-testid="change-color-mask-undo">
+                                <button
+                                    type="button"
+                                    className={ghostButton}
+                                    disabled={disabled || (strokes.length === 0 && segPoints.length === 0)}
+                                    onClick={() => {
+                                        if (maskMode === "point" && segPoints.length > 0) {
+                                            const next = segPoints.slice(0, -1);
+                                            setSegPoints(next);
+                                            if (next.length === 0) setPointMaskDataUrl(undefined);
+                                            else if (beforeImage) {
+                                                void interactivePointSegmentMask({ sourceUrl: beforeImage, points: next }).then((res) => setPointMaskDataUrl(res.maskDataUrl));
+                                            }
+                                        } else {
+                                            setStrokes((previous) => previous.slice(0, -1));
+                                        }
+                                    }}
+                                    data-testid="change-color-mask-undo"
+                                >
                                     撤销
                                 </button>
-                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes([])} data-testid="change-color-mask-clear">
+                                <button
+                                    type="button"
+                                    className={ghostButton}
+                                    disabled={disabled || (strokes.length === 0 && segPoints.length === 0)}
+                                    onClick={() => {
+                                        setStrokes([]);
+                                        setSegPoints([]);
+                                        setPointMaskDataUrl(undefined);
+                                    }}
+                                    data-testid="change-color-mask-clear"
+                                >
                                     清空选区
                                 </button>
                             </div>
@@ -973,18 +1124,23 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
                             {result.image ? (
                                 <div className="flex h-full w-full min-h-0 flex-col gap-2">
-                                    {result.stale ? (
-                                        <p className="shrink-0 rounded-md bg-muted px-2 py-1 text-[11px] leading-4 text-muted-foreground" data-testid="change-color-stale-note">
-                                            当前结果来自旧版本配置（已换图或改参），点“立即生成”可获得当前配置的结果。
-                                        </p>
-                                    ) : null}
                                     <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[8px] bg-card/60">
                                         <img src={result.image} alt="换色结果" className="max-h-full max-w-full object-contain" data-testid="change-color-result-image" />
                                     </div>
                                     <CompareSlider before={beforeImage} after={result.image} />
                                 </div>
                             ) : (
-                                <MaskCanvas src={beforeImage} strokes={strokes} brush={brush} disabled={disabled} onChange={setStrokes} />
+                                <MaskCanvas
+                                    src={beforeImage}
+                                    strokes={strokes}
+                                    brush={brush}
+                                    disabled={disabled}
+                                    mode={maskMode}
+                                    segPoints={segPoints}
+                                    pointMaskDataUrl={pointMaskDataUrl}
+                                    onChange={setStrokes}
+                                    onPointClick={handlePointClick}
+                                />
                             )}
                         </div>
                     </>
@@ -1007,9 +1163,9 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                     </>
                                 }
                                 extraActions={
-                                    <button type="button" disabled title="批量一键换色：原站跳转「批量生图」，本地暂未接入" className={edit8OutlineButtonClass} data-testid="change-color-batch-entry">
+                                    <Link to={CHANGE_COLOR_V2_ROUTE} className={edit8OutlineButtonClass} data-testid="change-color-batch-entry">
                                         批量一键换色 <ArrowRight className="size-3.5" aria-hidden />
-                                    </button>
+                                    </Link>
                                 }
                             />
                         </div>
@@ -1035,7 +1191,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     ) : null}
                     {resultTab === "result" ? (
                         activeTask ? (
-                            <ToolResult task={activeTask} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={() => void onRetry()} />
+                            <ToolResult task={activeTask} toolId={toolId} title="生成结果" sourceUrl={beforeImage} onCancel={onCancel} onRetry={() => void onRetry()} />
                         ) : (
                             <Edit8Empty className="flex-1" lines={["暂无生成结果图", "快在左侧操作物品换色吧~"]} />
                         )
@@ -1055,24 +1211,6 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                 }}
                             />
                         </div>
-                    ) : null}
-
-                    {/* 本地附加：上传后可查看本次提交字段（原站无此卡，空态不显示）。 */}
-                    {currentSnapshot ? (
-                    <div className="rounded-[8px] bg-card p-[10px]">
-                        <button type="button" className="flex w-full items-center justify-between gap-2 text-[12px] leading-5 text-foreground!" onClick={() => setShowSnapshot((previous) => !previous)} data-testid="change-color-snapshot-toggle">
-                            <span>本次提交</span>
-                            <span className="text-[11px] text-muted-foreground">{showSnapshot ? "收起参数" : "查看参数"}</span>
-                        </button>
-                        <p className="m-0! mt-1! text-[11px] leading-4 text-muted-foreground" data-testid="change-color-snapshot">
-                            {snapshotFieldSummary(currentSnapshot.fields)}
-                        </p>
-                        {showSnapshot ? (
-                            <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-muted/60 p-2 text-[10px] leading-relaxed text-muted-foreground" data-testid="change-color-snapshot-body">
-                                {JSON.stringify(currentSnapshot.fields, null, 2)}
-                            </pre>
-                        ) : null}
-                    </div>
                     ) : null}
                 </div>
             </section>

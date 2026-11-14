@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
-import { OrigRail, PRODUCT_SCENE_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
-import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolResult } from "@/components/tools/tool-result";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SCENE_CASES, PRODUCT_SCENE_GUIDE_CASES } from "@/features/tools/tool-cases-data";
@@ -568,7 +567,6 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
     return (
         <div className={`min-w-0 ${className ?? ""}`} data-tool="product-scene" data-layout="linkfox-two-pane">
-            <OrigRail items={PRODUCT_SCENE_RAIL} active="场景裂变" driver testId="product-scene-rail" className="mb-2" />
             <ToolWorkspaceColumns
                 configSide="left"
                 className="h-[calc(100dvh-76px)] min-h-[560px] overflow-hidden rounded-[8px] border border-border"
@@ -816,16 +814,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                     <div className="min-h-0 flex-1 overflow-y-auto">
                         {tab === "result" ? (
                             <div className="flex min-h-full flex-col gap-3 p-4">
-                                {drift && task ? (
-                                    <p
-                                        className="rounded-[6px] border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300"
-                                        data-testid="scene-stale"
-                                    >
-                                        配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
-                                    </p>
-                                ) : null}
-
-                                {showEmpty ? (
+                                {showEmpty && !panelTask ? (
                                     <div className="flex flex-1 items-center justify-center pt-[26px]" data-testid="scene-result-empty">
                                         {/* 原站 `_caseGuide`：标题（542px 宽、两行）+ 竖图案例轮播 + 一键做同款（真实入库回填） */}
                                         <ToolCaseGuide
@@ -836,14 +825,10 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onApply={applyCase}
                                         />
                                     </div>
-                                ) : (
+                                ) : null}
+
+                                {!showEmpty && result.cells.some((cell) => cell.status === "failed" || cell.status === "missing") ? (
                                     <div className="rounded-[8px] bg-card p-3">
-                                        <div className="mb-2 flex items-baseline justify-between gap-2">
-                                            <h3 className="text-[13px] font-medium text-foreground">生成结果</h3>
-                                            <span className="text-[11px] tabular-nums text-muted-foreground">
-                                                本次 {result.expected} 张 · 已返回 {result.count} 张
-                                            </span>
-                                        </div>
                                         <SceneVariantGrid
                                             cells={result.cells}
                                             expected={result.expected}
@@ -851,7 +836,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onRetryCell={(index) => void onRetryCell(index)}
                                         />
                                     </div>
-                                )}
+                                ) : null}
 
                                 {panelTask || task ? (
                                     <div
@@ -863,7 +848,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                         <ToolResult
                                             task={(panelTask ?? task)!}
                                             toolId={toolId}
-                                            title="结果资产"
+                                            title="生成结果"
+                                            sourceUrl={source?.url}
+                                            onOneClickAlike={() => setTab("cases")}
                                             onCancel={running ? onCancel : undefined}
                                             onRetry={task && !running ? () => void onRetry() : undefined}
                                         />
@@ -885,7 +872,14 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
                         {tab === "history" ? (
                             <div className="p-4">
-                                <ToolHistoryDock toolId={toolId} className="border border-border bg-card" />
+                                <ToolTaskHistory
+                                    toolId={toolId}
+                                    emptyHint="暂无场景裂变历史记录"
+                                    onSelectTask={(picked) => {
+                                        setTask(picked);
+                                        setTab("result");
+                                    }}
+                                />
                             </div>
                         ) : null}
                     </div>

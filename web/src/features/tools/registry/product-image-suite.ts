@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { computeMediaSize } from "@/lib/media-size";
+import { isSupportedImageSize } from "@/services/api/image";
 import type { ToolSpec } from "../types";
 
 /**
@@ -102,6 +104,7 @@ export const SUITE_RATIOS = [
     { id: "4:3", label: "4:3" },
     { id: "2:3", label: "2:3" },
     { id: "3:2", label: "3:2" },
+    { id: "custom", label: "自定比例" },
 ] as const;
 export type SuiteRatio = (typeof SUITE_RATIOS)[number]["id"];
 
@@ -179,6 +182,9 @@ export type SuiteConfig = {
     resolution: SuiteResolution;
     quality: SuiteQuality;
     ratio: SuiteRatio;
+    /** 自定比例的像素宽高；主副图自定比例或 A+ 自定比例时进入真实请求。 */
+    customWidth: number;
+    customHeight: number;
     /** A+ 图生成类型（单选，空 = 不生成 A+）。 */
     aplusModuleId: string;
     aplusCount: number;
@@ -214,7 +220,9 @@ export const suiteConfigSchema = z.object({
         .default({ sensitiveWordLexiconId: "", replacementWordLexiconId: "" }),
     resolution: z.enum(SUITE_RESOLUTIONS).default("2K"),
     quality: z.enum(["low", "medium", "high", "ultra", "max"]).default("medium"),
-    ratio: z.enum(["1:1", "3:4", "4:3", "2:3", "3:2"]).default("1:1"),
+    ratio: z.enum(["1:1", "3:4", "4:3", "2:3", "3:2", "custom"]).default("1:1"),
+    customWidth: z.number().default(0),
+    customHeight: z.number().default(0),
     aplusModuleId: z.string().default("aplus-advanced"),
     aplusCount: countSchema.default(PRODUCT_IMAGE_SUITE_DEFAULT_COUNT),
     aplusLayoutMode: z.enum(["per-layout", "no-text"]).default("no-text"),
@@ -228,6 +236,17 @@ export const suiteConfigSchema = z.object({
 
 export function createDefaultSuiteConfig(overrides: Partial<SuiteConfig> = {}): SuiteConfig {
     return { ...suiteConfigSchema.parse({}), ...overrides };
+}
+
+/** 非自定比例沿用原请求；自定比例明确传像素，不让全局图片尺寸覆盖本次选择。 */
+export function suiteRequestSize(config: Pick<SuiteConfig, "ratio" | "customWidth" | "customHeight" | "aplusModuleId">, kind?: SuiteModuleKind): string {
+    const custom = config.ratio === "custom" || (kind === "aplus" && config.aplusModuleId === "aplus-custom-ratio");
+    return custom ? `${config.customWidth}x${config.customHeight}` : config.ratio;
+}
+
+export function suiteCustomDimensions(config: Pick<SuiteConfig, "resolution" | "ratio">, ratio?: string): { width: number; height: number } {
+    const [width, height] = computeMediaSize(config.resolution, ratio ?? (config.ratio === "custom" ? "1:1" : config.ratio)).split("x").map(Number);
+    return { width, height };
 }
 
 /** 草稿（TASK-004 tool-draft）里的 values 形状 → 配置；非法字段回落到默认值并给出 issues。 */
@@ -378,7 +397,8 @@ export function buildSuiteUnitPrompt(
             : `商品主副图（${plan.label}）第 ${index}/${plan.count} 张`;
     parts.push(`基于上传的商品图生成 ${kindText}。`);
     parts.push("保持商品本体形状、颜色、材质纹理、logo 与文字标识不变，不得臆造未出现的配件或赠品。");
-    parts.push(`输出比例 ${config.ratio}，分辨率 ${config.resolution}，品质 ${qualityLabel(config.quality)}。`);
+    const customSize = config.ratio === "custom" || (plan.kind === "aplus" && plan.moduleId === "aplus-custom-ratio");
+    parts.push(`输出${customSize ? `尺寸 ${config.customWidth}×${config.customHeight}px` : `比例 ${config.ratio}`}，分辨率 ${config.resolution}，品质 ${qualityLabel(config.quality)}。`);
     parts.push(layoutInstruction(plan, layoutId));
     const info = config.productInfo.trim();
     parts.push(info ? `商品信息：${info}` : "商品信息：未填写，仅依据商品图推断外观卖点，不编造参数。");
@@ -422,6 +442,7 @@ export type SuiteValidationIssue = {
         | "product-info-too-long"
         | "module-missing"
         | "count-out-of-range"
+        | "custom-size-invalid"
         | "unit-limit"
         | "quality-missing"
         | "capability-missing";
@@ -451,6 +472,10 @@ export function validateSuiteConfig(config: SuiteConfig, context: SuiteValidatio
         issues.push({ field: "model", code: "capability-missing", message: "当前没有可用的图片模型，请先在设置里配置模型频道。" });
     }
     const plan = buildSuiteModulePlan(config);
+    const usesCustomSize = config.ratio === "custom" || config.aplusModuleId === "aplus-custom-ratio";
+    if (usesCustomSize && !isSupportedImageSize(suiteRequestSize(config, "aplus"))) {
+        issues.push({ field: "customWidth", code: "custom-size-invalid", message: "自定宽高须为正整数、16 的倍数，最长边不超过 3840px，宽高比不超过 3:1，并符合模型像素范围。" });
+    }
     if (plan.length === 0) {
         issues.push({ field: "aplusModuleId", code: "module-missing", message: "请至少选择一个生成类型：A+ 图或主副图。" });
     }
@@ -491,6 +516,8 @@ export function suiteGenerationFields(config: SuiteConfig): Record<string, unkno
         resolution: config.resolution,
         quality: config.quality,
         ratio: config.ratio,
+        customWidth: config.customWidth,
+        customHeight: config.customHeight,
         aplusModuleId: config.aplusModuleId,
         aplusCount: config.aplusCount,
         aplusLayoutMode: config.aplusLayoutMode,

@@ -128,7 +128,10 @@ export type ToolId =
     | "VIDEO_REPLICATION"
     | "AI_VIDEO_EDITING"
     | "VIDEO_TRANSLATION"
-    | "VIDEO_CONCAT";
+    | "VIDEO_CONCAT"
+    | "WHITE_BACKGROUND"
+    | "IMAGE_REPLICATION"
+    | "BATCH_MATTING";
 
 export type ToolNavigationItem = {
     /** Upstream `type` of the tool, unique across the registry. */
@@ -189,6 +192,28 @@ export const toolNavigationItems: readonly ToolNavigationItem[] = [
         labelKey: "toolsNav.tools.DRESS_WEAR_SET",
     },
     {
+        id: "WHITE_BACKGROUND",
+        category: "ecommerce-suite",
+        categoryKey: "suite",
+        slug: "white-background",
+        route: "/tools/ecommerce-suite/white-background",
+        origin: "original",
+        batchCapable: false,
+        icon: SquarePen,
+        labelKey: "toolsNav.tools.WHITE_BACKGROUND",
+    },
+    {
+        id: "IMAGE_REPLICATION",
+        category: "ecommerce-suite",
+        categoryKey: "suite",
+        slug: "image-replication",
+        route: "/tools/ecommerce-suite/image-replication",
+        origin: "original",
+        batchCapable: false,
+        icon: Copy,
+        labelKey: "toolsNav.tools.IMAGE_REPLICATION",
+    },
+    {
         id: "CHANGE_COLOR_V2",
         category: "ecommerce-suite",
         categoryKey: "suite",
@@ -231,6 +256,17 @@ export const toolNavigationItems: readonly ToolNavigationItem[] = [
         batchCapable: true,
         icon: Frame,
         labelKey: "toolsNav.tools.AI_OUTPAINTING",
+    },
+    {
+        id: "BATCH_MATTING",
+        category: "smart-edit",
+        categoryKey: "edit",
+        slug: "batch-matting",
+        route: "/tools/smart-edit/batch-matting",
+        origin: "original",
+        batchCapable: false,
+        icon: Scissors,
+        labelKey: "toolsNav.tools.BATCH_MATTING",
     },
     {
         id: "AREA_REPAIR",
@@ -619,7 +655,7 @@ export const toolNavigationCategories: readonly ToolNavigationCategory[] = [
         key: "suite",
         icon: Package,
         route: "/tools/ecommerce-suite",
-        toolIds: ["PRODUCT_IMAGE_SUITE", "DRESS_WEAR_SET", "CHANGE_COLOR_V2", "IMAGE_TRANSLATION", "SCALE_UP", "AI_OUTPAINTING"],
+        toolIds: ["PRODUCT_IMAGE_SUITE", "DRESS_WEAR_SET", "WHITE_BACKGROUND", "IMAGE_REPLICATION", "CHANGE_COLOR_V2", "IMAGE_TRANSLATION", "SCALE_UP", "AI_OUTPAINTING"],
         labelKey: "toolsNav.categories.ecommerce-suite",
         descriptionKey: "toolsNav.categoryDescriptions.ecommerce-suite",
     },
@@ -628,7 +664,7 @@ export const toolNavigationCategories: readonly ToolNavigationCategory[] = [
         key: "edit",
         icon: Wand2,
         route: "/tools/smart-edit",
-        toolIds: ["AREA_REPAIR", "REMOVE_PEN", "CHANGE_COLOR", "IMAGE_CROP", "PRODUCT_REFINE", "FIX_COLOR", "PRINTING_REPAIR", "HAND_REPAIR"],
+        toolIds: ["AREA_REPAIR", "REMOVE_PEN", "CHANGE_COLOR", "IMAGE_CROP", "PRODUCT_REFINE", "FIX_COLOR", "PRINTING_REPAIR", "BATCH_MATTING", "HAND_REPAIR"],
         labelKey: "toolsNav.categories.smart-edit",
         descriptionKey: "toolsNav.categoryDescriptions.smart-edit",
         badge: "newModel",

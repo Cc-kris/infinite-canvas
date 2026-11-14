@@ -13,12 +13,10 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, FolderPlus, Loader2, PersonStanding, Plus, Redo2, Save, Send, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronRight, Download, FolderPlus, Loader2, Plus, Redo2, Send, Sparkles, Trash2, Undo2, X } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
-import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
@@ -125,7 +123,6 @@ import {
     type AiPoseGeneratorIssue,
     type AiPoseGeneratorWorkspace as AiPoseGeneratorState,
 } from "@/features/tools/registry/ai-pose-generator";
-import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
 import type { ToolCase } from "@/components/tools/tool-cases";
@@ -238,26 +235,22 @@ function PostureRulesDialog({ open, onClose, onTry }: { open: boolean; onClose: 
 export type AiPostureWorkspaceProps = { className?: string };
 
 export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) {
-    const spec = useMemo(() => getAiPostureSpec(), []);
-    const fieldSpecs = useMemo(() => aiPostureFieldSpecs(), []);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
 
     const [draftReady, setDraftReady] = useState(false);
     const [workspace, setWorkspace] = useState<AiPostureWorkspace>(() => createAiPostureWorkspace());
     const [modelRecord, setModelRecord] = useState<ToolAssetRecord | null>(null);
-    const [tagDraft, setTagDraft] = useState("");
     const [units, setUnits] = useState<AiPostureUnit[]>([]);
     const [outcomes, setOutcomes] = useState<AiPostureUnitOutcome[]>([]);
     const [run, setRun] = useState<RunState>({ running: false, message: null });
     const [submitError, setSubmitError] = useState<string | null>(null);
     /** 「图片规则」弹窗（原站点击图片规则后弹出的上传规则说明）。 */
     const [rulesOpen, setRulesOpen] = useState(false);
+    /** 姿势选择悬浮面板。 */
+    const [posePanelOpen, setPosePanelOpen] = useState(false);
     /** 结果区页签：生成结果 / 历史记录（原站两个页签）。 */
     const [resultTab, setResultTab] = useState<"results" | "history">("results");
-    /** 「或试试这些」当前示例构图。 */
-    const [exampleLabel, setExampleLabel] = useState<string | null>(null);
-    /** 「上传多张图片，开始批量姿势裂变」：批量模式暂未开放，按钮禁用并在下方说明原因。 */
     /** 结果动作（存入资产 / 发送画布 / 下载）按单张结果卡片记录状态。 */
     const [resultAction, setResultAction] = useState<{ key: string; busy: boolean; tone: "ok" | "error"; message: string } | null>(null);
     /** 做同款 / 示例图回填后同步给上传区的资产 id。 */
@@ -270,7 +263,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
 
     const currentHash = useMemo(() => aiPostureSnapshotHash(workspace), [workspace]);
     const plan = useMemo(() => resolveAiPosturePlan(workspace), [workspace]);
-    const counts = useMemo(() => distributePostureOutputs(workspace.outputNum, plan.poses.length), [plan.poses.length, workspace.outputNum]);
 
     /* ---------------- 草稿：恢复 → 回写 ---------------- */
 
@@ -356,16 +348,10 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         setSubmitError(null);
     }, []);
 
-    const submitTag = useCallback(() => {
-        if (!tagDraft.trim()) return;
-        setWorkspace((current) => addAiPostureTag(current, tagDraft));
-        setTagDraft("");
-    }, [tagDraft]);
-
     const undo = useCallback(() => setWorkspace((current) => undoPostureEdit(current)), []);
     const redo = useCallback(() => setWorkspace((current) => redoPostureEdit(current)), []);
 
-    // 侧栏承诺的快捷键真实生效：⌘/Ctrl + Z 撤销，⇧⌘/Ctrl + Z 重做；文本域内保留原生撤销。
+    // 快捷键真实生效：⌘/Ctrl + Z 撤销，⇧⌘/Ctrl + Z 重做；文本域内保留原生撤销。
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
             if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "z") return;
@@ -378,8 +364,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [redo, undo]);
-
-    const historyLabel = editHistoryLabel(workspace);
 
     /* ---------------- 校验 ---------------- */
 
@@ -530,28 +514,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         [],
     );
 
-    /* ---------------- 侧栏 ---------------- */
-
-    const sidebar = (
-        <div className="space-y-2 py-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">商品图设计</p>
-            <Link to="/tools/product-design/ai-posture" data-testid="ai-posture-nav-current" className="flex items-center justify-between rounded-lg bg-accent px-2 py-1.5 text-sm">
-                <span>姿势裂变</span>
-                <Check aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/product-design/ai-pose-generator" className="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-accent">
-                <span>AI 姿势生成</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/product-design/product-scene" className="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-accent">
-                <span>场景裂变</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">图片规则：{AI_POSTURE_UPLOAD_LABEL}</p>
-            <p className="px-2 text-[11px] leading-4 text-muted-foreground">快捷键：⌘/Ctrl + Z 撤销姿势编辑，⇧⌘/Ctrl + Z 重做</p>
-        </div>
-    );
-
     const visiblePoses = aiPosturePoses(workspace.categoryId);
     /** 折叠态行卡的摘要：原站「选择姿势（可选）/ 生成图片的模特姿势」，选中后显示已选姿势名。 */
     const poseSummary =
@@ -562,159 +524,160 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
               : "生成图片的模特姿势";
 
     return (
-        <ToolShell
-            className="h-full min-h-0"
-            title={spec?.title ?? "姿势裂变"}
-            subtitle="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
-            sidebar={sidebar}
-        >
-            <div data-testid="ai-posture-workspace" className="flex h-full min-h-0 min-w-0 flex-col">
-                <ToolWorkspaceColumns
-                    configSide="left"
-                    className="min-h-0 flex-1 overflow-hidden"
-                    config={
-                        <div className="flex h-full min-h-0 flex-col">
-                            <div data-testid="ai-posture-form" className="min-h-0 flex-1 space-y-2.5 overflow-y-auto px-3 pb-3 pt-3">
-                                {/* 1. 原站 `_uploadPanel`：灰底卡 + 虚线上传框（右上图片规则）+「或试试这些」4 张示例；下方批量入口（本地未开放，禁用） */}
-                                <section data-testid="ai-posture-model-picker" className="space-y-[10px]">
-                                    <div className={DESIGN_UPLOAD_PANEL}>
-                                        <UploadPanelIcon />
-                                        <button
-                                            type="button"
-                                            data-testid="ai-posture-image-rules"
-                                            onClick={() => setRulesOpen(true)}
-                                            className="absolute right-[18px] top-[14px] z-30 inline-flex items-center text-[12px] leading-6 text-muted-foreground hover:text-foreground"
-                                        >
-                                            图片规则
-                                            <ChevronRight aria-hidden="true" className="size-3" />
-                                        </button>
-                                        <ToolAssetInput
-                                            toolId={MODEL_SLOT_ID}
-                                            variant="linkfox"
-                                            wide
-                                            className={DESIGN_UPLOAD_DROPZONE}
-                                            maxCount={1}
-                                            constraints={UPLOAD_CONSTRAINTS}
-                                            dropLabel="拖拽/粘贴 或 上传模特姿势图"
-                                            hint="10M以内，384*384 ~ 4096*4096"
-                                            syncIds={modelSyncIds}
-                                            onChange={handleModelChange}
-                                        />
-                                        <TryDemoStrip demos={DESIGN_TRY_DEMOS.posture} busySrc={demoBusy} disabled={run.running} onPick={(src) => void pickDemo(src)} />
-                                    </div>
+        <div data-testid="ai-posture-workspace" className={cn("relative flex h-full min-h-0 min-w-0 flex-col", className)}>
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="min-h-0 flex-1 overflow-hidden"
+                config={
+                    <div className="flex h-full min-h-0 flex-col">
+                        <div data-testid="ai-posture-form" className="min-h-0 flex-1 space-y-2.5 overflow-y-auto px-3 pb-3 pt-3">
+                            {/* 1. 原站 `_uploadPanel`：灰底卡 + 虚线上传框（右上图片规则）+「或试试这些」4 张示例 */}
+                            <section data-testid="ai-posture-model-picker" className="space-y-[10px]">
+                                <div className={DESIGN_UPLOAD_PANEL}>
+                                    <UploadPanelIcon />
                                     <button
                                         type="button"
-                                        data-testid="ai-posture-batch-upload"
-                                        aria-pressed={false}
-                                        aria-disabled="true"
-                                        disabled
-                                        title="批量裂变（一次多张模特图各自成套）尚未接入：当前提交只支持 1 张模特图，多选会被忽略"
-                                        className={cn(DESIGN_OUTLINE_BUTTON, "mt-0 disabled:cursor-not-allowed")}
+                                        data-testid="ai-posture-image-rules"
+                                        onClick={() => setRulesOpen(true)}
+                                        className="absolute right-[18px] top-[14px] z-30 inline-flex items-center text-[12px] leading-6 text-muted-foreground hover:text-foreground"
                                     >
-                                        上传多张图片，开始批量姿势裂变
-                                        <ChevronRight aria-hidden="true" className="size-3.5" />
+                                        图片规则
+                                        <ChevronRight aria-hidden="true" className="size-3" />
                                     </button>
-                                    <p data-testid="ai-posture-batch-hint" className="sr-only">
-                                        批量入口暂未开放：本页当前只支持上传 1 张模特图，按钮保持禁用。
-                                    </p>
-                                </section>
-
-                                {/* 2. 原站 Tab 行「姿势库 | 自定义」+ 行卡「选择姿势（可选）」（默认折叠，展开才出现分类与姿势网格） */}
-                                <div role="tablist" aria-label="姿势来源" className="flex h-[30px] items-center gap-[14px] border-b border-border">
-                                    {([["library", "姿势库"], ["custom", "自定义"]] as const).map(([mode, label]) => (
-                                        <button
-                                            key={mode}
-                                            type="button"
-                                            role="tab"
-                                            data-testid={`ai-posture-mode-${mode}`}
-                                            aria-pressed={workspace.mode === mode}
-                                            aria-selected={workspace.mode === mode}
-                                            onClick={() => setWorkspace((current) => setAiPostureMode(current, mode))}
-                                            className={cn(
-                                                "relative h-full text-[14px] leading-[22px] transition-colors",
-                                                workspace.mode === mode ? "text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-foreground" : "text-muted-foreground hover:text-foreground",
-                                            )}
-                                        >
-                                            {label}
-                                        </button>
-                                    ))}
+                                    <ToolAssetInput
+                                        toolId={MODEL_SLOT_ID}
+                                        variant="linkfox"
+                                        wide
+                                        className={DESIGN_UPLOAD_DROPZONE}
+                                        maxCount={1}
+                                        constraints={UPLOAD_CONSTRAINTS}
+                                        dropLabel="拖拽/粘贴 或 上传模特姿势图"
+                                        hint="10M以内，384*384 ~ 4096*4096"
+                                        syncIds={modelSyncIds}
+                                        onChange={handleModelChange}
+                                    />
+                                    <TryDemoStrip demos={DESIGN_TRY_DEMOS.posture} busySrc={demoBusy} disabled={run.running} onPick={(src) => void pickDemo(src)} />
                                 </div>
-                                <details
-                                    data-testid="ai-posture-pose-select"
-                                    className="group -mt-[5px] rounded-[6px] border border-border bg-muted"
+                                <button
+                                    type="button"
+                                    data-testid="ai-posture-batch-upload"
+                                    onClick={() => {
+                                        const zone = document.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]');
+                                        zone?.click();
+                                    }}
+                                    className={cn(DESIGN_OUTLINE_BUTTON, "mt-0")}
                                 >
-                                    <summary className="block cursor-pointer list-none p-[10px] [&::-webkit-details-marker]:hidden" data-testid="ai-posture-pose-summary-row">
-                                        <span className="flex items-center gap-[10px]">
-                                            <img src={DESIGN_ICON_FEATURE} alt="" className="size-[60px] shrink-0 rounded-[4px] object-contain" draggable={false} />
-                                            <span className="min-w-0 flex-1">
-                                                <span className="block text-[14px] leading-[22px] text-foreground/85">选择姿势（可选）</span>
-                                                <span data-testid="ai-posture-pose-summary" className="block truncate text-[12px] leading-[22px] text-muted-foreground">
-                                                    {poseSummary}
-                                                </span>
-                                            </span>
-                                            <ChevronRight
-                                                aria-hidden="true"
-                                                className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90"
-                                            />
-                                        </span>
-                                    </summary>
-                                    <div className="space-y-2 border-t border-border bg-card p-[10px]">
-                                        <div className="flex flex-wrap items-center gap-1.5">
-                                            <span className="text-[11px] text-muted-foreground" data-testid="ai-posture-mode-readout">
-                                                {workspace.mode === "library"
-                                                    ? `已选 ${workspace.selectedPoseIds.length} 个姿势${workspace.selectedPoseIds.length === 0 ? "（将自动裂变）" : ""}`
-                                                    : `自定义描述 ${workspace.customPose.length} 字`}
-                                            </span>
-                                        </div>
+                                    上传多张图片，开始批量姿势裂变
+                                    <ChevronRight aria-hidden="true" className="size-3.5" />
+                                </button>
+                            </section>
 
-                                        {workspace.mode === "library" ? (
-                                            <div className="space-y-2">
-                                                <div className="flex flex-wrap gap-1">
+                            {/* 2. 原站 Tab 行「姿势库 | 自定义」+ 行卡「选择姿势（可选）」 */}
+                            <div role="tablist" aria-label="姿势来源" className="flex h-[30px] items-center gap-[14px] border-b border-border">
+                                {([["library", "姿势库"], ["custom", "自定义"]] as const).map(([mode, label]) => (
+                                    <button
+                                        key={mode}
+                                        type="button"
+                                        role="tab"
+                                        data-testid={`ai-posture-mode-${mode}`}
+                                        aria-pressed={workspace.mode === mode}
+                                        aria-selected={workspace.mode === mode}
+                                        onClick={() => setWorkspace((current) => setAiPostureMode(current, mode))}
+                                        className={cn(
+                                            "relative h-full text-[14px] leading-[22px] transition-colors",
+                                            workspace.mode === mode ? "text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-foreground" : "text-muted-foreground hover:text-foreground",
+                                        )}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                            {workspace.mode === "library" ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        data-testid="ai-posture-pose-summary-row"
+                                        onClick={() => setPosePanelOpen((open) => !open)}
+                                        className="flex w-full items-center gap-[10px] rounded-[6px] border border-border bg-muted p-[10px] text-left transition hover:border-selected"
+                                    >
+                                        <img src={DESIGN_ICON_FEATURE} alt="" className="size-[60px] shrink-0 rounded-[4px] object-contain" draggable={false} />
+                                        <span className="min-w-0 flex-1">
+                                            <span className="block text-[14px] leading-[22px] text-foreground/85">选择姿势（可选）</span>
+                                            <span data-testid="ai-posture-pose-summary" className="block truncate text-[12px] leading-[22px] text-muted-foreground">
+                                                {poseSummary}
+                                            </span>
+                                        </span>
+                                        <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+                                    </button>
+                                    {posePanelOpen ? (
+                                        <div
+                                            role="dialog"
+                                            aria-label="选择姿势"
+                                            data-testid="ai-posture-pose-select"
+                                            className="fixed left-[310px] top-[76px] z-40 w-[440px] max-w-[calc(100vw-324px)] rounded-xl border border-border bg-popover p-4 text-popover-foreground shadow-xl"
+                                        >
+                                            <div className="mb-3 flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <h3 className="text-sm font-medium text-foreground">选择姿势（可选）</h3>
+                                                    <span className="text-[11px] text-muted-foreground" data-testid="ai-posture-mode-readout">
+                                                        已选 {workspace.selectedPoseIds.length} 个姿势{workspace.selectedPoseIds.length === 0 ? "（将自动裂变）" : ""}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    aria-label="关闭姿势面板"
+                                                    onClick={() => setPosePanelOpen(false)}
+                                                    className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                                                >
+                                                    <X className="size-4" />
+                                                </button>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                <SegmentedButton
+                                                    testId="ai-posture-category-all"
+                                                    active={workspace.categoryId === null}
+                                                    onClick={() => setWorkspace((current) => setAiPostureCategory(current, null))}
+                                                >
+                                                    全部
+                                                </SegmentedButton>
+                                                {AI_POSTURE_POSE_CATEGORIES.map((category) => (
                                                     <SegmentedButton
-                                                        testId="ai-posture-category-all"
-                                                        active={workspace.categoryId === null}
-                                                        onClick={() => setWorkspace((current) => setAiPostureCategory(current, null))}
+                                                        key={category.id}
+                                                        testId={`ai-posture-category-${category.id}`}
+                                                        active={workspace.categoryId === category.id}
+                                                        onClick={() => setWorkspace((current) => setAiPostureCategory(current, category.id))}
                                                     >
-                                                        全部
+                                                        {category.label}
                                                     </SegmentedButton>
-                                                    {AI_POSTURE_POSE_CATEGORIES.map((category) => (
-                                                        <SegmentedButton
-                                                            key={category.id}
-                                                            testId={`ai-posture-category-${category.id}`}
-                                                            active={workspace.categoryId === category.id}
-                                                            onClick={() => setWorkspace((current) => setAiPostureCategory(current, category.id))}
+                                                ))}
+                                            </div>
+                                            <div data-testid="ai-posture-pose-grid" className="mt-3 grid max-h-[340px] grid-cols-2 gap-2 overflow-y-auto pr-1">
+                                                {visiblePoses.map((pose) => {
+                                                    const selected = workspace.selectedPoseIds.includes(pose.id);
+                                                    return (
+                                                        <button
+                                                            key={pose.id}
+                                                            type="button"
+                                                            data-testid={`ai-posture-pose-${pose.id}`}
+                                                            aria-pressed={selected}
+                                                            onClick={() => selectPose(pose.id)}
+                                                            className={cn(
+                                                                "rounded-[6px] border px-2.5 py-2 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                                                                selected ? "border-selected bg-selected-soft" : "border-border bg-card hover:bg-accent",
+                                                            )}
                                                         >
-                                                            {category.label}
-                                                        </SegmentedButton>
-                                                    ))}
-                                                </div>
-                                                <div data-testid="ai-posture-pose-grid" className="grid grid-cols-2 gap-1.5">
-                                                    {visiblePoses.map((pose) => {
-                                                        const selected = workspace.selectedPoseIds.includes(pose.id);
-                                                        return (
-                                                            <button
-                                                                key={pose.id}
-                                                                type="button"
-                                                                data-testid={`ai-posture-pose-${pose.id}`}
-                                                                aria-pressed={selected}
-                                                                onClick={() => selectPose(pose.id)}
-                                                                className={cn(
-                                                                    "rounded-[6px] border px-2 py-1.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                                                    selected ? "border-selected bg-selected-soft" : "border-border bg-background hover:bg-accent",
-                                                                )}
-                                                            >
-                                                                <span className="flex items-center justify-between gap-1">
-                                                                    <span className="text-[11px] font-medium leading-4">{pose.label}</span>
-                                                                    {selected ? <Check aria-hidden="true" className="size-3 text-selected" /> : null}
-                                                                </span>
-                                                                <span title={pose.instruction} className="mt-0.5 block truncate text-[10px] leading-4 text-muted-foreground">
-                                                                    {pose.instruction}
-                                                                </span>
-                                                                <span className="block truncate text-[10px] leading-4 text-muted-foreground/80">标签：{pose.tags.join(" / ")}</span>
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
+                                                            <span className="flex items-center justify-between gap-1">
+                                                                <span className="text-[12px] font-medium leading-4">{pose.label}</span>
+                                                                {selected ? <Check aria-hidden="true" className="size-3.5 text-selected" /> : null}
+                                                            </span>
+                                                            <span title={pose.instruction} className="mt-1 block truncate text-[11px] leading-4 text-muted-foreground">
+                                                                {pose.instruction}
+                                                            </span>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div className="mt-3 flex items-center justify-between border-t border-border pt-2">
                                                 <button
                                                     type="button"
                                                     data-testid="ai-posture-clear-poses"
@@ -724,395 +687,264 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                                 >
                                                     清空选择（改为自动裂变）
                                                 </button>
-                                            </div>
-                                        ) : (
-                                            <div className="space-y-1.5">
-                                                <textarea
-                                                    data-testid="ai-posture-custom-input"
-                                                    value={workspace.customPose}
-                                                    onChange={(event) => setWorkspace((current) => setAiPostureCustomPose(current, event.target.value))}
-                                                    rows={4}
-                                                    placeholder="例如：侧身站立，一只手扶着帽檐，微笑看向镜头"
-                                                    className="w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-[12px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                                />
-                                                <p className="text-[11px] leading-4 text-muted-foreground">自定义模式只发一条姿势指令；切回姿势库后这段文本仍会保留。</p>
-                                            </div>
-                                        )}
-                                        <p className="text-[11px] leading-4 text-muted-foreground">不选姿势则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。</p>
-                                    </div>
-                                </details>
-
-                                {/* 3. 选择生成张数（原站 12px 标题 + 40×26 chip） */}
-                                <section data-testid="ai-posture-output-control" className="space-y-[6px] pt-[10px]">
-                                    <p className="text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
-                                    <div className="flex gap-[10px]">
-                                        {AI_POSTURE_OUTPUT_OPTIONS.map((value) => (
-                                            <SegmentedButton
-                                                key={value}
-                                                testId={`ai-posture-output-${value}`}
-                                                active={workspace.outputNum === value}
-                                                onClick={() => setWorkspace((current) => setAiPostureOutputNum(current, value))}
-                                            >
-                                                {value}
-                                            </SegmentedButton>
-                                        ))}
-                                    </div>
-                                </section>
-
-                                {/* 原站首屏没有的本地能力：图片标签 / 裂变计划 / 补充描述 / 输入快照（都是真实提交字段或只读核对），收进「更多设置」默认折叠 */}
-                                <details data-testid="ai-posture-more" className="group/more text-[12px] leading-[18px] text-muted-foreground">
-                                    <summary className="cursor-pointer list-none py-1 hover:text-foreground [&::-webkit-details-marker]:hidden">
-                                        <span className="inline-flex items-center gap-1">
-                                            <ChevronRight aria-hidden="true" className="size-3.5 transition group-open/more:rotate-90" />
-                                            更多设置
-                                        </span>
-                                    </summary>
-                                    <div className="mt-[6px] space-y-2">
-                                        <div data-testid="ai-posture-tags" className="rounded-[6px] border border-border/70 px-2 py-1.5">
-                                            <p className="flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
-                                                <Tag aria-hidden="true" className="size-3" />
-                                                图片标签（可增删，≤{AI_POSTURE_TAGS_MAX}）
-                                                <button type="button" data-testid="ai-posture-undo" onClick={undo} disabled={!historyLabel.canUndo} className="ml-auto inline-flex size-5 items-center justify-center rounded text-muted-foreground hover:bg-accent disabled:opacity-40" aria-label="撤销姿势/标签编辑">
-                                                    <Undo2 className="size-3" />
-                                                </button>
-                                                <button type="button" data-testid="ai-posture-redo" onClick={redo} disabled={!historyLabel.canRedo} className="inline-flex size-5 items-center justify-center rounded text-muted-foreground hover:bg-accent disabled:opacity-40" aria-label="重做姿势/标签编辑">
-                                                    <Redo2 className="size-3" />
-                                                </button>
-                                            </p>
-                                            <div className="mt-1 flex flex-wrap gap-1">
-                                                {workspace.imageTags.length === 0 ? (
-                                                    <span className="text-[11px] leading-4 text-muted-foreground">点选姿势会自动带出建议标签。</span>
-                                                ) : (
-                                                    workspace.imageTags.map((tag, index) => (
-                                                        <span key={`${tag}-${index}`} data-testid={`ai-posture-tag-${index}`} className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-1.5 text-[11px] leading-4">
-                                                            {tag}
-                                                            <button
-                                                                type="button"
-                                                                data-testid={`ai-posture-tag-remove-${index}`}
-                                                                onClick={() => setWorkspace((current) => removeAiPostureTag(current, index))}
-                                                                className="grid size-3.5 place-items-center rounded-full text-muted-foreground hover:bg-accent"
-                                                                aria-label={`删除标签 ${tag}`}
-                                                            >
-                                                                <X className="size-2.5" />
-                                                            </button>
-                                                        </span>
-                                                    ))
-                                                )}
-                                            </div>
-                                            <div className="mt-1 flex gap-1">
-                                                <input
-                                                    data-testid="ai-posture-tag-input"
-                                                    value={tagDraft}
-                                                    onChange={(event) => setTagDraft(event.target.value)}
-                                                    onKeyDown={(event) => {
-                                                        if (event.key === "Enter") {
-                                                            event.preventDefault();
-                                                            submitTag();
-                                                        }
-                                                    }}
-                                                    placeholder="新增标签后回车"
-                                                    className="h-7 min-w-0 flex-1 rounded border border-border bg-card px-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                                />
                                                 <button
                                                     type="button"
-                                                    data-testid="ai-posture-tag-add"
-                                                    onClick={submitTag}
-                                                    className="h-7 shrink-0 rounded border border-border px-2 text-[11px] text-muted-foreground hover:bg-accent"
+                                                    onClick={() => setPosePanelOpen(false)}
+                                                    className="h-7 rounded bg-primary px-3 text-[11px] font-medium text-primary-foreground hover:bg-primary/90"
                                                 >
-                                                    添加
+                                                    确定
                                                 </button>
                                             </div>
                                         </div>
-                                    <details className="rounded-[6px] border border-border/70 px-2 py-1">
-                                        <summary className="cursor-pointer list-none text-[11px] leading-4 text-muted-foreground">裂变计划</summary>
-                                        <dl data-testid="ai-posture-plan-readout" className="mt-1 space-y-0.5 text-[11px] leading-4 text-muted-foreground">
-                                            <div className="flex justify-between gap-2">
-                                                <dt>裂变方式</dt>
-                                                <dd data-testid="ai-posture-plan-origin">{plan.origin === "auto" ? "自动裂变" : plan.origin === "custom" ? "自定义姿势" : "姿势库选择"}</dd>
-                                            </div>
-                                            <div className="flex justify-between gap-2">
-                                                <dt>姿势 / 张数</dt>
-                                                <dd className="text-right">
-                                                    {plan.poses.map((pose, index) => (
-                                                        <span key={pose.id} className="mr-1.5 inline-block">
-                                                            {pose.label}×{counts[index] ?? 0}
-                                                        </span>
-                                                    ))}
-                                                </dd>
-                                            </div>
-                                            <div className="flex justify-between gap-2">
-                                                <dt>预计输出</dt>
-                                                <dd data-testid="ai-posture-expected-output">{workspace.outputNum} 张 / {plan.poses.length} 个请求</dd>
-                                            </div>
-                                        </dl>
-                                    </details>
-                                {/* 4. 补充描述折叠（原站配置栏没有常驻大文本框） */}
-                                <details data-testid="ai-posture-prompt-panel" className="rounded-[8px] border border-border/70 px-2 py-1.5">
-                                    <summary className="flex cursor-pointer list-none items-center gap-1.5">
-                                        <span className="text-[12px] leading-5">补充描述（可选）</span>
-                                        <span className="truncate text-[11px] leading-4 text-muted-foreground">光线 / 场景 / 气质</span>
-                                        {workspace.prompt.trim() ? <span className="ml-auto shrink-0 text-[11px] leading-4 text-selected">已填写</span> : null}
-                                    </summary>
+                                    ) : null}
+                                </>
+                            ) : (
+                                <div className="space-y-1.5">
                                     <textarea
-                                        data-testid="ai-posture-prompt"
-                                        value={workspace.prompt}
-                                        onChange={(event) => setWorkspace((current) => setAiPosturePrompt(current, event.target.value))}
-                                        rows={3}
-                                        placeholder="例如：室内柔光，浅灰背景，全身构图"
-                                        className="mt-1.5 w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-[12px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                        data-testid="ai-posture-custom-input"
+                                        value={workspace.customPose}
+                                        onChange={(event) => setWorkspace((current) => setAiPostureCustomPose(current, event.target.value))}
+                                        rows={4}
+                                        placeholder="例如：侧身站立，一只手扶着帽檐，微笑看向镜头"
+                                        className="w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-[12px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     />
-                                </details>
+                                </div>
+                            )}
 
-                                <details data-testid="ai-posture-snapshot" className="rounded-[8px] border border-border/70 px-2 py-1">
-                                    <summary className="cursor-pointer list-none text-[11px] leading-4 text-muted-foreground">本次输入快照</summary>
-                                    <dl className="mt-1 space-y-0.5 text-[11px] leading-4 text-muted-foreground">
-                                        <div className="flex justify-between gap-2">
-                                            <dt>草稿键</dt>
-                                            <dd className="truncate">{AI_POSTURE_DRAFT_KEY}</dd>
-                                        </div>
-                                        <div className="flex justify-between gap-2">
-                                            <dt>快照指纹</dt>
-                                            <dd data-testid="ai-posture-snapshot-hash">{currentHash}</dd>
-                                        </div>
-                                        <div className="flex justify-between gap-2">
-                                            <dt>字段</dt>
-                                            <dd className="truncate">{fieldSpecs.map((field) => field.key).join(" / ") || "imageTags / imageUrl / outputNum / prompt"}</dd>
-                                        </div>
-                                        <div className="flex justify-between gap-2">
-                                            <dt>源资产</dt>
-                                            <dd className="truncate">{modelRecord?.id ?? "未上传"}</dd>
-                                        </div>
-                                    </dl>
-                                </details>
-                                    </div>
-                                </details>
-                            </div>
-
-                            {/* 原站「立即生成」吸在配置栏底部：配置区滚动，按钮始终在首屏可见 */}
-                            <div data-testid="ai-posture-submit-bar" className="shrink-0 px-3 pb-[10px] pt-2">
-                                <button
-                                    type="button"
-                                    data-testid="ai-posture-submit"
-                                    onClick={() => void submit()}
-                                    disabled={!canSubmit}
-                                    className="inline-flex h-8 w-full items-center justify-center gap-2 rounded-[6px] bg-primary text-[13px] font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-                                >
-                                    {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
-                                    立即生成
-                                </button>
-                                <p data-testid="ai-posture-submit-hint" className="sr-only">
-                                    {workspace.outputNum} 张 · {plan.poses.length} 个姿势请求
-                                </p>
-                                {issues.length > 0 ? (
-                                    <ul data-testid="ai-posture-issues" className="mt-1 space-y-0.5 text-[11px] leading-4 text-amber-600 dark:text-amber-400">
-                                        {issues.map((issue) => (
-                                            <li key={issue.code}>{issue.message}</li>
-                                        ))}
-                                    </ul>
-                                ) : null}
-                                {submitError ? (
-                                    <p data-testid="ai-posture-submit-error" className="mt-1 text-[11px] leading-4 text-destructive">
-                                        {submitError}
-                                    </p>
-                                ) : null}
-                                {run.message ? (
-                                    <p data-testid="ai-posture-run-message" className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                                        {run.message}
-                                    </p>
-                                ) : null}
-                            </div>
+                            {/* 3. 选择生成张数（原站 12px 标题 + 40×26 chip） */}
+                            <section data-testid="ai-posture-output-control" className="space-y-[6px] pt-[10px]">
+                                <p className="text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
+                                <div className="flex gap-[10px]">
+                                    {AI_POSTURE_OUTPUT_OPTIONS.map((value) => (
+                                        <SegmentedButton
+                                            key={value}
+                                            testId={`ai-posture-output-${value}`}
+                                            active={workspace.outputNum === value}
+                                            onClick={() => setWorkspace((current) => setAiPostureOutputNum(current, value))}
+                                        >
+                                            {value}
+                                        </SegmentedButton>
+                                    ))}
+                                </div>
+                            </section>
                         </div>
-                    }
-                >
-                    {/* 右栏：生成结果 / 历史记录（原站两个页签，结果区独立滚动） */}
-                    <section aria-label="生成结果" className="flex h-full min-h-0 flex-col">
-                        <div data-testid="ai-posture-results" className="flex h-full min-h-0 flex-col overflow-hidden rounded-[8px]">
-                            <div role="tablist" aria-label="生成结果 / 历史记录" className="flex h-11 shrink-0 items-center gap-4 border-b border-border bg-card px-4">
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    data-testid="ai-posture-tab-results"
-                                    aria-selected={resultTab === "results"}
-                                    onClick={() => setResultTab("results")}
-                                    className={cn(
-                                        "relative flex h-11 items-center text-[12px] leading-5 transition-colors",
-                                        resultTab === "results" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
-                                    )}
-                                >
-                                    生成结果
-                                    {resultTab === "results" ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
-                                </button>
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    data-testid="ai-posture-tab-history"
-                                    aria-selected={resultTab === "history"}
-                                    onClick={() => setResultTab("history")}
-                                    className={cn(
-                                        "relative ml-auto flex h-11 items-center gap-1 text-[12px] leading-5 transition-colors",
-                                        resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
-                                    )}
-                                >
-                                    历史记录
-                                    {resultTab === "history" ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
-                                </button>
-                            </div>
-                            <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3">
-                                {resultTab === "results" ? (
-                                    <>
-                                        {resultView.status === "idle" ? (
-                                            <div data-testid="ai-posture-result-empty" className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center">
-                                                <ToolCaseGuide
-                                                    className={DESIGN_GUIDE_PORTRAIT}
-                                                    title="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
-                                                    cases={AI_POSTURE_GUIDE_CASES}
-                                                    applyingId={applyingCaseId}
-                                                    onApply={applyCase}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="space-y-3">
-                                                <div className="flex flex-wrap items-center gap-2 text-[11px] leading-4 text-muted-foreground">
-                                                    <span data-testid="ai-posture-result-status">状态：{resultView.status}</span>
-                                                    <span>共 {resultView.totalImages} 张 / {resultView.groups.length} 个姿势</span>
-                                                    {resultView.stale ? (
-                                                        <span data-testid="ai-posture-result-stale" className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
-                                                            来自旧版本（配置已修改）
-                                                        </span>
-                                                    ) : null}
-                                                    <span className="ml-auto flex items-center gap-1">
-                                                        {failedAiPostureUnits(outcomes).length > 0 ? (
-                                                            <button
-                                                                type="button"
-                                                                data-testid="ai-posture-retry-failed"
-                                                                onClick={() => void retryFailed()}
-                                                                disabled={run.running}
-                                                                className="h-7 rounded border border-border px-2 text-[11px] hover:bg-accent disabled:opacity-40"
-                                                            >
-                                                                重试失败组（{failedAiPostureUnits(outcomes).length}）
-                                                            </button>
-                                                        ) : null}
+
+                        {/* 原站「立即生成」吸在配置栏底部：配置区滚动，按钮始终在首屏可见 */}
+                        <div data-testid="ai-posture-submit-bar" className="shrink-0 px-3 pb-[10px] pt-2">
+                            <button
+                                type="button"
+                                data-testid="ai-posture-submit"
+                                onClick={() => void submit()}
+                                disabled={!canSubmit}
+                                className="inline-flex h-8 w-full items-center justify-center gap-2 rounded-[6px] bg-primary text-[13px] font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
+                                立即生成
+                            </button>
+                            <p data-testid="ai-posture-submit-hint" className="sr-only">
+                                {workspace.outputNum} 张 · {plan.poses.length} 个姿势请求
+                            </p>
+                            {issues.length > 0 ? (
+                                <ul data-testid="ai-posture-issues" className="mt-1 space-y-0.5 text-[11px] leading-4 text-amber-600 dark:text-amber-400">
+                                    {issues.map((issue) => (
+                                        <li key={issue.code}>{issue.message}</li>
+                                    ))}
+                                </ul>
+                            ) : null}
+                            {submitError ? (
+                                <p data-testid="ai-posture-submit-error" className="mt-1 text-[11px] leading-4 text-destructive">
+                                    {submitError}
+                                </p>
+                            ) : null}
+                            {run.message ? (
+                                <p data-testid="ai-posture-run-message" className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                                    {run.message}
+                                </p>
+                            ) : null}
+                        </div>
+                    </div>
+                }
+            >
+                {/* 右栏：生成结果 / 历史记录（原站两个页签，结果区独立滚动） */}
+                <section aria-label="生成结果" className="flex h-full min-h-0 flex-col">
+                    <div data-testid="ai-posture-results" className="flex h-full min-h-0 flex-col overflow-hidden rounded-[8px]">
+                        <div role="tablist" aria-label="生成结果 / 历史记录" className="flex h-11 shrink-0 items-center gap-4 border-b border-border bg-card px-4">
+                            <button
+                                type="button"
+                                role="tab"
+                                data-testid="ai-posture-tab-results"
+                                aria-selected={resultTab === "results"}
+                                onClick={() => setResultTab("results")}
+                                className={cn(
+                                    "relative flex h-11 items-center text-[12px] leading-5 transition-colors",
+                                    resultTab === "results" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                )}
+                            >
+                                生成结果
+                                {resultTab === "results" ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
+                            </button>
+                            <button
+                                type="button"
+                                role="tab"
+                                data-testid="ai-posture-tab-history"
+                                aria-selected={resultTab === "history"}
+                                onClick={() => setResultTab("history")}
+                                className={cn(
+                                    "relative ml-auto flex h-11 items-center gap-1 text-[12px] leading-5 transition-colors",
+                                    resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                )}
+                            >
+                                历史记录
+                                {resultTab === "history" ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
+                            </button>
+                        </div>
+                        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3">
+                            {resultTab === "results" ? (
+                                <>
+                                    {resultView.status === "idle" ? (
+                                        <div data-testid="ai-posture-result-empty" className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center">
+                                            <ToolCaseGuide
+                                                className={DESIGN_GUIDE_PORTRAIT}
+                                                title="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
+                                                cases={AI_POSTURE_GUIDE_CASES}
+                                                applyingId={applyingCaseId}
+                                                onApply={applyCase}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            <div className="flex flex-wrap items-center gap-2 text-[11px] leading-4 text-muted-foreground">
+                                                <span data-testid="ai-posture-result-status">状态：{resultView.status}</span>
+                                                <span>共 {resultView.totalImages} 张 / {resultView.groups.length} 个姿势</span>
+                                                <span className="ml-auto flex items-center gap-1">
+                                                    {failedAiPostureUnits(outcomes).length > 0 ? (
                                                         <button
                                                             type="button"
-                                                            data-testid="ai-posture-apply-same"
-                                                            onClick={applySameStyle}
-                                                            className="h-7 rounded border border-border px-2 text-[11px] hover:bg-accent"
+                                                            data-testid="ai-posture-retry-failed"
+                                                            onClick={() => void retryFailed()}
+                                                            disabled={run.running}
+                                                            className="h-7 rounded border border-border px-2 text-[11px] hover:bg-accent disabled:opacity-40"
                                                         >
-                                                            一键做同款
+                                                            重试失败组（{failedAiPostureUnits(outcomes).length}）
                                                         </button>
-                                                    </span>
-                                                </div>
-                                                {resultView.groups.map((group) => (
-                                                    <section key={group.unitId} data-testid={`ai-posture-result-group-${group.poseId}`} className="rounded-lg border border-border bg-background p-3">
-                                                        <div className="flex flex-wrap items-center justify-between gap-2">
-                                                            <div className="flex items-center gap-2">
-                                                                <h3 className="text-xs font-medium">{group.label}</h3>
-                                                                <span data-testid={`ai-posture-result-group-status-${group.poseId}`} className="text-[11px] text-muted-foreground">
-                                                                    {group.status === "succeeded"
-                                                                        ? `成功 ${group.items.length} 张`
-                                                                        : group.status === "running"
-                                                                          ? "生成中…"
-                                                                          : group.status === "idle"
-                                                                            ? "待生成"
-                                                                            : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
-                                                                </span>
-                                                                {group.stale ? <span className="text-[11px] text-amber-600 dark:text-amber-400">来自旧版本</span> : null}
-                                                            </div>
-                                                            {group.canRetry ? (
-                                                                <button
-                                                                    type="button"
-                                                                    data-testid={`ai-posture-group-retry-${group.poseId}`}
-                                                                    onClick={() => void retryGroup(units.find((unit) => unit.id === group.unitId) ?? units[0]!)}
-                                                                    disabled={run.running}
-                                                                    className="h-9 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
-                                                                >
-                                                                    重试该姿势
-                                                                </button>
-                                                            ) : null}
-                                                        </div>
-                                                        {group.items.length > 0 ? (
-                                                            <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                                                                {group.items.map((item, index) => {
-                                                                    const actionKey = `${group.unitId}#${index}`;
-                                                                    const actionState = resultAction?.key === actionKey ? resultAction : null;
-                                                                    return (
-                                                                        <figure key={`${group.unitId}-${index}`} className="overflow-hidden rounded-lg border border-border">
-                                                                            <img
-                                                                                src={item.dataUrl || item.url}
-                                                                                alt={`${group.label} 第 ${index + 1} 张`}
-                                                                                className="aspect-[3/4] w-full object-cover"
-                                                                            />
-                                                                            <figcaption className="flex items-center justify-center gap-1 border-t border-border p-1">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    data-testid={`ai-posture-result-save-${index}`}
-                                                                                    onClick={() => void runResultAction(group.unitId, group.label, item, index, "assets")}
-                                                                                    disabled={actionState?.busy ?? false}
-                                                                                    aria-label="存入资产"
-                                                                                    title="存入资产"
-                                                                                    className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                                                                                >
-                                                                                    <FolderPlus aria-hidden="true" className="size-3.5" />
-                                                                                </button>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    data-testid={`ai-posture-result-canvas-${index}`}
-                                                                                    onClick={() => void runResultAction(group.unitId, group.label, item, index, "canvas")}
-                                                                                    disabled={actionState?.busy ?? false}
-                                                                                    aria-label="发送画布"
-                                                                                    title="发送画布"
-                                                                                    className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                                                                                >
-                                                                                    <Send aria-hidden="true" className="size-3.5" />
-                                                                                </button>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    data-testid={`ai-posture-result-download-${index}`}
-                                                                                    onClick={() => void runResultAction(group.unitId, group.label, item, index, "download")}
-                                                                                    disabled={actionState?.busy ?? false}
-                                                                                    aria-label="下载"
-                                                                                    title="下载"
-                                                                                    className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                                                                                >
-                                                                                    <Download aria-hidden="true" className="size-3.5" />
-                                                                                </button>
-                                                                            </figcaption>
-                                                                            {actionState ? (
-                                                                                <p className={actionState.tone === "error" ? "px-1 pb-1 text-[10px] leading-3 text-destructive" : "px-1 pb-1 text-[10px] leading-3 text-muted-foreground"}>
-                                                                                    {actionState.message}
-                                                                                </p>
-                                                                            ) : null}
-                                                                        </figure>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        ) : (
-                                                            <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该姿势暂无结果"}</p>
-                                                        )}
-                                                    </section>
-                                                ))}
+                                                    ) : null}
+                                                    <button
+                                                        type="button"
+                                                        data-testid="ai-posture-apply-same"
+                                                        onClick={applySameStyle}
+                                                        className="h-7 rounded border border-border px-2 text-[11px] hover:bg-accent"
+                                                    >
+                                                        一键做同款
+                                                    </button>
+                                                </span>
                                             </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <ToolHistoryDock toolId={AI_POSTURE_TOOL_ID} />
-                                )}
-                            </div>
+                                            {resultView.groups.map((group) => (
+                                                <section key={group.unitId} data-testid={`ai-posture-result-group-${group.poseId}`} className="rounded-lg border border-border bg-background p-3">
+                                                    <div className="flex flex-wrap items-center justify-between gap-2">
+                                                        <div className="flex items-center gap-2">
+                                                            <h3 className="text-xs font-medium">{group.label}</h3>
+                                                            <span data-testid={`ai-posture-result-group-status-${group.poseId}`} className="text-[11px] text-muted-foreground">
+                                                                {group.status === "succeeded"
+                                                                    ? `成功 ${group.items.length} 张`
+                                                                    : group.status === "running"
+                                                                      ? "生成中…"
+                                                                      : group.status === "idle"
+                                                                        ? "待生成"
+                                                                        : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
+                                                            </span>
+                                                        </div>
+                                                        {group.canRetry ? (
+                                                            <button
+                                                                type="button"
+                                                                data-testid={`ai-posture-group-retry-${group.poseId}`}
+                                                                onClick={() => void retryGroup(units.find((unit) => unit.id === group.unitId) ?? units[0]!)}
+                                                                disabled={run.running}
+                                                                className="h-9 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
+                                                            >
+                                                                重试该姿势
+                                                            </button>
+                                                        ) : null}
+                                                    </div>
+                                                    {group.items.length > 0 ? (
+                                                        <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                                                            {group.items.map((item, index) => {
+                                                                const actionKey = `${group.unitId}#${index}`;
+                                                                const actionState = resultAction?.key === actionKey ? resultAction : null;
+                                                                return (
+                                                                    <figure key={`${group.unitId}-${index}`} className="overflow-hidden rounded-lg border border-border">
+                                                                        <img
+                                                                            src={item.dataUrl || item.url}
+                                                                            alt={`${group.label} 第 ${index + 1} 张`}
+                                                                            className="aspect-[3/4] w-full object-cover"
+                                                                        />
+                                                                        <figcaption className="flex items-center justify-center gap-1 border-t border-border p-1">
+                                                                            <button
+                                                                                type="button"
+                                                                                data-testid={`ai-posture-result-save-${index}`}
+                                                                                onClick={() => void runResultAction(group.unitId, group.label, item, index, "assets")}
+                                                                                disabled={actionState?.busy ?? false}
+                                                                                aria-label="存入资产"
+                                                                                title="存入资产"
+                                                                                className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                                                                            >
+                                                                                <FolderPlus aria-hidden="true" className="size-3.5" />
+                                                                            </button>
+                                                                            <button
+                                                                                type="button"
+                                                                                data-testid={`ai-posture-result-canvas-${index}`}
+                                                                                onClick={() => void runResultAction(group.unitId, group.label, item, index, "canvas")}
+                                                                                disabled={actionState?.busy ?? false}
+                                                                                aria-label="发送画布"
+                                                                                title="发送画布"
+                                                                                className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                                                                            >
+                                                                                <Send aria-hidden="true" className="size-3.5" />
+                                                                            </button>
+                                                                            <button
+                                                                                type="button"
+                                                                                data-testid={`ai-posture-result-download-${index}`}
+                                                                                onClick={() => void runResultAction(group.unitId, group.label, item, index, "download")}
+                                                                                disabled={actionState?.busy ?? false}
+                                                                                aria-label="下载"
+                                                                                title="下载"
+                                                                                className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                                                                            >
+                                                                                <Download aria-hidden="true" className="size-3.5" />
+                                                                            </button>
+                                                                        </figcaption>
+                                                                        {actionState ? (
+                                                                            <p className={actionState.tone === "error" ? "px-1 pb-1 text-[10px] leading-3 text-destructive" : "px-1 pb-1 text-[10px] leading-3 text-muted-foreground"}>
+                                                                                {actionState.message}
+                                                                            </p>
+                                                                        ) : null}
+                                                                    </figure>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    ) : (
+                                                        <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该姿势暂无结果"}</p>
+                                                    )}
+                                                </section>
+                                            ))}
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <ToolTaskHistory toolId={AI_POSTURE_TOOL_ID} limit={10} emptyHint="还没有姿势裂变任务记录" />
+                            )}
                         </div>
-                        <PostureRulesDialog
-                            open={rulesOpen}
-                            onClose={() => setRulesOpen(false)}
-                            onTry={(label) => {
-                                // 与「或试试这些」同一条真实通道：把示例构图写进补充描述。
-                                setExampleLabel(label);
-                                setWorkspace((current) => setAiPosturePrompt(current, POSTURE_EXAMPLE_HINTS[label] ?? ""));
-                                setRulesOpen(false);
-                            }}
-                        />
-                    </section>
-                </ToolWorkspaceColumns>
-            </div>
-        </ToolShell>
+                    </div>
+                    <PostureRulesDialog
+                        open={rulesOpen}
+                        onClose={() => setRulesOpen(false)}
+                        onTry={(label) => {
+                            setWorkspace((current) => setAiPosturePrompt(current, POSTURE_EXAMPLE_HINTS[label] ?? ""));
+                            setRulesOpen(false);
+                        }}
+                    />
+                </section>
+            </ToolWorkspaceColumns>
+        </div>
     );
 }
 
@@ -1133,21 +965,16 @@ export default AiPostureWorkspace;
 export type AiPoseGeneratorWorkspaceProps = { className?: string };
 
 export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspaceProps = {}) {
-    const spec = useMemo(() => getAiPoseGeneratorSpec(), []);
-    const fieldSpecs = useMemo(() => aiPoseGeneratorFieldSpecs(), []);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
 
     const [draftReady, setDraftReady] = useState(false);
     const [workspace, setWorkspace] = useState<AiPoseGeneratorState>(() => createAiPoseGeneratorWorkspace());
     const [categoryId, setCategoryId] = useState<string>("standing");
-    const [presetLabel, setPresetLabel] = useState("");
     /** 原站面板 Tab：姿势库 / 自定义。 */
     const [poseMode, setPoseMode] = useState<"library" | "custom">("library");
     /** 只有点过生成才展示校验提示，避免初始空态堆错误文案。 */
     const [attempted, setAttempted] = useState(false);
-    /** 参考预览页签：当前预览哪条场景的最终 prompt（§1 第三区）。 */
-    const [previewSceneId, setPreviewSceneId] = useState<string | null>(null);
     const [units, setUnits] = useState<AiPoseGeneratorUnit[]>([]);
     const [outcomes, setOutcomes] = useState<AiPoseGeneratorUnitOutcome[]>([]);
     const [run, setRun] = useState<RunState>({ running: false, message: null });
@@ -1306,11 +1133,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
     /* ---------------- 派生视图 ---------------- */
 
     const visiblePresets = useMemo(() => aiPosePresets(categoryId), [categoryId]);
-    const previewScene = useMemo(() => {
-        const scenes = plan.scenes;
-        return scenes.find((scene) => scene.id === previewSceneId) ?? scenes[0]!;
-    }, [plan.scenes, previewSceneId]);
-    const previewPrompt = useMemo(() => buildAiPoseGeneratorPrompt(workspace, previewScene?.text ?? ""), [previewScene, workspace]);
     const resultView = useMemo(
         () => aiPoseGeneratorResultView({ units, outcomes, currentHash, running: run.running }),
         [currentHash, outcomes, run.running, units],
@@ -1320,51 +1142,15 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
         [workspace.selectedPresetIds],
     );
 
-    const savePreset = useCallback(() => {
-        if (!presetLabel.trim()) return;
-        setWorkspace((current) => saveAiPosePreset(current, presetLabel));
-        setPresetLabel("");
-    }, [presetLabel]);
-
-    /* ---------------- 侧栏 ---------------- */
-
-    const sidebar = (
-        <div className="space-y-2 py-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">商品图设计</p>
-            <Link to="/tools/product-design/ai-pose-generator" data-testid="ai-pose-nav-current" className="flex items-center justify-between rounded-lg bg-accent px-2 py-1.5 text-sm">
-                <span>AI 姿势生成</span>
-                <Check aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/product-design/ai-posture" className="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-accent">
-                <span>姿势裂变</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/product-design/product-scene" className="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm hover:bg-accent">
-                <span>场景裂变</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
-                无源图：文字描述姿势 → 每个场景各自出 {workspace.outputNum} 张（共 {plan.total} 张）
-            </p>
-            <p className="px-2 text-[11px] leading-4 text-muted-foreground">快捷键：⌘/Ctrl + Z 撤销编辑，⇧⌘/Ctrl + Z 重做</p>
-        </div>
-    );
-
     return (
-        <div className={cn("flex h-full min-h-0 flex-col gap-2 p-2.5", className)} data-testid="ai-pose-generator-workspace">
-            <OrigRail items={WEAR_RAIL} active="姿势裂变" testId="ai-pose-rail" />
-
+        <div className={cn("flex h-full min-h-0 flex-col", className)} data-testid="ai-pose-generator-workspace">
             <ToolWorkspaceColumns
                 configSide="left"
                 className="min-h-0 flex-1"
                 config={
-                    <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card px-3 pb-2 pt-1.5">
-                    <div className="flex items-center justify-between gap-2 text-[11px] leading-4 text-muted-foreground" data-testid="ai-pose-tour-hint">
-                        <span>本页从文字生成姿势参考：姿势描述 → 场景（可选）→ 生成</span>
-                    </div>
-
+                    <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card px-3 pb-2 pt-3">
                     {/* §1 区域一：姿势提示词（姿势库结构化约束 + 自定义描述，各自保存互不覆盖） */}
-                    <div className="mt-2" data-testid="ai-pose-pose-panel">
+                    <div data-testid="ai-pose-pose-panel">
                     <div role="tablist" aria-label="姿势来源" className="flex h-8 w-full items-center rounded-lg bg-border p-[2px]" data-testid="ai-pose-mode-tabs">
                         <button
                             type="button"
@@ -1498,68 +1284,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                 {workspace.posePrompt.length}/{AI_POSE_GENERATOR_PROMPT_MAX}
                             </span>
                         </div>
-                        {/* 可保存的姿势预设（§3：可保存姿势预设）：保存当前描述，应用时覆盖（可撤销） */}
-                        <div className="mt-1.5 flex items-center gap-1">
-                            <input
-                                data-testid="ai-pose-preset-name"
-                                value={presetLabel}
-                                maxLength={AI_POSE_GENERATOR_PRESET_LABEL_MAX}
-                                onChange={(event) => setPresetLabel(event.target.value)}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                        event.preventDefault();
-                                        savePreset();
-                                    }
-                                }}
-                                placeholder="预设名称"
-                                className="h-7 min-w-0 flex-1 rounded border border-border bg-card px-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            />
-                            <button
-                                type="button"
-                                data-testid="ai-pose-preset-save"
-                                onClick={savePreset}
-                                disabled={!presetLabel.trim()}
-                                aria-label="保存预设"
-                                title="把当前姿势描述与场景保存为预设"
-                                className="inline-flex h-7 shrink-0 items-center gap-1 rounded border border-border px-1.5 text-[11px] text-muted-foreground hover:bg-accent disabled:opacity-40"
-                            >
-                                <Save aria-hidden="true" className="size-3" />
-                                保存预设
-                            </button>
-                        </div>
-                        {workspace.savedPresets.length > 0 ? (
-                            <ul className="mt-1.5 space-y-1" data-testid="ai-pose-saved-presets">
-                                {workspace.savedPresets.map((preset) => (
-                                    <li
-                                        key={preset.id}
-                                        data-testid={`ai-pose-saved-preset-${preset.id}`}
-                                        className="flex items-center gap-1 rounded border border-border bg-background px-1.5 py-1"
-                                    >
-                                        <span className="min-w-0 flex-1 truncate text-[11px] leading-4 text-foreground" title={preset.posePrompt || preset.label}>
-                                            {preset.label}
-                                        </span>
-                                        <button
-                                            type="button"
-                                            data-testid={`ai-pose-saved-apply-${preset.id}`}
-                                            onClick={() => setWorkspace((current) => applyAiPosePreset(current, preset.id))}
-                                            aria-label={`应用预设 ${preset.label}`}
-                                            className="shrink-0 rounded px-1 text-[11px] leading-4 text-muted-foreground hover:text-foreground hover:underline"
-                                        >
-                                            应用
-                                        </button>
-                                        <button
-                                            type="button"
-                                            data-testid={`ai-pose-saved-remove-${preset.id}`}
-                                            onClick={() => setWorkspace((current) => removeAiPosePreset(current, preset.id))}
-                                            aria-label={`删除预设 ${preset.label}`}
-                                            className="inline-flex size-5 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-accent"
-                                        >
-                                            <Trash2 aria-hidden="true" className="size-3" />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
                     </div>
                     </div>
 
@@ -1678,38 +1402,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         </p>
                     </div>
 
-                    {/* §1 区域三：参考预览 —— 真正发给 provider 的最终 prompt（按场景页签） */}
-                    <div className="mt-2 rounded-lg border border-border bg-background/60 p-2" data-testid="ai-pose-preview-panel">
-                        <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12px] leading-4 text-foreground">参考预览</span>
-                            {plan.scenes.length > 1 ? (
-                                <div className="flex flex-wrap gap-1" data-testid="ai-pose-preview-tabs">
-                                    {plan.scenes.map((scene, index) => (
-                                        <button
-                                            key={scene.id}
-                                            type="button"
-                                            data-testid={`ai-pose-preview-tab-${index}`}
-                                            aria-pressed={previewScene.id === scene.id}
-                                            onClick={() => setPreviewSceneId(scene.id)}
-                                            className={cn(
-                                                "h-5 rounded border px-1.5 text-[11px] leading-none",
-                                                previewScene.id === scene.id ? "border-selected text-selected" : "border-border text-muted-foreground hover:bg-accent",
-                                            )}
-                                        >
-                                            {index + 1}
-                                        </button>
-                                    ))}
-                                </div>
-                            ) : null}
-                        </div>
-                        <p
-                            data-testid="ai-pose-preview-prompt"
-                            className="mt-1 max-h-24 overflow-y-auto whitespace-pre-wrap break-all rounded border border-border bg-card px-1.5 py-1 text-[11px] leading-4 text-muted-foreground"
-                        >
-                            {previewPrompt}
-                        </p>
-                    </div>
-
                     <button
                         type="button"
                         data-testid="ai-pose-submit"
@@ -1719,7 +1411,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         }}
                         disabled={!canSubmit}
                         title={issues.length > 0 ? issues[0]!.message : undefined}
-                        className="mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {run.running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : null}
                         <span>立即生成</span>
@@ -1746,29 +1438,10 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         </p>
                     ) : null}
 
-                    {/* 本次输入快照：与提交锁定的 configSnapshot 同源，便于对照结果 */}
-                    <details data-testid="ai-pose-snapshot" className="mt-2 rounded-lg border border-border px-2 py-1.5 text-[11px] text-muted-foreground">
-                        <summary className="cursor-pointer select-none">本次输入快照</summary>
-                        <dl className="mt-1 space-y-0.5">
-                            <div className="flex justify-between gap-2">
-                                <dt>草稿键</dt>
-                                <dd className="truncate">{AI_POSE_GENERATOR_DRAFT_KEY}</dd>
-                            </div>
-                            <div className="flex justify-between gap-2">
-                                <dt>快照指纹</dt>
-                                <dd data-testid="ai-pose-snapshot-hash">{currentHash}</dd>
-                            </div>
-                            <div className="flex justify-between gap-2">
-                                <dt>提交字段</dt>
-                                <dd className="truncate">{fieldSpecs.map((field) => field.key).join(" / ")}</dd>
-                            </div>
-                        </dl>
-                    </details>
-
                 </section>
                 }
             >
-                {/* 结果区：空态 / 生成中 / 按场景分组成功与失败（§1 区域四） */}
+                {/* 结果区：空态 / 生成中 / 按场景分组成功与失败 */}
                 <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card p-3" data-testid="ai-pose-results">
                     <div className="flex items-center justify-between gap-2">
                         <h2 className="text-sm font-medium leading-5">生成结果</h2>
@@ -1799,11 +1472,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         <div className="mt-2 space-y-2">
                             <div className="flex flex-wrap items-center gap-2 text-[11px] leading-4 text-muted-foreground">
                                 <span>共 {resultView.totalImages} 张 / {resultView.groups.length} 个场景</span>
-                                {resultView.stale ? (
-                                    <p data-testid="ai-pose-results-stale" className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
-                                        配置已修改，下方结果来自旧版本
-                                    </p>
-                                ) : null}
                             </div>
                             {resultView.groups.map((group, index) => (
                                 <section key={group.unitId} data-testid={`ai-pose-group-${index}`} className="rounded-lg border border-border p-2">

@@ -46,6 +46,12 @@ describe("电商套图族空态", () => {
         expect(dots(html)).toBe(3);
         expect(html).not.toContain("我是高手，不再提醒");
         expect(html).not.toContain("还没有结果。上传服装图");
+        for (const id of ["brand", "compliance", "model", "main", "aplus"]) {
+            expect(html).toContain(`data-testid="dress-config-row-${id}"`);
+            expect(html).toContain(`aria-controls="dress-config-panel-${id}"`);
+            expect(html).not.toContain(`data-testid="dress-config-panel-${id}"`);
+        }
+        expect(html).toContain("最多上传16张图");
     });
 
     test("套图换色：单张案例轮播（卡内标题 + 6 个分页点），无数字分页与结果区上传卡", async () => {

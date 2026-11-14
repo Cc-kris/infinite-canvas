@@ -618,9 +618,10 @@ export function CropWorkspace() {
                                 <button
                                     type="button"
                                     data-testid="crop-from-products"
-                                    disabled
-                                    title="商品库暂未接入"
-                                    className="h-[30px] w-full rounded border border-border bg-card text-sm leading-none text-foreground transition disabled:cursor-not-allowed disabled:opacity-50"
+                                    disabled={library.length === 0}
+                                    title={library.length ? "从商品库选择" : "商品库暂无图片"}
+                                    onClick={() => setLibraryOpen((open) => !open)}
+                                    className="h-[30px] w-full rounded border border-border bg-card text-sm leading-none text-foreground transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     从商品库选择
                                 </button>
@@ -637,11 +638,6 @@ export function CropWorkspace() {
 
                     {activeTask ? (
                         <>
-                            {stale ? (
-                                <p data-testid="crop-stale" className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 text-[11px] text-amber-700 dark:text-amber-300">
-                                    配置已变更：下方展示的是上一次提交的结果，不代表当前参数。
-                                </p>
-                            ) : null}
                             <TaskStatusPanel task={activeTask} />
                             <ToolResult task={activeTask} toolId={IMAGE_CROP_TOOL_ID} title="裁剪结果" onRetry={submit} />
                         </>

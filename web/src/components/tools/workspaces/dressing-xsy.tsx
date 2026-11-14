@@ -7,7 +7,6 @@ import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolResult } from "@/components/tools/tool-result";
 import { useRestoredTask } from "@/components/tools/use-restored-task";
-import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { AI_DRESSING_V2_CASES } from "@/features/tools/tool-cases-data";
 import { describeToolExecution } from "@/services/api/tools/gateway";
@@ -758,7 +757,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
     return (
         <div data-testid="xsy-workspace" data-step={values.step} data-tab={values.activeTab} className={cn("flex flex-col gap-3", className)}>
-            {railReady ? <OrigRail items={WEAR_RAIL} active="AI穿衣" driver testId="xsy-rail" /> : null}
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
                 config={
@@ -1038,12 +1036,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             >
                 <section className="flex min-w-0 flex-col gap-3" aria-label="结果区">
             {/* 结果 */}
-            <XsySection title="试穿结果" hint="结果显示在下方；结果与提交快照不一致时会标注旧配置" testId="xsy-results">
-                {stale ? (
-                    <p data-testid="xsy-stale" className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-600 dark:text-amber-400">
-                        配置已改动，下面的结果来自提交时的旧版本配置。
-                    </p>
-                ) : null}
+            <XsySection title="试穿结果" testId="xsy-results">
                 {outcome?.status === "failed" && outcome.error ? (
                     <p data-testid="xsy-outcome-error" role="alert" className="rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
                         生成失败（{outcome.error.code}）：{outcome.error.message}
@@ -1099,24 +1092,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                 </div>
 
                 <ToolResult task={activeTask} toolId={toolId} title="试衣结果操作" onCancel={cancel} />
-
-                {unit ? (
-                    <div data-testid="xsy-field-audit" className="rounded-lg border border-border bg-muted/20 p-3">
-                        <p className="mb-1 text-[11px] text-muted-foreground">
-                            字段自检：{fieldsReady}/{AI_DRESSING_XSY_FIELD_KEYS.length} 已取值 · 快照 {unit.snapshotHash.slice(0, 8)}
-                        </p>
-                        <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
-                            {AI_DRESSING_XSY_FIELD_KEYS.map((key) => (
-                                <div key={key} className="flex justify-between gap-2">
-                                    <dt className="truncate">{key}</dt>
-                                    <dd data-field={key} className="shrink-0 font-mono">
-                                        {String(unit.fields[key] ?? "").trim() ? "✓" : "—"}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                ) : null}
             </XsySection>
                 </section>
             </ToolWorkspaceColumns>

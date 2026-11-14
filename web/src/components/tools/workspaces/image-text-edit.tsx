@@ -94,6 +94,8 @@ import {
     type ImageTextEditGatewayLike,
 } from "@/features/tools/adapters/image-text-edit";
 import { formatBytesLabel } from "@/services/api/tools/assets";
+import { generateMarketingCopyWithAI } from "@/services/api/tools/content-analysis";
+import { recognizeAndTranslateImageText } from "@/services/api/tools/ocr-translate";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { reattachDroppedResultUrl, useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -134,8 +136,8 @@ export function ImageTextEditWorkspace() {
     const [draftRect, setDraftRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
     /** 源资产 id（§7 任务必须带 sourceAssetIds）：真实入库记录，刷新后按草稿槽位还原。 */
     const [sourceAssetIds, setSourceAssetIds] = useState<string[]>([]);
-    /** §4：结果区提供「查看本次输入快照」——展开只读展示提交时的字段快照。 */
-    const [showSnapshot, setShowSnapshot] = useState(false);
+    const [aiCopyRunning, setAiCopyRunning] = useState(false);
+    const [ocrRunning, setOcrRunning] = useState(false);
     /** 原站编辑器布局：左竖向工具栏当前面板、画布缩放（null = 自适应）、推荐字体搜索。 */
     const [panel, setPanel] = useState("文字");
     const [zoom, setZoom] = useState<number | null>(null);
@@ -600,6 +602,63 @@ export function ImageTextEditWorkspace() {
     };
     const pickFont = (fontId: string) => (selected ? patchSelected({ fontId }) : addBox({ fontId }));
 
+    const handleAiCopy = async () => {
+        if (!values.imageUrl || aiCopyRunning) return;
+        setAiCopyRunning(true);
+        setErrorText("");
+        try {
+            const copy = await generateMarketingCopyWithAI({
+                productTitle: values.imageName || "电商商品",
+                currentCopy: selected?.text || "",
+            });
+            if (copy.title) {
+                if (selected) {
+                    patchSelected({ text: copy.title.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
+                } else {
+                    addBox({ text: copy.title.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
+                }
+            }
+        } catch (error) {
+            setErrorText(error instanceof Error ? error.message : "AI生成文案失败");
+        } finally {
+            setAiCopyRunning(false);
+        }
+    };
+
+    const handleOcrDetect = async () => {
+        if (!values.imageUrl || ocrRunning) return;
+        setOcrRunning(true);
+        setErrorText("");
+        try {
+            const ocr = await recognizeAndTranslateImageText({
+                imageUrl: values.imageUrl,
+                sourceLanguage: "auto",
+                targetLanguage: "zh-CN",
+            });
+            if (ocr.regions.length > 0) {
+                let next = values.boxes;
+                for (const region of ocr.regions) {
+                    next = addImageTextBox(next, {
+                        text: (region.sourceText || region.translatedText || "").slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT),
+                        x: Math.max(0, Math.min(0.9, region.x)),
+                        y: Math.max(0, Math.min(0.9, region.y)),
+                        width: Math.max(0.08, Math.min(0.95, region.width)),
+                        height: Math.max(0.05, Math.min(0.5, region.height)),
+                        color: region.textColor || "#111111",
+                    });
+                }
+                commitBoxes(next);
+                setSelectedId(next[next.length - 1]?.id ?? "");
+            } else {
+                setErrorText("未在源图中识别到可编辑文字区域");
+            }
+        } catch (error) {
+            setErrorText(error instanceof Error ? error.message : "识别图片文字失败");
+        } finally {
+            setOcrRunning(false);
+        }
+    };
+
     const railButton = (active: boolean) =>
         cn("flex h-14 w-14 flex-col items-center justify-center gap-0.5 text-[12px] disabled:cursor-not-allowed disabled:opacity-35", active ? "bg-accent font-medium text-foreground!" : "text-foreground/70! hover:bg-accent/60");
     const RAIL = [
@@ -665,10 +724,22 @@ export function ImageTextEditWorkspace() {
                                         <button type="button" disabled={!canAddBox} title={values.imageUrl ? "在画布上新增一个文字框" : "请先上传源图"} onClick={() => addBox()} className="inline-flex h-8 items-center justify-center gap-1.5 rounded-[6px] border border-border bg-background text-[14px] text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40">
                                             <Type className="size-3.5" /> 添加文字
                                         </button>
-                                        <button type="button" disabled title="本地未接入文案生成模型，暂不支持 AI 生成文案" className="inline-flex h-8 cursor-not-allowed items-center justify-center gap-1.5 rounded-[6px] border border-border bg-background text-[14px] text-foreground opacity-40">
-                                            <WandSparkles className="size-3.5" /> AI生成文案
+                                        <button type="button" data-testid="image-text-edit-ai-copy" disabled={!values.imageUrl || aiCopyRunning} title={values.imageUrl ? "使用 AI 生成或改写营销文案" : "请先上传源图"} onClick={() => void handleAiCopy()} className="inline-flex h-8 items-center justify-center gap-1.5 rounded-[6px] border border-border bg-background text-[14px] text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40">
+                                            {aiCopyRunning ? <Loader2 className="size-3.5 animate-spin" /> : <WandSparkles className="size-3.5" />} AI生成文案
                                         </button>
                                     </div>
+                                    {values.imageUrl ? (
+                                        <button
+                                            type="button"
+                                            data-testid="image-text-edit-ocr"
+                                            disabled={ocrRunning || !canAddBox}
+                                            onClick={() => void handleOcrDetect()}
+                                            className="mt-2 inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-[6px] border border-border bg-background text-[13px] text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40"
+                                        >
+                                            {ocrRunning ? <Loader2 className="size-3.5 animate-spin" /> : <Search className="size-3.5" />}
+                                            {ocrRunning ? "正在识别图中文字…" : "识别图中文字框"}
+                                        </button>
+                                    ) : null}
                                     <label className="mt-3 flex h-8 items-center gap-1.5 rounded-[6px] border border-border px-2.5">
                                         <Search className="size-3.5 text-foreground/70" />
                                         <input value={fontQuery} onChange={(event) => setFontQuery(event.target.value)} placeholder="搜索" aria-label="搜索字体风格" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-muted-foreground" />
@@ -1047,41 +1118,9 @@ export function ImageTextEditWorkspace() {
                             <section aria-label="图片文字结果" className="border-t border-border pt-4">
                                 <header className="mb-2 flex flex-wrap items-center justify-between gap-2">
                                     <h3 className="text-[14px] text-foreground">生成结果</h3>
-                                    <span className="text-[11px] text-muted-foreground">
-                                        {snapshot ? `快照 ${snapshot.boxes.length} 框｜${snapshot.imageWidth}×${snapshot.imageHeight}` : "尚未提交"}
-                                        {result?.responseId ? `｜响应 id：${result.responseId}` : ""}
-                                    </span>
                                 </header>
                                 {resultNotice ? <div className="mb-2 text-[12px] text-muted-foreground">{resultNotice}</div> : null}
-                                {staleNotice ? <div className="mb-2 text-[12px] text-destructive">{staleNotice}</div> : null}
                                 <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} onRetryItem={retryItem} retryItemHint="按同一快照真实重发一次请求，成功后替换该结果。" />
-                                {/* §4：查看本次输入快照（只读），证明结果与提交快照一致。 */}
-                                {snapshot ? (
-                                    <div className="mt-2 flex flex-col gap-1">
-                                        <button type="button" className={cn(smallButton, "self-start")} aria-expanded={showSnapshot} onClick={() => setShowSnapshot((previous) => !previous)}>
-                                            {showSnapshot ? "收起输入快照" : "查看本次输入快照"}
-                                        </button>
-                                        {showSnapshot ? (
-                                            <pre
-                                                data-testid="image-text-edit-snapshot"
-                                                className="max-h-48 overflow-auto whitespace-pre-wrap break-all rounded-lg border border-[var(--border)] bg-[var(--background)] p-2 text-[11px] leading-5 text-[var(--muted-foreground)]"
-                                            >
-                                                {JSON.stringify(
-                                                    {
-                                                        文件: snapshot.imageName || "（未命名）",
-                                                        尺寸: `${snapshot.imageWidth}×${snapshot.imageHeight}`,
-                                                        导出格式: snapshot.imageFormat,
-                                                        文字框: `${snapshot.boxes.length} 个`,
-                                                        各框: snapshot.boxes.map((box, index) => `${index + 1}.「${box.text}」(${Math.round(box.x * 10000) / 100}%,${Math.round(box.y * 10000) / 100}%,${Math.round(box.width * 10000) / 100}%,${Math.round(box.height * 10000) / 100}%) ${box.fontSize}px`),
-                                                        提交号: snapshot.requestId,
-                                                    },
-                                                    null,
-                                                    2,
-                                                )}
-                                            </pre>
-                                        ) : null}
-                                    </div>
-                                ) : null}
                             </section>
                         </div>
                     </aside>

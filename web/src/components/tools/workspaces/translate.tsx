@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ArrowRight, History } from "lucide-react";
+import { ArrowRight, History, Pencil, X } from "lucide-react";
 
 import { IMAGE_TRANSLATION_GUIDE_POSTER } from "@/features/tools/tool-cases-data";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { ToolShell } from "@/components/tools/tool-shell";
-import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
-import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
-    auditConfirmed,
-    auditTranslations,
-    buildTranslationUnits,
     createModelTextPort,
     createTaskStoreRunPort,
     mergeOutcomes,
@@ -41,11 +36,9 @@ import {
     TRANSLATION_AUTO_SOURCE,
     addManualBox,
     applyRecognition,
-    blockingIssues,
     createTranslationValues,
     imageCharCount,
     imageStateOf,
-    isSnapshotStale,
     languageLabel,
     parseTranslationValues,
     plannedCells,
@@ -58,10 +51,7 @@ import {
     toggleTargetLanguage,
     updateBoxSourceText,
     updateBoxTargetText,
-    validateTranslationState,
-    buildTranslationSnapshot,
 } from "@/features/tools/registry/image-translation";
-import { getToolById } from "@/features/tools/registry";
 import { imageToDataUrl } from "@/services/image-storage";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -149,7 +139,6 @@ export interface TranslateWorkspaceProps {
  * 结果只来自共享 TaskGateway；失败/取消/未定一律如实展示，不计入成功。
  */
 export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) {
-    const spec = useMemo(() => getToolById(TOOL_ID), []);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const draftRevision = useToolDraftStore((state) => state.drafts[TOOL_ID]?.revision ?? 0);
@@ -167,7 +156,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
     const [runHash, setRunHash] = useState<string | null>(null);
     const [recognizing, setRecognizing] = useState<string | null>(null);
     const [translating, setTranslating] = useState<string | null>(null);
-    const [showSnapshot, setShowSnapshot] = useState(false);
+    const [editTextModalOpen, setEditTextModalOpen] = useState(false);
     const [resultTab, setResultTab] = useState<"result" | "history">("result");
 
     const valuesRef = useRef(values);
@@ -221,14 +210,9 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
 
     /* ---------------- 派生状态 ---------------- */
 
-    const issues = useMemo(() => validateTranslationState({ assetIds, values }), [assetIds, values]);
-    const blocking = useMemo(() => blockingIssues(issues), [issues]);
-    const currentSnapshot = useMemo(() => buildTranslationSnapshot({ assetIds, values }), [assetIds, values]);
-    const stale = runHash ? isSnapshotStale(currentSnapshot, runHash) : false;
     const activeImage = imageStateOf(values, values.activeAssetId);
     const activeRecord = records.find((record) => record.id === values.activeAssetId);
     const plannedTotal = assetIds.length * values.targetLanguages.length;
-    const succeededTotal = outcomes.filter((outcome) => outcome.status === "succeeded").length;
     const languageRows = useMemo(() => summarizeByLanguage(values.targetLanguages, outcomes), [values.targetLanguages, outcomes]);
     const cells = useMemo(() => plannedCells(assetIds, values.targetLanguages), [assetIds, values.targetLanguages]);
 
@@ -392,40 +376,127 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
 
     const runAll = useCallback(async () => {
         if (busy) return;
-        const issuesNow = validateTranslationState({ assetIds, values: valuesRef.current });
-        const blockingNow = blockingIssues(issuesNow);
-        if (blockingNow.length) {
-            setNotice(blockingNow[0].message);
+        if (!assetIds.length) {
+            setNotice("请先上传需要翻译的图片");
             return;
         }
-        setNotice("正在读取图片并锁定本次快照…");
-        // 图片 URL 需要在提交前转成 provider 可读的 data URL（blob: 地址上游读不到）。
-        const { toReference } = await import("@/features/tools/adapters/image-translation");
-        const readable: ToolAssetRecord[] = [];
-        for (const record of records) {
-            const dataUrl = await imageToDataUrl({ storageKey: record.storageKey, url: record.url });
-            readable.push({ ...record, url: dataUrl || record.url });
-        }
-        const prepared = prepareTranslationRun({
-            records: readable.map((record) => ({ ...record, ...{ url: record.url } })),
-            assetIds,
-            values: valuesRef.current,
-            imageNames: Object.fromEntries(readable.map((record) => [record.id, record.name])),
-            draftRevision,
-            clientOperationId:
-                typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-                    ? crypto.randomUUID()
-                    : `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-        });
-        const built = prepared.units.map((unit) => ({ ...unit, references: [toReference(readable.find((record) => record.id === unit.assetId) ?? readable[0])] }));
-        if (!built.length) {
-            setNotice("没有可执行的请求单元");
+        if (!valuesRef.current.targetLanguages.length) {
+            setNotice("请至少选择一个目标语言");
             return;
         }
-        setUnits(built);
-        setOutcomes([]);
-        await execute(built, prepared.snapshot.hash);
-    }, [assetIds, busy, draftRevision, execute, records]);
+        abortRef.current = new AbortController();
+        setBusy(true);
+        setNotice("正在识别与翻译图片文字…");
+        try {
+            const { toReference } = await import("@/features/tools/adapters/image-translation");
+            const readable: ToolAssetRecord[] = [];
+            for (const record of records) {
+                const dataUrl = await imageToDataUrl({ storageKey: record.storageKey, url: record.url });
+                readable.push({ ...record, url: dataUrl || record.url });
+            }
+            let current = valuesRef.current;
+            for (const assetId of assetIds) {
+                const record = readable.find((item) => item.id === assetId);
+                if (!record) continue;
+                let state = imageStateOf(current, assetId);
+                if (!state || state.boxes.length === 0) {
+                    try {
+                        setNotice(`正在识别「${record.name}」的文字…`);
+                        const recognized = await transcribeImage(textPort(), {
+                            imageUrl: record.url,
+                            sourceLanguage: current.sourceLanguage,
+                            signal: abortRef.current.signal,
+                        });
+                        if (recognized.boxes.length > 0) {
+                            current = applyRecognition(
+                                current,
+                                assetId,
+                                recognized.boxes.map((box) => ({
+                                    id: box.id,
+                                    sourceText: box.sourceText,
+                                    targets: {} as Record<string, string>,
+                                    origin: "recognized" as const,
+                                    ...(box.bbox ? { bbox: box.bbox } : {}),
+                                    ...(box.confidence === undefined ? {} : { confidence: box.confidence }),
+                                })),
+                                { detectedLanguage: recognized.detectedLanguage, at: Date.now() },
+                            );
+                            commit(current);
+                            state = imageStateOf(current, assetId);
+                        }
+                    } catch {
+                        // 若视觉模型识别失败，交由下游图像模型直接按目标语言端到端翻译图片文字
+                    }
+                }
+                if (state && state.boxes.length > 0) {
+                    const source = current.sourceLanguage === TRANSLATION_AUTO_SOURCE || !current.sourceLanguage
+                        ? (state.detectedLanguage ?? TRANSLATION_AUTO_SOURCE)
+                        : current.sourceLanguage;
+                    for (const language of current.targetLanguages) {
+                        if (language === source) continue;
+                        const missingAny = state.boxes.some((box) => box.sourceText.trim() && !(box.targets[language] ?? "").trim());
+                        if (!missingAny) continue;
+                        try {
+                            setNotice(`正在将「${record.name}」翻译为 ${languageLabel(language)}…`);
+                            const map = await translateBoxes(textPort(), {
+                                sourceLanguage: source,
+                                targetLanguage: language,
+                                boxes: state.boxes,
+                                signal: abortRef.current.signal,
+                            });
+                            current = {
+                                ...current,
+                                images: current.images.map((image) =>
+                                    image.assetId === assetId
+                                        ? {
+                                              ...image,
+                                              boxes: image.boxes.map((box) => ({
+                                                  ...box,
+                                                  targets: { ...box.targets, [language]: map[box.id] ?? box.targets[language] ?? "" },
+                                              })),
+                                              confirmed: true,
+                                          }
+                                        : image,
+                                ),
+                            };
+                            commit(current);
+                            state = imageStateOf(current, assetId);
+                        } catch {
+                            // 逐框文本翻译失败时不阻断整图生成，由图像模型直接按目标语言出图
+                        }
+                    }
+                    current = setImageConfirmed(current, assetId, true);
+                    commit(current);
+                }
+            }
+            const prepared = prepareTranslationRun({
+                records: readable.map((record) => ({ ...record, url: record.url })),
+                assetIds,
+                values: current,
+                imageNames: Object.fromEntries(readable.map((record) => [record.id, record.name])),
+                draftRevision,
+                clientOperationId:
+                    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+                        ? crypto.randomUUID()
+                        : `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+            });
+            const built = prepared.units.map((unit) => ({
+                ...unit,
+                references: [toReference(readable.find((record) => record.id === unit.assetId) ?? readable[0])],
+            }));
+            if (!built.length) {
+                setBusy(false);
+                setNotice("没有可执行的请求单元");
+                return;
+            }
+            setUnits(built);
+            setOutcomes([]);
+            await execute(built, prepared.snapshot.hash);
+        } catch (error) {
+            setBusy(false);
+            setNotice(error instanceof Error ? error.message : "运行失败");
+        }
+    }, [assetIds, busy, commit, draftRevision, execute, records, textPort]);
 
     const retryFailed = useCallback(async () => {
         if (busy) return;
@@ -518,59 +589,18 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
     /* ---------------- 渲染 ---------------- */
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "批量翻译"}
-            actions={
-                busy ? (
-                    <button type="button" onClick={stop} className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-accent">
-                        停止
-                    </button>
-                ) : undefined
-            }
-            notices={
-                <>
-                    {conflict ? (
-                        <p className="mb-2 rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                            该工具的其他标签页修改了草稿，当前页面可能覆盖远端改动；刷新后再编辑可避免冲突。
-                        </p>
-                    ) : null}
-                    {notice ? <p className="mb-2 rounded border border-border bg-accent px-3 py-2 text-xs">{notice}</p> : null}
-                    {stale ? (
-                        <p className="mb-2 rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-400">
-                            输入已变更，下面的结果是旧快照的产物（快照 {runHash?.slice(0, 8)}），重新生成才会反映当前设置。
-                        </p>
-                    ) : null}
-                </>
-            }
-            sidebar={
-                <nav className="space-y-1 p-2 text-sm">
-                    {[
-                        ["images", "上传图片"],
-                        ["source", "原文语言"],
-                        ["targets", "目标语言"],
-                        ["proofread", "逐框校对"],
-                        ["results", "生成结果"],
-                    ].map(([id, label]) => (
-                        <a key={id} href={`#${id}`} className="block rounded px-2 py-1.5 text-muted-foreground transition hover:bg-accent hover:text-foreground">
-                            {label}
-                        </a>
-                    ))}
-                </nav>
-            }
-        >
+        <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col", className)} data-testid="translate-workspace">
+            {conflict ? (
+                <p className="mb-2 rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                    该工具的其他标签页修改了草稿，当前页面可能覆盖远端改动；刷新后再编辑可避免冲突。
+                </p>
+            ) : null}
+            {notice ? <p className="mb-2 rounded border border-border bg-accent px-3 py-2 text-xs">{notice}</p> : null}
             <ToolWorkspaceColumns
                 configSide="left"
-                className="min-h-0 bg-muted/40 p-3"
+                className="min-h-0 flex-1"
                 config={
                     <div className="space-y-2">
-                    <OrigRail
-                        items={ECOMMERCE_SUITE_RAIL}
-                        active="批量翻译"
-                        driver
-                        testId="translate-family-rail"
-                        label="电商套图"
-                    />
                     <div className="space-y-2">
                     <Section id="images" title="上传需要翻译的图片" titleClassName="text-xs font-normal">
                         <ToolAssetInput
@@ -611,15 +641,19 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                 {record?.name ?? assetId}
                                             </button>
                                             <span className="shrink-0 text-[11px] text-muted-foreground">
-                                                {state?.boxes.length ?? 0} 框 · {chars} 字{state?.confirmed ? " · 已确认" : ""}
+                                                {state?.boxes.length ?? 0} 框 · {chars} 字
                                             </span>
                                             <button
                                                 type="button"
-                                                disabled={busy || recognizing === assetId}
-                                                onClick={() => void recognize(assetId)}
-                                                className="shrink-0 rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
+                                                disabled={busy}
+                                                onClick={() => {
+                                                    commit(setActiveAsset(valuesRef.current, assetId));
+                                                    setEditTextModalOpen(true);
+                                                }}
+                                                className="inline-flex shrink-0 items-center gap-1 rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
                                             >
-                                                {recognizing === assetId ? "识别中…" : "识别文字"}
+                                                <Pencil className="size-3" aria-hidden />
+                                                编辑文字
                                             </button>
                                         </li>
                                     );
@@ -733,14 +767,21 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 预计输出 {plannedTotal} 张（{assetIds.length} 张图片 × {values.targetLanguages.length} 个语言）
                             </p>
                         ) : null}
-                        <button
-                            type="button"
-                            disabled={busy || !assetIds.length || !values.targetLanguages.length}
-                            onClick={() => void runAll()}
-                            className="h-10 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                            {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                disabled={busy || !assetIds.length || !values.targetLanguages.length}
+                                onClick={() => void runAll()}
+                                className="h-10 flex-1 rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
+                            </button>
+                            {busy ? (
+                                <button type="button" onClick={stop} className="h-10 rounded-md border border-border px-3 text-xs hover:bg-accent">
+                                    停止
+                                </button>
+                            ) : null}
+                        </div>
                     </Section>
                     </div>
                 </div>
@@ -782,185 +823,30 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </div>
                         </div>
                     ) : resultTab === "result" ? (
-                    <>
-                    <Section
-                        id="proofread"
-                        collapsible
-                        defaultOpen={false}
-                        title="校对"
-                        hint={activeRecord ? `${activeRecord.name} · ${activeImage?.boxes.length ?? 0}` : ""}
-                    >
-                        {activeRecord ? (
-                            <>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <button
-                                        type="button"
-                                        disabled={busy || recognizing === activeRecord.id}
-                                        onClick={() => void recognize(activeRecord.id)}
-                                        className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
-                                    >
-                                        {recognizing === activeRecord.id ? "识别中…" : "识别文字（视觉模型）"}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        disabled={busy}
-                                        onClick={() => commit(addManualBox(valuesRef.current, activeRecord.id))}
-                                        className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
-                                    >
-                                        添加文本框
-                                    </button>
-                                    <button
-                                        type="button"
-                                        disabled={busy || translating === activeRecord.id || values.targetLanguages.length === 0}
-                                        onClick={() => void translateAll(activeRecord.id)}
-                                        className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
-                                    >
-                                        {translating === activeRecord.id ? "翻译中…" : "翻译全部目标语言"}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        disabled={busy}
-                                        onClick={confirmActive}
-                                        className="rounded bg-primary/90 px-2 py-1 text-[11px] font-medium text-primary-foreground transition hover:bg-primary disabled:opacity-50"
-                                    >
-                                        {activeImage?.confirmed ? "重新确认" : "确认译文"}
-                                    </button>
-                                    <span className={cn("text-[11px]", activeImage?.confirmed ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground")}>
-                                        {activeImage?.confirmed ? "已确认" : "未确认"} · 识别字符 {activeImage ? imageCharCount(activeImage) : 0}/{IMAGE_TRANSLATION_MAX_TEXT_CHARS}
-                                    </span>
-                                </div>
-
-                                {values.targetLanguages.length === 0 ? <p className="text-xs text-muted-foreground">先选择目标语言，译文列才会出现。</p> : null}
-
-                                {activeImage && activeImage.boxes.length ? (
-                                    <div className="space-y-2">
-                                        <div className="flex flex-wrap items-center gap-1.5">
-                                            <span className="text-[11px] text-muted-foreground">校对语言：</span>
-                                            {values.targetLanguages.map((code) => (
-                                                <button
-                                                    key={code}
-                                                    type="button"
-                                                    onClick={() => commit(setActiveLanguage(valuesRef.current, code))}
-                                                    aria-pressed={values.activeLanguage === code}
-                                                    className={cn(
-                                                        "rounded-full border px-2 py-0.5 text-[11px] transition",
-                                                        values.activeLanguage === code
-                                                            ? "border-border bg-accent text-foreground"
-                                                            : "border-border text-muted-foreground hover:bg-accent",
-                                                    )}
-                                                >
-                                                    {languageLabel(code)}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <ul className="space-y-2">
-                                            {activeImage.boxes.map((box, index) => (
-                                                <li key={box.id} className="rounded border border-border p-2">
-                                                    <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
-                                                        <span>
-                                                            #{index + 1} · {box.origin === "manual" ? "手工" : "识别"}
-                                                            {box.bbox ? ` · 位置 ${Math.round(box.bbox.x * 100)}%,${Math.round(box.bbox.y * 100)}%` : ""}
-                                                            {typeof box.confidence === "number" ? ` · 置信 ${(box.confidence * 100).toFixed(0)}%` : ""}
-                                                        </span>
-                                                        <button
-                                                            type="button"
-                                                            disabled={busy}
-                                                            onClick={() => commit(removeBox(valuesRef.current, activeRecord.id, box.id))}
-                                                            className="rounded px-1 text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                                            aria-label={`删除第 ${index + 1} 个文字框`}
-                                                        >
-                                                            ×
-                                                        </button>
-                                                    </div>
-                                                    <div className="grid gap-2 sm:grid-cols-2">
-                                                        <label className="space-y-1">
-                                                            <span className="text-[11px] text-muted-foreground">原文</span>
-                                                            <textarea
-                                                                value={box.sourceText}
-                                                                disabled={busy}
-                                                                rows={2}
-                                                                onChange={(event) => commit(updateBoxSourceText(valuesRef.current, activeRecord.id, box.id, event.target.value))}
-                                                                className="w-full resize-y rounded border border-border bg-background px-2 py-1 text-xs"
-                                                            />
-                                                        </label>
-                                                        <label className="space-y-1">
-                                                            <span className="text-[11px] text-muted-foreground">{languageLabel(values.activeLanguage ?? values.targetLanguages[0] ?? "")}</span>
-                                                            <textarea
-                                                                value={box.targets[values.activeLanguage ?? values.targetLanguages[0] ?? ""] ?? ""}
-                                                                disabled={busy || !values.activeLanguage}
-                                                                rows={2}
-                                                                placeholder={values.activeLanguage ? "待翻译：可直接改写" : "先选校对语言"}
-                                                                onChange={(event) =>
-                                                                    commit(
-                                                                        updateBoxTargetText(
-                                                                            valuesRef.current,
-                                                                            activeRecord.id,
-                                                                            box.id,
-                                                                            values.activeLanguage ?? values.targetLanguages[0] ?? "",
-                                                                            event.target.value,
-                                                                        ),
-                                                                    )
-                                                                }
-                                                                className="w-full resize-y rounded border border-border bg-background px-2 py-1 text-xs"
-                                                            />
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ) : (
-                                    <p className="text-xs text-muted-foreground">
-                                        还没有文字框：点「识别文字」用视觉模型识别，或「添加文本框」手工录入（识别为空时不会编造文字）。
-                                    </p>
-                                )}
-                            </>
-                        ) : (
-                            <p className="text-xs text-muted-foreground">上传图片后在这里逐框校对原文与译文。</p>
-                        )}
-
-                        {issues.length ? (
-                            <ul className="space-y-1">
-                                {issues.slice(0, 6).map((issue, index) => (
-                                    <li
-                                        key={`${issue.code}-${index}`}
-                                        className={cn(
-                                            "rounded border px-2 py-1 text-[11px]",
-                                            issue.level === "error"
-                                                ? "border-destructive/40 bg-destructive/10 text-destructive"
-                                                : "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400",
-                                        )}
-                                    >
-                                        {issue.message}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
-                    </Section>
-
                     <Section id="results" title="生成结果">
                         {outcomes.length ? (
                             <div className="mb-2 flex flex-wrap items-center gap-2">
-                            <button
-                                type="button"
-                                disabled={busy}
-                                onClick={() => void retryFailed()}
-                                className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
-                            >
-                                重试失败项
-                            </button>
-                            <button type="button" onClick={() => setShowSnapshot((prev) => !prev)} className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent">
-                                {showSnapshot ? "收起快照" : "展开快照"}
-                            </button>
+                                <button
+                                    type="button"
+                                    disabled={busy}
+                                    onClick={() => void retryFailed()}
+                                    className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
+                                >
+                                    重试失败项
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={busy || !activeRecord}
+                                    onClick={() => setEditTextModalOpen(true)}
+                                    data-testid="translate-open-edit-modal"
+                                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
+                                >
+                                    <Pencil className="size-3" aria-hidden />
+                                    编辑文字
+                                </button>
                             </div>
                         ) : null}
                         {busy ? <span className="text-[11px] text-muted-foreground">进度 {progress.done}/{progress.total}</span> : null}
-
-                        {showSnapshot ? (
-                            <pre className="max-h-48 overflow-auto rounded border border-border bg-muted/30 p-2 text-[10px] leading-relaxed">
-                                {JSON.stringify(currentSnapshot, null, 2)}
-                            </pre>
-                        ) : null}
 
                         {!assetIds.length || !values.targetLanguages.length ? (
                             <p className="text-xs text-muted-foreground">快速翻译成多语言，快速上架</p>
@@ -992,7 +878,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                     return (
                                                         <td key={language} className="border-b border-border px-2 py-1 align-top">
                                                             <div className="space-y-1">
-                                                                <div className="flex items-center gap-1">
+                                                                <div className="flex flex-wrap items-center gap-1">
                                                                     <span
                                                                         className={cn(
                                                                             "rounded px-1 py-0.5 text-[10px]",
@@ -1037,6 +923,17 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                                     <button
                                                                         type="button"
                                                                         disabled={busy}
+                                                                        onClick={() => {
+                                                                            commit(setActiveLanguage(setActiveAsset(valuesRef.current, assetId), language));
+                                                                            setEditTextModalOpen(true);
+                                                                        }}
+                                                                        className="rounded border border-border px-1 text-[10px] transition hover:bg-accent disabled:opacity-50"
+                                                                    >
+                                                                        编辑文字
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        disabled={busy}
                                                                         onClick={() => void retryCell(assetId, language)}
                                                                         className="rounded border border-border px-1 text-[10px] transition hover:bg-accent disabled:opacity-50"
                                                                     >
@@ -1055,7 +952,6 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                                         {outcome.error.code}：{outcome.error.message}
                                                                     </p>
                                                                 ) : null}
-                                                                {outcome && stale ? <p className="text-[10px] text-amber-600 dark:text-amber-400">来自旧版本</p> : null}
                                                             </div>
                                                         </td>
                                                     );
@@ -1067,14 +963,172 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </div>
                         )}
                     </Section>
-                    </>
                     ) : (
                         <div className="min-h-0 flex-1 overflow-auto p-4">
-                            <ToolHistoryDock toolId={TOOL_ID} className="border border-border bg-card" />
+                            <ToolTaskHistory toolId={TOOL_ID} limit={12} emptyHint="还没有批量翻译任务记录" />
                         </div>
                     )}
                 </div>
             </ToolWorkspaceColumns>
-        </ToolShell>
+
+            {editTextModalOpen && activeRecord ? (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="编辑文字"
+                    data-testid="translate-edit-modal"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+                    onClick={() => setEditTextModalOpen(false)}
+                >
+                    <div
+                        className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+                            <div>
+                                <h3 className="text-sm font-medium">编辑文字 · {activeRecord.name}</h3>
+                                <p className="text-[11px] text-muted-foreground">修改原文或目标语言译文后，可重新生成对应语言图片</p>
+                            </div>
+                            <button
+                                type="button"
+                                aria-label="关闭编辑文字弹窗"
+                                onClick={() => setEditTextModalOpen(false)}
+                                className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                            >
+                                <X className="size-4" />
+                            </button>
+                        </div>
+                        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+                            <div className="flex flex-wrap items-center gap-2">
+                                <button
+                                    type="button"
+                                    disabled={busy || recognizing === activeRecord.id}
+                                    onClick={() => void recognize(activeRecord.id)}
+                                    className="rounded border border-border px-2.5 py-1 text-xs transition hover:bg-accent disabled:opacity-50"
+                                >
+                                    {recognizing === activeRecord.id ? "识别中…" : "重新识别文字"}
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={busy}
+                                    onClick={() => commit(addManualBox(valuesRef.current, activeRecord.id))}
+                                    className="rounded border border-border px-2.5 py-1 text-xs transition hover:bg-accent disabled:opacity-50"
+                                >
+                                    添加文本框
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={busy || translating === activeRecord.id || values.targetLanguages.length === 0}
+                                    onClick={() => void translateAll(activeRecord.id)}
+                                    className="rounded border border-border px-2.5 py-1 text-xs transition hover:bg-accent disabled:opacity-50"
+                                >
+                                    {translating === activeRecord.id ? "翻译中…" : "翻译全部目标语言"}
+                                </button>
+                            </div>
+                            {values.targetLanguages.length > 0 ? (
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                    <span className="text-xs text-muted-foreground">目标语言：</span>
+                                    {values.targetLanguages.map((code) => (
+                                        <button
+                                            key={code}
+                                            type="button"
+                                            onClick={() => commit(setActiveLanguage(valuesRef.current, code))}
+                                            aria-pressed={values.activeLanguage === code}
+                                            className={cn(
+                                                "rounded-full border px-2.5 py-0.5 text-xs transition",
+                                                values.activeLanguage === code
+                                                    ? "border-selected bg-selected-soft text-selected"
+                                                    : "border-border text-muted-foreground hover:bg-accent",
+                                            )}
+                                        >
+                                            {languageLabel(code)}
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : null}
+                            {activeImage && activeImage.boxes.length ? (
+                                <ul className="space-y-2">
+                                    {activeImage.boxes.map((box, index) => (
+                                        <li key={box.id} className="rounded-lg border border-border p-2.5">
+                                            <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                                                <span>
+                                                    #{index + 1} · {box.origin === "manual" ? "手工" : "识别"}
+                                                    {box.bbox ? ` · 位置 ${Math.round(box.bbox.x * 100)}%,${Math.round(box.bbox.y * 100)}%` : ""}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    disabled={busy}
+                                                    onClick={() => commit(removeBox(valuesRef.current, activeRecord.id, box.id))}
+                                                    className="rounded px-1 text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                                                    aria-label={`删除第 ${index + 1} 个文字框`}
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                            <div className="grid gap-2 sm:grid-cols-2">
+                                                <label className="space-y-1">
+                                                    <span className="text-[11px] text-muted-foreground">原文</span>
+                                                    <textarea
+                                                        value={box.sourceText}
+                                                        disabled={busy}
+                                                        rows={2}
+                                                        onChange={(event) => commit(updateBoxSourceText(valuesRef.current, activeRecord.id, box.id, event.target.value))}
+                                                        className="w-full resize-y rounded border border-border bg-background px-2 py-1 text-xs"
+                                                    />
+                                                </label>
+                                                <label className="space-y-1">
+                                                    <span className="text-[11px] text-muted-foreground">{languageLabel(values.activeLanguage ?? values.targetLanguages[0] ?? "")}</span>
+                                                    <textarea
+                                                        value={box.targets[values.activeLanguage ?? values.targetLanguages[0] ?? ""] ?? ""}
+                                                        disabled={busy || !values.activeLanguage}
+                                                        rows={2}
+                                                        placeholder={values.activeLanguage ? "可直接修改译文" : "先选目标语言"}
+                                                        onChange={(event) =>
+                                                            commit(
+                                                                updateBoxTargetText(
+                                                                    valuesRef.current,
+                                                                    activeRecord.id,
+                                                                    box.id,
+                                                                    values.activeLanguage ?? values.targetLanguages[0] ?? "",
+                                                                    event.target.value,
+                                                                ),
+                                                            )
+                                                        }
+                                                        className="w-full resize-y rounded border border-border bg-background px-2 py-1 text-xs"
+                                                    />
+                                                </label>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-xs text-muted-foreground">当前图片暂无文字框，可点击「重新识别文字」或「添加文本框」。</p>
+                            )}
+                        </div>
+                        <div className="flex items-center justify-end gap-2 border-t border-border px-4 py-3">
+                            <button
+                                type="button"
+                                onClick={() => setEditTextModalOpen(false)}
+                                className="h-8 rounded-md border border-border px-3 text-xs hover:bg-accent"
+                            >
+                                关闭
+                            </button>
+                            <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() => {
+                                    commit(setImageConfirmed(valuesRef.current, activeRecord.id, true));
+                                    setEditTextModalOpen(false);
+                                    void runAll();
+                                }}
+                                className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                            >
+                                应用并重新生成
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+        </div>
     );
 }

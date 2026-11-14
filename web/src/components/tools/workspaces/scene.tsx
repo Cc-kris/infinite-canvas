@@ -6,6 +6,7 @@ import { ToolResult } from "@/components/tools/tool-result";
 import type { Design19TabId } from "@/components/tools/design19-frame";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { loadToolAssetRecords } from "@/services/api/tools/assets";
+import { autoSegmentSubjectMask } from "@/services/api/tools/segmentation";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -329,6 +330,27 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                     if (slot === "product") {
                         setProduct(asset);
                         update({ imageUrl: asset ? transferImageRef(asset) || record.id : "" });
+                        if (record?.url) {
+                            void autoSegmentSubjectMask(record.url)
+                                .then((segResult) => {
+                                    setSeg({
+                                        assetId: `${record.id}-seg`,
+                                        id: `${record.id}-seg`,
+                                        name: `${record.name}-mask.png`,
+                                        type: "image/png",
+                                        mimeType: "image/png",
+                                        url: segResult.maskDataUrl,
+                                        dataUrl: segResult.maskDataUrl,
+                                        width: segResult.width,
+                                        height: segResult.height,
+                                    });
+                                    update({ segImageUrl: segResult.maskDataUrl });
+                                })
+                                .catch(() => undefined);
+                        } else {
+                            setSeg(null);
+                            update({ segImageUrl: "" });
+                        }
                     } else {
                         setStyle(asset);
                         update({ imageStyleUrl: asset ? transferImageRef(asset) || record.id : "" });
@@ -414,14 +436,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                     {resultTab === "result" ? (
                         <div className="space-y-3" data-testid="scene-transfer-result">
                             {activeTask ? (
-                                <>
-                                    <ToolResult task={activeTask} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={!running && task ? () => void retry() : undefined} />
-                                    {view.stale ? (
-                                        <p className="rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scene-transfer-stale">
-                                            {view.stale}
-                                        </p>
-                                    ) : null}
-                                </>
+                                <ToolResult task={activeTask} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={!running && task ? () => void retry() : undefined} />
                             ) : (
                                 <div className="flex min-h-[420px] flex-col items-center justify-center text-[14px] text-muted-foreground" data-testid="scene-transfer-snapshot-empty">
                                     <p>暂无生成结果图</p>

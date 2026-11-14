@@ -915,11 +915,6 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     {conflict ? (
                         <p className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
                     ) : null}
-                    {stale ? (
-                        <p data-testid="area-repair-stale" className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
-                            图片或涂抹已变更：下面是上一次提交的结果，不代表当前配置。
-                        </p>
-                    ) : null}
                     {notice ? (
                         <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-4 text-amber-700 dark:text-amber-300">
                             {notice}
@@ -929,17 +924,6 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     {latestTask ? (
                         <div className="px-[16px] py-2">
                             <TaskStatusPanel task={latestTask} onRetry={hasFailedUnits ? () => void retryFailedUnits() : undefined} />
-                        </div>
-                    ) : null}
-
-                    {runSnapshot ? (
-                        <div className="px-4 py-[10px]">
-                            <p className="m-0! mb-1! text-[12px] leading-[22px] text-muted-foreground">本次输入快照</p>
-                            <ul data-testid="area-repair-snapshot" className="space-y-0.5 text-[11px] leading-4 tabular-nums text-muted-foreground">
-                                <li>源图：{runSnapshot.imageName || "（未命名）"}{runSnapshot.imageWidth ? ` · ${runSnapshot.imageWidth}×${runSnapshot.imageHeight}` : ""}</li>
-                                <li>笔画 {runSnapshot.strokeCount} 笔{runSnapshot.inverted ? " · 已反选" : ""}{runSnapshot.autoExpand ? " · 自动扩边" : ""}</li>
-                                <li>张数 {runSnapshot.outputNum} · 快照 {snapshotHash(runSnapshot).slice(0, 8)}</li>
-                            </ul>
                         </div>
                     ) : null}
                 </div>
@@ -1779,7 +1763,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         />
                     </div>
                 ) : null}
-                {!historyOpen && (conflict || notice || stale) ? (
+                {!historyOpen && (conflict || notice) ? (
                     <div className="flex flex-col gap-1 px-4 pt-2 text-[11px]">
                         {conflict ? <p className="rounded-md bg-amber-500/10 px-2 py-1 text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
                         {notice ? (
@@ -1787,7 +1771,6 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 {notice}
                             </p>
                         ) : null}
-                        {stale ? <p className="rounded-md bg-amber-500/10 px-2 py-1 text-amber-700 dark:text-amber-300">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
                     </div>
                 ) : null}
 
@@ -1823,11 +1806,6 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 </p>
                             ) : null}
                             {activeRun?.task ? <TaskStatusPanel task={activeRun.task} /> : null}
-                            {restoredRun ? (
-                                <p data-testid="remove-pen-restored-task" className="text-[11px] text-muted-foreground">
-                                    已按落盘任务 {restoredRun.task.id} 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。
-                                </p>
-                            ) : null}
                             {resultUrl ? (
                                 <>
                                     <div className="flex flex-wrap items-center justify-between gap-2">

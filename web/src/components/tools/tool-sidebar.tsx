@@ -1,27 +1,9 @@
-import {
-    Accessibility,
-    Crop,
-    Eraser,
-    Expand,
-    Images,
-    Languages,
-    LayoutGrid,
-    Maximize,
-    PaintBucket,
-    Palette,
-    PenOff,
-    Printer,
-    Shirt,
-    Sparkles,
-    Type,
-    Video,
-    Wand,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
+import { toolNavigationItems } from "@/constant/navigation-tools";
 import { cn } from "@/lib/utils";
 
 export interface ToolSidebarTool {
@@ -50,31 +32,8 @@ export interface ToolSidebarProps {
     className?: string;
 }
 
-/**
- * Icon per tool id, mirroring the reference sidebar (16px line icons, 10px gap to label).
- * Unknown ids fall back to a neutral grid glyph so new tools never render icon-less.
- */
-const TOOL_ICONS: Record<string, LucideIcon> = {
-    PRODUCT_IMAGE_SUITE: LayoutGrid,
-    DRESS_WEAR_SET: Shirt,
-    CHANGE_COLOR_V2: Palette,
-    IMAGE_TRANSLATION: Languages,
-    SCALE_UP: Maximize,
-    AI_OUTPAINTING: Expand,
-    BACKGROUND_REMOVAL: Eraser,
-    AI_TEXT: Type,
-    AI_IMAGE_EDIT: Wand,
-    CUTOUT: Crop,
-    FILL: PaintBucket,
-    RETOUCH: PenOff,
-    TRY_ON: Accessibility,
-    PRINT: Printer,
-    GALLERY: Images,
-    VIDEO_GENERATE: Video,
-};
-
 function ToolIcon({ id }: { id: string }) {
-    const Icon = TOOL_ICONS[id] ?? Sparkles;
+    const Icon = toolNavigationItems.find((tool) => tool.id === id)?.icon ?? Sparkles;
     return <Icon aria-hidden="true" className="size-4 shrink-0 text-current" strokeWidth={1.6} />;
 }
 
@@ -103,7 +62,7 @@ export function ToolSidebar({
     const scoped = activeCategory ? categories.filter((category) => category.slug === activeCategory) : [];
     const visibleCategories = scoped.length > 0 ? scoped : categories;
     return (
-        <nav aria-label="工具" className={cn("flex h-full flex-col overflow-y-auto", className)}>
+        <nav data-testid="tool-category-navigation" aria-label="工具" className={cn("flex h-full flex-col overflow-y-auto", className)}>
             {visibleCategories.map((category, index) => {
                 return (
                     <div key={category.slug} className="min-w-0 px-2">
@@ -120,6 +79,7 @@ export function ToolSidebar({
                                         <NavLink
                                             to={`/tools/${category.slug}/${tool.slug}`}
                                             end
+                                            title={tool.title}
                                             onClick={onNavigate}
                                             data-tool-id={tool.id}
                                             data-active={active ? "true" : undefined}

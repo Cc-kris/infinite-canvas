@@ -801,29 +801,6 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                 <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-2">
                 {resultTab === "result" ? (
                     <div className="flex h-full flex-col gap-2">
-                        {lastCommit ? (
-                            <>
-                                <button
-                                    type="button"
-                                    data-testid="fix-color-toggle-snapshot"
-                                    aria-expanded={showSnapshot}
-                                    onClick={() => setShowSnapshot((prev) => !prev)}
-                                    className="w-fit text-[11px] text-muted-foreground underline-offset-2 hover:underline"
-                                >
-                                    {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
-                                </button>
-                                {showSnapshot ? (
-                                    <dl data-testid="fix-color-snapshot" className="grid grid-cols-2 gap-x-3 gap-y-0.5 rounded border border-border bg-muted/30 p-2 text-[11px] leading-4 text-muted-foreground">
-                                        <div>图片：{lastCommit.snapshot.imageName || "（未命名）"}</div>
-                                        <div>尺寸：{lastCommit.snapshot.imageWidth}×{lastCommit.snapshot.imageHeight}</div>
-                                        <div>区域颜色：{lastCommit.snapshot.regionColor}</div>
-                                        <div>目标颜色：{lastCommit.snapshot.targetColor}</div>
-                                        <div>校正版本：{getFixColorVersion(lastCommit.snapshot.version).label}</div>
-                                        <div>涂抹笔画：{lastCommit.snapshot.strokeCount} 笔（羽化 {lastCommit.snapshot.feather}）</div>
-                                    </dl>
-                                ) : null}
-                            </>
-                        ) : null}
                         {view.imageUrl ? (
                             <div className="rounded-lg bg-card p-2" data-testid="fix-color-compare-section">
                                 <div className="flex items-center gap-1">
@@ -848,9 +825,6 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         </button>
                                     ))}
                                 </div>
-                                {stale ? (
-                                    <p className="mt-1 text-[11px] leading-4 text-amber-700 dark:text-amber-300">参数已改动，下面这张图来自旧版本，请重新提交。</p>
-                                ) : null}
                                 <div className="relative mt-2 overflow-hidden rounded-lg border border-border">
                                     {compareMode === "side" ? null : <img src={view.imageUrl} alt="校正结果" className="block w-full" />}
                                 {compareMode === "slide" && view.sourceUrl ? (
@@ -1501,13 +1475,12 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                             </button>
                         </div>
                         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 pb-4 pt-2">
-                            {outcomes.length > 0 || stale ? (
+                            {outcomes.length > 0 ? (
                                 <p data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
-                                    {outcomes.length > 0 ? summarizeHandRepairOutcomes(outcomes) : ""}
-                                    {stale ? "｜来自旧版本输入" : ""}
+                                    {summarizeHandRepairOutcomes(outcomes)}
                                 </p>
                             ) : null}
-                            {/* 规格 §4：单结果重试 + 查看本次输入快照；部分失败只重试失败单元（§5） */}
+                            {/* 部分失败只重试失败单元（§5） */}
                             {resultTab === "result" && failedOutcomes.length > 0 && !busy && lastCommit ? (
                                 <button
                                     type="button"
@@ -1515,29 +1488,8 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     onClick={() => void submit(lastCommit.maskDataUrl)}
                                     className="mt-2 w-fit rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent"
                                 >
-                                    重试失败的 {failedOutcomes.length} 张（按本次输入快照）
+                                    重试失败的 {failedOutcomes.length} 张
                                 </button>
-                            ) : null}
-                            {resultTab === "result" && lastCommit ? (
-                                <button
-                                    type="button"
-                                    data-testid="hand-repair-toggle-snapshot"
-                                    aria-expanded={showSnapshot}
-                                    onClick={() => setShowSnapshot((prev) => !prev)}
-                                    className="mt-2 w-fit text-[11px] text-muted-foreground underline-offset-2 hover:underline"
-                                >
-                                    {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
-                                </button>
-                            ) : null}
-                            {resultTab === "result" && showSnapshot && lastCommit ? (
-                                <dl data-testid="hand-repair-snapshot" className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-0.5 rounded border border-border bg-muted/30 p-2 text-[11px] leading-4 text-muted-foreground">
-                                    <div>图片：{lastCommit.snapshot.imageName || "（未命名）"}</div>
-                                    <div>尺寸：{lastCommit.snapshot.imageWidth}×{lastCommit.snapshot.imageHeight}</div>
-                                    <div>人物类型：{handRepairPersonTypeOption(lastCommit.snapshot.personType).label}</div>
-                                    <div>生成张数：{lastCommit.snapshot.outputNum}</div>
-                                    <div>涂抹笔画：{lastCommit.snapshot.strokeCount} 笔（画笔 {lastCommit.snapshot.brushSize}px）</div>
-                                    <div>蒙版覆盖率：{Math.round(lastCommit.snapshot.maskCoverage * 100)}%</div>
-                                </dl>
                             ) : null}
                             {resultTab === "history" ? (
                                 <div className="mt-3" data-testid="hand-repair-history">

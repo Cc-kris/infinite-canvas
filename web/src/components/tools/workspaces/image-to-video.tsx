@@ -25,6 +25,11 @@ import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
 import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import {
+    analyzeProductImageWithVision,
+    generateMarketingCopyWithAI,
+    parseEcommerceProductLink,
+} from "@/services/api/tools/content-analysis";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -402,6 +407,97 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
         abortRef.current = null;
     }, []);
 
+    const [analyzingLink, setAnalyzingLink] = useState(false);
+    const [analyzingProduct, setAnalyzingProduct] = useState(false);
+    const [optimizingPrompt, setOptimizingPrompt] = useState(false);
+
+    const handleAnalyzeLink = useCallback(async () => {
+        const url = values.productUrl.trim();
+        if (!url) {
+            setLinkNotice("请先粘贴商品链接");
+            return;
+        }
+        setAnalyzingLink(true);
+        setRunError(undefined);
+        try {
+            const parsed = await parseEcommerceProductLink(url);
+            const infoText = [
+                parsed.title ? `商品标题：${parsed.title}` : "",
+                parsed.sellingPoints.length ? `核心卖点：${parsed.sellingPoints.join("；")}` : "",
+            ]
+                .filter(Boolean)
+                .join("\n")
+                .slice(0, IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT);
+            update({
+                productInfo: infoText || values.productInfo,
+                productAnalyzed: true,
+                sourceMode: "product-link",
+            });
+            setLinkNotice(`已解析商品「${parsed.title || "商品链接"}」并写入商品信息`);
+        } catch (error) {
+            setRunError(error instanceof Error ? error.message : "商品链接解析失败");
+        } finally {
+            setAnalyzingLink(false);
+        }
+    }, [update, values.productInfo, values.productUrl]);
+
+    const handleAnalyzeProduct = useCallback(async () => {
+        const primaryAsset = mode === "frames" ? firstFrame : references[0];
+        const imageUrl = primaryAsset?.url || primaryAsset?.dataUrl || "";
+        if (!imageUrl && !values.productInfo.trim()) {
+            setLinkNotice("请先上传商品图或填写商品信息后再点击 AI 分析");
+            return;
+        }
+        setAnalyzingProduct(true);
+        setRunError(undefined);
+        try {
+            const analyzed = await analyzeProductImageWithVision({
+                imageUrl,
+                currentText: values.productInfo,
+                config,
+            });
+            update({
+                productInfo: analyzed.formattedText.slice(0, IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT),
+                productAnalyzed: true,
+            });
+            setLinkNotice("已完成商品图 AI 视觉分析并回填商品信息");
+        } catch (error) {
+            setRunError(error instanceof Error ? error.message : "AI 分析失败");
+        } finally {
+            setAnalyzingProduct(false);
+        }
+    }, [config, firstFrame, mode, references, update, values.productInfo]);
+
+    const handleOptimizePrompt = useCallback(async () => {
+        const nextOptimizer = !values.promptOptimizer;
+        update({ promptOptimizer: nextOptimizer });
+        if (!nextOptimizer) return;
+        setOptimizingPrompt(true);
+        try {
+            const primaryAsset = mode === "frames" ? firstFrame : references[0];
+            const imageUrl = primaryAsset?.url || primaryAsset?.dataUrl || "";
+            const optimized = await generateMarketingCopyWithAI({
+                mode: "video-prompt",
+                productInfo: values.productInfo,
+                currentDraft: values.prompt || videoTypeOf(values.videoType).templatePrompt,
+                durationSeconds: values.duration,
+                language: values.language,
+                imageUrl,
+                config,
+            });
+            if (optimized.trim()) {
+                update({
+                    prompt: optimized.slice(0, IMAGE_TO_VIDEO_PROMPT_LIMIT),
+                    promptOptimizer: true,
+                });
+            }
+        } catch {
+            // 保留开启的 promptOptimizer 标志
+        } finally {
+            setOptimizingPrompt(false);
+        }
+    }, [config, firstFrame, mode, references, update, values.duration, values.language, values.productInfo, values.prompt, values.promptOptimizer, values.videoType]);
+
     const mode = values.sourceMode;
     const disabledField = running || restoring;
     const framesOn = mode === "frames";
@@ -526,14 +622,22 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                         data-testid="image-to-video-product-url"
                                         type="url"
                                         value={values.productUrl}
-                                        disabled={disabledField}
+                                        disabled={disabledField || analyzingLink}
                                         maxLength={IMAGE_TO_VIDEO_PRODUCT_URL_LIMIT}
                                         onChange={(event) => update({ productUrl: event.target.value, sourceMode: event.target.value.trim() ? "product-link" : "reference" })}
                                         placeholder="粘贴 TikTok Shop / 亚马逊商品链接"
-                                        title="本页不解析商品数据，链接按原样进入任务并校验格式；商品链接模式仍需至少 1 张参考图"
+                                        title="粘贴商品链接后可点击右侧「分析」提取商品标题与卖点"
                                         className="h-full min-w-0 flex-1 bg-transparent text-[12px] outline-none placeholder:text-muted-foreground"
                                     />
-                                    <span className="shrink-0 text-[12px] text-foreground/50" title="本地未接入商品链接解析">分析</span>
+                                    <button
+                                        type="button"
+                                        data-testid="image-to-video-product-url-analyze"
+                                        disabled={disabledField || analyzingLink || !values.productUrl.trim()}
+                                        onClick={() => void handleAnalyzeLink()}
+                                        className="shrink-0 text-[12px] font-medium text-foreground hover:text-selected disabled:text-foreground/40"
+                                    >
+                                        {analyzingLink ? "分析中…" : "分析"}
+                                    </button>
                                 </div>
                                 <p className="flex items-center gap-2 text-[11px] leading-4 text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">或 手动上传参考素材</p>
                                 {referenceInput}
@@ -560,12 +664,16 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 <button
                                     type="button"
                                     data-testid="image-to-video-analyze"
-                                    disabled={disabledField || !values.productInfo.trim()}
-                                    title={values.productInfo.trim() ? "按商品信息做本地分析" : "先在「商品信息」里填写卖点再分析"}
-                                    onClick={() => update({ productAnalyzed: true })}
+                                    disabled={
+                                        disabledField ||
+                                        analyzingProduct ||
+                                        (!values.productInfo.trim() && references.length === 0 && !firstFrame)
+                                    }
+                                    title="结合已上传商品图与已填文本进行 AI 视觉分析"
+                                    onClick={() => void handleAnalyzeProduct()}
                                     className="text-[12px] font-semibold text-foreground disabled:text-muted-foreground/60"
                                 >
-                                    AI 分析
+                                    {analyzingProduct ? "分析中…" : "AI 分析"}
                                 </button>
                                 <span className="tabular-nums">{values.productInfo.length} / {IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT}</span>
                             </div>
@@ -652,12 +760,12 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                     type="button"
                                     data-testid="image-to-video-prompt-optimizer"
                                     aria-pressed={values.promptOptimizer}
-                                    disabled={disabledField}
-                                    title="开启后随任务提交优化标志，由模型按能力执行"
-                                    onClick={() => update({ promptOptimizer: !values.promptOptimizer })}
+                                    disabled={disabledField || optimizingPrompt}
+                                    title="开启后由 AI 优化视频运镜与画面描述词"
+                                    onClick={() => void handleOptimizePrompt()}
                                     className={cn("h-6 rounded-[4px] px-2 text-[12px] font-semibold", values.promptOptimizer ? "bg-selected-soft text-selected" : "bg-muted text-muted-foreground")}
                                 >
-                                    提示词优化
+                                    {optimizingPrompt ? "优化中…" : "提示词优化"}
                                 </button>
                                 <span className="tabular-nums">{values.prompt.length} / {IMAGE_TO_VIDEO_PROMPT_LIMIT}</span>
                             </div>

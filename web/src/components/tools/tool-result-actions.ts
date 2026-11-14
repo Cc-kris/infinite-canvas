@@ -618,3 +618,80 @@ export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: 
     }
     return { projectId, nodeId: node.id };
 }
+
+/* ---------------- BE-FLW01：跨工具一键流转（Handoff） ---------------- */
+
+export type ToolHandoffTargetId =
+    | "REMOVE_PEN"
+    | "AREA_REPAIR"
+    | "CHANGE_COLOR"
+    | "WHITE_BACKGROUND"
+    | "BATCH_MATTING"
+    | "SCALE_UP"
+    | "IMAGE_TO_VIDEO";
+
+export const TOOL_HANDOFF_ROUTES: Record<ToolHandoffTargetId, { route: string; label: string }> = {
+    REMOVE_PEN: { route: "/tools/smart-edit/remove-pen", label: "局部消除" },
+    AREA_REPAIR: { route: "/tools/smart-edit/area-repair", label: "区域重绘" },
+    CHANGE_COLOR: { route: "/tools/smart-edit/change-color", label: "一键换色" },
+    WHITE_BACKGROUND: { route: "/tools/ecommerce-suite/white-background", label: "去背景（白底图）" },
+    BATCH_MATTING: { route: "/tools/smart-edit/batch-matting", label: "批量抠图" },
+    SCALE_UP: { route: "/tools/ecommerce-suite/scale-up", label: "高清放大" },
+    IMAGE_TO_VIDEO: { route: "/tools/ai-video/image-to-video", label: "生成视频" },
+};
+
+export type HandoffResultOptions = {
+    sourceToolId?: string;
+    navigate?: (route: string) => void;
+};
+
+/**
+ * 将当前生成结果图写入目标工具草稿并跳转到目标工具路由。
+ */
+export async function handoffResultItemToTool(
+    item: ToolTaskResultItem,
+    index: number,
+    targetToolId: ToolHandoffTargetId,
+    options: HandoffResultOptions = {},
+): Promise<{ route: string; assetId: string; label: string }> {
+    assertResultPayload(item);
+    const target = TOOL_HANDOFF_ROUTES[targetToolId];
+    const blob = await resolveResultBlob(item);
+    const fileName = buildResultFileName(options.sourceToolId ?? "tool", item, index);
+    const mimeType = blob.type || item.mimeType || "image/png";
+    const [{ uploadToolAsset }, { useToolDraftStore, flushToolDrafts }] = await Promise.all([
+        import("@/services/api/tools/assets"),
+        import("@/stores/use-tool-draft-store"),
+    ]);
+    const file = new File([blob], fileName, { type: mimeType });
+    const record = await uploadToolAsset(file);
+    const draftStore = useToolDraftStore.getState();
+    await draftStore.hydrate(targetToolId);
+    const existingValues = draftStore.drafts[targetToolId]?.values ?? {};
+    const extraValues: Record<string, unknown> = { ...existingValues };
+    if (targetToolId === "CHANGE_COLOR") {
+        const prev = (existingValues.changeColor as Record<string, unknown> | undefined) ?? {};
+        extraValues.changeColor = { ...prev, sourceAssetId: record.id };
+    } else if (targetToolId === "SCALE_UP") {
+        const prev = (existingValues.scaleUp as Record<string, unknown> | undefined) ?? {};
+        extraValues.scaleUp = { ...prev, sourceAssetId: record.id };
+    } else if (targetToolId === "IMAGE_TO_VIDEO") {
+        const prev = (existingValues.imageToVideo as Record<string, unknown> | undefined) ?? {};
+        extraValues.imageToVideo = { ...prev, referenceAssetIds: [record.id], firstFrameAssetId: record.id };
+        extraValues["assetSlot:reference-images"] = [record.id];
+    }
+    draftStore.patch(targetToolId, {
+        assetIds: [record.id],
+        values: extraValues,
+    });
+    await flushToolDrafts([targetToolId]);
+
+    if (options.navigate) {
+        options.navigate(target.route);
+    } else if (typeof window !== "undefined") {
+        window.history.pushState({}, "", target.route);
+        window.dispatchEvent(new PopStateEvent("popstate"));
+    }
+    return { route: target.route, assetId: record.id, label: target.label };
+}
+
