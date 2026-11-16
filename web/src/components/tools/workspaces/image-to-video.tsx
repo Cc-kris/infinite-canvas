@@ -441,6 +441,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
         }
     }, [update, values.productInfo, values.productUrl]);
 
+    const mode = values.sourceMode;
+
     const handleAnalyzeProduct = useCallback(async () => {
         const primaryAsset = mode === "frames" ? firstFrame : references[0];
         const imageUrl = primaryAsset?.url || primaryAsset?.dataUrl || "";
@@ -498,7 +500,6 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
         }
     }, [config, firstFrame, mode, references, update, values.duration, values.language, values.productInfo, values.prompt, values.promptOptimizer, values.videoType]);
 
-    const mode = values.sourceMode;
     const disabledField = running || restoring;
     const framesOn = mode === "frames";
     const promptPlaceholder = values.promptMode === "custom" ? "描述画面、动作、镜头与节奏" : videoTypeOf(values.videoType).templatePrompt;

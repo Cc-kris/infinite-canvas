@@ -4,10 +4,10 @@
  * 事实边界：
  * - 视频类上游（sub2api / MiniMax-H3 等）只收**公网 https 直链**：`blob:`、`data:`、`127.0.0.1`
  *   一律被拒（VIDEO6_LIVE_FINDINGS：data URL → 400 "must be a public HTTPS URL"）。
- * - 因此本地文件必须先「发布」成一个上游能拉取的地址。发布动作复用本机代理新增的
- *   `POST /__media/upload`（canvas-proxy，见 `canvas-proxy/server.js` 素材托管段），
+ * - 因此本地文件必须先「发布」成一个上游能拉取的地址。发布动作复用本机素材服务新增的
+ *   `POST /__media/upload`（`desktop/service/published-media.mjs`），
  *   它把字节落到本机媒体目录并返回相对路径；公网域名由设置项的「素材公网基址」提供
- *   （本机调试时用 cloudflared 隧道指向同一个代理端口）。
+ *   （本机调试时用 cloudflared 隧道指向本机素材服务端口 23212）。
  * - 本模块只做「字节 → URL」这一件事：不伪造 URL、不在失败时静默降级，失败一律抛
  *   `MediaPublishError`（带可读原因），由调用方决定回退还是报错。
  */
@@ -36,7 +36,7 @@ export class MediaPublishError extends Error {
 }
 
 export type PublishHostOptions = {
-    /** 素材托管基址：可以是本机代理（http://127.0.0.1:23210）或公网隧道（https://xxx.trycloudflare.com）。 */
+    /** 素材托管基址：可以是本机素材服务（http://127.0.0.1:23212）或公网隧道（https://xxx.trycloudflare.com）。 */
     hostBase: string;
     /** 上游只接受 https 时置 true：非 https 基址直接判失败，而不是发出去等 400。 */
     requireHttps?: boolean;
@@ -220,7 +220,7 @@ export async function publishMediaBlob(
     return result;
 }
 
-/** 读取参考视频的字节（优先 IndexedDB 里的 storageKey，其次 blob/网络地址）。 */
+/** 读取参考视频的字节（优先磁盘素材库里的 storageKey，其次 blob/网络地址）。 */
 async function readVideoBlob(video: ReferenceVideo, options: { signal?: AbortSignal }) {
     const stored = video.storageKey ? await getMediaBlob(video.storageKey) : null;
     if (stored && stored.size > 0) return stored;

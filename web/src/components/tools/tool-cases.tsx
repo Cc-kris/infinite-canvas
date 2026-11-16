@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
  *
  * 事实边界：
  * - 案例数据必须来自本仓库真实产物（见 `features/tools/tool-cases-data.ts`），不伪造别家案例图；
- * - 「做同款」不是复制一段 JSON 给用户：它把案例素材真实写入资产库（localforage），再回填到工具表单，
+ * - 「做同款」不是复制一段 JSON 给用户：它把案例素材真实写入资产库（本机磁盘），再回填到工具表单，
  *   回填失败（例如素材校验不过）会抛错由调用方提示，不做静默降级。
  */
 export type ToolCaseParam = { label: string; src: string };

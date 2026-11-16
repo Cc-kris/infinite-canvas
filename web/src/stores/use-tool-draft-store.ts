@@ -8,7 +8,7 @@
  */
 import { create } from "zustand";
 
-import { localForageStorage } from "@/lib/localforage-storage";
+import { appStateStorage } from "@/lib/desktop-storage";
 
 export const TOOL_DRAFT_VERSION = 1 as const;
 export const TOOL_DRAFT_DEBOUNCE_MS = 500;
@@ -81,7 +81,7 @@ export function parseToolDraft(raw: string | null | undefined, toolId: string): 
 }
 
 /** 读草稿：版本不符/损坏则原样搬到隔离键，返回 quarantine 供 UI 提示。 */
-export async function loadToolDraft(toolId: string, storage: ToolDraftStorage = localForageStorage, now: () => string = nowIso): Promise<{ draft?: ToolDraft; quarantine?: ToolDraftQuarantine }> {
+export async function loadToolDraft(toolId: string, storage: ToolDraftStorage = appStateStorage, now: () => string = nowIso): Promise<{ draft?: ToolDraft; quarantine?: ToolDraftQuarantine }> {
     const raw = await storage.getItem(toolDraftKey(toolId));
     const parsed = parseToolDraft(raw, toolId);
     if (parsed.status === "ok") return { draft: parsed.draft };
@@ -94,7 +94,7 @@ export async function loadToolDraft(toolId: string, storage: ToolDraftStorage = 
 export type ToolDraftPersistResult = { status: "written"; draft: ToolDraft } | { status: "conflict"; remote: ToolDraft };
 
 /** 写盘 CAS：落盘 revision 不小于本页且内容不同则判冲突；内容完全一致视为已写入（幂等）。 */
-export async function persistToolDraft(toolId: string, draft: ToolDraft, storage: ToolDraftStorage = localForageStorage): Promise<ToolDraftPersistResult> {
+export async function persistToolDraft(toolId: string, draft: ToolDraft, storage: ToolDraftStorage = appStateStorage): Promise<ToolDraftPersistResult> {
     const current = parseToolDraft(await storage.getItem(toolDraftKey(toolId)), toolId);
     if (current.status === "ok" && current.draft) {
         const remote = current.draft;
@@ -259,7 +259,7 @@ export const useToolDraftStore = create<ToolDraftState>((set, get) => ({
             delete conflicts[toolId];
             return { drafts, conflicts, dirty: { ...state.dirty, [toolId]: false } };
         });
-        await localForageStorage.removeItem?.(toolDraftKey(toolId));
+        await appStateStorage.removeItem?.(toolDraftKey(toolId));
     },
 }));
 

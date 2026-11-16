@@ -1,7 +1,6 @@
-import axios, { type AxiosRequestConfig } from "axios";
-
 import i18n from "@/i18n";
-import { buildApiUrl, withLocalProxy, type AiConfig, type ModelCapability } from "@/stores/use-config-store";
+import type { AiConfig, ModelCapability } from "@/stores/use-config-store";
+import { pluginRequest } from "./desktop/capabilities/providers";
 
 type RequestOptions = { signal?: AbortSignal };
 
@@ -39,24 +38,46 @@ function pluginHeaders(extra?: Record<string, string>, hasJsonBody = false): Rec
     return { ...headers, ...extra };
 }
 
+/** 绝对地址按脚本原样请求；相对路径拼 baseUrl（不再经过浏览器本地代理）。 */
 function pluginUrl(config: AiConfig, path: string) {
-    if (/^https?:/i.test(path)) return withLocalProxy(path);
-    return buildApiUrl(config.baseUrl, path.startsWith("/") ? path : `/${path}`);
+    if (/^https?:/i.test(path)) return path;
+    const base = config.baseUrl.trim().replace(/\/+$/, "");
+    return `${/\/v1$/i.test(base) ? base : `${base}/v1`}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+function withParams(url: string, params?: Record<string, unknown>) {
+    if (!params) return url;
+    const search = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+        if (value === undefined || value === null) continue;
+        if (Array.isArray(value)) value.forEach((item) => search.append(`${key}[]`, String(item)));
+        else search.append(key, String(value));
+    }
+    const query = search.toString();
+    if (!query) return url;
+    return `${url}${url.includes("?") ? "&" : "?"}${query}`;
+}
+
+type PluginRawRequest = {
+    method?: string;
+    url: string;
+    headers?: Record<string, string>;
+    data?: unknown;
+    params?: Record<string, unknown>;
+    responseType?: PluginHttpOptions["responseType"];
+};
 
 function createPluginHttp(config: AiConfig, options?: RequestOptions): PluginHttp {
     const run = async (method: "get" | "post", path: string, body: unknown, opts?: PluginHttpOptions) => {
         const isForm = typeof FormData !== "undefined" && body instanceof FormData;
-        const response = await axios.request({
+        return pluginRequest({
+            url: withParams(pluginUrl(config, path), opts?.params),
             method,
-            url: pluginUrl(config, path),
-            data: method === "post" ? body : undefined,
-            params: opts?.params,
             headers: pluginHeaders({ Authorization: `Bearer ${config.apiKey}`, ...opts?.headers }, method === "post" && !isForm && body !== undefined),
+            body: method === "post" ? body : undefined,
             responseType: opts?.responseType || "json",
             signal: options?.signal,
         });
-        return response.data;
     };
     return {
         url: (path) => pluginUrl(config, path),
@@ -67,10 +88,15 @@ function createPluginHttp(config: AiConfig, options?: RequestOptions): PluginHtt
 
 /** Raw request with no automatic auth header — the script controls method, url, headers, body entirely. */
 function createPluginRequest(config: AiConfig, options?: RequestOptions) {
-    return async (requestConfig: AxiosRequestConfig & { url: string }) => {
-        const response = await axios.request({ ...requestConfig, url: pluginUrl(config, requestConfig.url), signal: options?.signal });
-        return response.data;
-    };
+    return async (requestConfig: PluginRawRequest) =>
+        pluginRequest({
+            url: withParams(pluginUrl(config, requestConfig.url), requestConfig.params),
+            method: requestConfig.method || "get",
+            headers: requestConfig.headers || {},
+            body: requestConfig.data,
+            responseType: requestConfig.responseType || "json",
+            signal: options?.signal,
+        });
 }
 
 function sleep(ms: number, signal?: AbortSignal) {
@@ -157,7 +183,6 @@ export async function runModelPlugin<T = unknown>(args: RunPluginArgs): Promise<
         );
     } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") throw error;
-        if (axios.isCancel(error)) throw error;
         const message = error instanceof Error ? error.message : String(error);
         throw new Error(i18n.t("modelPlugin.executionFailed", { message }));
     }

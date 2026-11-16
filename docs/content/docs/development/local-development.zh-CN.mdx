@@ -1,40 +1,61 @@
 ---
 title: 本地开发
-description: 前端优先的本地开发方式
+description: 桌面客户端本地开发
 ---
 
 # 本地开发
 
-当前主应用以 `web/` 前端为主，AI 请求由浏览器前台直连用户自己的 OpenAI 兼容接口。
+本分支只发布桌面客户端。渲染层（`web/`）负责 UI 与状态，业务能力全部在主进程本地服务（`desktop/service/`，`127.0.0.1:23212`）中运行，渲染层通过 preload 桥拿到服务地址与每次启动生成的 token。单独运行 `web/` 不再可用，因为后面没有本地服务。
 
-## 1. 启动前端
+## 前置条件
+
+- Node.js 20+ 与 pnpm
+- macOS 或 Windows（Electron 外壳）
+
+## 构建并启动桌面端
 
 ```bash
-cd web
-bun install
+pnpm --dir web install
+pnpm --dir desktop install
+pnpm --dir web build      # 主进程直接托管 web/dist
+pnpm --dir desktop start
+```
+
+窗口从 `http://127.0.0.1:23211` 加载构建产物，业务服务启动在 `http://127.0.0.1:23212`。端口被占用时各自向后顺延最多 12 个。开发模式下主进程直接加载 `desktop/service/index.mjs`，`build:service` 只在打包前需要。
+
+前端没有热更新：改完 `web/` 需要重新执行 `pnpm --dir web build` 并重启应用。
+
+## 检查服务
+
+```bash
+curl http://127.0.0.1:23212/health
+```
+
+`/health` 不需要 token。`/api/*` 与 `/files/*` 必须带本次启动的 token，且只接受渲染服务的 Origin，其他来源返回 `403`。
+
+## 打包安装包
+
+```bash
+pnpm --dir desktop build:service   # 生成 service.mjs 并复制原生 ffmpeg
+pnpm --dir desktop dist:mac        # 或 dist:win
+```
+
+`dist:*` 已包含 Agent、服务与前端构建。目前只复制构建机架构的 ffmpeg，跨架构需在对应机器或 CI 上分别构建。
+
+## 数据与日志
+
+运行时数据位于 `<userData>/data/`（macOS 为 `~/Library/Application Support/Infinite Canvas/data`），包含 `state/`、`media/`、`media-index.json`、`logs/`、`plugins/` 与 `published/`。首次启动会一次性导入旧 IndexedDB 数据，并留下 `backup-indexeddb-<timestamp>.json` 与 `.migrated` 标记；旧浏览器数据不会被删除。
+
+## 启动文档站
+
+```bash
+cd docs
 bun run dev
 ```
 
-前端默认访问：
+常见位置：
 
-```text
-http://localhost:3000
-```
-
-## 2. 配置模型
-
-打开右上角配置弹窗，填写自己的 `Base URL`、`API Key` 和模型名。第三方提示词和 WebDAV 都由浏览器前端直连。
-
-## 3. 启动文档站
-
-如果需要单独调整文档站，在 `docs` 目录执行：
-
-```bash
-bun run dev
-```
-
-## 常见场景
-
-- 改画布、页面和交互：主要看 `web/`
-- 改提示词缓存：主要看 `web/src/services/api/prompts.ts`
-- 改文档站内容：主要看 `docs/content/docs/`
+- 页面与交互：`web/`
+- 主进程业务能力：`desktop/service/`
+- 渲染层服务客户端：`web/src/services/api/desktop/`
+- 文档内容：`docs/content/docs/`

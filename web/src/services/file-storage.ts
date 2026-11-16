@@ -1,7 +1,7 @@
-import localforage from "localforage";
 import { nanoid } from "nanoid";
 
-import { withLocalProxy } from "@/stores/use-config-store";
+import { DesktopRequestError } from "@/services/api/desktop/http";
+import { deleteMediaKeys, getMediaStatus, importMediaFromUrl, listMediaEntries, readFileBlob, uploadMediaBlob } from "@/services/desktop-storage";
 
 import { readAudioMeta, readVideoMeta } from "./media-metadata";
 
@@ -37,26 +37,52 @@ export class MediaStoreError extends Error {
 
 export type StoredMediaStatus = { exists: boolean; bytes: number; mimeType: string; blob?: Blob };
 
-const store = localforage.createInstance({ name: "infinite-canvas", storeName: "media_files" });
 const objectUrls = new Map<string, string>();
 const DEFAULT_MEDIA_FETCH_TIMEOUT_MS = 5 * 60_000;
 
 export async function uploadMediaFile(input: string | Blob, prefix = "file", options: StoreMediaOptions = {}): Promise<UploadedFile> {
     throwIfAborted(options.signal);
     if (typeof input === "string" && input.trim() === "") throw new MediaStoreError("empty-input", "媒体地址为空，无法入库。");
+
+    if (typeof input === "string" && !/^(blob:|data:)/i.test(input)) {
+        const entry = await importFromUrl(input, prefix, options);
+        return withMediaMeta(entry, options);
+    }
+
     const raw = typeof input === "string" ? await fetchMediaBlob(input, options) : input;
     if (!raw || raw.size === 0) throw new MediaStoreError("empty-blob", "上游返回了 0 字节媒体，已拒绝写入资产库。");
-
     const mimeType = await resolveMediaMime(raw, options.mimeType);
     const blob = mimeType && mimeType !== raw.type ? new Blob([raw], { type: mimeType }) : raw;
     const storageKey = `${prefix}:${nanoid()}`;
-    await store.setItem(storageKey, blob);
-    const url = URL.createObjectURL(blob);
-    objectUrls.set(storageKey, url);
+    const entry = await uploadMediaBlob(storageKey, blob, mediaKindOf(prefix), mimeType || "application/octet-stream", options.signal).catch((error) => {
+        throw mapStoreError(error, options.signal);
+    });
+    objectUrls.set(storageKey, entry.url);
+    return withMediaMeta({ storageKey: entry.storageKey, url: entry.url, bytes: entry.bytes, mimeType: entry.mimeType }, options);
+}
+
+async function importFromUrl(url: string, prefix: string, options: StoreMediaOptions) {
+    try {
+        return await importMediaFromUrl({
+            url,
+            headers: options.headers,
+            mimeType: options.mimeType,
+            key: `${prefix}:${nanoid()}`,
+            kind: mediaKindOf(prefix),
+            timeoutMs: options.timeoutMs ?? DEFAULT_MEDIA_FETCH_TIMEOUT_MS,
+            signal: options.signal,
+        });
+    } catch (error) {
+        throw mapStoreError(error, options.signal);
+    }
+}
+
+async function withMediaMeta(entry: { storageKey: string; url: string; bytes: number; mimeType: string }, options: StoreMediaOptions): Promise<UploadedFile> {
+    const mimeType = entry.mimeType || options.mimeType || "application/octet-stream";
     const meta = options.knownMeta && Object.keys(options.knownMeta).length > 0
         ? options.knownMeta
-        : mimeType.startsWith("video/") ? await readVideoMeta(url) : mimeType.startsWith("audio/") ? await readAudioMeta(url) : {};
-    return { url, storageKey, bytes: blob.size, mimeType: mimeType || "application/octet-stream", ...meta };
+        : mimeType.startsWith("video/") ? await readVideoMeta(entry.url) : mimeType.startsWith("audio/") ? await readAudioMeta(entry.url) : {};
+    return { url: entry.url, storageKey: entry.storageKey, bytes: entry.bytes, mimeType, ...meta };
 }
 
 /** 真实下载媒体（带超时/取消）；非 2xx 直接判失败，绝不把错误页当结果入库。 */
@@ -67,7 +93,7 @@ export async function fetchMediaBlob(url: string, options: { timeoutMs?: number;
     const onAbort = () => controller.abort();
     options.signal?.addEventListener("abort", onAbort, { once: true });
     try {
-        const response = await fetch(withLocalProxy(url), { signal: controller.signal, headers: options.headers });
+        const response = await fetch(url, { signal: controller.signal, headers: options.headers });
         if (!response.ok) throw new MediaStoreError("fetch-failed", `媒体下载失败（HTTP ${response.status}）。`);
         return await response.blob();
     } catch (error) {
@@ -81,12 +107,12 @@ export async function fetchMediaBlob(url: string, options: { timeoutMs?: number;
     }
 }
 
-/** 资产过期判定：storageKey 存在但 blob 已丢失 => 结果不可再用。 */
+/** 资产过期判定：storageKey 存在但磁盘文件已丢失 => 结果不可再用。 */
 export async function mediaStorageStatus(storageKey?: string): Promise<StoredMediaStatus> {
     if (!storageKey) return { exists: false, bytes: 0, mimeType: "" };
-    const blob = await store.getItem<Blob>(storageKey);
-    if (!blob) return { exists: false, bytes: 0, mimeType: "" };
-    return { exists: true, bytes: blob.size, mimeType: blob.type, blob };
+    const status = await getMediaStatus(storageKey);
+    if (!status.exists) return { exists: false, bytes: 0, mimeType: "" };
+    return { exists: true, bytes: status.bytes, mimeType: status.mimeType || "" };
 }
 
 /** 上游常给出空 Blob.type；用魔数补齐，避免画布节点渲染成 application/octet-stream。 */
@@ -125,6 +151,25 @@ function normalizeMime(value?: string) {
     return value.split(";")[0].trim().toLowerCase();
 }
 
+function mediaKindOf(prefix: string) {
+    if (prefix.startsWith("image")) return "image";
+    if (prefix.startsWith("video")) return "video";
+    if (prefix.startsWith("audio")) return "audio";
+    return "file";
+}
+
+function mapStoreError(error: unknown, signal?: AbortSignal) {
+    if (error instanceof MediaStoreError) return error;
+    if (signal?.aborted) return new MediaStoreError("aborted", "已取消媒体入库。", { cause: error });
+    if (error instanceof DesktopRequestError) {
+        if (error.code === "media-timeout" || error.status === 504) return new MediaStoreError("timeout", "媒体下载超时，请稍后重试。", { cause: error });
+        if (error.code === "media-empty") return new MediaStoreError("empty-blob", "上游返回了 0 字节媒体，已拒绝写入资产库。", { cause: error });
+        return new MediaStoreError("fetch-failed", error.message, { cause: error });
+    }
+    if (error instanceof DOMException && error.name === "AbortError") return new MediaStoreError("aborted", "已取消媒体入库。", { cause: error });
+    return new MediaStoreError("fetch-failed", error instanceof Error ? error.message : "媒体下载失败，请检查地址是否过期。", { cause: error });
+}
+
 function throwIfAborted(signal?: AbortSignal) {
     if (signal?.aborted) throw new MediaStoreError("aborted", "已取消媒体入库。");
 }
@@ -133,64 +178,57 @@ export async function resolveMediaUrl(storageKey?: string, fallback = "") {
     if (!storageKey) return fallback;
     const cached = objectUrls.get(storageKey);
     if (cached) return cached;
-    const blob = await store.getItem<Blob>(storageKey);
-    if (!blob) return fallback;
-    const url = URL.createObjectURL(blob);
-    objectUrls.set(storageKey, url);
-    return url;
+    const status = await getMediaStatus(storageKey);
+    if (!status.exists || !("url" in status)) return fallback;
+    objectUrls.set(storageKey, status.url);
+    return status.url;
 }
 
 export async function getMediaBlob(storageKey: string) {
-    return store.getItem<Blob>(storageKey);
+    const status = await getMediaStatus(storageKey);
+    if (!status.exists || !("file" in status) || !status.file) return null;
+    return readFileBlob(status.file);
 }
 
 /**
- * 结果字节的 provenance 反查：按 `tool-result:<taskId>:<index>:` 前缀扫 IndexedDB。
+ * 结果字节的 provenance 反查：按 `tool-result:<taskId>:<index>:` 前缀扫磁盘索引。
  *
  * 动机（2026-10-29 复核）：落盘快照在入库完成前就被写出（payloadDropped），若此刻刷新，
- * 任务只剩「成功但无字节」。而字节其实已经或正在写进 media_files，只是 storageKey 没来得及回写。
+ * 任务只剩「成功但无字节」。而字节其实已经或正在写进媒体目录，只是 storageKey 没来得及回写。
  * 旧键名 `tool-result:<nanoid>` 不含任务信息 → 这些真实字节永远无法归属回任务。
  * 新键名带任务 id 与结果项序号，刷新后可按前缀把真实字节重新挂回对应 item（不构造任何字节）。
  */
 export async function listTaskResultMedia(taskId: string): Promise<Array<{ storageKey: string; index: number; bytes: number; mimeType: string }>> {
     const prefix = `tool-result:${taskId}:`;
+    const entries = await listMediaEntries(prefix);
     const found: Array<{ storageKey: string; index: number; bytes: number; mimeType: string }> = [];
-    await store.iterate((value, key) => {
-        if (!key.startsWith(prefix)) return;
-        const blob = value as Blob | null;
-        const index = Number(key.slice(prefix.length).split(":")[0]);
-        const bytes = typeof blob?.size === "number" ? blob.size : 0;
-        if (!Number.isInteger(index) || index < 0 || bytes <= 0) return;
-        found.push({ storageKey: key, index, bytes, mimeType: blob?.type || "application/octet-stream" });
-    });
+    for (const entry of entries) {
+        const index = Number(entry.storageKey.slice(prefix.length).split(":")[0]);
+        if (!Number.isInteger(index) || index < 0 || entry.bytes <= 0) continue;
+        found.push({ storageKey: entry.storageKey, index, bytes: entry.bytes, mimeType: entry.mimeType || "application/octet-stream" });
+    }
     return found.sort((a, b) => a.index - b.index);
 }
 
 export async function setMediaBlob(storageKey: string, blob: Blob) {
-    await store.setItem(storageKey, blob);
-    const url = URL.createObjectURL(blob);
-    objectUrls.set(storageKey, url);
-    return url;
+    const entry = await uploadMediaBlob(storageKey, blob, mediaKindOf(storageKey), blob.type || "application/octet-stream");
+    objectUrls.set(storageKey, entry.url);
+    return entry.url;
 }
 
 export async function deleteStoredMedia(keys: Iterable<string>) {
-    await Promise.all(
-        Array.from(new Set(keys)).map(async (key) => {
-            const url = objectUrls.get(key);
-            if (url) URL.revokeObjectURL(url);
-            objectUrls.delete(key);
-            await store.removeItem(key);
-        }),
-    );
+    const unique = Array.from(new Set(keys));
+    for (const key of unique) objectUrls.delete(key);
+    await deleteMediaKeys(unique);
 }
 
 export async function cleanupUnusedMedia(usedData: unknown) {
     const usedKeys = collectMediaStorageKeys(usedData);
-    const unused: string[] = [];
-    await store.iterate((_value, key) => {
-        if (!usedKeys.has(key)) unused.push(key);
-    });
-    await Promise.all(unused.map((key) => store.removeItem(key)));
+    const entries = await listMediaEntries();
+    const unused = entries
+        .filter((entry) => entry.kind !== "image" && entry.kind !== "preview" && !usedKeys.has(entry.storageKey))
+        .map((entry) => entry.storageKey);
+    await deleteStoredMedia(unused);
 }
 
 export function collectMediaStorageKeys(value: unknown, keys = new Set<string>()) {

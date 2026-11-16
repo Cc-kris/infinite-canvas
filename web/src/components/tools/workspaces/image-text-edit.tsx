@@ -608,14 +608,15 @@ export function ImageTextEditWorkspace() {
         setErrorText("");
         try {
             const copy = await generateMarketingCopyWithAI({
-                productTitle: values.imageName || "电商商品",
-                currentCopy: selected?.text || "",
+                mode: "sale-script",
+                productInfo: values.imageName || "电商商品",
+                currentDraft: selected?.text || "",
             });
-            if (copy.title) {
+            if (copy.trim()) {
                 if (selected) {
-                    patchSelected({ text: copy.title.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
+                    patchSelected({ text: copy.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
                 } else {
-                    addBox({ text: copy.title.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
+                    addBox({ text: copy.slice(0, IMAGE_TEXT_EDIT_TEXT_LIMIT) });
                 }
             }
         } catch (error) {

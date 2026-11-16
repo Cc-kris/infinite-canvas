@@ -306,6 +306,8 @@ export function SceneWorkspace({ className }: { className?: string }) {
         };
     }, [toolId, hydrate, flushDraft]);
 
+    const output = useMemo(() => computeSceneOutput(values.ratio, values.outputNum), [values.ratio, values.outputNum]);
+
     useEffect(() => {
         const board = boardRef.current;
         if (!board || !editing) return;
@@ -338,7 +340,6 @@ export function SceneWorkspace({ className }: { className?: string }) {
         [patchDraft, toolId],
     );
 
-    const output = useMemo(() => computeSceneOutput(values.ratio, values.outputNum), [values.ratio, values.outputNum]);
     const cutout = useMemo(() => sceneCutoutReadiness(values, { mask, goodsHasAlpha }), [values, mask, goodsHasAlpha]);
     const sceneReady = values.sceneType === "custom" && Boolean(bg && values.bgAssetId);
     const issues = useMemo(() => {

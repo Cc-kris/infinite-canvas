@@ -5,6 +5,8 @@ description: Deploy Infinite Canvas with Docker Compose
 
 # Docker Deployment
 
+> **Legacy browser deployment.** This branch ships the desktop client only. The web build is frozen on `feat/linkfox-v1-real`; these instructions are kept for reference and are not guaranteed to work.
+
 ## Use the published image
 
 ```bash
@@ -37,7 +39,7 @@ cd docs
 docker compose -f docker-compose.local.yml up -d --build
 ```
 
-The main application container only runs Next.js. Canvases, My Assets, generation history, and API keys are stored in the browser by default, while prompt repositories are fetched directly by the frontend. No persistent data volume is required for this data.
+The main application container only runs Next.js. In the browser build, canvases, My Assets, generation history, and API keys are stored in the browser, while prompt repositories are fetched directly by the frontend. No persistent data volume is required for this data.
 
 ## Optional analytics
 

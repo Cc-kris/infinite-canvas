@@ -1,9 +1,8 @@
 /**
  * Bridge exposed by the desktop shell (Electron preload).
  *
- * The desktop app embeds the local forwarding proxy in its main process, so the
- * renderer never has to be configured for it: the proxy URL and the "enabled"
- * flag come from the shell instead of the settings panel.
+ * Business capabilities live in the main-process app service; the renderer only
+ * receives the service address and its per-launch token.
  */
 
 export type DesktopUpdateStatus = {
@@ -33,8 +32,10 @@ export type DesktopUpdateResult = {
 
 export type InfiniteCanvasDesktopBridge = {
     isDesktop: true;
-    proxyUrl: string;
     appVersion?: string;
+    /** Local business service (127.0.0.1) and its per-launch token. */
+    serviceUrl?: string;
+    serviceToken?: string;
     platform?: string;
     checkUpdate?: () => Promise<DesktopUpdateStatus>;
     downloadUpdate?: () => Promise<DesktopUpdateResult>;
@@ -57,11 +58,6 @@ export function getDesktopBridge(): InfiniteCanvasDesktopBridge | null {
 /** True when the page runs inside the packaged desktop app rather than a browser. */
 export function isDesktopApp() {
     return getDesktopBridge() !== null;
-}
-
-/** Proxy address served by the desktop shell, empty string in the browser build. */
-export function desktopProxyUrl() {
-    return getDesktopBridge()?.proxyUrl || "";
 }
 
 /** Version of the installed desktop app; empty string in the browser build. */

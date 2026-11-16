@@ -1,4 +1,5 @@
 import i18n from "@/i18n";
+import { DesktopRequestError, requestJson } from "@/services/api/desktop/http";
 import type { PromptSource } from "./prompt-source-presets";
 
 export type RawPrompt = {
@@ -23,9 +24,14 @@ export type RawPrompt = {
 type RunOptions = { signal?: AbortSignal };
 
 async function fetchSource(source: PromptSource, options?: RunOptions) {
-    const response = await fetch(source.url, { cache: "no-store", signal: options?.signal });
-    if (!response.ok) throw new Error(i18n.t("config.promptSources.runtime.requestFailed", { status: response.status }));
-    return response.json();
+    try {
+        const payload = await requestJson<{ data: unknown }>("/api/content/fetch-json", { body: { url: source.url }, signal: options?.signal });
+        return payload.data;
+    } catch (error) {
+        if (options?.signal?.aborted) throw error;
+        if (error instanceof DesktopRequestError) throw new Error(i18n.t("config.promptSources.runtime.requestFailed", { status: error.status }));
+        throw error;
+    }
 }
 
 export async function runPromptSource(source: PromptSource, options?: RunOptions): Promise<RawPrompt[]> {

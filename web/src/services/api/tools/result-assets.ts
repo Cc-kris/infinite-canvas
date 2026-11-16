@@ -221,7 +221,7 @@ async function mediaHeadersForUrl(url: string, taskId?: string): Promise<Record<
     return taskMediaHeadersById(url, taskId);
 }
 
-/** 全量注入时直接使用（测试/嵌入方），避免无谓地拉 zustand/localforage。 */
+/** 全量注入时直接使用（测试/嵌入方），避免无谓地加载 zustand 与本地存储。 */
 async function resolveAssetDeps(input: Partial<ResultAssetDeps>): Promise<ResultAssetDeps> {
     if (ASSET_DEP_KEYS.every((key) => typeof input[key] === "function")) return input as ResultAssetDeps;
     return { ...(await loadAssetDeps()), ...input };

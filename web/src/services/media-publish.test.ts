@@ -50,7 +50,7 @@ describe("地址判定", () => {
         expect(isPublicMediaUrl("https://cdn.example.com/a.mp4")).toBe(true);
         expect(isPublicMediaUrl("https://demo-media.trycloudflare.com/__media/a.mp4")).toBe(true);
         for (const bad of [
-            "http://127.0.0.1:23210/__media/a.mp4",
+            "http://127.0.0.1:23212/__media/a.mp4",
             "http://localhost:3000/a.mp4",
             "http://192.168.1.9/a.mp4",
             "http://10.0.0.5/a.mp4",
@@ -135,7 +135,7 @@ describe("publishMediaBlob 失败路径（不许静默降级）", () => {
         },
         {
             name: "本机基址（127.0.0.1 不许交上游）",
-            run: () => publishMediaBlob({ blob: videoBlob(), fileName: "a.mp4" }, { hostBase: "http://127.0.0.1:23210" }),
+            run: () => publishMediaBlob({ blob: videoBlob(), fileName: "a.mp4" }, { hostBase: "http://127.0.0.1:23212" }),
             code: "host-not-public",
         },
         {
@@ -208,7 +208,7 @@ describe("publishReferenceVideos", () => {
         const result = await publishReferenceVideos(
             [
                 { id: "v1", name: "a.mp4", type: "video/mp4", url: "https://cdn.example.com/a.mp4" },
-                { id: "v2", name: "b.mp4", type: "video/mp4", url: "http://127.0.0.1:23210/__media/b.mp4" , storageKey: undefined },
+                { id: "v2", name: "b.mp4", type: "video/mp4", url: "http://127.0.0.1:23212/__media/b.mp4" , storageKey: undefined },
             ].slice(0, 1),
             {
                 hostBase: PUBLIC_BASE,

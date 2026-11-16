@@ -4,8 +4,8 @@
 
 - [Quick Start](/docs/overview/quick-start)
 - [Features](/docs/overview/features)
-- [Deploy on Render](/docs/overview/render)
-- [Docker Deployment](/docs/overview/docker)
+- [Deploy on Render (legacy browser build)](/docs/overview/render)
+- [Docker Deployment (legacy browser build)](/docs/overview/docker)
 - [Third-party Prompt Sources](/docs/overview/third-party-prompt-repositories)
 
 ## Canvas Guide
@@ -16,6 +16,7 @@
 ## Development and Data
 
 - [Local Development](/docs/development/local-development)
+- [Desktop Backend Split Plan](V1.0/DESKTOP_BACKEND_SPLIT_PLAN.md) — repository file, not a docs-site route
 - [Canvas Data Structure](/docs/development/canvas-data-structure)
 - [How the Local Codex Connection Works](/docs/development/local-codex-canvas)
 
@@ -37,5 +38,7 @@
 
 ## Notes
 
-- Canvas projects and My Assets are primarily stored in the browser. WebDAV can be configured for cross-device synchronization.
-- The AI API key is stored in the browser, which sends requests directly to OpenAI-compatible endpoints.
+- This branch ships the desktop client only; the web build is frozen on `feat/linkfox-v1-real`.
+- The renderer holds UI and state only. Upstream model calls, content parsing, media processing and storage all run in the main-process service at `127.0.0.1:23212`; there is no browser fallback.
+- Canvas projects and My Assets are stored as files under the local user data directory (`<userData>/data/`). This is still local data, not cloud sync; WebDAV can be configured for cross-device synchronization.
+- The AI API key is stored on this machine; requests are sent by the desktop main-process service, not directly by the page.

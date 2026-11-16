@@ -1,48 +1,50 @@
 ---
 title: 快速开始
-description: 用最少步骤把无限画布跑起来
+description: 用最少步骤运行无限画布桌面客户端
 ---
 
 # 快速开始
 
-如果你只是想先把项目跑起来，优先部署或启动 `web/` 前端。
+本分支只发布桌面客户端。渲染层负责界面，Electron 主进程启动本地业务服务，由它请求模型接口、处理媒体并保存数据。
 
-## Vercel 部署
+## 安装包
 
-在 Vercel 中导入仓库即可，根目录 `vercel.json` 会构建 `web/`。当前版本的 AI 请求由浏览器前台直连用户自己的 OpenAI 兼容地址，不需要额外配置服务端。
+安装包发布在 [Releases](https://github.com/Cc-kris/infinite-canvas/releases) 页面。macOS / Windows 均为未签名包，首次打开需按发布说明手动放行。
 
-## 本地启动
+## 本地构建运行
+
+需要 Node.js 20+ 与 pnpm。
 
 ```bash
 git clone git@github.com:Cc-kris/infinite-canvas.git
 cd infinite-canvas
-cd web
-bun install
-bun run dev
+pnpm --dir web install
+pnpm --dir desktop install
+pnpm --dir web build
+pnpm --dir desktop start
 ```
 
-启动后访问：
+窗口从 `http://127.0.0.1:23211` 加载 `web/dist`，业务服务在 `http://127.0.0.1:23212`。修改前端后需重新构建并重启，当前没有前端热更新。
 
-```text
-http://localhost:3000
-```
-
-## Docker 启动
-
-如果你需要基于当前源码构建镜像：
+## 打包安装包
 
 ```bash
-docker build -t infinite-canvas .
-docker run --rm -p 3000:3000 infinite-canvas
+pnpm --dir desktop dist:mac
+pnpm --dir desktop dist:win
 ```
+
+命令会先构建 Agent、本地服务与前端。ffmpeg 只打包当前构建机架构，跨架构需在对应机器或 CI 上执行。
 
 ## 首次使用建议
 
 - 先打开右上角配置弹窗，填入自己的 `Base URL`、`API Key` 和模型名。
-- 如果需要提示词仓库内容，打开 `/prompts` 会由浏览器前端直连拉取并缓存到 IndexedDB。
-- 如果需要跨设备同步画布、素材和生成记录，可在配置弹窗中填写 WebDAV。
+- `/prompts` 会经本地服务拉取提示词仓库，并保存到用户目录。
+- 只有需要跨设备同步画布、素材和生成记录时，才需要在配置弹窗中填写 WebDAV。
 
-## 说明
+## 数据位置
 
-- 当前画布项目和“我的素材”主要保存在浏览器本地，WebDAV 同步需要用户自行配置。
-- AI API Key 保存在浏览器本地，并由前端直接请求 OpenAI 兼容接口。
+画布工程、我的素材、草稿、日志与插件都以文件形式保存在 `<userData>/data/`（macOS 为 `~/Library/Application Support/Infinite Canvas/data`）。AI API Key 也保存在本机，但请求由主进程发出，页面不直连上游；这里仍是本地数据，项目没有云同步。
+
+## 浏览器版历史部署
+
+Vercel、Docker、Render 是浏览器版的历史部署方式，仅保留文档参考，本分支不再支持。网页版代码冻结在 `feat/linkfox-v1-real`。

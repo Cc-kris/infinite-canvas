@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { nanoid } from "nanoid";
 
 import i18n from "@/i18n";
-import { desktopProxyUrl, isDesktopApp } from "@/lib/desktop";
+import { appStateStorage } from "@/lib/desktop-storage";
 
 export type ApiCallFormat = "openai" | "gemini" | "http";
 export type ModelCapability = "image" | "video" | "text" | "audio";
@@ -83,11 +83,9 @@ export type AiConfig = {
     background: string;
     count: string;
     canvasImageCount: string;
-    proxyEnabled: boolean;
-    proxyUrl: string;
     /**
      * 素材公网基址：本地视频要提交给上游前，先上传到可公网访问的地址。
-     * 填本机代理对应的公网隧道域名（如 https://xxx.trycloudflare.com）。
+     * 填指向本机素材服务（23212 端口）的公网隧道域名（如 https://xxx.trycloudflare.com）。
      */
     mediaHostUrl: string;
     nodeRegenerateBehavior: "new-node" | "overwrite";
@@ -112,8 +110,6 @@ export const CONFIG_STORE_KEY = "infinite-canvas:ai_config_store";
 const CHANNEL_MODEL_SEPARATOR = "::";
 const OPENAI_BASE_URL = "https://api.openai.com";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com";
-export const LOCAL_PROXY_PACKAGE = "@basketikun/canvas-proxy";
-export const DEFAULT_LOCAL_PROXY_URL = "http://127.0.0.1:23210";
 
 export const defaultConfig: AiConfig = {
     channelMode: "local",
@@ -157,9 +153,6 @@ export const defaultConfig: AiConfig = {
     background: "",
     count: "1",
     canvasImageCount: "3",
-    // The desktop app always routes through the proxy it starts on launch.
-    proxyEnabled: isDesktopApp(),
-    proxyUrl: desktopProxyUrl() || DEFAULT_LOCAL_PROXY_URL,
     mediaHostUrl: "",
     nodeRegenerateBehavior: "new-node",
     autoFocusOnSelect: false,
@@ -285,6 +278,7 @@ export const useConfigStore = create<ConfigStore>()(
         }),
         {
             name: CONFIG_STORE_KEY,
+            storage: createJSONStorage(() => appStateStorage),
             partialize: (state) => ({ config: state.config, webdav: state.webdav }),
             merge: (persisted, current) => {
                 const persistedState = (persisted || {}) as Partial<ConfigStore>;
@@ -318,9 +312,6 @@ export const useConfigStore = create<ConfigStore>()(
                         videoWatermark: config.videoWatermark || "false",
                         videoMode: config.videoMode === "reference" ? "reference" : "frames",
                         canvasImageCount: config.canvasImageCount || "3",
-                        // Desktop builds own the proxy lifecycle, so the stored toggle is ignored there.
-                        proxyEnabled: isDesktopApp() ? true : Boolean(config.proxyEnabled),
-                        proxyUrl: isDesktopApp() ? desktopProxyUrl() || config.proxyUrl || DEFAULT_LOCAL_PROXY_URL : config.proxyUrl || DEFAULT_LOCAL_PROXY_URL,
                         mediaHostUrl: typeof config.mediaHostUrl === "string" ? config.mediaHostUrl.trim() : "",
                         nodeRegenerateBehavior: config.nodeRegenerateBehavior === "overwrite" ? "overwrite" : "new-node",
                         autoFocusOnSelect: Boolean(config.autoFocusOnSelect),
@@ -561,66 +552,4 @@ export function resolveVideoHttpConfig(config: AiConfig, value: string): VideoHt
 
 function uniqueModelOptions(models: string[]) {
     return Array.from(new Set((models || []).map((model) => model.trim()).filter(Boolean)));
-}
-
-export function buildApiUrl(baseUrl: string, path: string) {
-    const normalizedBaseUrl = baseUrl.trim().replace(/\/+$/, "");
-    const lowerBaseUrl = normalizedBaseUrl.toLowerCase();
-    const apiBaseUrl = lowerBaseUrl.endsWith("/v1") ? normalizedBaseUrl : `${normalizedBaseUrl}/v1`;
-    return withLocalProxy(`${apiBaseUrl}${path}`);
-}
-
-export function normalizeLocalProxyUrl(value: string) {
-    const trimmed = value.trim().replace(/\/+$/, "");
-    if (!trimmed) return "";
-    return /^https?:\/\//i.test(trimmed) ? trimmed : `http://${trimmed}`;
-}
-
-/** 用户显式关闭代理后记在这里，启动时的自动探测不再覆盖他的选择。 */
-export const LOCAL_PROXY_MANUAL_OFF_KEY = "infinite-canvas:local-proxy-manual-off";
-
-export function rememberLocalProxyChoice(enabled: boolean) {
-    try {
-        if (enabled) localStorage.removeItem(LOCAL_PROXY_MANUAL_OFF_KEY);
-        else localStorage.setItem(LOCAL_PROXY_MANUAL_OFF_KEY, "1");
-    } catch {
-        // 隐私模式下 localStorage 不可用，忽略即可
-    }
-}
-
-export function localProxyDisabledByUser() {
-    try {
-        return localStorage.getItem(LOCAL_PROXY_MANUAL_OFF_KEY) === "1";
-    } catch {
-        return false;
-    }
-}
-
-/**
- * 探测本机 canvas-proxy 是否在跑。
- * 桌面端由外壳强制开启代理，浏览器端没有这条链路，跨域中转会被 CORS 挡住；
- * 因此浏览器端启动时探测一次，探到了就自动走代理，行为和客户端一致。
- */
-export async function detectLocalProxy(url: string = DEFAULT_LOCAL_PROXY_URL, signal?: AbortSignal) {
-    try {
-        const response = await fetch(`${normalizeLocalProxyUrl(url)}/`, { signal });
-        if (!response.ok) return false;
-        const data = (await response.json()) as { app?: string };
-        return data?.app === "infinite-canvas";
-    } catch {
-        return false;
-    }
-}
-
-/** Prefix an outgoing request with the local forwarding proxy so the browser is not blocked by CORS. */
-export function withLocalProxy(url: string) {
-    const desktopUrl = desktopProxyUrl();
-    const { proxyEnabled, proxyUrl } = useConfigStore.getState().config;
-    // In the desktop app the proxy is built in and always on.
-    const enabled = desktopUrl ? true : proxyEnabled;
-    const effectiveUrl = desktopUrl || proxyUrl;
-    if (!enabled || !/^https?:\/\//i.test(url)) return url;
-    const base = normalizeLocalProxyUrl(effectiveUrl);
-    if (!base || url.startsWith(`${base}/`)) return url;
-    return `${base}/${url}`;
 }

@@ -2,6 +2,7 @@ import { app, BrowserWindow, dialog, ipcMain, Menu, net, shell } from "electron"
 
 import { registerAgentHub, revalidateConnection, stopAgentServerOnQuit } from "./agent-hub.js";
 import { spawn, spawnSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { appendFileSync, createReadStream, createWriteStream, existsSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { mkdtemp } from "node:fs/promises";
 import { createServer } from "node:http";
@@ -49,15 +50,14 @@ app.commandLine.appendSwitch("disable-backgrounding-occluded-windows");
 
 /** Renderer bundle: built by `pnpm --dir web build`, shipped as an extra resource. */
 const rendererDir = isDev ? path.resolve(here, "../web/dist") : path.join(process.resourcesPath, "renderer");
-/** Proxy module: shared with the npm package, shipped as an extra resource (whole folder — the shell
- *  also asks `system-proxy.js` whether a second hop is needed, exactly like the standalone proxy does). */
-const proxyDir = isDev ? path.resolve(here, "../canvas-proxy") : path.join(process.resourcesPath, "proxy");
-const proxyEntry = path.join(proxyDir, "server.js");
 
 /** Fixed ports keep the renderer origin (and therefore IndexedDB) stable across launches. */
 const SHELL_PORT = 23211;
-const PROXY_PORT = 23210;
+const SERVICE_PORT = 23212;
 const PORT_SCAN = 12;
+
+/** Business service token is regenerated on every launch and handed to the renderer via preload. */
+const serviceToken = randomUUID();
 
 const MIME_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -82,9 +82,12 @@ const MIME_TYPES = {
 };
 
 /** @type {import("node:http").Server | null} */
-let proxyServer = null;
-/** @type {import("node:http").Server | null} */
 let shellServer = null;
+/** @type {{ url: string, close: () => Promise<void> } | null} */
+let serviceServer = null;
+/** Renderer URL / service URL are resolved once and reused by macOS "activate". */
+let appUrl = "";
+let serviceUrl = "";
 
 function log(...args) {
     console.log("[infinite-canvas]", ...args);
@@ -117,60 +120,7 @@ async function outboundFetch(input, init) {
     }
 }
 
-/** Probe an already running canvas-proxy so a second copy never fights for the port. */
-async function detectRunningProxy(port) {
-    const url = `http://127.0.0.1:${port}`;
-    try {
-        const response = await fetch(`${url}/`, { signal: AbortSignal.timeout(1200) });
-        if (!response.ok) return null;
-        const payload = await response.json();
-        return payload?.app === "infinite-canvas" && payload?.proxy ? url : null;
-    } catch {
-        return null;
-    }
-}
-
-/** Reuse a proxy that is already listening, otherwise start the bundled one. */
-async function startProxy() {
-    // Same decision the standalone proxy makes for itself (environment → macOS → Windows), so the
-    // shell never claims a hop the machine does not have and never skips one it does.
-    const { detectSystemProxy } = await import(pathToFileURL(path.join(proxyDir, "system-proxy.js")).href);
-    const systemProxy = detectSystemProxy();
-    if (systemProxy) log(`system proxy: ${systemProxy.url} (${systemProxy.source}) — outbound goes through it`);
-    else log("no system proxy configured — outbound goes direct");
-
-    for (let offset = 0; offset < PORT_SCAN; offset += 1) {
-        const port = PROXY_PORT + offset;
-        const existing = await detectRunningProxy(port);
-        if (existing) {
-            log(`reusing local proxy at ${existing}`);
-            return existing;
-        }
-        try {
-            const mod = await import(pathToFileURL(proxyEntry).href);
-            // Chromium's net.fetch already follows the OS proxy, so "system" is only a second hop when
-            // one exists; each request still falls back to a plain direct attempt if that hop fails.
-            const transports = systemProxy
-                ? [
-                      { name: "system", proxyAware: true, fetch: systemFetch },
-                      { name: "direct", proxyAware: false, fetch: directFetch },
-                  ]
-                : [{ name: "direct", proxyAware: true, fetch: systemFetch }];
-            proxyServer = await mod.startProxyServer({ port, host: "127.0.0.1", transports });
-            const url = `http://127.0.0.1:${port}`;
-            log(`local proxy started at ${url}`);
-            return url;
-        } catch (error) {
-            if (error?.code !== "EADDRINUSE") {
-                log("proxy start failed:", error);
-                throw error;
-            }
-        }
-    }
-    throw new Error("no free port for the local proxy");
-}
-
-/** Serve the built renderer over http so history routing and IndexedDB behave like the web build. */
+/** Serve the built renderer over http so history routing and the service Origin stay stable. */
 function serveRenderer() {
     return new Promise((resolve, reject) => {
         const server = createServer((req, res) => {
@@ -210,6 +160,24 @@ function serveRenderer() {
         };
         listen(SHELL_PORT);
     });
+}
+
+/** Start the local business service; renderer talks to it with a per-launch token. */
+async function startAppService(allowedOrigin) {
+    const entry = isDev ? path.join(here, "service/index.mjs") : path.join(here, "service.mjs");
+    const mod = await import(pathToFileURL(entry).href);
+    serviceServer = await mod.createService({
+        port: SERVICE_PORT,
+        portScan: PORT_SCAN,
+        token: serviceToken,
+        dataRoot: path.join(app.getPath("userData"), "data"),
+        allowedOrigin,
+        // net.fetch goes through the OS proxy like the old forwarding proxy did.
+        fetchImpl: outboundFetch,
+        version: app.getVersion(),
+    });
+    log(`app service started at ${serviceServer.url}`);
+    return serviceServer.url;
 }
 
 /** Updates are published as desktop-v* releases in the user's own repository. */
@@ -553,8 +521,7 @@ function attachContextMenu(window) {
     });
 }
 
-async function createWindow(proxyUrl) {
-    const appUrl = await serveRenderer();
+async function createWindow() {
     const window = new BrowserWindow({
         width: 1440,
         height: 900,
@@ -572,7 +539,11 @@ async function createWindow(proxyUrl) {
             // Keep the renderer at full speed when the window is hidden/occluded (remote desktop,
             // display asleep). Without this the canvas repaints at ~1fps and clicks look "slow".
             backgroundThrottling: false,
-            additionalArguments: [`--infinite-canvas-proxy=${proxyUrl}`, `--infinite-canvas-version=${app.getVersion()}`],
+            additionalArguments: [
+                `--infinite-canvas-version=${app.getVersion()}`,
+                `--infinite-canvas-service=${serviceUrl}`,
+                `--infinite-canvas-token=${serviceToken}`,
+            ],
         },
     });
 
@@ -603,13 +574,22 @@ if (!gotLock) {
         app.setName("无限画布");
         buildMenu();
         registerUpdateIpc();
-        let proxyUrl = "";
+        appUrl = await serveRenderer();
         try {
-            proxyUrl = await startProxy();
+            serviceUrl = await startAppService(appUrl);
         } catch (error) {
-            log("continuing without the local proxy:", error);
+            const detail = recordFatal("app-service", error);
+            log("continuing without the app service:", detail);
+            void dialog.showMessageBox({
+                type: "error",
+                title: "本地服务启动失败",
+                message: "应用将以受限模式打开",
+                detail: `本地业务服务未能启动，生成、素材和本地存储功能当前不可用。请重启应用；如果问题持续出现，请把 userData/main-errors.log 发给开发者。\n\n${detail}`,
+                buttons: ["知道了"],
+                noLink: true,
+            });
         }
-        await createWindow(proxyUrl);
+        await createWindow();
 
         // 上次「点更新 → 退出 → 什么都没发生」的话，这里补一次明确告知。
         reportAbortedUpdate();
@@ -627,7 +607,7 @@ if (!gotLock) {
         }, 1500);
 
         app.on("activate", () => {
-            if (BrowserWindow.getAllWindows().length === 0) void createWindow(proxyUrl);
+            if (BrowserWindow.getAllWindows().length === 0) void createWindow();
         });
     });
 
@@ -644,10 +624,10 @@ if (!gotLock) {
             console.warn("[agent-hub] cleanup failed:", error);
         }
         try {
-            proxyServer?.close();
             shellServer?.close();
         } catch {
             /* 端口已释放 */
         }
+        void serviceServer?.close().catch((error) => console.warn("[infinite-canvas:service] cleanup failed:", error));
     });
 }

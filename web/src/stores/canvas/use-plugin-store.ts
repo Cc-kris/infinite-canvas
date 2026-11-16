@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { localForageStorage } from "@/lib/localforage-storage";
+import { appStateStorage } from "@/lib/desktop-storage";
 
 export type InstalledPlugin = {
     id: string;
@@ -39,7 +39,7 @@ export const usePluginStore = create<PluginStore>()(
         }),
         {
             name: "infinite-canvas:plugin_store",
-            storage: createJSONStorage(() => localForageStorage),
+            storage: createJSONStorage(() => appStateStorage),
         },
     ),
 );

@@ -1,8 +1,8 @@
 {
     "name": "infinite-canvas-desktop",
     "productName": "Infinite Canvas",
-    "version": "0.28.2",
-    "description": "无限画布桌面版：内置本地代理，开箱即用",
+    "version": "0.29.0",
+    "description": "无限画布桌面版：内置本地业务服务，开箱即用",
     "author": {
         "name": "Cc-kris",
         "email": "Cc-kris@users.noreply.github.com"
@@ -14,11 +14,12 @@
     "scripts": {
         "start": "electron .",
         "build:agent": "node scripts/build-agent.mjs",
+        "build:service": "node scripts/build-service.mjs",
         "build:web": "pnpm --dir ../web build",
-        "pack": "pnpm build:agent && pnpm build:web && electron-builder --dir",
-        "dist": "pnpm build:agent && pnpm build:web && electron-builder",
-        "dist:mac": "pnpm build:agent && pnpm build:web && electron-builder --mac",
-        "dist:win": "pnpm build:agent && pnpm build:web && electron-builder --win"
+        "pack": "pnpm build:agent && pnpm build:service && pnpm build:web && electron-builder --dir",
+        "dist": "pnpm build:agent && pnpm build:service && pnpm build:web && electron-builder",
+        "dist:mac": "pnpm build:agent && pnpm build:service && pnpm build:web && electron-builder --mac",
+        "dist:win": "pnpm build:agent && pnpm build:service && pnpm build:web && electron-builder --win"
     },
     "devDependencies": {
         "electron": "^38.2.0",
@@ -34,6 +35,7 @@
         },
         "files": [
             "main.js",
+            "service.mjs",
             "agent-hub.js",
             "agent-plugin.js",
             "agent-detect.js",
@@ -46,13 +48,12 @@
                 "to": "icon.ico"
             },
             {
-                "from": "../web/dist",
-                "to": "renderer"
+                "from": "bin",
+                "to": "bin"
             },
             {
-                "from": "../canvas-proxy",
-                "to": "proxy",
-                "filter": ["*.js", "package.json"]
+                "from": "../web/dist",
+                "to": "renderer"
             },
             {
                 "from": "agent",
@@ -113,5 +114,13 @@
             "artifactName": "Infinite-Canvas-Setup-${version}-${arch}.${ext}"
         },
         "artifactName": "Infinite-Canvas-${version}-${os}-${arch}.${ext}"
+    },
+    "dependencies": {
+        "ffmpeg-static": "^5.3.0",
+        "jimp": "^1.6.1",
+        "linkedom": "^0.18.15"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": ["ffmpeg-static"]
     }
 }

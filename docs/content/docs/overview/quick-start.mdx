@@ -1,38 +1,50 @@
 ---
 title: Quick Start
-description: Run Infinite Canvas in a few steps
+description: Run the Infinite Canvas desktop client in a few steps
 ---
 
 # Quick Start
 
-To try the project, deploy or start the `web/` frontend.
+This branch ships the desktop client only. The renderer shows the UI; the Electron main process starts a local app service that talks to your model providers, processes media and stores data.
 
-## Deploy with Vercel
+## Install a build
 
-Import the repository into Vercel. The root `vercel.json` builds `web/`. AI requests are sent directly from the browser to your OpenAI-compatible endpoint, so no additional application server is required.
+Installers are published on the [Releases](https://github.com/Cc-kris/infinite-canvas/releases) page. macOS and Windows builds are unsigned, so the first launch needs the manual approval steps described in the release notes.
 
-## Run locally
+## Build and run locally
+
+Requires Node.js 20+ and pnpm.
 
 ```bash
 git clone git@github.com:Cc-kris/infinite-canvas.git
-cd infinite-canvas/web
-bun install
-bun run dev
+cd infinite-canvas
+pnpm --dir web install
+pnpm --dir desktop install
+pnpm --dir web build
+pnpm --dir desktop start
 ```
 
-Open `http://localhost:3000`.
+The window loads `web/dist` from `http://127.0.0.1:23211`, and the app service starts on `http://127.0.0.1:23212`. Rebuild `web/` and restart after renderer changes; there is no hot reload.
 
-## Run with Docker
+## Package installers
 
 ```bash
-docker build -t infinite-canvas .
-docker run --rm -p 3000:3000 infinite-canvas
+pnpm --dir desktop dist:mac
+pnpm --dir desktop dist:win
 ```
+
+These run the Agent, local service and renderer builds first. Only the host architecture's ffmpeg is bundled.
 
 ## First-time setup
 
 - Open Settings and enter your `Base URL`, `API Key`, and model names.
-- Open `/prompts` to fetch prompt repositories directly from the browser and cache them in IndexedDB.
-- Configure WebDAV if you want to synchronize canvases, assets, and generation history across devices.
+- `/prompts` fetches prompt repositories through the local service and stores them under the user data directory.
+- Configure WebDAV only if you want to synchronize canvases, assets and generation history across devices.
 
-Canvas projects and My Assets are primarily stored in the browser. The API key is also stored locally and used by the browser to call OpenAI-compatible endpoints directly.
+## Data location
+
+Canvas projects, My Assets, drafts, logs and plugins are stored as files under `<userData>/data/` (macOS: `~/Library/Application Support/Infinite Canvas/data`). The API key is stored on this machine too, but requests are sent by the main process; the page does not call providers directly. This is still local data — the app has no cloud sync.
+
+## Legacy browser deployment
+
+Vercel, Docker and Render were the browser-only deployment paths. They are kept for reference and are not supported on this branch; the web build is frozen on `feat/linkfox-v1-real`.

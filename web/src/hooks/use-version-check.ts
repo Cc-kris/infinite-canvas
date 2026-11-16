@@ -3,13 +3,10 @@ import { App } from "antd";
 import { useTranslation } from "react-i18next";
 import { APP_VERSION } from "@/constant/env";
 import { desktopAppVersion, getDesktopBridge, type DesktopUpdateProgress } from "@/lib/desktop";
-import { parseChangelog, type ReleaseInfo } from "@/lib/release";
+import type { ReleaseInfo } from "@/lib/release";
 
-/** Releases and changelog live in this project's own repository. */
+/** Releases live in this project's own repository; the shell (main process) owns the network call. */
 const RELEASE_REPO = "Cc-kris/infinite-canvas";
-const RELEASES_API = `https://api.github.com/repos/${RELEASE_REPO}/releases?per_page=30`;
-const latestVersionUrl = `https://raw.githubusercontent.com/${RELEASE_REPO}/main/VERSION`;
-const latestChangelogUrl = `https://raw.githubusercontent.com/${RELEASE_REPO}/main/CHANGELOG.md`;
 const releasesPageUrl = `https://github.com/${RELEASE_REPO}/releases`;
 
 export type VersionUpdateInfo = {
@@ -39,8 +36,6 @@ function isNewerVersion(latestVersion: string, currentVersion: string) {
     return latest.some((value, index) => value > current[index] && latest.slice(0, index).every((part, prevIndex) => part === current[prevIndex]));
 }
 
-type ReleaseLookup = { version: string; pageUrl: string; installerName: string; notes: string };
-
 /** 从 Release 正文里提取可读条目：优先列表项，其次正文段落。 */
 function notesToItems(notes: string): ReleaseInfo["items"] {
     // 正文末尾会拼上共用的安装步骤（以 --- 分隔），那部分不是更新内容。
@@ -62,23 +57,6 @@ function withReleaseNotes(list: ReleaseInfo[], remote: { version: string; notes:
     const items = notesToItems(remote.notes);
     if (!items.length) return list;
     return [{ version: remote.version, date: "", items }, ...list];
-}
-
-/** Newest desktop-v* release, read from the repository's GitHub releases API. */
-async function fetchLatestDesktopRelease(): Promise<ReleaseLookup | null> {
-    const response = await fetch(RELEASES_API, { headers: { accept: "application/vnd.github+json" } });
-    if (!response.ok) return null;
-    const releases = await response.json();
-    if (!Array.isArray(releases)) return null;
-    for (const release of releases) {
-        if (release?.draft || release?.prerelease) continue;
-        const match = /^desktop-v?(\d+\.\d+\.\d+)/.exec(String(release.tag_name || ""));
-        if (!match) continue;
-        const assets: { name: string }[] = Array.isArray(release.assets) ? release.assets : [];
-        const installer = assets.find((asset) => /\.(dmg|exe)$/i.test(asset.name))?.name || "";
-        return { version: match[1], pageUrl: String(release.html_url || releasesPageUrl), installerName: installer, notes: typeof release.body === "string" ? release.body : "" };
-    }
-    return null;
 }
 
 export function useVersionCheck() {
@@ -124,38 +102,17 @@ export function useVersionCheck() {
                 return false;
             }
         }
-        try {
-            const release = await fetchLatestDesktopRelease();
-            if (release) {
-                setLatestVersion(release.version);
-                setReleaseUrl(release.pageUrl);
-                setDownloadSupported(Boolean(release.installerName));
-                remoteReleaseRef.current = { version: release.version, notes: release.notes };
-                return true;
-            }
-            // Fall back to the version file when the API is rate limited.
-            const response = await fetch(latestVersionUrl);
-            if (!response.ok) return false;
-            const version = (await response.text()).trim();
-            setLatestVersion(version || currentVersion);
-            return Boolean(version);
-        } catch {
-            return false;
-        }
+        // 浏览器预览没有 shell IPC，更新信息只来自构建期内置的 CHANGELOG。
+        return false;
     }, [bridge, currentVersion]);
 
     const checkLatestRelease = useCallback(
         async (showMessage = false) => {
             setChecking(true);
             try {
-                const [ok, changelogResponse] = await Promise.all([checkLatestVersion(), fetch(latestChangelogUrl).catch(() => null)]);
-                let nextReleases = localReleases;
-                if (changelogResponse?.ok) {
-                    const changelog = await changelogResponse.text();
-                    if (changelog.trim()) nextReleases = parseChangelog(changelog);
-                }
+                const ok = await checkLatestVersion();
                 // 0.25.7: CHANGELOG 常漏写已发布版本，用 Release 正文补一条，弹窗不再空白。
-                setReleases(withReleaseNotes(nextReleases, remoteReleaseRef.current));
+                setReleases(withReleaseNotes(localReleases, remoteReleaseRef.current));
                 if (!ok) throw new Error(t("version.readFailed"));
                 if (showMessage) message.success(t("version.updated"));
                 return true;

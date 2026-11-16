@@ -1,15 +1,15 @@
-import axios from "axios";
-
 import i18n from "@/i18n";
-import { buildApiUrl, resolveModelRequestConfig, resolveModelScript, withLocalProxy, type AiConfig, type ModelChannel } from "@/stores/use-config-store";
+import { buildImageReferencePromptText } from "@/lib/image-reference-prompt";
+import { imageSizePresets, inferMediaScale } from "@/lib/media-size";
+import { shrinkInlineImages } from "@/lib/inline-image";
+import { imageToDataUrl } from "@/services/image-storage";
+import { resolveModelRequestConfig, resolveModelScript, type AiConfig, type ModelChannel } from "@/stores/use-config-store";
+import type { ReferenceImage } from "@/types/image";
+
+import { DesktopRequestError } from "./desktop/http";
+import { requestImageEdit, requestImageGeneration, requestModels, requestTextChat } from "./desktop/capabilities/providers";
 import { normalizePluginImages, runModelPlugin } from "./model-plugin";
 import { nanoid } from "nanoid";
-import { dataUrlToFile } from "@/lib/image-utils";
-import { shrinkInlineImages } from "@/lib/inline-image";
-import { buildImageReferencePromptText } from "@/lib/image-reference-prompt";
-import { imageToDataUrl } from "@/services/image-storage";
-import { imageSizePresets, inferMediaScale } from "@/lib/media-size";
-import type { ReferenceImage } from "@/types/image";
 
 const apiText = (key: string, options?: Record<string, unknown>) => i18n.t(`apiErrors.${key}`, options);
 
@@ -18,157 +18,14 @@ export type AiTextMessage = {
     content: string | Array<{ type: "text"; text: string } | { type: "image_url"; image_url: { url: string } }>;
 };
 
-type ResponseToolCall = {
-    id: string;
-    type: "function";
-    function: { name: string; arguments: string };
-    thoughtSignature?: string;
-};
-
-type ResponseInputMessage =
-    | AiTextMessage
-    | { type: "function_call"; call_id: string; name: string; arguments: string; thoughtSignature?: string }
-    | { role: "tool"; tool_call_id: string; content: string };
-
-type ResponseFunctionTool = {
-    type: "function";
-    function: {
-        name: string;
-        description?: string;
-        parameters: Record<string, unknown>;
-        strict?: boolean;
-    };
-};
-
-type ToolResponseResult = {
-    content: string;
-    toolCalls: ResponseToolCall[];
-};
-
-type ToolChoice = "auto" | "required" | { type: "function"; name: string };
-type ResponseMessageContent = AiTextMessage["content"] | string;
-type ResponseInputContent = { type: "input_text"; text: string } | { type: "input_image"; image_url: string };
-type ResponseInputItem =
-    | { role: "system" | "user" | "assistant"; content: string | ResponseInputContent[] }
-    | { type: "function_call"; call_id: string; name: string; arguments: string }
-    | { type: "function_call_output"; call_id: string; output: string };
-type ResponseApiToolDefinition = {
-    type: "function";
-    name: string;
-    description?: string;
-    parameters: Record<string, unknown>;
-    strict?: boolean;
-};
-type ResponseApiOutputItem =
-    | { type?: "message"; content?: Array<{ type?: string; text?: string }> }
-    | { type?: "function_call"; id?: string; call_id?: string; name?: string; arguments?: string };
-type ResponseApiPayload = {
-    id?: string;
-    output?: ResponseApiOutputItem[];
-    output_text?: string;
-    error?: { message?: string };
-    code?: number;
-    msg?: string;
-};
-type ResponseStreamState = { buffer: string; text: string; payload?: ResponseApiPayload; error?: string };
-
-type ChatCompletionContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string } };
-type ChatCompletionMessage = { role: "system" | "user" | "assistant"; content: string | ChatCompletionContentPart[] };
-type ChatCompletionPayload = {
-    choices?: Array<{
-        message?: { content?: string | Array<{ type?: string; text?: string }> };
-        delta?: { content?: string | Array<{ type?: string; text?: string }> };
-    }>;
-    error?: { message?: string };
-};
-
-/** 上游不支持 `/responses`（404/405）时抛此错误，用于触发 `/chat/completions` 回落。 */
-class ResponsesEndpointUnsupportedError extends Error {
-    readonly code = "responses-endpoint-unsupported";
-}
-
-/** 已判定不支持 `/responses` 的上游（按 baseUrl+apiFormat 记），避免每次都多打一次 404。 */
-const responsesUnsupportedUpstreams = new Set<string>();
-
-function responsesUpstreamKey(config: Pick<AiConfig, "baseUrl" | "apiFormat">) {
-    return `${config.baseUrl.trim().replace(/\/+$/, "")}|${config.apiFormat}`;
-}
-
-/**
- * 网关（负载均衡/边缘节点）用 HTML 页面直接回 400/5xx 的情况：请求体多半没被业务层处理，
- * 属于传输层抖动，重发一次是安全的；业务 4xx 是 JSON，不会命中这里。
- */
-function isGatewayHtmlError(response: Response) {
-    if (response.ok) return false;
-    const contentType = (response.headers.get("content-type") || "").toLowerCase();
-    if (!contentType.includes("text/html")) return false;
-    return response.status === 400 || response.status === 408 || response.status === 429 || response.status >= 500;
-}
-
-type ImageApiResponse = {
-    data?: Array<Record<string, unknown>>;
-    error?: { message?: string };
-    code?: number;
-    msg?: string;
-};
-type GeminiPart = {
-    text?: string;
-    inlineData?: { mimeType?: string; data?: string };
-    inline_data?: { mime_type?: string; mimeType?: string; data?: string };
-    fileData?: { mimeType?: string; fileUri?: string };
-    functionCall?: { id?: string; name?: string; args?: Record<string, unknown> };
-    functionResponse?: { id?: string; name?: string; response?: Record<string, unknown> };
-    thoughtSignature?: string;
-    thought_signature?: string;
-};
-type GeminiContent = { role?: "user" | "model"; parts: GeminiPart[] };
-type GeminiPayload = {
-    candidates?: Array<{ content?: { parts?: GeminiPart[] }; finishReason?: string }>;
-    models?: Array<{ name?: string }>;
-    error?: { message?: string };
-    promptFeedback?: { blockReason?: string };
-};
-type GeminiStreamState = { buffer: string; text: string; toolCalls: ResponseToolCall[]; error?: string };
 type RequestOptions = { signal?: AbortSignal };
 
-const IMAGE_QUALITY_VALUES = ["low", "medium", "high", "xhigh", "max"];
-const DEFAULT_IMAGE_SHORT_SIDE = 1024;
 const IMAGE_SIZE_STEP = 16;
 const IMAGE_MIN_PIXELS = 655360;
 const IMAGE_MAX_PIXELS = 8294400;
 const IMAGE_MAX_EDGE = 3840;
 const IMAGE_MAX_RATIO = 3;
-const IMAGE_OUTPUT_FORMAT = "png";
-// 上游图生模型（如 gpt-image-2.5 系列）单张实测 3~4 分钟，一次多张时中转会排队累加，
-// 10 分钟很容易在上游已扣费出图后仍判定超时；放宽到 20 分钟，避免「上游成功、本地失败」。
-const IMAGE_REQUEST_TIMEOUT_MS = 20 * 60_000;
-
-const GEMINI_SUPPORTED_RATIOS = ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9"];
-
-function normalizeQuality(quality: string) {
-    const value = quality.trim().toLowerCase();
-    return IMAGE_QUALITY_VALUES.includes(value) ? value : undefined;
-}
-
-/** Only "transparent" is forwarded; any other value (incl. empty) means keep the default opaque background. */
-function normalizeBackground(background: string | undefined) {
-    return background?.trim().toLowerCase() === "transparent" ? "transparent" : undefined;
-}
-
-/** Map a bare ratio such as "1:1" to an explicit pixel dimension like "1024x1024". */
-function resolveSize(ratio: string): string {
-    const parsedRatio = parseImageRatio(ratio);
-    const preset = imageSizePresets["1k"][ratio];
-    if (preset) return preset;
-    const isLandscape = parsedRatio.width >= parsedRatio.height;
-    const longRatio = isLandscape ? parsedRatio.width / parsedRatio.height : parsedRatio.height / parsedRatio.width;
-    const shortSide = DEFAULT_IMAGE_SHORT_SIDE;
-    const longSide = Math.round((shortSide * longRatio) / IMAGE_SIZE_STEP) * IMAGE_SIZE_STEP;
-    const width = isLandscape ? longSide : shortSide;
-    const height = isLandscape ? shortSide : longSide;
-    validateImageSize(width, height);
-    return `${width}x${height}`;
-}
+const DEFAULT_IMAGE_SHORT_SIDE = 1024;
 
 function parseRatioValue(value: string) {
     const parts = value.split(":");
@@ -185,12 +42,6 @@ function parseImageRatio(value: string) {
     return ratio;
 }
 
-function parseImageDimensions(value: string) {
-    const match = value.match(/^(\d+)x(\d+)$/i);
-    if (!match) return null;
-    return { width: Number(match[1]), height: Number(match[2]) };
-}
-
 function validateImageSize(width: number, height: number) {
     if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) throw new Error(apiText("positiveImageDimensions"));
     if (width % IMAGE_SIZE_STEP !== 0 || height % IMAGE_SIZE_STEP !== 0) throw new Error(apiText("imageDimensionStep"));
@@ -200,16 +51,23 @@ function validateImageSize(width: number, height: number) {
     if (pixels < IMAGE_MIN_PIXELS || pixels > IMAGE_MAX_PIXELS) throw new Error(apiText("imagePixelLimit"));
 }
 
-function resolveRequestSize(size: string) {
-    const value = size.trim();
-    if (!value || value.toLowerCase() === "auto") return undefined;
-    const dimensions = parseImageDimensions(value);
-    if (dimensions) {
-        validateImageSize(dimensions.width, dimensions.height);
-        return `${dimensions.width}x${dimensions.height}`;
-    }
-    if (value.includes(":")) return resolveSize(value);
-    throw new Error(apiText("invalidImageSizeFormat"));
+function parseImageDimensions(value: string) {
+    const match = value.match(/^(\d+)x(\d+)$/i);
+    if (!match) return null;
+    return { width: Number(match[1]), height: Number(match[2]) };
+}
+
+function resolveSize(ratio: string): string {
+    const parsedRatio = parseImageRatio(ratio);
+    const preset = imageSizePresets["1k"][ratio];
+    if (preset) return preset;
+    const isLandscape = parsedRatio.width >= parsedRatio.height;
+    const longRatio = isLandscape ? parsedRatio.width / parsedRatio.height : parsedRatio.height / parsedRatio.width;
+    const longSide = Math.round((DEFAULT_IMAGE_SHORT_SIDE * longRatio) / IMAGE_SIZE_STEP) * IMAGE_SIZE_STEP;
+    const width = isLandscape ? longSide : DEFAULT_IMAGE_SHORT_SIDE;
+    const height = isLandscape ? DEFAULT_IMAGE_SHORT_SIDE : longSide;
+    validateImageSize(width, height);
+    return `${width}x${height}`;
 }
 
 /** 历史记录/外部写入的尺寸可能早于当前规则（例如 480x854），恢复前先判断，避免下一次生成直接在本地报错。 */
@@ -236,63 +94,11 @@ export function isSupportedImageSize(size: string) {
     return false;
 }
 
-function resolveGeminiImageConfig(config: AiConfig) {
-    const value = config.size.trim();
-    const dimensions = parseImageDimensions(value);
-    const ratio = dimensions ? `${dimensions.width}:${dimensions.height}` : value;
-    const aspectRatio = value && value.toLowerCase() !== "auto" ? closestGeminiAspectRatio(ratio) : undefined;
-    const imageSize = resolveGeminiImageSize(dimensions);
-    const image = { ...(aspectRatio ? { aspectRatio } : {}), ...(imageSize ? { imageSize } : {}) };
-    return Object.keys(image).length ? { imageConfig: image } : {};
-}
-
-function closestGeminiAspectRatio(value: string) {
-    const ratio = parseImageRatio(value);
-    const target = ratio.width / ratio.height;
-    return GEMINI_SUPPORTED_RATIOS.reduce((best, item) => {
-        const current = parseRatioValue(item);
-        const bestRatio = parseRatioValue(best);
-        return Math.abs(current.width / current.height - target) < Math.abs(bestRatio.width / bestRatio.height - target) ? item : best;
-    });
-}
-
-/** Gemini takes the resolution tier and the ratio separately; the tier comes from the size presets. */
-function resolveGeminiImageSize(dimensions: { width: number; height: number } | null) {
-    if (!dimensions) return undefined;
-    const size = `${dimensions.width}x${dimensions.height}`;
-    const scale = Object.keys(imageSizePresets).find((key) => Object.values(imageSizePresets[key]).includes(size));
-    if (scale) return scale.toUpperCase();
-    const edge = Math.max(dimensions.width, dimensions.height);
-    if (edge <= 768) return "512";
-    if (edge <= 1536) return "1K";
-    if (edge <= 3072) return "2K";
-    return "4K";
-}
-
-/**
- * 结果项映射：`dataUrl` 是「立即能渲染的来源」，`url` 是「可落盘的持久地址」。
- *
- * 旧实现 b64 优先且只返回一个字符串：上游同时给 `b64_json` + `url` 时，https 地址被静默丢掉，
- * 于是一次刷新后只剩被剥离的 payload，字节与地址双双不可恢复（B7 同源缺口）。
- * 这里两种来源都保留：有 b64 就用 b64 渲染，同时记住远程地址；只有 url 时两者相同。
- */
-function resolveImageItem(item: Record<string, unknown>): { dataUrl: string; url?: string } | null {
-    const remote = typeof item.url === "string" && /^https?:\/\//i.test(item.url) && isUsableImageSource(item.url) ? item.url : undefined;
-    if (typeof item.b64_json === "string" && item.b64_json) {
-        return remote ? { dataUrl: `data:image/png;base64,${item.b64_json}`, url: remote } : { dataUrl: `data:image/png;base64,${item.b64_json}` };
-    }
-    if (typeof item.url === "string" && item.url && isUsableImageSource(item.url)) {
-        return { dataUrl: item.url, url: remote };
-    }
-    return null;
-}
-
 const HTML_SOURCE_PATTERN = /^\s*<(?:!doctype|html|head|body|script|div|p|pre)/i;
 const DATA_IMAGE_PATTERN = /^data:image\/[a-z0-9.+-]+(?:;[^,]*)?,/i;
 
 /**
  * TASK-047：图片来源可用性判定。
- *
  * 中转/网关异常时 `url` 常见会变成 HTML 错误页或 JSON 片段；直接当成图片写进历史记录，
  * 后续画布渲染才失败，等于假成功。这里只放行真正能被浏览器加载的来源。
  */
@@ -305,89 +111,43 @@ export function isUsableImageSource(value: unknown): value is string {
     return DATA_IMAGE_PATTERN.test(trimmed) || /^https?:\/\//i.test(trimmed) || /^blob:/i.test(trimmed) || /^gs:\/\//i.test(trimmed);
 }
 
-function parseImagePayload(payload: ImageApiResponse) {
-    if (typeof payload.code === "number" && payload.code !== 0) {
-        throw new Error(payload.msg || apiText("requestFailed"));
-    }
-    // Support data, images, and results response fields used by different APIs.
-    const imageList = payload.data
-        || (payload as Record<string, unknown>).images as Array<Record<string, unknown>> | undefined
-        || (payload as Record<string, unknown>).results as Array<Record<string, unknown>> | undefined
-        || [];
-    const images = imageList
-        .map(resolveImageItem)
-        .filter((value): value is { dataUrl: string; url?: string } => Boolean(value))
-        .map((item) => ({ id: nanoid(), dataUrl: item.dataUrl, ...(item.url ? { url: item.url } : {}) }));
-
-    if (images.length === 0) {
-        // Check whether the response contains data in an unrecognized format.
-        const rawKeys = Object.keys(payload).filter((k) => k !== "code" && k !== "msg" && k !== "error");
-        throw new Error(rawKeys.length > 0
-            ? apiText("unknownImageResponse", { fields: rawKeys.join(", ") })
-            : apiText("noImageReturned"));
-    }
-
-    return images;
-}
-
 function readApiErrorMessage(value: unknown): string {
     if (!value) return "";
     if (typeof value === "string") {
-        // The value may be serialized JSON, such as error.message, or a plain-text error.
         try {
             const parsed = JSON.parse(value);
             const inner = readApiErrorMessage(parsed) || value;
-            // Treat an empty parsed object such as "{}" as having no useful message.
             if (inner === value && typeof parsed === "object" && Object.keys(parsed).length === 0) return "";
             return inner;
         } catch {
-            // Detect HTML error pages.
             if (/<[a-z][\s\S]*>/i.test(value)) return apiText("htmlError", { preview: `${value.slice(0, 80)}...` });
             return value;
         }
     }
     if (typeof value !== "object") return "";
     const payload = value as { msg?: unknown; message?: unknown; error?: unknown; detail?: unknown };
-    // error may be a string or an object containing a message.
-    const errorMsg =
-        typeof payload.error === "string"
-            ? payload.error
-            : (payload.error as { message?: unknown })?.message;
-    return (
-        readApiErrorMessage(payload.msg) ||
-        readApiErrorMessage(payload.message) ||
-        readApiErrorMessage(errorMsg) ||
-        readApiErrorMessage(payload.detail) ||
-        ""
-    );
+    const errorMsg = typeof payload.error === "string" ? payload.error : (payload.error as { message?: unknown })?.message;
+    return readApiErrorMessage(payload.msg) || readApiErrorMessage(payload.message) || readApiErrorMessage(errorMsg) || readApiErrorMessage(payload.detail) || "";
 }
 
-function readAxiosError(error: unknown, fallback: string) {
-    if (axios.isCancel(error)) return apiText("requestCanceled");
-    if (axios.isAxiosError(error)) {
-        if (error.code === "ECONNABORTED" || error.code === "ETIMEDOUT") return apiText("imageTimeout");
-        if (!error.response && error.code === "ERR_NETWORK") return apiText("requestFailed");
-        const responseData = error.response?.data;
-        // Prefer the API error from the response body.
-        const apiMsg = readApiErrorMessage(responseData);
-        if (apiMsg) return apiMsg;
-        // Infer the error from the HTTP status when the response body has no usable message.
-        const statusMsg = readStatusError(error.response?.status, fallback);
-        if (statusMsg) return statusMsg;
-        // Fall back to Axios's own error message.
-        return error.message || fallback;
-    }
-    if (error instanceof DOMException && error.name === "AbortError") return apiText("requestCanceled");
-    return error instanceof Error ? readApiErrorMessage(error.message) || error.message : fallback;
-}
-
-function readStatusError(status: number | undefined, fallback: string) {
+function statusErrorMessage(status: number, fallback: string) {
     if (status === 401 || status === 403) return apiText("authenticationFailed");
     if (status === 429) return apiText("rateLimited");
     if (status === 404) return apiText("notFound");
     if (status === 502) return apiText("badGateway");
     if (status === 503) return apiText("serviceBusy");
-    return status ? apiText("httpFailed", { status }) : fallback;
+    return fallback;
+}
+
+function readProviderError(error: unknown, fallback: string) {
+    if (error instanceof DOMException && error.name === "AbortError") return apiText("requestCanceled");
+    if (error instanceof DesktopRequestError) {
+        const message = readApiErrorMessage(error.message) || error.message || "";
+        if (message && !/本地服务请求失败/.test(message)) return message;
+        return statusErrorMessage(error.status, message || fallback);
+    }
+    if (error instanceof Error && error.name === "AbortError") return apiText("requestCanceled");
+    return error instanceof Error ? readApiErrorMessage(error.message) || error.message : fallback;
 }
 
 function withSystemPrompt(config: AiConfig, prompt: string) {
@@ -395,504 +155,9 @@ function withSystemPrompt(config: AiConfig, prompt: string) {
     return systemPrompt ? `${systemPrompt}\n\n${prompt}` : prompt;
 }
 
-function aiApiUrl(config: AiConfig, path: string) {
-    return buildApiUrl(config.baseUrl, path);
-}
-
-function aiHeaders(config: AiConfig, contentType?: string) {
-    return {
-        Authorization: `Bearer ${config.apiKey}`,
-        ...(contentType ? { "Content-Type": contentType } : {}),
-    };
-}
-
-function geminiBaseUrl(config: Pick<AiConfig, "baseUrl">) {
-    const normalizedBaseUrl = config.baseUrl.trim().replace(/\/+$/, "");
-    const lowerBaseUrl = normalizedBaseUrl.toLowerCase();
-    return lowerBaseUrl.endsWith("/v1") || lowerBaseUrl.endsWith("/v1beta") ? normalizedBaseUrl : `${normalizedBaseUrl}/v1beta`;
-}
-
-function geminiModelName(model: string) {
-    return model.trim().replace(/^models\//, "");
-}
-
-function geminiApiUrl(config: Pick<AiConfig, "baseUrl" | "model">, action?: "generateContent" | "streamGenerateContent") {
-    const baseUrl = geminiBaseUrl(config);
-    if (!action) return withLocalProxy(`${baseUrl}/models`);
-    return withLocalProxy(`${baseUrl}/models/${encodeURIComponent(geminiModelName(config.model))}:${action}`);
-}
-
-function geminiHeaders(config: Pick<AiConfig, "apiKey">) {
-    return {
-        "x-goog-api-key": config.apiKey,
-        "Content-Type": "application/json",
-    };
-}
-
-function withSystemMessage<T extends ResponseInputMessage>(config: AiConfig, messages: T[]): ResponseInputMessage[] {
+function withSystemMessage<T extends AiTextMessage>(config: AiConfig, messages: T[]) {
     const systemPrompt = config.systemPrompt.trim();
     return systemPrompt ? [{ role: "system" as const, content: systemPrompt }, ...messages] : messages;
-}
-
-function toResponseInput(messages: ResponseInputMessage[]): ResponseInputItem[] {
-    return messages.flatMap((message): ResponseInputItem[] => {
-        if ("type" in message) return [message];
-        if (message.role === "tool") return [{ type: "function_call_output", call_id: message.tool_call_id, output: message.content }];
-        return [{ role: message.role, content: toResponseContent(message.content || "") }];
-    });
-}
-
-function toResponseContent(content: ResponseMessageContent): string | ResponseInputContent[] {
-    if (!Array.isArray(content)) return String(content || "");
-    return content.map((item) => (item.type === "text" ? { type: "input_text" as const, text: item.text } : { type: "input_image" as const, image_url: item.image_url.url }));
-}
-
-function toResponseTool(tool: ResponseFunctionTool): ResponseApiToolDefinition {
-    return {
-        type: "function",
-        name: tool.function.name,
-        description: tool.function.description,
-        parameters: tool.function.parameters,
-        strict: tool.function.strict,
-    };
-}
-
-function parseToolResponse(payload: ResponseApiPayload): ToolResponseResult {
-    const output = payload.output || [];
-    const content =
-        payload.output_text ||
-        output
-            .flatMap((item) => (item.type === "message" ? item.content || [] : []))
-            .map((item) => item.text || "")
-            .join("");
-    const toolCalls = output
-        .filter((item): item is Extract<ResponseApiOutputItem, { type?: "function_call" }> => item.type === "function_call")
-        .map((item) => ({
-            id: item.call_id || item.id || "",
-            type: "function" as const,
-            function: { name: item.name || "", arguments: item.arguments || "{}" },
-        }))
-        .filter((item) => item.id && item.function.name);
-    return { content, toolCalls };
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return Boolean(value && typeof value === "object" && !Array.isArray(value));
-}
-
-function responseErrorMessage(value: unknown) {
-    if (!isRecord(value)) return "";
-    const error = isRecord(value.error) ? value.error : undefined;
-    const response = isRecord(value.response) ? value.response : undefined;
-    const responseError = response && isRecord(response.error) ? response.error : undefined;
-    return stringValue(value.msg) || stringValue(error?.message) || stringValue(responseError?.message);
-}
-
-function stringValue(value: unknown) {
-    return typeof value === "string" ? value : "";
-}
-
-function validateResponsePayload(payload: ResponseApiPayload) {
-    if (typeof payload.code === "number" && payload.code !== 0) throw new Error(payload.msg || apiText("requestFailed"));
-    if (payload.error?.message) throw new Error(payload.error.message);
-}
-
-function validateGeminiPayload(payload: GeminiPayload) {
-    if (payload.error?.message) throw new Error(payload.error.message);
-    if (payload.promptFeedback?.blockReason) throw new Error(apiText("geminiRejected", { reason: payload.promptFeedback.blockReason }));
-}
-
-async function readFetchError(response: Response, fallback: string) {
-    const text = await response.text();
-    if (!text) return readStatusError(response.status, fallback);
-    try {
-        return responseErrorMessage(JSON.parse(text)) || readStatusError(response.status, fallback);
-    } catch {
-        return text.slice(0, 300) || readStatusError(response.status, fallback);
-    }
-}
-
-function consumeResponseStreamBlock(block: string, state: ResponseStreamState, onDelta?: (text: string) => void) {
-    const data = block
-        .split(/\r?\n/)
-        .filter((line) => line.startsWith("data:"))
-        .map((line) => line.slice(5).replace(/^ /, ""))
-        .join("\n")
-        .trim();
-    if (!data || data === "[DONE]") return;
-    const event = JSON.parse(data) as Record<string, unknown>;
-    const type = stringValue(event.type);
-    const errorMessage = responseErrorMessage(event);
-    if (errorMessage) state.error = errorMessage;
-    if (type === "response.output_text.delta" && typeof event.delta === "string") {
-        state.text += event.delta;
-        onDelta?.(state.text);
-    }
-    if (type === "response.output_text.done" && !state.text && typeof event.text === "string") {
-        state.text = event.text;
-        onDelta?.(state.text);
-    }
-    if (type === "response.completed" && isRecord(event.response)) {
-        state.payload = event.response as ResponseApiPayload;
-    } else if (Array.isArray(event.output)) {
-        state.payload = event as ResponseApiPayload;
-    }
-}
-
-function consumeResponseStreamText(state: ResponseStreamState, text: string, onDelta?: (text: string) => void, flush = false) {
-    state.buffer += text;
-    for (;;) {
-        const match = state.buffer.match(/\r?\n\r?\n/);
-        if (!match) break;
-        const index = match.index ?? 0;
-        consumeResponseStreamBlock(state.buffer.slice(0, index), state, onDelta);
-        state.buffer = state.buffer.slice(index + match[0].length);
-    }
-    if (flush && state.buffer.trim()) {
-        consumeResponseStreamBlock(state.buffer, state, onDelta);
-        state.buffer = "";
-    }
-}
-
-async function requestStreamingResponse(config: AiConfig, body: Record<string, unknown>, onDelta?: (text: string) => void, options?: RequestOptions): Promise<ToolResponseResult> {
-    const response = await fetch(aiApiUrl(config, "/responses"), {
-        method: "POST",
-        headers: { ...aiHeaders(config, "application/json"), Accept: "text/event-stream" },
-        body: JSON.stringify({ ...body, stream: true }),
-        signal: options?.signal,
-    });
-    if (!response.ok) {
-        const message = await readFetchError(response, apiText("requestFailed"));
-        // 上游没有 `/responses` 端点时（OpenAI 兼容实现常见），交给 chat/completions 回落。
-        if (response.status === 404 || response.status === 405) throw new ResponsesEndpointUnsupportedError(message);
-        throw new Error(message);
-    }
-    if (!response.body) {
-        const payload = (await response.json()) as ResponseApiPayload;
-        validateResponsePayload(payload);
-        return parseToolResponse(payload);
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    const state: ResponseStreamState = { buffer: "", text: "" };
-    for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        consumeResponseStreamText(state, decoder.decode(value, { stream: true }), onDelta);
-        if (state.error) throw new Error(state.error);
-    }
-    consumeResponseStreamText(state, decoder.decode(), onDelta, true);
-    if (state.error) throw new Error(state.error);
-    if (!state.payload) return { content: state.text, toolCalls: [] };
-    validateResponsePayload(state.payload);
-    const result = parseToolResponse(state.payload);
-    return { ...result, content: state.text || result.content };
-}
-
-/**
- * 把 Responses 风格的消息转成 chat/completions 风格（含视觉 image_url 内容块）。
- * 仅用于 `/responses` 不被上游支持时的回落，语义保持一一对应，不补写任何内容。
- */
-function toChatCompletionMessages(messages: ResponseInputMessage[]): ChatCompletionMessage[] {
-    const result: ChatCompletionMessage[] = [];
-    for (const message of messages) {
-        if ("type" in message) {
-            if (message.type === "function_call") result.push({ role: "assistant", content: message.arguments || "" });
-            continue;
-        }
-        if (message.role === "tool") {
-            result.push({ role: "user", content: message.content || "" });
-            continue;
-        }
-        const content = message.content || "";
-        if (typeof content === "string") {
-            result.push({ role: message.role, content });
-            continue;
-        }
-        result.push({
-            role: message.role,
-            content: content.map((item): ChatCompletionContentPart => (item.type === "text" ? { type: "text", text: item.text } : { type: "image_url", image_url: { url: item.image_url.url } })),
-        });
-    }
-    return result;
-}
-
-function chatCompletionText(value: unknown): string {
-    if (typeof value === "string") return value;
-    if (!Array.isArray(value)) return "";
-    return value.map((item) => (isRecord(item) && typeof item.text === "string" ? item.text : "")).join("");
-}
-
-/** 上游只支持 `/chat/completions` 时的真实调用（SSE 流式 + 视觉内容块）。 */
-async function requestChatCompletions(config: AiConfig, messages: ResponseInputMessage[], onDelta?: (text: string) => void, options?: RequestOptions): Promise<ToolResponseResult> {
-    const url = aiApiUrl(config, "/chat/completions");
-    const body = JSON.stringify({ model: config.model, messages: toChatCompletionMessages(messages), stream: true });
-    const send = () =>
-        fetch(url, {
-            method: "POST",
-            headers: { ...aiHeaders(config, "application/json"), Accept: "text/event-stream" },
-            body,
-            signal: options?.signal,
-        });
-    let response = await send();
-    // 网关（边缘节点/负载均衡）偶发用 HTML 400/5xx 直接拒掉大请求体，重发一次通常即成功；与业务 4xx 区分开。
-    if (!response.ok && isGatewayHtmlError(response)) {
-        await response.text().catch(() => "");
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        response = await send();
-    }
-    if (!response.ok) throw new Error(await readFetchError(response, apiText("requestFailed")));
-    if (!response.body) {
-        const payload = (await response.json()) as ChatCompletionPayload;
-        if (payload.error?.message) throw new Error(payload.error.message);
-        const content = chatCompletionText(payload.choices?.[0]?.message?.content);
-        if (content) onDelta?.(content);
-        return { content, toolCalls: [] };
-    }
-
-    let text = "";
-    let errorMessage = "";
-    let buffer = "";
-    const consumeBlock = (block: string) => {
-        const data = block
-            .split(/\r?\n/)
-            .filter((line) => line.startsWith("data:"))
-            .map((line) => line.slice(5).replace(/^ /, ""))
-            .join("\n")
-            .trim();
-        if (!data || data === "[DONE]") return;
-        let event: ChatCompletionPayload;
-        try {
-            event = JSON.parse(data) as ChatCompletionPayload;
-        } catch {
-            return;
-        }
-        const message = responseErrorMessage(event);
-        if (message) errorMessage = message;
-        const delta = chatCompletionText(event.choices?.[0]?.delta?.content);
-        if (delta) {
-            text += delta;
-            onDelta?.(text);
-        }
-        const fallbackContent = chatCompletionText(event.choices?.[0]?.message?.content);
-        if (!delta && fallbackContent) {
-            text += fallbackContent;
-            onDelta?.(text);
-        }
-    };
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        for (;;) {
-            const match = buffer.match(/\r?\n\r?\n/);
-            if (!match) break;
-            const index = match.index ?? 0;
-            consumeBlock(buffer.slice(0, index));
-            buffer = buffer.slice(index + match[0].length);
-        }
-        if (errorMessage) throw new Error(errorMessage);
-    }
-    buffer += decoder.decode();
-    if (buffer.trim()) consumeBlock(buffer);
-    if (errorMessage) throw new Error(errorMessage);
-    if (!text) throw new Error(apiText("noContent"));
-    return { content: text, toolCalls: [] };
-}
-
-function toGeminiBody(config: AiConfig, messages: ResponseInputMessage[], extra?: Record<string, unknown>) {
-    const systemText = [
-        config.systemPrompt.trim(),
-        ...messages.flatMap((message) => (!("type" in message) && message.role === "system" ? [geminiTextContent(message.content)] : [])),
-    ]
-        .filter(Boolean)
-        .join("\n\n");
-    const contents = toGeminiContents(messages.filter((message) => ("type" in message ? true : message.role !== "system")));
-    return {
-        contents,
-        ...(systemText ? { systemInstruction: { parts: [{ text: systemText }] } } : {}),
-        ...extra,
-    };
-}
-
-function toGeminiContents(messages: ResponseInputMessage[]): GeminiContent[] {
-    const callNameById = new Map<string, string>();
-    return messages.flatMap((message): GeminiContent[] => {
-        if ("type" in message) {
-            callNameById.set(message.call_id, message.name);
-            return [{ role: "model", parts: [{ functionCall: { id: message.call_id, name: message.name, args: jsonObject(message.arguments) }, ...(message.thoughtSignature ? { thoughtSignature: message.thoughtSignature } : {}) }] }];
-        }
-        if (message.role === "tool") {
-            const name = callNameById.get(message.tool_call_id) || "tool_result";
-            return [{ role: "user", parts: [{ functionResponse: { id: message.tool_call_id, name, response: { result: jsonValue(message.content) } } }] }];
-        }
-        return [{ role: message.role === "assistant" ? "model" : "user", parts: toGeminiParts(message.content) }];
-    });
-}
-
-function toGeminiParts(content: ResponseMessageContent): GeminiPart[] {
-    if (!Array.isArray(content)) return [{ text: String(content || "") }];
-    return content.map((item) => (item.type === "text" ? { text: item.text } : toGeminiImagePart(item.image_url.url)));
-}
-
-function toGeminiImagePart(url: string): GeminiPart {
-    const match = url.match(/^data:([^;,]+);base64,(.+)$/);
-    if (match) return { inlineData: { mimeType: match[1], data: match[2] } };
-    return { fileData: { fileUri: url, mimeType: "image/png" } };
-}
-
-function geminiTextContent(content: ResponseMessageContent) {
-    if (!Array.isArray(content)) return String(content || "");
-    return content.map((item) => (item.type === "text" ? item.text : item.image_url.url)).join("\n");
-}
-
-function jsonObject(value: string): Record<string, unknown> {
-    const parsed = jsonValue(value);
-    return isRecord(parsed) ? parsed : {};
-}
-
-function jsonValue(value: string): unknown {
-    try {
-        return JSON.parse(value);
-    } catch {
-        return value;
-    }
-}
-
-function toGeminiToolOptions(tools: ResponseFunctionTool[], toolChoice: ToolChoice) {
-    if (!tools.length) return {};
-    const functionDeclarations = tools.map((tool) => ({
-        name: tool.function.name,
-        description: tool.function.description,
-        parameters: tool.function.parameters,
-    }));
-    const functionCallingConfig =
-        typeof toolChoice === "object"
-            ? { mode: "ANY", allowedFunctionNames: [toolChoice.name] }
-            : { mode: toolChoice === "required" ? "ANY" : "AUTO" };
-    return {
-        tools: [{ functionDeclarations }],
-        toolConfig: { functionCallingConfig },
-    };
-}
-
-async function requestGeminiStreamingResponse(config: AiConfig, body: Record<string, unknown>, onDelta?: (text: string) => void, options?: RequestOptions): Promise<ToolResponseResult> {
-    const response = await fetch(`${geminiApiUrl(config, "streamGenerateContent")}?alt=sse`, {
-        method: "POST",
-        headers: geminiHeaders(config),
-        body: JSON.stringify(body),
-        signal: options?.signal,
-    });
-    if (!response.ok) throw new Error(await readFetchError(response, apiText("requestFailed")));
-    if (!response.body) {
-        const payload = (await response.json()) as GeminiPayload;
-        return parseGeminiToolResponse(payload);
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    const state: GeminiStreamState = { buffer: "", text: "", toolCalls: [] };
-    for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        consumeGeminiStreamText(state, decoder.decode(value, { stream: true }), onDelta);
-        if (state.error) throw new Error(state.error);
-    }
-    consumeGeminiStreamText(state, decoder.decode(), onDelta, true);
-    if (state.error) throw new Error(state.error);
-    return { content: state.text, toolCalls: state.toolCalls };
-}
-
-function consumeGeminiStreamText(state: GeminiStreamState, text: string, onDelta?: (text: string) => void, flush = false) {
-    state.buffer += text;
-    for (;;) {
-        const match = state.buffer.match(/\r?\n\r?\n/);
-        if (!match) break;
-        const index = match.index ?? 0;
-        consumeGeminiStreamBlock(state.buffer.slice(0, index), state, onDelta);
-        state.buffer = state.buffer.slice(index + match[0].length);
-    }
-    if (flush && state.buffer.trim()) {
-        consumeGeminiStreamBlock(state.buffer, state, onDelta);
-        state.buffer = "";
-    }
-}
-
-function consumeGeminiStreamBlock(block: string, state: GeminiStreamState, onDelta?: (text: string) => void) {
-    const data = block
-        .split(/\r?\n/)
-        .filter((line) => line.startsWith("data:"))
-        .map((line) => line.slice(5).replace(/^ /, ""))
-        .join("\n")
-        .trim();
-    if (!data || data === "[DONE]") return;
-    const result = parseGeminiToolResponse(JSON.parse(data) as GeminiPayload);
-    if (result.content) {
-        state.text += result.content;
-        onDelta?.(state.text);
-    }
-    state.toolCalls.push(...result.toolCalls);
-}
-
-function parseGeminiToolResponse(payload: GeminiPayload): ToolResponseResult {
-    validateGeminiPayload(payload);
-    const parts = payload.candidates?.flatMap((candidate) => candidate.content?.parts || []) || [];
-    const content = parts.map((part) => part.text || "").join("");
-    const toolCalls = parts
-        .map((part) => part.functionCall)
-        .filter((call): call is NonNullable<GeminiPart["functionCall"]> => Boolean(call?.name))
-        .map((call) => {
-            const part = parts.find((item) => item.functionCall === call);
-            const thoughtSignature = part?.thoughtSignature || part?.thought_signature;
-            return {
-                id: call.id || nanoid(),
-                type: "function" as const,
-                function: { name: call.name || "", arguments: JSON.stringify(call.args || {}) },
-                ...(thoughtSignature ? { thoughtSignature } : {}),
-            };
-        });
-    return { content, toolCalls };
-}
-
-async function requestGeminiImages(config: AiConfig, prompt: string, references: ReferenceImage[], count: number, options?: RequestOptions) {
-    const requests = Array.from({ length: count }, () => requestGeminiImagesOnce(config, prompt, references, options));
-    return (await Promise.all(requests)).flat();
-}
-
-async function requestGeminiImagesOnce(config: AiConfig, prompt: string, references: ReferenceImage[], options?: RequestOptions) {
-    const parts: GeminiPart[] = [{ text: prompt }];
-    // 内联图先瘦身（画布与工作台共用），原图 2MB+ 内联会让上游把请求拖到超时
-    for (const dataUrl of await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))))) {
-        parts.push(toGeminiImagePart(dataUrl));
-    }
-    const response = await axios.post<GeminiPayload>(
-        geminiApiUrl(config, "generateContent"),
-        {
-            ...toGeminiBody(config, [{ role: "user", content: prompt }], { generationConfig: { responseModalities: ["TEXT", "IMAGE"], ...resolveGeminiImageConfig(config) } }),
-            contents: [{ role: "user", parts }],
-        },
-        { headers: geminiHeaders(config), signal: options?.signal, timeout: IMAGE_REQUEST_TIMEOUT_MS },
-    );
-    return parseGeminiImagePayload(response.data);
-}
-
-function parseGeminiImagePayload(payload: GeminiPayload) {
-    validateGeminiPayload(payload);
-    const images =
-        payload.candidates
-            ?.flatMap((candidate) => candidate.content?.parts || [])
-            .map((part) => {
-                const inlineData = part.inlineData || (part.inline_data ? { mimeType: part.inline_data.mimeType || part.inline_data.mime_type, data: part.inline_data.data } : undefined);
-                if (inlineData?.data) return `data:${inlineData.mimeType || "image/png"};base64,${inlineData.data}`;
-                return part.fileData?.fileUri || null;
-            })
-            .filter((value): value is string => isUsableImageSource(value))
-            .map((dataUrl) => ({ id: nanoid(), dataUrl })) || [];
-    if (!images.length) throw new Error(apiText("geminiNoImage"));
-    return images;
 }
 
 export async function requestGeneration(config: AiConfig, prompt: string, options?: RequestOptions) {
@@ -900,9 +165,6 @@ export async function requestGeneration(config: AiConfig, prompt: string, option
     const n = Math.max(1, Math.min(15, Math.floor(Math.abs(Number(config.count)) || 1)));
     const script = resolveModelScript(config, config.model || config.imageModel);
     if (script) {
-        const quality = normalizeQuality(config.quality);
-        const requestSize = resolveRequestSize(config.size);
-        const background = normalizeBackground(config.background);
         try {
             const result = await runModelPlugin({
                 capability: "image",
@@ -910,48 +172,26 @@ export async function requestGeneration(config: AiConfig, prompt: string, option
                 config: requestConfig,
                 prompt: withSystemPrompt(requestConfig, prompt),
                 images: [],
-                params: { size: requestSize, resolution: inferMediaScale(config.size), quality, count: n, ...(background ? { background } : {}) },
+                params: { size: resolveRequestSize(config.size), resolution: inferMediaScale(config.size), quality: normalizeQuality(config.quality), count: n },
                 signal: options?.signal,
             });
             return normalizePluginImages(result).map((dataUrl) => ({ id: nanoid(), dataUrl }));
         } catch (error) {
-            throw new Error(readAxiosError(error, apiText("requestFailed")));
+            throw new Error(readProviderError(error, apiText("requestFailed")));
         }
     }
-    if (requestConfig.apiFormat === "gemini") {
-        try {
-            return await requestGeminiImages(requestConfig, prompt, [], n, options);
-        } catch (error) {
-            throw new Error(readAxiosError(error, apiText("requestFailed")));
-        }
-    }
-    const quality = normalizeQuality(config.quality);
-    const requestSize = resolveRequestSize(config.size);
-    const background = normalizeBackground(config.background);
     try {
-        const response = await axios.post<ImageApiResponse>(
-            aiApiUrl(requestConfig, "/images/generations"),
-            {
-                model: requestConfig.model,
-                prompt: withSystemPrompt(requestConfig, prompt),
-                n,
-                ...(quality ? { quality } : {}),
-                ...(requestSize ? { size: requestSize } : {}),
-                ...(background ? { background } : {}),
-                // gpt-image models reject response_format; they always return b64.
-                ...(/gpt-image/.test(requestConfig.model) ? {} : { response_format: "b64_json" }),
-                output_format: IMAGE_OUTPUT_FORMAT,
-            },
-            {
-                headers: aiHeaders(requestConfig, "application/json"),
-                signal: options?.signal,
-                timeout: IMAGE_REQUEST_TIMEOUT_MS,
-            },
-        );
-        const images = await parseImagePayload(response.data);
-        return images;
+        return await requestImageGeneration({
+            config: requestConfig,
+            prompt,
+            count: n,
+            quality: config.quality,
+            size: config.size,
+            background: config.background,
+            signal: options?.signal,
+        });
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("requestFailed")));
+        throw new Error(readProviderError(error, apiText("requestFailed")));
     }
 }
 
@@ -961,9 +201,6 @@ export async function requestEdit(config: AiConfig, prompt: string, references: 
     const requestPrompt = buildImageReferencePromptText(prompt, references);
     const script = resolveModelScript(config, config.model || config.imageModel);
     if (script) {
-        const quality = normalizeQuality(config.quality);
-        const requestSize = resolveRequestSize(config.size);
-        const background = normalizeBackground(config.background);
         const refs = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
         try {
             const result = await runModelPlugin({
@@ -972,55 +209,28 @@ export async function requestEdit(config: AiConfig, prompt: string, references: 
                 config: requestConfig,
                 prompt: withSystemPrompt(requestConfig, requestPrompt),
                 images: refs,
-                params: { size: requestSize, resolution: inferMediaScale(config.size), quality, count: n, ...(background ? { background } : {}) },
+                params: { size: resolveRequestSize(config.size), resolution: inferMediaScale(config.size), quality: normalizeQuality(config.quality), count: n },
                 signal: options?.signal,
             });
             return normalizePluginImages(result).map((dataUrl) => ({ id: nanoid(), dataUrl }));
         } catch (error) {
-            throw new Error(readAxiosError(error, apiText("requestFailed")));
+            throw new Error(readProviderError(error, apiText("requestFailed")));
         }
     }
-    if (requestConfig.apiFormat === "gemini") {
-        try {
-            return await requestGeminiImages(requestConfig, requestPrompt, references, n, options);
-        } catch (error) {
-            throw new Error(readAxiosError(error, apiText("requestFailed")));
-        }
-    }
-
-    const quality = normalizeQuality(config.quality);
-    const requestSize = resolveRequestSize(config.size);
-    const background = normalizeBackground(config.background);
-    const formData = new FormData();
-    formData.set("model", requestConfig.model);
-    formData.set("prompt", withSystemPrompt(requestConfig, requestPrompt));
-    formData.set("n", String(n));
-    // gpt-image models reject response_format; they always return b64.
-    if (!/gpt-image/.test(requestConfig.model)) {
-        formData.set("response_format", "b64_json");
-    }
-    formData.set("output_format", IMAGE_OUTPUT_FORMAT);
-    if (quality) {
-        formData.set("quality", quality);
-    }
-    if (requestSize) {
-        formData.set("size", requestSize);
-    }
-    if (background) {
-        formData.set("background", background);
-    }
-    // multipart 上传同样先瘦身：上游对 2MB+ 原图的处理成本很高，与 JSON 内联是同一个坑
-    const editDataUrls = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
-    const files = await Promise.all(editDataUrls.map((dataUrl, index) => dataUrlToFile({ ...references[index], dataUrl })));
-    const imageField = files.length > 1 ? "image[]" : "image";
-    files.forEach((file) => formData.append(imageField, file));
-
     try {
-        const response = await axios.post<ImageApiResponse>(aiApiUrl(requestConfig, "/images/edits"), formData, { headers: aiHeaders(requestConfig), signal: options?.signal, timeout: IMAGE_REQUEST_TIMEOUT_MS });
-        const images = await parseImagePayload(response.data);
-        return images;
+        const refs = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
+        return await requestImageEdit({
+            config: requestConfig,
+            prompt: requestPrompt,
+            references: refs,
+            count: n,
+            quality: config.quality,
+            size: config.size,
+            background: config.background,
+            signal: options?.signal,
+        });
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("requestFailed")));
+        throw new Error(readProviderError(error, apiText("requestFailed")));
     }
 }
 
@@ -1041,65 +251,24 @@ export async function requestImageQuestion(config: AiConfig, messages: AiTextMes
             if (text === apiText("noContent")) onDelta(text);
             return text;
         } catch (error) {
-            throw new Error(readAxiosError(error, apiText("requestFailed")));
+            throw new Error(readProviderError(error, apiText("requestFailed")));
         }
     }
     try {
-        if (requestConfig.apiFormat === "gemini") {
-            const answer = (await requestGeminiStreamingResponse(requestConfig, toGeminiBody(requestConfig, messages), onDelta, options)).content || apiText("noContent");
-            if (answer === apiText("noContent")) onDelta(answer);
-            return answer;
-        }
-        const upstream = responsesUpstreamKey(requestConfig);
-        const messagesWithSystem = withSystemMessage(requestConfig, messages);
-        const body = {
-            model: requestConfig.model,
-            input: toResponseInput(messagesWithSystem),
-            ...(requestConfig.reasoningEffort === "auto" ? {} : { reasoning: { effort: requestConfig.reasoningEffort } }),
-        };
-        let answer = "";
-        if (!responsesUnsupportedUpstreams.has(upstream)) {
-            try {
-                answer = (await requestStreamingResponse(requestConfig, body, onDelta, options)).content;
-            } catch (error) {
-                if (!(error instanceof ResponsesEndpointUnsupportedError)) throw error;
-                // 该上游没有 `/responses`：记住判定并改用 chat/completions（视觉内容块同样支持）。
-                responsesUnsupportedUpstreams.add(upstream);
-                answer = "";
-            }
-        }
-        if (!answer && responsesUnsupportedUpstreams.has(upstream)) {
-            answer = (await requestChatCompletions(requestConfig, messagesWithSystem, onDelta, options)).content;
-        }
-        const text = answer || apiText("noContent");
+        const result = await requestTextChat({ config: requestConfig, messages, onDelta, signal: options?.signal });
+        const text = result.content || apiText("noContent");
         if (text === apiText("noContent")) onDelta(text);
         return text;
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("requestFailed")));
+        throw new Error(readProviderError(error, apiText("requestFailed")));
     }
 }
 
 export async function fetchImageModels(config: Pick<AiConfig, "baseUrl" | "apiKey" | "apiFormat">) {
     try {
-        if (config.apiFormat === "gemini") {
-            const response = await axios.get<GeminiPayload>(geminiApiUrl({ ...defaultGeminiConfig, ...config }), { headers: geminiHeaders({ ...defaultGeminiConfig, ...config }) });
-            validateGeminiPayload(response.data);
-            return (response.data.models || [])
-                .map((model) => model.name?.replace(/^models\//, ""))
-                .filter((id): id is string => Boolean(id))
-                .sort((a, b) => a.localeCompare(b));
-        }
-        const response = await axios.get<{ data?: Array<{ id?: string }>; error?: { message?: string } }>(buildApiUrl(config.baseUrl, "/models"), {
-            headers: {
-                Authorization: `Bearer ${config.apiKey}`,
-            },
-        });
-        return (response.data.data || [])
-            .map((model) => model.id)
-            .filter((id): id is string => Boolean(id))
-            .sort((a, b) => a.localeCompare(b));
+        return await requestModels({ baseUrl: config.baseUrl, apiKey: config.apiKey, apiFormat: config.apiFormat });
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("modelReadFailed")));
+        throw new Error(readProviderError(error, apiText("modelReadFailed")));
     }
 }
 
@@ -1107,10 +276,19 @@ export async function fetchChannelModels(channel: ModelChannel) {
     return fetchImageModels({ baseUrl: channel.baseUrl, apiKey: channel.apiKey, apiFormat: channel.apiFormat });
 }
 
-const defaultGeminiConfig: Pick<AiConfig, "baseUrl" | "apiKey" | "apiFormat" | "model" | "systemPrompt"> = {
-    baseUrl: "https://generativelanguage.googleapis.com",
-    apiKey: "",
-    apiFormat: "gemini",
-    model: "",
-    systemPrompt: "",
-};
+function normalizeQuality(quality: string) {
+    const value = quality.trim().toLowerCase();
+    return ["low", "medium", "high", "xhigh", "max"].includes(value) ? value : undefined;
+}
+
+function resolveRequestSize(size: string) {
+    const value = size.trim();
+    if (!value || value.toLowerCase() === "auto") return undefined;
+    const dimensions = parseImageDimensions(value);
+    if (dimensions) {
+        validateImageSize(dimensions.width, dimensions.height);
+        return `${dimensions.width}x${dimensions.height}`;
+    }
+    if (value.includes(":")) return resolveSize(value);
+    throw new Error(apiText("invalidImageSizeFormat"));
+}

@@ -825,9 +825,9 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         disabled={busy}
                         onClick={() => {
                             void generateMarketingCopyWithAI({
-                                kind: "scene",
+                                mode: "outpainting-prompt",
                                 productInfo: values.sourceName || "商品原图外扩背景",
-                                userHint: values.prompt || "自然延伸原有场景光影、桌面或室内外空间细节",
+                                currentDraft: values.prompt || "自然延伸原有场景光影、桌面或室内外空间细节",
                             }).then((text) => commit({ ...valuesRef.current, prompt: text.slice(0, OUTPAINT_MAX_PROMPT) }));
                         }}
                         data-testid="outpaint-ai-prompt"

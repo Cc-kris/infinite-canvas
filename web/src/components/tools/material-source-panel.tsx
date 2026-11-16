@@ -48,7 +48,7 @@ export type MaterialSourcePanelProps = {
  *
  * 四个页签都是真实数据源，不做占位：
  *  - 上传新图：真实 `<input type=file>` + 拖拽 → 父组件入库；
- *  - 传过的图：本机 IndexedDB `tool_assets` 索引里已入库的图片；
+ *  - 传过的图：本机 `tool_assets` 索引里已入库的图片；
  *  - 历史作图：共享 `ToolHistoryDock` 读本工具真实任务历史；
  *  - 素材库：作品库（`useAssetStore`）里的图片，选中后 `adoptLibraryAsset` 复用同一份字节。
  */

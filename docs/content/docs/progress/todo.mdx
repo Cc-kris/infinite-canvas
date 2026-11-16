@@ -5,8 +5,16 @@ description: Planned follow-up work
 
 # TODO
 
+- 桌面客户端打包尚未签名/公证：主进程已带原生 ffmpeg 二进制，发版前需补 `identity` 与公证，否则 macOS 可能提示「应用已损坏」。
+- 桌面端原生 ffmpeg 需按 `darwin-x64` / `darwin-arm64` / `win32-x64` 分架构打包，并确认各架构安装包内的可执行文件可直接运行。
+- 一次性数据迁移只导入 `app_state`、生成日志、插件数据与媒体文件；`tool_assets` 索引与提示词缓存不迁移（属可重建缓存），如需保留要另加迁移项。
+- 迁移性能：一次性迁移在首屏前同步等待，缺进度界面；`media-index.json` 每次新增媒体都整文件重写，媒体多时有写放大，后续改为增量索引。
+- 图像分割与像素合成仍在主进程执行，大图会阻塞事件循环，后续移入 `worker_threads`。
+- 工具批量任务快照仍写在 `localStorage`（只剥离了 dataUrl/blob），后续迁到用户目录状态存储。
+- `web/scripts/real-acceptance/*` 等历史验收脚本仍按浏览器版流程与旧端口（23210）编写，需更新为桌面端验收或归档。
+
 - Replace the Claude Code CLI adapter with a Claude Agent SDK adapter and improve the tool queue, following the [Local Agent Integration Plan](/docs/progress/local-agent-integration-plan).
 - Add Skill installation from web search, Skill resource-file management, and controlled local-memory persistence.
-- LinkFox 真实能力收口：本地视频拼接与原片译制管线、真实网页/转录分析已写入代码，仍需验证浏览器 FFmpeg 加载、有效 ASR/TTS 配置及实际媒体输出；逐工具完成一次真实生成与三动作回放。配音时长对齐与口型同步尚未实现。
+- LinkFox 真实能力收口：本地视频拼接与原片译制管线、真实网页/转录分析已写入代码，仍需验证原生 ffmpeg 拼接/译制链路、有效 ASR/TTS 配置及实际媒体输出；逐工具完成一次真实生成与三动作回放。配音时长对齐与口型同步尚未实现。
 - LinkFox 31 页视觉收口（清单见 `docs/V1.0/e2e-1to1/20261105/VISUAL-PARITY.md`）：结果区空态补「上传商品图 → 生成结果 → 一键做同款」案例轮播卡；上传卡补「或试试这些」示例图；画布类页面空态卡对齐原站示例对照图；商品图、商品图设计器、图片文字编辑、视频拼接四页按原站结构重做。
 - LinkFox 商品图编辑器未做项：智能推荐的场景筛选缺室内/室外标签数据。

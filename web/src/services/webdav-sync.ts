@@ -1,10 +1,14 @@
 import i18n from "@/i18n";
-import { withLocalProxy, type WebdavSyncConfig } from "@/stores/use-config-store";
+import { desktopServiceToken, desktopServiceUrl } from "@/services/api/desktop/runtime";
+import { requestJson, uploadBlob } from "@/services/api/desktop/http";
+import type { WebdavSyncConfig } from "@/stores/use-config-store";
 
 export const WEBDAV_MANIFEST_FILE_NAME = "manifest.json";
 const WEBDAV_REQUEST_TIMEOUT_MS = 120000;
 const ensuredDirectories = new Set<string>();
 const webdavText = (key: string, options?: Record<string, unknown>) => i18n.t(`config.webdav.errors.${key}`, options);
+
+type WebdavStatus = { ok: boolean; status: number; text: () => Promise<string> };
 
 export async function testWebdavConnection(config: WebdavSyncConfig) {
     await ensureWebdavDirectory(config);
@@ -19,7 +23,7 @@ export async function downloadWebdavSyncFile(config: WebdavSyncConfig) {
 
 export async function downloadWebdavFile(config: WebdavSyncConfig, path: string) {
     await ensureWebdavDirectory(config);
-    const response = await webdavFetch(config, path, { method: "GET" });
+    const response = await webdavDownload(config, path);
     if (response.status === 404) return null;
     if (!response.ok) await throwWebdavError(response, webdavText("downloadFailed"));
     const file = await withTimeout(response.blob(), webdavText("downloadTimeout"));
@@ -34,12 +38,15 @@ export async function uploadWebdavFile(config: WebdavSyncConfig, path: string, f
     if (!file.size) throw new Error(webdavText("emptyUpload"));
     await ensureWebdavDirectory(config);
     await ensureWebdavSubdirectory(config, path);
-    const response = await webdavFetch(config, path, {
-        method: "PUT",
-        headers: { "Content-Type": contentType },
-        body: file,
+    const headers = webdavHeaders(config);
+    const query = `?url=${encodeURIComponent(buildWebdavUrl(config, path))}&contentType=${encodeURIComponent(contentType)}&headers=${encodeURIComponent(JSON.stringify(headers))}`;
+    const response = await uploadBlob<{ ok: boolean; status: number; body: string }>(`/api/storage/webdav/upload${query}`, file, {
+        contentType,
+        timeoutMs: WEBDAV_REQUEST_TIMEOUT_MS,
+    }).catch((error) => {
+        throw mapNetworkError(error);
     });
-    if (!response.ok) await throwWebdavError(response, webdavText("uploadFailed"));
+    if (!response.ok) await throwWebdavError({ ok: response.ok, status: response.status, text: async () => response.body }, webdavText("uploadFailed"));
 }
 
 async function ensureWebdavDirectory(config: WebdavSyncConfig) {
@@ -72,21 +79,45 @@ async function webdavDirectoryExists(config: WebdavSyncConfig, path: string) {
     return response.ok || response.status === 207;
 }
 
-async function webdavFetch(config: WebdavSyncConfig, path: string, init: RequestInit) {
-    const headers = new Headers(init.headers);
-    if (config.username || config.password) headers.set("Authorization", `Basic ${encodeBasicAuth(`${config.username}:${config.password}`)}`);
+/** PROPFIND / MKCOL 走服务端返回的状态与文本。 */
+async function webdavFetch(config: WebdavSyncConfig, path: string, init: { method: string; headers?: HeadersInit }): Promise<WebdavStatus> {
+    try {
+        const response = await requestJson<{ status: number; ok: boolean; body: string }>("/api/storage/webdav/request", {
+            method: "POST",
+            body: { url: buildWebdavUrl(config, path), method: init.method, headers: webdavHeaders(config, init.headers) },
+            timeoutMs: WEBDAV_REQUEST_TIMEOUT_MS,
+        });
+        return { ok: response.ok, status: response.status, text: async () => response.body };
+    } catch (error) {
+        throw mapNetworkError(error);
+    }
+}
+
+/** GET 下载：服务端保留上游状态码，404 需要原样返回给同步流程。 */
+async function webdavDownload(config: WebdavSyncConfig, path: string): Promise<Response> {
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(), WEBDAV_REQUEST_TIMEOUT_MS);
     try {
-        const url = withLocalProxy(buildWebdavUrl(config, path));
-        return await fetch(url, { ...init, headers, signal: controller.signal });
+        return await fetch(`${desktopServiceUrl()}/api/storage/webdav/download`, {
+            method: "POST",
+            headers: { authorization: `Bearer ${desktopServiceToken()}`, "content-type": "application/json" },
+            body: JSON.stringify({ url: buildWebdavUrl(config, path), method: "GET", headers: webdavHeaders(config) }),
+            signal: controller.signal,
+        });
     } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") throw new Error(webdavText("requestTimeout"));
-        if (error instanceof TypeError) throw new Error(webdavText("connectionFailed"));
-        throw error;
+        throw mapNetworkError(error);
     } finally {
         window.clearTimeout(timer);
     }
+}
+
+function webdavHeaders(config: WebdavSyncConfig, extra?: HeadersInit) {
+    const headers: Record<string, string> = {};
+    new Headers(extra).forEach((value, key) => {
+        headers[key] = value;
+    });
+    if (config.username || config.password) headers.Authorization = `Basic ${encodeBasicAuth(`${config.username}:${config.password}`)}`;
+    return headers;
 }
 
 function buildWebdavUrl(config: WebdavSyncConfig, path: string) {
@@ -104,11 +135,17 @@ function assertWebdavConfig(config: WebdavSyncConfig) {
     if (!config.url.trim()) throw new Error(webdavText("urlRequired"));
 }
 
-async function throwWebdavError(response: Response, fallback: string): Promise<never> {
+async function throwWebdavError(response: WebdavStatus, fallback: string): Promise<never> {
     const detail = await response.text().catch(() => "");
     if (response.status === 401 || response.status === 403) throw new Error(webdavText("authenticationFailed"));
     if (response.status === 404) throw new Error(webdavText("pathMissing"));
     throw new Error(webdavText("responseFailed", { fallback, status: response.status, detail: detail ? ` ${detail.slice(0, 120)}` : "" }));
+}
+
+function mapNetworkError(error: unknown) {
+    if (error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError")) return new Error(webdavText("requestTimeout"));
+    if (error instanceof TypeError || (error instanceof Error && /fetch failed|network/i.test(error.message))) return new Error(webdavText("connectionFailed"));
+    return error;
 }
 
 function encodeBasicAuth(value: string) {

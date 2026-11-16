@@ -9,3 +9,10 @@ description: 当前项目后续值得处理的事项
 
 - 本地 Agent 接入后续：按[本地 Agent 接入规划](/zh-CN/docs/progress/local-agent-integration-plan)把 Claude Code CLI Adapter 升级为 Claude Agent SDK Adapter，并完善工具队列体验。
 - Agent Skill 后续：补充网络检索安装、Skill 资源文件管理和可控的本地记忆沉淀。
+- 桌面客户端打包尚未签名/公证：主进程已带原生 ffmpeg 二进制，发版前需补 `identity` 与公证，否则 macOS 可能提示「应用已损坏」。
+- 桌面端原生 ffmpeg 需按 `darwin-x64` / `darwin-arm64` / `win32-x64` 分架构打包，并确认各架构安装包内的可执行文件可直接运行。
+- 一次性数据迁移只导入 `app_state`、生成日志、插件数据与媒体文件；`tool_assets` 索引与提示词缓存不迁移（属可重建缓存），如需保留要另加迁移项。
+- 迁移性能：一次性迁移在首屏前同步等待，缺进度界面；`media-index.json` 每次新增媒体都整文件重写，媒体多时有写放大，后续改为增量索引。
+- 图像分割与像素合成仍在主进程执行，大图会阻塞事件循环，后续移入 `worker_threads`。
+- 工具批量任务快照仍写在 `localStorage`（只剥离了 dataUrl/blob），后续迁到用户目录状态存储。
+- `web/scripts/real-acceptance/*` 等历史验收脚本仍按浏览器版流程与旧端口（23210）编写，需更新为桌面端验收或归档。

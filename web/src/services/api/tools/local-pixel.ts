@@ -1,3 +1,4 @@
+import { requestCompositeSubject, uploadImageSource } from "@/services/api/desktop/capabilities/imaging";
 import type { PixelBackground, PixelMaskSource } from "@/features/tools/registry/local-pixel";
 
 export type PixelSurface = {
@@ -51,7 +52,7 @@ export function maskFromImage(pixels: Uint8ClampedArray, source: PixelMaskSource
         return mask;
     }
     let hasAlpha = false;
-    for (let index = 3; index < pixels.length; index += 4) if (pixels[index] < 255) { hasAlpha = true; break; }
+    for (let index = 3; index < mask.length; index += 4) if (pixels[index] < 255) { hasAlpha = true; break; }
     if (hasAlpha) {
         assertRealSubjectMask(mask);
         return mask;
@@ -62,23 +63,6 @@ export function maskFromImage(pixels: Uint8ClampedArray, source: PixelMaskSource
     }
     assertRealSubjectMask(mask);
     return mask;
-}
-
-function defaultCompositor(): PixelCompositor {
-    return {
-        async load(source) {
-            const image = new Image();
-            image.src = source;
-            await image.decode();
-            return image;
-        },
-        surface(width, height) {
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-            return canvas;
-        },
-    };
 }
 
 function pixelsOf(surface: PixelSurface, image: CanvasImageSource): Uint8ClampedArray {
@@ -96,7 +80,8 @@ async function encodePng(surface: PixelSurface): Promise<Blob> {
 }
 
 /** 真实蒙版 → 透明 PNG / #fff 白底 PNG；没有蒙版时抛错，不调用生图模型。 */
-export async function compositeSubjectImage(input: { sourceUrl: string; maskUrl?: string; background: PixelBackground }, compositor: PixelCompositor = defaultCompositor()): Promise<Blob> {
+export async function compositeSubjectImage(input: { sourceUrl: string; maskUrl?: string; background: PixelBackground }, compositor?: PixelCompositor): Promise<Blob> {
+    if (!compositor) return compositeInService(input);
     const image = await compositor.load(input.sourceUrl);
     const width = Math.round(image.width);
     const height = Math.round(image.height);
@@ -115,4 +100,12 @@ export async function compositeSubjectImage(input: { sourceUrl: string; maskUrl?
     imageData.data.set(result);
     context.putImageData(imageData, 0, 0);
     return encodePng(output);
+}
+
+async function compositeInService(input: { sourceUrl: string; maskUrl?: string; background: PixelBackground }): Promise<Blob> {
+    const source = await uploadImageSource(input.sourceUrl, "pixel-source.png");
+    const mask = input.maskUrl ? await uploadImageSource(input.maskUrl, "pixel-mask.png") : undefined;
+    const blob = await requestCompositeSubject(source.id, mask?.id, input.background);
+    if (!blob.size) throw new Error("PNG 导出失败。");
+    return blob;
 }

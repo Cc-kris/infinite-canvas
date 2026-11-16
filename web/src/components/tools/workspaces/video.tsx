@@ -155,7 +155,6 @@ import {
     resolveModelScript,
     selectableModelsByCapability,
     useConfigStore,
-    withLocalProxy,
     type AiConfig,
 } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";

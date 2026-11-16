@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, type PersistStorage, type StorageValue } from "zustand/middleware";
 
 import { nanoid } from "nanoid";
-import { localForageStorage } from "@/lib/localforage-storage";
+import { appStateStorage } from "@/lib/desktop-storage";
 import {
     createMergedAssetStorage,
     tombstonesAfterReplace,
@@ -82,15 +82,15 @@ const ASSET_STORE_KEY = "infinite-canvas:asset_store";
 // 直接用 JSON.stringify 整份覆盖会让后保存的标签抹掉另一个标签刚存的资产。
 const mergedAssetStorage = createMergedAssetStorage<Asset>({
     read: async (name) => {
-        const value = await localForageStorage.getItem(name);
+        const value = await appStateStorage.getItem(name);
         if (!value) return null;
         return JSON.parse(value) as AssetPersistValue<Asset>;
     },
     write: async (name, value) => {
-        await localForageStorage.setItem(name, JSON.stringify(value));
+        await appStateStorage.setItem(name, JSON.stringify(value));
     },
     remove: async (name) => {
-        await localForageStorage.removeItem(name);
+        await appStateStorage.removeItem(name);
     },
     onChange: (snapshot) => applyExternalAssetSnapshot(snapshot),
 });

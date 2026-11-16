@@ -5,6 +5,8 @@ description: 使用 Render 部署无限画布
 
 # Render 部署
 
+> **浏览器版历史部署方式。** 本分支只发布桌面客户端，网页版冻结在 `feat/linkfox-v1-real`；本页仅作参考，不再保证可运行。
+
 点击下面链接即可部署到 Render：
 
 [部署到 Render](https://render.com/deploy?repo=https://github.com/Cc-kris/infinite-canvas)
@@ -22,7 +24,7 @@ description: 使用 Render 部署无限画布
 默认使用 Render 免费 Web Service：
 
 - 空闲约 15 分钟后会休眠，下次访问会自动唤醒。
-- 当前主应用数据默认保存在浏览器本地；第三方提示词由浏览器前端直连拉取。
+- 浏览器版主应用数据保存在浏览器中；第三方提示词由前端直连拉取。
 - 适合体验和演示，不适合长期保存正式数据。
 
-长期使用建议优先部署到 Vercel，或自行配置 WebDAV 同步浏览器本地数据。
+长期使用建议优先部署到 Vercel，或自行配置 WebDAV 同步浏览器版数据。

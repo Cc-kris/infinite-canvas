@@ -19,6 +19,8 @@ web/public/plugins
 desktop/node_modules
 desktop/release
 desktop/.notes
+desktop/service.mjs
+desktop/bin/
 
 desktop/build/icon.iconset
 

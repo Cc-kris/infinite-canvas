@@ -1,14 +1,17 @@
 /**
- * 工具资产：真实本地文件选择 → 校验（MIME 魔数/大小/像素/时长）→ 写入本地库存（localforage）→ 记录可恢复索引。
+ * 工具资产：真实本地文件选择 → 校验（MIME 魔数/大小/像素/时长）→ 写入本地素材库（磁盘）→ 记录可恢复索引。
  *
  * 事实边界（勿误读为“假上传”）：
- * - 本阶段没有服务端上传端点（gateway 属 TASK-005），所以“上传”落地为 `services/file-storage.ts` 的真实持久化
- *   （localforage -> IndexedDB，键 `tool-asset:<nanoid>`）；刷新后由 `loadToolAssetRecords` 从库里重新取回 Blob。
+ * - “上传”落地为 `services/file-storage.ts` 的真实持久化：字节写入 `<userData>/data/media/`，索引存在本地服务的
+ *   `app_state/tool_assets` 键里；刷新后由 `loadToolAssetRecords` 重新取回 Blob。
  * - 进度不是定时器伪造的百分比：来自 `Blob.stream()` 真实读取的字节数（loaded/total）。远端传输进度将在
  *   gateway 落地后复用同一 `onProgress` 回调与 `AbortSignal`。
  * - MIME 不只信 `File.type`（可伪造，也可能为空），同时做文件头魔数嗅探；两者大类不一致直接拒绝。
  */
 import { nanoid } from "nanoid";
+
+import { readStateText, writeStateText } from "@/services/desktop-storage";
+import { ensureStorageMigration } from "@/services/storage-migration";
 
 export type ToolAssetKind = "image" | "video";
 
@@ -311,7 +314,7 @@ export type ToolAssetUploadProgress = { phase: "reading" | "storing" | "done"; l
 export type StoredToolAssetBlob = { storageKey: string; url: string; bytes: number; mimeType: string; width?: number; height?: number; durationMs?: number };
 
 export type ToolAssetUploadDeps = {
-    /** 真实落库实现，默认 `file-storage.uploadMediaFile`（localforage）。 */
+    /** 真实落库实现，默认 `file-storage.uploadMediaFile`（磁盘素材库）。 */
     store?: (blob: Blob, prefix: string) => Promise<StoredToolAssetBlob>;
     recordStore?: ToolAssetRecordStore;
     readDimensions?: (blob: Blob, mimeType: string) => Promise<{ width?: number; height?: number; durationMs?: number } | null>;
@@ -504,7 +507,7 @@ export async function uploadToolAsset(source: File | Blob, options: ToolAssetUpl
 }
 
 /* ------------------------------------------------------------------ *
- * 资产索引（刷新恢复 / 多标签共享同一 IndexedDB）
+ * 资产索引（刷新恢复 / 多窗口共享同一份磁盘状态）
  * ------------------------------------------------------------------ */
 
 export type ToolAssetRecordStore = {
@@ -514,33 +517,45 @@ export type ToolAssetRecordStore = {
     list: () => Promise<ToolAssetRecord[]>;
 };
 
-let recordStorePromise: Promise<ToolAssetRecordStore> | null = null;
+const TOOL_ASSET_STATE_KEY = "tool_assets";
 
-function createLocalforageRecordStore(): Promise<ToolAssetRecordStore> {
-    return import("localforage").then(({ default: localforage }) => {
-        const store = localforage.createInstance({ name: "infinite-canvas", storeName: "tool_assets" });
-        return {
-            get: async (id) => (await store.getItem<ToolAssetRecord>(`asset:${id}`)) ?? null,
-            set: async (record) => {
-                await store.setItem(`asset:${record.id}`, record);
-            },
-            remove: async (id) => {
-                await store.removeItem(`asset:${id}`);
-            },
-            list: async () => {
-                const records: ToolAssetRecord[] = [];
-                await store.iterate<ToolAssetRecord, void>((value) => {
-                    if (value && typeof value === "object" && "id" in value) records.push(value);
-                });
-                return records;
-            },
-        };
-    });
+let recordStore: ToolAssetRecordStore | null = null;
+let writeQueue: Promise<unknown> = Promise.resolve();
+
+async function loadRecords(): Promise<Record<string, ToolAssetRecord>> {
+    await ensureStorageMigration();
+    const text = await readStateText(TOOL_ASSET_STATE_KEY);
+    if (!text) return {};
+    try {
+        const parsed = JSON.parse(text);
+        return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+        return {};
+    }
 }
 
-export function getToolAssetRecordStore(): Promise<ToolAssetRecordStore> {
-    recordStorePromise ??= createLocalforageRecordStore();
-    return recordStorePromise;
+/** 读-改-写串行执行，避免并发上传互相覆盖索引。 */
+function updateRecords(mutate: (records: Record<string, ToolAssetRecord>) => void) {
+    const task = writeQueue.then(async () => {
+        const records = await loadRecords();
+        mutate(records);
+        await writeStateText(TOOL_ASSET_STATE_KEY, JSON.stringify(records));
+    });
+    writeQueue = task.catch(() => undefined);
+    return task;
+}
+
+function createRecordStore(): ToolAssetRecordStore {
+    return {
+        get: async (id) => (await loadRecords())[id] ?? null,
+        set: (record) => updateRecords((records) => void (records[record.id] = record)),
+        remove: (id) => updateRecords((records) => void delete records[id]),
+        list: async () => Object.values(await loadRecords()),
+    };
+}
+
+export async function getToolAssetRecordStore(): Promise<ToolAssetRecordStore> {
+    return (recordStore ??= createRecordStore());
 }
 
 export async function saveToolAssetRecord(record: ToolAssetRecord, store?: ToolAssetRecordStore) {

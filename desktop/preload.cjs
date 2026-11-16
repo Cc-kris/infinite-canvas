@@ -6,13 +6,15 @@ function readArg(prefix) {
     return arg ? arg.slice(prefix.length) : "";
 }
 
-const proxyUrl = readArg("--infinite-canvas-proxy=");
 const appVersion = readArg("--infinite-canvas-version=");
+const serviceUrl = readArg("--infinite-canvas-service=");
+const serviceToken = readArg("--infinite-canvas-token=");
 
 contextBridge.exposeInMainWorld("infiniteCanvasDesktop", {
     isDesktop: true,
-    proxyUrl,
     appVersion,
+    serviceUrl,
+    serviceToken,
     platform: process.platform,
     /** Ask the shell for the newest release in the project's own repository. */
     checkUpdate: () => ipcRenderer.invoke("update:check"),

@@ -74,6 +74,11 @@ jobs:
               working-directory: desktop
               run: node scripts/build-agent.mjs
 
+            # 本地业务服务（service/index.mjs）打包成单文件 service.mjs，并把原生 ffmpeg 放进 bin/。
+            - name: Bundle app service
+              working-directory: desktop
+              run: node scripts/build-service.mjs
+
             - name: Build macOS installers
               if: matrix.artifact == 'mac'
               working-directory: desktop
@@ -93,7 +98,7 @@ jobs:
                   echo "checking $dmg"
                   hdiutil attach "$dmg" -mountpoint /tmp/icmnt -nobrowse -quiet
                   test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/renderer/index.html"
-                  test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/proxy/server.js"
+                  test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/bin/darwin-arm64/ffmpeg"
                   test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/app.asar"
                   du -sh "/tmp/icmnt/Infinite Canvas.app"
                   hdiutil detach /tmp/icmnt -quiet
@@ -241,7 +246,7 @@ jobs:
                       Where-Object { Test-Path (Join-Path $_.FullName "resources\app.asar") } | Select-Object -First 1
                   if (-not $appDir) { throw "installed app directory not found" }
                   Write-Host "installed at $($appDir.FullName)"
-                  foreach ($p in @("resources\renderer\index.html", "resources\proxy\server.js", "resources\app.asar")) {
+                  foreach ($p in @("resources\renderer\index.html", "resources\bin\win32-x64\ffmpeg.exe", "resources\app.asar")) {
                       if (-not (Test-Path (Join-Path $appDir.FullName $p))) { throw "missing $p" }
                   }
                   Get-ChildItem $appDir.FullName | Select-Object Name

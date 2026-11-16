@@ -50,7 +50,7 @@ function channel(overrides: Partial<ModelChannel> & Pick<ModelChannel, "id" | "b
 }
 
 function configWith(channels: ModelChannel[]): AiConfig {
-    return { ...defaultConfig, proxyEnabled: false, channels } as AiConfig;
+    return { ...defaultConfig, channels } as AiConfig;
 }
 
 const snapshot = { capability: "video", model: "MiniMax-H3", channelId: "sub2", count: "1", apiFormat: "openai" } as const;

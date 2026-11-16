@@ -5,6 +5,8 @@ description: 使用 Docker Compose 部署无限画布
 
 # Docker 部署
 
+> **浏览器版历史部署方式。** 本分支只发布桌面客户端，网页版冻结在 `feat/linkfox-v1-real`；以下内容仅作参考，不再保证可运行。
+
 如果你希望在自己的机器或服务器上运行项目，可以直接使用 Docker Compose。
 
 ## 使用发布镜像
@@ -49,7 +51,7 @@ docker compose -f docker-compose.local.yml up -d --build
 
 ## 数据说明
 
-当前主应用镜像只启动 Next.js。画布、我的素材、生成记录和 AI API Key 默认保存在浏览器本地；第三方提示词由浏览器前端直连拉取，不需要额外挂载数据目录。
+浏览器版主应用镜像只启动 Next.js。画布、我的素材、生成记录和 AI API Key 保存在浏览器中；第三方提示词由前端直连拉取，不需要额外挂载数据目录。
 
 ## 统计分析（可选）
 
